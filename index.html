@@ -66,12 +66,12 @@
     }
     .cur-dot {
       position: absolute;
-      width: 8px; height: 8px;
+      width: 12px; height: 12px;
       background: var(--leaf);
       border-radius: 50%;
       top: 50%; left: 50%;
       transform: translate(-50%,-50%);
-      transition: transform 0.15s, opacity 0.15s;
+      transition: transform 0.12s, ease, opacity 0.15s;
     }
     .cur-label {
       position: absolute;
@@ -97,6 +97,9 @@
       width: 48px; height: 48px;
       border-color: rgba(139,191,128,0.8);
     }
+    body.clicking .cur-dot {
+    transform: translate(-50%,-50%) scale(0.5);
+}
 
     /* ─── NAV ────────────────────────────────── */
     nav {
@@ -972,6 +975,10 @@ document.querySelectorAll('a:not(.project-hover), button:not(.project-hover), .n
   el.addEventListener('mouseleave', () => document.body.classList.remove('hovering-link'));
 });
 
+document.addEventListener('mousedown', () => document.body.classList.add('clicking'));
+document.addEventListener('mouseup', () => document.body.classList.remove('clicking'));
+});
+
 // ── Horizontal scroll drag ──────────────────────────
 const strip = document.getElementById('hStrip');
 if (strip) {
@@ -1011,6 +1018,8 @@ document.body.appendChild(r);
 setTimeout(() => r.remove(), 600);
 });
 </script>
+  
 </body>
+  
 </html>
 
