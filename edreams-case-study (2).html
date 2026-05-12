@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>eDreams Redesign — Kevin Fowler</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --forest:  #182C1E;
+      --fern:    #5C8B58;
+      --leaf:    #8BBF80;
+      --sage:    #C1D9BA;
+      --bg:      #F5F3EE;
+      --card:    #FFFFFF;
+      --tint:    #EDF0E7;
+      --text:    #1A2318;
+      --mid:     #596055;
+      --light:   #96A090;
+      --border:  #DCDAD3;
+      --serif: 'Lora', Georgia, serif;
+      --sans:  'DM Sans', system-ui, sans-serif;
+      --max: 780px;
+      --max-wide: 1100px;
+      --px: clamp(1.25rem, 5vw, 3rem);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      cursor: none;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── CURSOR ── */
+    #cur {
+      position: fixed; z-index: 9999;
+      pointer-events: none;
+      top: 0; left: 0;
+      transform: translate(-50%,-50%);
+    }
+    .cur-dot {
+      position: absolute;
+      width: 11px; height: 11px;
+      background: var(--leaf);
+      border-radius: 50%;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      transition: transform 0.12s ease;
+    }
+    body.clicking .cur-dot {
+      transform: translate(-50%,-50%) scale(0.5);
+    }
+    .cur-ring {
+      position: absolute;
+      width: 36px; height: 36px;
+      border: 1.5px solid rgba(139,191,128,0.45);
+      border-radius: 50%;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      transition: width 0.18s ease, height 0.18s ease,
+                  background 0.18s, border-color 0.18s, border-width 0.18s;
+    }
+    body.hov-link .cur-ring {
+      width: 48px; height: 48px;
+      border-color: rgba(139,191,128,0.7);
+      border-width: 2px;
+      background: transparent;
+    }
+    a, button { cursor: none; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 54px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 var(--px);
+      background: rgba(24,44,30,0.93);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-back {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: rgba(228,238,224,0.5); transition: color 0.2s;
+    }
+    .nav-back:hover { color: #E4EEE0; }
+    .nav-back svg { width: 14px; height: 14px; }
+    .nav-logo {
+      font-family: var(--serif); font-style: italic;
+      font-size: 1.05rem; color: #E4EEE0;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--forest);
+      padding: calc(54px + 5rem) var(--px) 5rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(92,139,88,0.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-inner { max-width: var(--max-wide); margin: 0 auto; position: relative; z-index: 1; }
+    .hero-eyebrow {
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--leaf); margin-bottom: 1.5rem;
+      opacity: 0; animation: up 0.5s ease forwards 0.1s;
+    }
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      font-weight: 400; line-height: 1.05;
+      letter-spacing: -0.03em; color: #E4EEE0;
+      margin-bottom: 2rem;
+    }
+    .hero-title .line { display: block; overflow: hidden; }
+    .hero-title .line span {
+      display: block;
+      opacity: 0; transform: translateY(110%);
+      animation: slideUp 0.85s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+    .hero-title .line:nth-child(1) span { animation-delay: 0.15s; }
+    .hero-title .line:nth-child(2) span { animation-delay: 0.3s; }
+    .hero-title em { font-style: italic; color: var(--leaf); }
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 2rem;
+      opacity: 0; animation: up 0.5s ease forwards 0.6s;
+    }
+    .meta-label {
+      font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(228,238,224,0.35); margin-bottom: 0.25rem;
+    }
+    .meta-val { font-size: 0.9rem; font-weight: 400; color: rgba(228,238,224,0.7); }
+    .meta-val strong { color: #E4EEE0; font-weight: 500; }
+
+    /* ── WAVE ── */
+    .wave { background: var(--forest); line-height: 0; }
+    .wave svg { display: block; width: 100%; }
+
+    /* ── BODY ── */
+    .cs-body { max-width: var(--max); margin: 0 auto; padding: 5rem var(--px); }
+    .graf { font-size: 1.05rem; font-weight: 300; color: var(--mid); line-height: 1.9; margin-bottom: 1.5rem; }
+    .graf strong { color: var(--text); font-weight: 500; }
+    .graf em { font-style: italic; color: var(--fern); }
+    .graf:last-child { margin-bottom: 0; }
+    .graf-lead { font-size: 1.25rem; font-weight: 400; color: var(--text); line-height: 1.75; margin-bottom: 1.5rem; }
+    .graf-lead strong { font-weight: 600; }
+    .cs-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fern); margin-bottom: 1rem; display: block; }
+    .pull-q { font-family: var(--serif); font-style: italic; font-size: 1.35rem; color: var(--fern); line-height: 1.55; border-left: 2px solid var(--sage); padding: 0.25rem 0 0.25rem 1.5rem; margin: 2.5rem 0; }
+    .user-quote { background: var(--tint); border: 1px solid var(--border); border-left: 3px solid var(--fern); border-radius: 0 8px 8px 0; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+    .user-quote p { font-family: var(--serif); font-style: italic; font-size: 1.05rem; color: var(--text); line-height: 1.6; margin-bottom: 0.4rem; }
+    .user-quote cite { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--light); }
+    .cs-break { border: none; border-top: 1px solid var(--border); margin: 4rem 0; }
+
+    /* stats */
+    .stat-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin: 2.5rem 0; }
+    .stat-box { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; text-align: center; }
+    .stat-box-n { font-family: var(--serif); font-size: 2.2rem; font-weight: 400; color: var(--fern); line-height: 1; margin-bottom: 0.35rem; }
+    .stat-box-l { font-size: 0.78rem; font-weight: 400; color: var(--mid); line-height: 1.4; }
+
+    /* findings */
+    .findings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin: 2rem 0; }
+    .finding { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; }
+    .finding-hed { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fern); margin-bottom: 0.5rem; }
+    .finding p { font-size: 0.85rem; font-weight: 300; color: var(--mid); line-height: 1.65; }
+
+    /* images */
+    .img-full { max-width: var(--max-wide); margin: 4rem auto; padding: 0 var(--px); }
+    .img-full-inner { border-radius: 12px; overflow: hidden; background: var(--forest); }
+    .img-grid { max-width: var(--max-wide); margin: 4rem auto; padding: 0 var(--px); display: grid; gap: 1rem; }
+    .img-grid-2 { grid-template-columns: 1fr 1fr; }
+    .img-grid-3 { grid-template-columns: repeat(3,1fr); }
+    .img-placeholder { border-radius: 10px; overflow: hidden; background: var(--forest); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0.75rem; position: relative; }
+    .img-placeholder::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 40% 50%, rgba(92,139,88,0.15) 0%, transparent 65%); }
+    .img-ph-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(228,238,224,0.35); text-align: center; padding: 0 1rem; position: relative; z-index: 1; }
+    .img-ph-icon { font-size: 1.5rem; opacity: 0.2; position: relative; z-index: 1; }
+    .ar-16-9 { aspect-ratio: 16/9; }
+    .ar-4-3  { aspect-ratio: 4/3; }
+    .ar-3-2  { aspect-ratio: 3/2; }
+    .ar-1-1  { aspect-ratio: 1/1; }
+    .img-caption { font-size: 0.78rem; font-weight: 400; color: var(--light); text-align: center; margin-top: 0.75rem; font-style: italic; }
+
+    /* dark band */
+    .band-dark { background: var(--forest); padding: 5rem var(--px); margin: 5rem 0; }
+    .band-dark-inner { max-width: var(--max); margin: 0 auto; }
+    .band-dark .graf { color: rgba(228,238,224,0.6); }
+    .band-dark .graf strong { color: #E4EEE0; }
+    .band-dark .cs-label { color: var(--leaf); }
+    .band-dark .pull-q { color: var(--leaf); border-left-color: rgba(139,191,128,0.4); }
+
+    /* buttons */
+    .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.7rem 1.4rem; font-family: var(--sans); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.03em; border-radius: 7px; transition: all 0.2s; white-space: nowrap; }
+    .btn-leaf { background: var(--leaf); color: var(--forest); border: 2px solid var(--leaf); font-weight: 600; }
+    .btn-leaf:hover { background: #9dcf91; border-color: #9dcf91; transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: rgba(228,238,224,0.6); border: 1.5px solid rgba(228,238,224,0.2); }
+    .btn-outline:hover { color: #E4EEE0; border-color: rgba(228,238,224,0.4); transform: translateY(-1px); }
+
+    /* next project */
+    .next-project { background: var(--forest); border-radius: 14px; padding: 3.5rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; margin: 5rem auto 0; max-width: var(--max-wide); }
+    .next-project p { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(228,238,224,0.35); margin-bottom: 0.5rem; }
+    .next-project h3 { font-family: var(--serif); font-size: clamp(1.3rem,3vw,2rem); font-weight: 400; letter-spacing: -0.02em; color: #E4EEE0; }
+
+    footer { border-top: 1px solid var(--border); max-width: var(--max-wide); margin: 0 auto; padding: 1.6rem var(--px); display: flex; align-items: center; justify-content: space-between; }
+    .foot-l { font-family: var(--serif); font-style: italic; font-size: .92rem; color: var(--mid); }
+    .foot-r { font-size: .72rem; color: var(--light); }
+
+    @keyframes up { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideUp { from{opacity:0;transform:translateY(110%)} to{opacity:1;transform:translateY(0)} }
+    .reveal { opacity:0; transform:translateY(20px); transition:opacity .65s ease,transform .65s ease; }
+    .reveal.in { opacity:1; transform:none; }
+
+    @media (max-width:700px) {
+      .stat-row { grid-template-columns:1fr 1fr; }
+      .findings-grid { grid-template-columns:1fr; }
+      .img-grid-2, .img-grid-3 { grid-template-columns:1fr; }
+      .next-project { flex-direction:column; align-items:flex-start; }
+      body { cursor:auto; }
+      #cur { display:none; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cur">
+  <div class="cur-ring"></div>
+  <div class="cur-dot"></div>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-back">
+    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 7H2M2 7L7 2M2 7L7 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Back to work
+  </a>
+  <a href="index.html" class="nav-logo">Kevin Fowler</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">UX Case Study · GIT 340 · Spring 2026</p>
+    <h1 class="hero-title">
+      <span class="line"><span>Redesigning how</span></span>
+      <span class="line"><span>people <em>compare flights.</em></span></span>
+    </h1>
+    <div class="hero-meta">
+      <div><div class="meta-label">Role</div><div class="meta-val">UX Researcher &amp; Designer</div></div>
+      <div><div class="meta-label">Timeline</div><div class="meta-val">Spring 2026 · 8 weeks</div></div>
+      <div><div class="meta-label">Tools</div><div class="meta-val">Figma · Nielsen Norman Heuristics</div></div>
+      <div><div class="meta-label">Outcome</div><div class="meta-val"><strong>100 / 100</strong></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="wave">
+  <svg viewBox="0 0 1440 64" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,0 C360,64 1080,64 1440,0 L1440,64 L0,64 Z" fill="#F5F3EE"/>
+  </svg>
+</div>
+
+<div class="cs-body">
+  <p class="graf-lead reveal"><strong>It was spring semester 2026.</strong> I was handed eDreams.net — a travel booking site most people have never heard of — and told to make it better. That turned into one of the most complete research-to-design cycles I've done.</p>
+  <p class="graf reveal">The assignment was open-ended: pick a part of the experience that needed the most work, research why, and design a solution. After spending time on the site, one thing stood out immediately — booking a flight felt like trying to compare things that all looked the same. That frustration became the entire project.</p>
+  <p class="graf reveal">I recruited three real participants, put them in front of the live site, and watched what happened. What they said — and didn't say — guided every design decision that followed.</p>
+</div>
+
+<div class="img-full reveal">
+  <div class="img-placeholder ar-16-9 img-full-inner">
+    <span class="img-ph-icon">🖼</span>
+    <span class="img-ph-label">Replace with: Hi-fi final design — full page screenshot (Default State)</span>
+  </div>
+  <p class="img-caption">eDreams flight results page — redesigned</p>
+</div>
+
+<div class="cs-body">
+  <span class="cs-label reveal">The Research</span>
+  <p class="graf reveal">Before touching Figma, I needed to understand who was actually using travel booking sites and what was getting in their way. I ran three user interviews — a 29-year-old who books travel several times a year, a 45-year-old frequent traveler focused on flexibility, and a 70-year-old who travels occasionally and relies on desktop or tablet. Three very different people with three very different relationships to the same task.</p>
+  <p class="graf reveal">The patterns that emerged were consistent across all of them: <strong>unclear pricing, interface clutter, and having to use multiple tools just to plan a single trip.</strong> The excitement of planning a trip was getting buried under friction that didn't need to be there.</p>
+  <div class="pull-q reveal">"They'll say there's a certain price, and then when you click on it, it's a different price."<br><small style="font-size:0.75rem;opacity:0.7;font-style:normal;letter-spacing:0.06em;text-transform:uppercase;">— Interview participant</small></div>
+  <p class="graf reveal">From these interviews I built a composite persona — Merry Smith, a working professional and student in her late 20s to mid-30s, juggling budget, schedule, dietary needs, and the general chaos of modern travel planning. She became the lens through which I evaluated everything that followed.</p>
+</div>
+
+<div class="img-grid img-grid-2 reveal">
+  <div>
+    <div class="img-placeholder ar-4-3">
+      <span class="img-ph-icon">👤</span>
+      <span class="img-ph-label">Replace with: Merry Smith persona screenshot from Figma</span>
+    </div>
+    <p class="img-caption">User persona — Merry Smith</p>
+  </div>
+  <div>
+    <div class="img-placeholder ar-4-3">
+      <span class="img-ph-icon">📋</span>
+      <span class="img-ph-label">Replace with: Empathy map or reflection summary screenshot</span>
+    </div>
+    <p class="img-caption">Research synthesis — interview reflection</p>
+  </div>
+</div>
+
+<div class="cs-body">
+  <span class="cs-label reveal">The Heuristic Evaluation</span>
+  <p class="graf reveal">Before bringing in participants, I ran a full heuristic evaluation of the eDreams flight results page using Nielsen Norman's 10 usability heuristics. This gave me an expert-lens view of the existing interface — not what users said, but what the design was objectively getting wrong.</p>
+  <p class="graf reveal">The most significant issues centered on <strong>aesthetic and minimalist design</strong> — the page was dense with filters, banners, and promotions competing with the actual booking information — and <strong>flexibility and efficiency</strong>, where repeat travelers had almost no personalization options to speed up their process.</p>
+</div>
+
+<div class="img-full reveal">
+  <div class="img-placeholder ar-16-9 img-full-inner">
+    <span class="img-ph-icon">📊</span>
+    <span class="img-ph-label">Replace with: Heuristic evaluation workbook screenshots — key findings pages</span>
+  </div>
+  <p class="img-caption" style="text-align:center;margin-top:0.75rem;">Nielsen Norman heuristic evaluation — eDreams.net</p>
+</div>
+
+<div class="band-dark reveal">
+  <div class="band-dark-inner">
+    <span class="cs-label">The User Testing</span>
+    <p class="graf">With the heuristic evaluation done, I designed a moderated usability test and brought in three participants. Each completed the same scenarios: find a round-trip flight, explore deals, and navigate to transportation options. I used a think-aloud protocol — I wanted to hear their reasoning, not just watch their clicks.</p>
+    <p class="graf">I wrote the test script, pre- and post-test questionnaires, and observation sheets myself. Then I sat with each person and watched the site fight them.</p>
+    <div class="pull-q">"These all look the same." — User 2, while comparing flight options</div>
+    <p class="graf">That quote said everything. The flight cards were visually identical. Nonstop and connecting flights used the same icons. There was no way to compare two options side by side. Users were relying on memory, scrolling back and forth, and still feeling unsure. The oldest participant — 70 years old — was briefly convinced he'd left the site entirely when the navigation disappeared on a secondary page.</p>
+  </div>
+</div>
+
+<div class="cs-body">
+  <div class="stat-row reveal">
+    <div class="stat-box"><div class="stat-box-n">3</div><div class="stat-box-l">Participants — ages 29, 45, and 70</div></div>
+    <div class="stat-box"><div class="stat-box-n">9</div><div class="stat-box-l">Tasks completed across 3 scenarios</div></div>
+    <div class="stat-box"><div class="stat-box-n">1.8</div><div class="stat-box-l">Average ease of comparing options (out of 5)</div></div>
+  </div>
+
+  <span class="cs-label reveal">Key Findings</span>
+  <div class="findings-grid reveal">
+    <div class="finding"><div class="finding-hed">Flight comparison friction</div><p>No way to save or compare flights side by side. Users had to rely on memory and repeated scrolling to make a decision.</p></div>
+    <div class="finding"><div class="finding-hed">Weak visual hierarchy</div><p>Identical icons for nonstop and connecting flights forced users to read small text to distinguish options — especially painful for older users.</p></div>
+    <div class="finding"><div class="finding-hed">Pricing confusion</div><p>Prices changed after selection, and baggage inclusions weren't visible at the results level. Trust dropped immediately.</p></div>
+    <div class="finding"><div class="finding-hed">Navigation loss</div><p>Global navigation disappeared on secondary pages. One participant re-entered the site URL from the address bar to recover.</p></div>
+  </div>
+</div>
+
+<div class="img-grid img-grid-2 reveal">
+  <div>
+    <div class="img-placeholder ar-4-3">
+      <span class="img-ph-icon">📝</span>
+      <span class="img-ph-label">Replace with: Pre-test questionnaire results screenshot</span>
+    </div>
+    <p class="img-caption">Pre-test questionnaire — participant background</p>
+  </div>
+  <div>
+    <div class="img-placeholder ar-4-3">
+      <span class="img-ph-icon">📝</span>
+      <span class="img-ph-label">Replace with: Post-test questionnaire results screenshot</span>
+    </div>
+    <p class="img-caption">Post-test questionnaire — satisfaction ratings</p>
+  </div>
+</div>
+
+<div class="cs-body">
+  <span class="cs-label reveal">From Insights to Design</span>
+  <p class="graf reveal">The research pointed clearly at one core problem: users couldn't compare flights without holding everything in their head. That became the north star for the redesign. Everything else — visual hierarchy, filter organization, pricing transparency — followed from solving that first.</p>
+  <p class="graf reveal">I started with Crazy 8s, a rapid ideation method where you sketch eight different layout concepts in eight minutes. The comparison feature appeared in my sketches early and kept winning. The concept that stuck was a floating comparison panel that only appears after a user selects two or more flights — it sits at the bottom of the screen without blocking the results list, and you can book directly from it.</p>
+</div>
+
+<div class="img-full reveal">
+  <div class="img-placeholder ar-16-9 img-full-inner">
+    <span class="img-ph-icon">✏️</span>
+    <span class="img-ph-label">Replace with: Photo of Crazy 8s hand-drawn sketches</span>
+  </div>
+  <p class="img-caption" style="text-align:center;margin-top:0.75rem;">Crazy 8s ideation — 8 layout concepts in 8 minutes</p>
+</div>
+
+<div class="cs-body">
+  <p class="graf reveal">Before jumping into visual design, I mapped the task flow — the exact steps a user takes from the homepage to selecting a preferred flight. Five steps: Homepage → Enter Flight Details → View Flight Results → Compare Flight Options → Select Preferred Flight. Simple on paper, but the existing design was breaking down at step three.</p>
+</div>
+
+<div class="img-full reveal">
+  <div class="img-placeholder img-full-inner" style="aspect-ratio:3/1;">
+    <span class="img-ph-icon">→</span>
+    <span class="img-ph-label">Replace with: Task flow diagram screenshot from Figma</span>
+  </div>
+  <p class="img-caption" style="text-align:center;margin-top:0.75rem;">Task flow — Homepage to flight selection</p>
+</div>
+
+<div class="img-grid img-grid-2 reveal" style="margin-top:2rem;">
+  <div>
+    <div class="img-placeholder ar-4-3">
+      <span class="img-ph-icon">🔲</span>
+      <span class="img-ph-label">Replace with: Mid-fidelity wireframe — Default State (Figma screenshot)</span>
+    </div>
+    <p class="img-caption">Wireframe — default results page</p>
+  </div>
+  <div>
+    <div class="img-placeholder ar-4-3">
+      <span class="img-ph-icon">🔲</span>
+      <span class="img-ph-label">Replace with: Mid-fidelity wireframe — Comparison State (Figma screenshot)</span>
+    </div>
+    <p class="img-caption">Wireframe — comparison panel active</p>
+  </div>
+</div>
+
+<div class="cs-body">
+  <span class="cs-label reveal">The Final Design</span>
+  <p class="graf reveal">The high-fidelity designs kept eDreams' existing brand and page structure mostly intact. The goal wasn't a rebrand — it was to fix the specific parts of the results flow that repeatedly slowed users down.</p>
+  <p class="graf reveal">Stop type labeling got more prominent — <strong>Nonstop, 1 Stop, 2+ Stops</strong> now reads at a glance instead of requiring careful attention to small icons. Filters were reorganized by what participants had naturally looked for first. And the comparison panel lets users select flights, review them side by side, and book without ever leaving the results list.</p>
+  <p class="graf reveal">Every change in the final design has a reason attached to it. A user said it. The research showed it. The heuristic evaluation flagged it.</p>
+</div>
+
+<div class="img-grid img-grid-2 reveal">
+  <div>
+    <div class="img-placeholder ar-3-2">
+      <span class="img-ph-icon">📱</span>
+      <span class="img-ph-label">Replace with: Hi-fi final design — Default State (Figma screenshot)</span>
+    </div>
+    <p class="img-caption">Final design — default results view</p>
+  </div>
+  <div>
+    <div class="img-placeholder ar-3-2">
+      <span class="img-ph-icon">📱</span>
+      <span class="img-ph-label">Replace with: Hi-fi final design — Comparison State (Figma screenshot)</span>
+    </div>
+    <p class="img-caption">Final design — comparison panel active</p>
+  </div>
+</div>
+
+<div class="img-full reveal">
+  <div class="img-placeholder ar-16-9 img-full-inner">
+    <span class="img-ph-icon">🖼</span>
+    <span class="img-ph-label">Replace with: Wide overview of both hi-fi states side by side</span>
+  </div>
+  <p class="img-caption" style="text-align:center;margin-top:0.75rem;">Before and after — eDreams flight results page</p>
+</div>
+
+<div class="cs-body">
+  <span class="cs-label reveal">What I Learned</span>
+  <p class="graf reveal">This project taught me that the most important skill in UX isn't knowing how to use Figma — it's knowing how to listen. The comparison panel wasn't my idea. It came from watching three different people try to hold flight details in their head and fail. I just gave that problem a shape.</p>
+  <p class="graf reveal">I also learned how much discipline data-driven design requires. Every time I wanted to make a change because it "looked better," I had to ask: does the research support this? That constraint made the final design stronger.</p>
+  <div class="pull-q reveal">"Every design decision tied directly back to something a real user said."</div>
+  <p class="graf reveal">Final grade: <strong>100/100.</strong></p>
+</div>
+
+<div style="padding:0 var(--px) 6rem;max-width:var(--max-wide);margin:0 auto;">
+  <div class="next-project reveal">
+    <div>
+      <p>Up next</p>
+      <h3>Field &amp; Feast — Frontend Development</h3>
+    </div>
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+      <a href="https://krfowler415.github.io/fieldandfeast/" target="_blank" class="btn btn-leaf">View Live Site</a>
+      <a href="index.html" class="btn btn-outline">Back to All Work</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="foot-l">Kevin Fowler</span>
+  <span class="foot-r">© 2026 · HTML &amp; CSS · 🐱🐱</span>
+</footer>
+
+<script>
+// Cursor
+const cur = document.getElementById('cur');
+let cx=0, cy=0, rx=0, ry=0;
+document.addEventListener('mousemove', e => { cx=e.clientX; cy=e.clientY; });
+(function anim(){
+  rx += (cx-rx)*0.13; ry += (cy-ry)*0.13;
+  cur.style.left = cx+'px'; cur.style.top = cy+'px';
+  cur.querySelector('.cur-ring').style.left = (rx-cx)+'px';
+  cur.querySelector('.cur-ring').style.top  = (ry-cy)+'px';
+  requestAnimationFrame(anim);
+})();
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('hov-link'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('hov-link'));
+});
+document.addEventListener('mousedown', () => document.body.classList.add('clicking'));
+document.addEventListener('mouseup',   () => document.body.classList.remove('clicking'));
+
+// Click ripple
+document.addEventListener('click', e => {
+  const r = document.createElement('div');
+  r.style.cssText = `position:fixed;width:10px;height:10px;border-radius:50%;border:1.5px solid var(--leaf);transform:translate(-50%,-50%) scale(0);pointer-events:none;z-index:9997;left:${e.clientX}px;top:${e.clientY}px;animation:rippleOut 0.6s ease-out forwards`;
+  document.body.appendChild(r);
+  setTimeout(()=>r.remove(), 600);
+});
+const rs = document.createElement('style');
+rs.textContent = '@keyframes rippleOut{to{transform:translate(-50%,-50%) scale(8);opacity:0}}';
+document.head.appendChild(rs);
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => {
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('in'), i*70);
+      obs.unobserve(e.target);
+    }
+  });
+}, {threshold:0.07});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
