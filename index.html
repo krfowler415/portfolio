@@ -453,7 +453,6 @@
 <body>
 
 <div id="cur">
-  <div class="cur-ring"></div>
   <div class="cur-dot"></div>
 </div>
 
@@ -779,12 +778,8 @@ const cur = document.getElementById('cur');
 let cx = 0, cy = 0, rx = 0, ry = 0;
 document.addEventListener('mousemove', e => { cx = e.clientX; cy = e.clientY; });
 (function animCur() {
-  rx += (cx - rx) * 0.13;
-  ry += (cy - ry) * 0.13;
   cur.style.left = cx + 'px';
   cur.style.top  = cy + 'px';
-  cur.querySelector('.cur-ring').style.left = (rx - cx) + 'px';
-  cur.querySelector('.cur-ring').style.top  = (ry - cy) + 'px';
   requestAnimationFrame(animCur);
 })();
 document.querySelectorAll('.project-hover, .h-card, .card-feat').forEach(el => {
