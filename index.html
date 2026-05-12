@@ -54,18 +54,6 @@
       transform: translate(-50%,-50%);
       transition: transform 0.15s, opacity 0.15s;
     }
-    .cur-ring {
-      position: absolute;
-      width: 36px; height: 36px;
-      border: 1.5px solid rgba(139,191,128,0.5);
-      border-radius: 50%;
-      top: 50%; left: 50%;
-      transform: translate(-50%,-50%);
-      transition: width 0.18s cubic-bezier(0.16,1,0.3,1),
-                  height 0.18s cubic-bezier(0.16,1,0.3,1),
-                  background 0.35s,
-                  border-color 0.35s;
-    }
     .cur-label {
       position: absolute;
       font-family: var(--sans);
@@ -564,7 +552,7 @@
 <div id="cur">
   <div class="cur-ring"></div>
   <div class="cur-dot"></div>
-  <div class="cur-label">VIEW →</div>
+  <div class="cur-label"></div>
 </div>
 
 <!-- NAV -->
