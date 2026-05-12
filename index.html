@@ -61,8 +61,8 @@
       border-radius: 50%;
       top: 50%; left: 50%;
       transform: translate(-50%,-50%);
-      transition: width 0.35s cubic-bezier(0.16,1,0.3,1),
-                  height 0.35s cubic-bezier(0.16,1,0.3,1),
+      transition: width 0.18s cubic-bezier(0.16,1,0.3,1),
+                  height 0.18s cubic-bezier(0.16,1,0.3,1),
                   background 0.35s,
                   border-color 0.35s;
     }
@@ -79,7 +79,7 @@
       white-space: nowrap;
     }
     body.hovering-project .cur-ring {
-      width: 72px; height: 72px;
+      width: 48px; height: 48px;
       background: var(--leaf);
       border-color: var(--leaf);
     }
@@ -943,8 +943,8 @@ let cx = 0, cy = 0, rx = 0, ry = 0;
 document.addEventListener('mousemove', e => { cx = e.clientX; cy = e.clientY; });
 
 (function animCur() {
-  rx += (cx - rx) * 0.13;
-  ry += (cy - ry) * 0.13;
+  rx += (cx - rx) * 0.25;
+  ry += (cy - ry) * 0.25;
   cur.style.left = cx + 'px';
   cur.style.top  = cy + 'px';
   const ring = cur.querySelector('.cur-ring');
