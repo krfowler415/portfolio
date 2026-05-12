@@ -38,7 +38,23 @@
     }
     a { color: inherit; text-decoration: none; }
     a, button, .project-hover, .h-card, .card-feat {
-  cursor: none;
+    cursor: none;
+    }
+    .ripple {
+    position: fixed;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid var(--leaf);
+    transform: translate(-50%, -50%) scale(0);
+    pointer-events: none;
+    z-index: 9997;
+    animation: rippleOut 0.6s ease-out forwards;
+    }
+    @keyframes rippleOut {
+    to {
+    transform: translate(-50%, -50%) scale(8);
+    opacity: 0;
+    }
 }
 
     /* ─── CURSOR ─────────────────────────────── */
@@ -985,6 +1001,15 @@ const obs = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.07 });
 document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => obs.observe(el));
+  
+document.addEventListener('click', e => {
+const r = document.createElement('div');
+r.className = 'ripple';
+r.style.left = e.clientX + 'px';
+r.style.top  = e.clientY + 'px';
+document.body.appendChild(r);
+setTimeout(() => r.remove(), 600);
+});
 </script>
 </body>
 </html>
