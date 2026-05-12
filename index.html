@@ -57,16 +57,6 @@
     body.clicking .cur-dot {
       transform: translate(-50%,-50%) scale(0.5);
     }
-    .cur-ring {
-      position: absolute;
-      width: 36px; height: 36px;
-      border: 1.5px solid rgba(139,191,128,0.45);
-      border-radius: 50%;
-      top: 50%; left: 50%;
-      transform: translate(-50%,-50%);
-      transition: width 0.18s ease, height 0.18s ease,
-                  background 0.18s, border-color 0.18s, border-width 0.18s;
-    }
     body.hovering-project .cur-ring {
       width: 48px; height: 48px;
       background: transparent;
@@ -354,8 +344,24 @@
     .c-desc { font-size:.87rem; font-weight:300; color:var(--mid); line-height:1.82; }
     .c-tags { display:flex; flex-wrap:wrap; gap:.35rem; }
     .c-tag { font-size:.68rem; padding:.25rem .65rem; border-radius:20px; background:var(--tint); border:1px solid var(--border); color:var(--mid); }
-    .c-link { display:inline-flex; align-items:center; gap:.35rem; font-size:.78rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--fern); transition:gap .2s; }
-    .c-link:hover { gap:.6rem; }
+    .c-link {
+    display: inline-flex; align-items: center; gap: .35rem;
+    font-size: .78rem; font-weight: 600;
+    letter-spacing: .06em; text-transform: uppercase;
+    color: var(--fern);
+    position: relative;
+    transition: gap 0.2s;
+    }
+    .c-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 1.5px;
+      background: var(--fern);
+      transition: width 0.25s ease;
+    }
+    .c-link:hover { gap: .6rem; }
+    .c-link:hover::after { width: 100%; }
 
     /* ── HORIZONTAL STRIP ── */
     .work-stack { display:flex; flex-direction:column; gap:1.25rem; }
