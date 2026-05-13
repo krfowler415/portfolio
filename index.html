@@ -220,6 +220,17 @@
       display: flex; gap: 0.75rem; flex-wrap: wrap;
       opacity: 0; animation: up 0.5s ease forwards 0.8s;
     }
+    .hero-line-1 {
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-weight: 400; color: #E4EEE0;
+      overflow: hidden;
+      opacity: 0;
+      animation: slideUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.15s;
+    }
+    .hero-line-2 {
+      opacity: 0;
+      animation: up 0.6s ease forwards 0.3s;
+    }
     .scroll-cue {
       position: absolute; bottom: 2rem; left: 50%;
       transform: translateX(-50%);
@@ -491,21 +502,19 @@
 
   <div class="hero-content">
     <p class="hero-status"><span class="sdot"></span>Open to internships · Chandler, AZ</p>
-    <div class="hero-hed">
-      <span class="row"><span>Curious about</span></span>
-      <span class="row" style="overflow:visible;">
-        <span style="opacity:1;transform:none;animation:none;">
-          <span class="rotate-wrap" style="opacity:0;animation:up 0.5s ease forwards 0.3s;">
-            <span class="rotate-words">
-              <span>people.</span>
-              <span>nature.</span>
-              <span>animals.</span>
-              <span>design.</span>
-            </span>
-          </span>
-        </span>
-      </span>
+  <div class="hero-hed">
+    <div class="hero-line-1">Curious about</div>
+    <div class="hero-line-2">
+      <div class="rotate-wrap">
+        <div class="rotate-words">
+          <span>people.</span>
+          <span>nature.</span>
+          <span>animals.</span>
+          <span>design.</span>
+        </div>
+      </div>
     </div>
+  </div>
     <p class="hero-sub">
       I research why things feel broken, then <strong>design and build something better.</strong>
       Studying Human Systems Engineering at ASU with a UX focus.
