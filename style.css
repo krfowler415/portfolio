@@ -16,8 +16,10 @@
   --mid: #596055;
   --light: #96a090;
   --border: #dcdad3;
-  --serif: 'Lora', Georgia, serif;
-  --sans: 'DM Sans', system-ui, sans-serif;
+  --serif: 'Fraunces', Georgia, serif;
+  --display-serif: 'Shrikhand', Georgia, serif;
+  --sans: 'Bricolage Grotesque', system-ui, sans-serif;
+  --display: 'Instrument Sans', system-ui, sans-serif;
   --max: 1100px;
   --px: clamp(1.25rem, 5vw, 3rem);
 }
@@ -107,6 +109,7 @@ nav {
   list-style: none;
 }
 .nav-links a {
+  font-family: var(--display);
   font-size: 0.78rem;
   font-weight: 500;
   letter-spacing: 0.1em;
@@ -181,8 +184,9 @@ nav {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  font-family: var(--display);
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: 200;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--amber);
@@ -223,8 +227,9 @@ nav {
 /* Morph Effect: Blur + Threshold */
 .morph-container {
   position: relative;
+  font-family: var(--display-serif);
   font-size: clamp(3rem, 15vw, 10rem);
-  font-weight: 700;
+  font-weight: 1000;
   filter: url(#threshold);
   user-select: none;
 }
@@ -315,7 +320,7 @@ nav {
   align-items: center;
   gap: 0.4rem;
   padding: 0.7rem 1.4rem;
-  font-family: var(--sans);
+  font-family: var(--display);
   font-size: 0.82rem;
   font-weight: 500;
   letter-spacing: 0.03em;
@@ -436,6 +441,7 @@ nav {
   }
 }
 .m-item {
+  font-family: var(--display);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -482,6 +488,7 @@ nav {
   color: var(--clay);
 }
 .sec-count {
+  font-family: var(--display);
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -664,6 +671,7 @@ nav {
   gap: 1rem;
 }
 .c-type {
+  font-family: var(--display);
   font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -700,6 +708,7 @@ nav {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
+  font-family: var(--display);
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -735,6 +744,7 @@ nav {
   margin-top: 1.25rem;
 }
 .h-strip-label {
+  font-family: var(--display);
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -947,6 +957,7 @@ a.h-card:hover .c-link::after { width: 100%; }
   gap: 1.6rem;
 }
 .sk-lbl {
+  font-family: var(--display);
   font-size: 0.66rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -1028,6 +1039,7 @@ footer {
   color: var(--mid);
 }
 .foot-r {
+  font-family: var(--display);
   font-size: 0.72rem;
   color: var(--light);
 }
