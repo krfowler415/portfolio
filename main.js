@@ -167,26 +167,31 @@ document
   .forEach((el) => obs.observe(el));
 
 
-// ── Card parallax tilt ──────────────────────────────
-document.querySelectorAll('.h-card, .card-feat').forEach(card => {
-  card.addEventListener('mousemove', e => {
-    const rect = card.getBoundingClientRect();
+// ── Card tilt ────────────────────────────────────────
+document.querySelectorAll('.card-tilt-wrap, .card-tilt-wrap-sm').forEach(wrap => {
+  const inner = wrap.querySelector('.card-feat, .h-card');
+  if (!inner) return;
+  const maxRotate = wrap.classList.contains('card-tilt-wrap') ? 8 : 6;
+
+  wrap.addEventListener('mousemove', e => {
+    const rect = wrap.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    const cx = rect.width / 2;
-    const cy = rect.height / 2;
-
-    // Scale rotation based on card size
-    const maxRotate = card.classList.contains('card-feat') ? 6 : 10;
-
-    const rotateX = ((y - cy) / cy) * -maxRotate;
-    const rotateY = ((x - cx) / cx) * maxRotate;
-
-    card.style.transition = 'none';
-    card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -maxRotate;
+    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * maxRotate;
+    inner.style.transition = 'transform 0.1s ease';
+    inner.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
   });
-  card.addEventListener('mouseleave', () => {
-    card.style.transition = 'transform 0.5s cubic-bezier(0.03, 0.98, 0.52, 0.99)';
-    card.style.transform = '';
+
+  wrap.addEventListener('mouseleave', () => {
+    inner.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+    inner.style.transform = '';
+  });
+
+  wrap.addEventListener('click', (e) => {
+    const link = wrap.querySelector('a');
+    if (link && e.target !== link && !link.contains(e.target)) {
+      link.click();
+    }
   });
 });
