@@ -165,3 +165,28 @@ const obs = new IntersectionObserver(
 document
   .querySelectorAll('.reveal, .reveal-left, .reveal-right')
   .forEach((el) => obs.observe(el));
+
+
+// ── Card parallax tilt ──────────────────────────────
+document.querySelectorAll('.h-card, .card-feat').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+
+    // Scale rotation based on card size
+    const maxRotate = card.classList.contains('card-feat') ? 6 : 10;
+
+    const rotateX = ((y - cy) / cy) * -maxRotate;
+    const rotateY = ((x - cx) / cx) * maxRotate;
+
+    card.style.transition = 'none';
+    card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transition = 'transform 0.5s cubic-bezier(0.03, 0.98, 0.52, 0.99)';
+    card.style.transform = '';
+  });
+});
