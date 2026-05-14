@@ -84,6 +84,21 @@ heroEl.addEventListener('mouseleave', () => {
 
 window.addEventListener('resize', () => { resize(); init(); });
 resize(); init(); requestAnimationFrame(tick);
+
+
+// ── Nav transparency on scroll ───────────────────────
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) {
+    nav.style.background = 'var(--forest)';
+    nav.style.backdropFilter = 'blur(16px)';
+  } else {
+    nav.style.background = 'transparent';
+    nav.style.backdropFilter = 'none';
+  }
+}, { passive: true });
+
+
 // ── Parallax ────────────────────────────────────────
 const pxLayers = document.querySelectorAll('.px-layer[data-speed]');
 window.addEventListener(
@@ -100,6 +115,7 @@ window.addEventListener(
   { passive: true },
 );
 
+
 // ── Cursor ──────────────────────────────────────────
 const cur = document.getElementById('cur');
 document.addEventListener('mousemove', (e) => {
@@ -113,6 +129,7 @@ document.addEventListener('mouseup', () =>
   document.body.classList.remove('clicking'),
 );
 
+
 // ── Click ripple ────────────────────────────────────
 document.addEventListener('click', (e) => {
   const r = document.createElement('div');
@@ -124,6 +141,7 @@ const rs = document.createElement('style');
 rs.textContent =
   '@keyframes rippleOut{to{transform:translate(-50%,-50%) scale(8);opacity:0}}';
 document.head.appendChild(rs);
+
 
 // ── Horizontal drag scroll ──────────────────────────
 const strip = document.getElementById('hStrip');
@@ -149,6 +167,7 @@ if (strip) {
     strip.scrollLeft = scrollLeft - (e.pageX - strip.offsetLeft - startX) * 1.4;
   });
 }
+
 
 // ── Scroll reveal ────────────────────────────────────
 const obs = new IntersectionObserver(
