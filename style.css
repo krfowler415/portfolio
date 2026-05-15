@@ -165,6 +165,7 @@ nav {
   width: calc(100% + 40px);
   height: calc(100% + 40px);
   background-image: url('images/venti-views-Vs5ciaxG1Cs-unsplash.jpg');
+  background-size: 100%;
   background-position: center 20%;
   background-repeat: no-repeat;
   filter: brightness(0.8);
