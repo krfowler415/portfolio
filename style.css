@@ -237,7 +237,7 @@ nav {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--amber);
-  margin-bottom: 2rem;
+  margin-bottom: 0;
   padding: 0.35rem 0.35rem;
   border-radius: 20px;
   border: 1.5px solid transparent;
