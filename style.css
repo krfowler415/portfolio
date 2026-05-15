@@ -164,7 +164,7 @@ nav {
   inset: -20px;
   width: calc(100% + 40px);
   height: calc(100% + 40px);
-  background-image: url('images/hero-bg.jpg');
+  background: url('images/hero-bg.jpg');
   background-size: cover;
   background-position: center 20%;
   background-repeat: no-repeat;
