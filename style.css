@@ -124,7 +124,11 @@ nav {
 /* ── HERO ── */
 .hero {
   position: relative;
-  background: radial-gradient(ellipse at 50% 50%, var(--leaf) 5%, var(--forest) 55%);
+  background-image: url('images/hero-bg.jpg');
+  background-size: cover;
+  background-position: center 20%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   height: 100svh;
   min-height: 600px;
   display: flex;
