@@ -3,7 +3,7 @@ const canvas = document.getElementById('fireflies');
 const ctx = canvas.getContext('2d');
 let W, H, flies = [];
 let mouse = { x: -9999, y: -9999 };
-const COUNT = 690;
+const COUNT = 420;
 
 function resize() {
   W = canvas.width = canvas.offsetWidth;
@@ -19,7 +19,7 @@ function init() {
     r: 1.5 + Math.random() * 2.5,
     phase: Math.random() * Math.PI * 2,
     speed: 0.4 + Math.random() * 0.6,
-    hue: 100 + Math.random() * 40,
+    hue: 40 + Math.random() * 20,
   }));
 }
 
@@ -71,6 +71,8 @@ function tick() {
   requestAnimationFrame(tick);
 }
 
+// ── Mouse Parallax Hero ────────────────────────────────────────
+
 const heroEl = document.getElementById('hero');
 heroEl.addEventListener('mousemove', (e) => {
   const r = canvas.getBoundingClientRect();
@@ -115,6 +117,18 @@ window.addEventListener(
   { passive: true },
 );
 
+// ── Mouse Parallax ────────────────────────────────────────
+heroEl.addEventListener('mousemove', (e) => {
+  const r = canvas.getBoundingClientRect();
+  mouse.x = e.clientX - r.left;
+  mouse.y = e.clientY - r.top;
+
+  // Background parallax on mouse move
+  const x = (e.clientX / window.innerWidth - 0.5) * 20;
+  const y = (e.clientY / window.innerHeight - 0.5) * 20;
+  const heroBg = document.querySelector('.hero-bg');
+  if (heroBg) heroBg.style.transform = `translate(${x}px, ${y}px)`;
+});
 
 // ── Cursor ──────────────────────────────────────────
 const cur = document.getElementById('cur');
