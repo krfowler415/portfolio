@@ -99,7 +99,7 @@ window.addEventListener('scroll', () => {
   const hc   = document.querySelector('.hero-content');
   if (!hero || !hc) return;
   const scrolled  = Math.max(0, -hero.getBoundingClientRect().top);
-  const maxScroll = window.innerHeight * 1.5; // fully gone at 150% through hero
+  const maxScroll = window.innerHeight * 2.5; // fully gone at 150% through hero
   const progress  = Math.min(scrolled / maxScroll, 1);
   hc.style.transform = `translateY(${(scrolled * 0.15).toFixed(1)}px)`;
   hc.style.opacity   = (1 - progress).toFixed(3);
