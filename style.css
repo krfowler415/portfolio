@@ -219,45 +219,8 @@ nav {
 .nav-links a:hover span::after  { width:  100%; }
 
 
-/* ── HERO ── */
-.hero {
-  position: relative;
-  height: 100svh;
-  min-height: 600px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: var(--bg-dark);
-}
-.hero::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 130px;
-  background: linear-gradient(to top, transparent, var(--bg-dark));
-  pointer-events: none;
-  z-index: 4;
-}
-.hero::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 160px;
-  background: linear-gradient(to bottom, transparent, var(--bg-dark));
-  pointer-events: none;
-  z-index: 4;
-}
-
-
 /* ── AURORA ── */
-.aurora {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  mix-blend-mode: screen;
-}
+
 .aurora__item {
   position: absolute;
   width: 72vw;
@@ -269,28 +232,28 @@ nav {
 .aurora__item:nth-of-type(1) {
   background: var(--purple-400);
   top: -35%; left: -8%;
-  opacity: 0.5;
+  opacity: 0.80;
   animation: aurora-border 6s ease-in-out infinite,
              aurora-1 14s ease-in-out infinite alternate;
 }
 .aurora__item:nth-of-type(2) {
   background: var(--teal-400);
   right: -12%; top: -25%;
-  opacity: 0.35;
+  opacity: 0.70;
   animation: aurora-border 6s ease-in-out infinite,
              aurora-2 12s ease-in-out infinite alternate;
 }
 .aurora__item:nth-of-type(3) {
   background: var(--sedona-400);
   left: 15%; bottom: 5%;
-  opacity: 0.30;
+  opacity: 0.60;
   animation: aurora-border 6s ease-in-out infinite,
              aurora-3 9s ease-in-out infinite alternate;
 }
 .aurora__item:nth-of-type(4) {
   background: var(--copper-400);
   right: 5%; bottom: -25%;
-  opacity: 0.25;
+  opacity: 0.50;
   animation: aurora-border 6s ease-in-out infinite,
              aurora-4 22s ease-in-out infinite alternate;
 }
@@ -354,16 +317,6 @@ nav {
 
 
 /* ── HERO CONTENT ── */
-.hero-content {
-  position: relative;
-  z-index: 5;
-  max-width: var(--max);
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 var(--px);
-  padding-bottom: 240px;
-  text-align: center;
-}
 
 .hero-status {
   display: inline-flex;
@@ -466,7 +419,7 @@ nav {
   transform: translate(-50%, -50%);
   opacity: 0;
   color: var(--text);
-  text-shadow: 2px 2px 24px var(--bg-dark), 0 0 30px rgba(167,25,48,0.5);
+  text-shadow: 0 2px 40px rgba(0,0,0,0.6);
   white-space: nowrap;
   animation: rotate-words 12s infinite ease-in-out;
 }
@@ -494,17 +447,6 @@ nav {
     transform: translate(-50%, -50%) scale(1.1);
   }
 }
-
-
-/* ── DESERT SILHOUETTE ── */
-.hero-desert {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  z-index: 2;
-  pointer-events: none;
-  height: 340px;
-}
-.hero-desert svg { width: 100%; height: 100%; display: block; }
 
 
 /* ── BUTTONS ── */
@@ -1106,22 +1048,7 @@ footer {
   .aurora__item    { animation: none !important; }
 }
 
-/* ── DESERT SCENE ── */
-.hero-desert {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  z-index: 2;
-  pointer-events: none;
-  height: 460px;
-  overflow: hidden;
-}
-.hero-desert svg {
-  position: absolute;
-  bottom: 0; left: 0;
-  width: 100%; height: 100%;
-  display: block;
-  overflow: visible;
-}
+
 /* Promote all desert layers to their own compositor layer */
 #heroDesert g, #d-l10 {
   will-change: transform;
@@ -1144,30 +1071,102 @@ footer {
   .hero-content { padding-bottom: 210px; }
 }
 
-/* ── DESERT SCENE (inline SVG, 6 parallax layers) ── */
-.hero-desert {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  z-index: 2;
-  pointer-events: none;
-  height: 460px;
+
+
+/* ══ HERO — self-contained scroll theater ══════════════════════════════════ */
+
+/* Outer section is tall so user scrolls through it */
+.hero {
+  height: 400svh;
+  background: #0E0818;
+}
+
+/* Sticky pin — visible viewport, everything lives here */
+.hero-pin {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 600px;
   overflow: hidden;
 }
-.hero-desert svg {
+
+/* Fade out at the bottom of the pin as we scroll into the next section */
+.hero-pin::after {
+  content: '';
   position: absolute;
-  bottom: 0; left: 0;
-  width: 100%; height: 100%;
+  bottom: 0; left: 0; right: 0;
+  height: 300px;
+  background: linear-gradient(to bottom, transparent, var(--bg-dark));
+  z-index: 8;
+  pointer-events: none;
+}
+
+/* Firefly canvas fills the pin */
+#fireflies {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* Desert SVG fills the pin completely — no seams */
+.hero-desert {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.hero-desert svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: brightness(1.3) saturate(1.1);
+}
+#heroDesert g { will-change: transform; }
+
+/* Word rotator — sits in upper portion of the pin */
+.hero-content {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  padding-top: 22vh;
+  pointer-events: none;
+}
+.morph-container {
+  font-family: 'Shrikhand', cursive;
+  font-size: clamp(3.5rem, 14vw, 11rem);
+  line-height: 1;
+  color: var(--text);
+  text-shadow: 0 2px 40px rgba(0,0,0,0.5);
+}
+.word-rotator {
+  position: relative;
+  display: inline-block;
+  min-width: 2ch;
+}
+.word-rotator .word {
   display: block;
 }
-#heroDesert g {
-  will-change: transform;
-}
-
-/* Hero content — just the word rotator, pushed above the desert */
-.hero-content { padding-bottom: 280px; }
-.morph-container { font-size: clamp(3.5rem, 18vw, 12rem); }
 
 @media (max-width: 600px) {
-  .hero-desert  { height: 280px; }
-  .hero-content { padding-bottom: 200px; }
+  .hero { height: 140svh; }
+  .hero-content { padding-top: 18vh; }
+}
+
+
+.hero-terrain {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  overflow: hidden;
+}
+.hero-terrain svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
