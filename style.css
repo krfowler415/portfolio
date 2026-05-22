@@ -26,37 +26,37 @@
   --teal-800:    #005F61;
   --teal-900:    #003438;
 
-  --copper-50:   #F8F0EA;
-  --copper-100:  #EDD8C4;
-  --copper-200:  #D8B090;
-  --copper-400:  #8B634B;
-  --copper-600:  #5E3E2C;
-  --copper-800:  #38241A;
-  --copper-900:  #20120E;
+  --copper-50:   #FDF0E8;
+  --copper-100:  #F5D5B0;
+  --copper-200:  #DFA876;
+  --copper-400:  #B87333;
+  --copper-600:  #8A5220;
+  --copper-800:  #5C3312;
+  --copper-900:  #321A08;
 
-  --sand-50:     #FAF8F0;
-  --sand-100:    #F0E8D0;
-  --sand-200:    #E3D4AD;
-  --sand-400:    #C8B080;
-  --sand-600:    #907848;
-  --sand-800:    #584828;
-  --sand-900:    #302818;
+  --sand-50:   #F8F0EA;
+  --sand-100:  #EDD8C4;
+  --sand-200:  #D8B090;
+  --sand-400:  #8B634B;
+  --sand-600:  #5E3E2C;
+  --sand-800:  #38241A;
+  --sand-900:  #20120E;
 
 
   /* ── Semantic Tokens ───────────────────────────────────── */
 
-  /* Backgrounds — full dark mode */
+  /* Backgrounds */
   --bg:                #1C1210;
   --bg-dark:           #1C1210;
-  --bg-surface:        #2C1E16;
-  --bg-raised:         #38261C;
-  --bg-tint:           rgba(95, 37, 159, 0.18);
-  --bg-marquee:        var(--sedona-600);
+  --bg-surface:        #2E1F1A;
+  --bg-raised:         #3D2820;
+  --bg-tint:           rgba(95, 37, 159, 0.28);
+  --bg-marquee:        var(--sedona-400);
 
   /* Text */
-  --text:              #F2E9EA;
-  --text-muted:        #C4A890;
-  --text-light:        #9A7A62;
+  --text:              #F0E2D0;
+  --text-muted:        #C8A882;
+  --text-light:        #A07850;
   --text-inv:          #1C1210;
 
   /* Primary — Sedona Red */
@@ -80,8 +80,10 @@
   /* Neutrals */
   --copper:            var(--copper-400);
   --sand:              var(--sand-200);
-  --border:            rgba(227, 212, 173, 0.12);
-  --border-subtle:     rgba(227, 212, 173, 0.06);
+
+  /* Borders */
+  --border:            rgba(227, 212, 173, 0.22);
+  --border-subtle:     rgba(227, 212, 173, 0.10);
 
   /* Typography */
   --serif:          'Fraunces', Georgia, serif;
@@ -176,7 +178,7 @@ nav {
   font-size: 1.5rem;
   color: var(--text);
 }
-.nav-logo:hover { opacity: 0.8; color: var(--sand); }
+.nav-logo:hover { opacity: 0.8; color: var(--teal-400); }
 .nav-links {
   display: flex;
   gap: 2rem;
@@ -219,88 +221,6 @@ nav {
 .nav-links a:hover span::after  { width:  100%; }
 
 
-/* ── AURORA ── */
-
-.aurora__item {
-  position: absolute;
-  width: 72vw;
-  height: 72vw;
-  border-radius: 37% 29% 27% 27% / 28% 25% 41% 37%;
-  filter: blur(70px);
-  mix-blend-mode: screen;
-}
-.aurora__item:nth-of-type(1) {
-  background: var(--purple-400);
-  top: -35%; left: -8%;
-  opacity: 0.80;
-  animation: aurora-border 6s ease-in-out infinite,
-             aurora-1 14s ease-in-out infinite alternate;
-}
-.aurora__item:nth-of-type(2) {
-  background: var(--teal-400);
-  right: -12%; top: -25%;
-  opacity: 0.70;
-  animation: aurora-border 6s ease-in-out infinite,
-             aurora-2 12s ease-in-out infinite alternate;
-}
-.aurora__item:nth-of-type(3) {
-  background: var(--sedona-400);
-  left: 15%; bottom: 5%;
-  opacity: 0.60;
-  animation: aurora-border 6s ease-in-out infinite,
-             aurora-3 9s ease-in-out infinite alternate;
-}
-.aurora__item:nth-of-type(4) {
-  background: var(--copper-400);
-  right: 5%; bottom: -25%;
-  opacity: 0.50;
-  animation: aurora-border 6s ease-in-out infinite,
-             aurora-4 22s ease-in-out infinite alternate;
-}
-
-@keyframes aurora-1 {
-  0%   { top: -35%; right: 0;   }
-  50%  { top: 70%;  right: 55%; }
-  75%  { top: 50%;  right: 20%; }
-  100% { top: -35%; right: 0;   }
-}
-@keyframes aurora-2 {
-  0%   { top: -55%; left: 0;   }
-  60%  { top: 75%;  left: 65%; }
-  85%  { top: 55%;  left: 18%; }
-  100% { top: -55%; left: 0;   }
-}
-@keyframes aurora-3 {
-  0%   { bottom: 5%;  left: 15%; }
-  40%  { bottom: 75%; left: 58%; }
-  65%  { bottom: 28%; left: 40%; }
-  100% { bottom: 5%;  left: 15%; }
-}
-@keyframes aurora-4 {
-  0%   { bottom: -25%; right: 5%;  }
-  50%  { bottom: 18%;  right: 48%; }
-  90%  { bottom: 55%;  right: 18%; }
-  100% { bottom: -25%; right: 5%;  }
-}
-@keyframes aurora-border {
-  0%   { border-radius: 37% 29% 27% 27% / 28% 25% 41% 37%; }
-  25%  { border-radius: 47% 29% 39% 49% / 61% 19% 66% 26%; }
-  50%  { border-radius: 57% 23% 47% 72% / 63% 17% 66% 33%; }
-  75%  { border-radius: 28% 49% 29% 100% / 93% 20% 64% 25%; }
-  100% { border-radius: 37% 29% 27% 27% / 28% 25% 41% 37%; }
-}
-
-
-/* ── FIREFLIES ── */
-#fireflies {
-  position: absolute;
-  inset: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-  z-index: 3;
-}
-
-
 /* ── STATUS DOT ── */
 .sdot {
   width: 10px; height: 10px;
@@ -316,8 +236,7 @@ nav {
 }
 
 
-/* ── HERO CONTENT ── */
-
+/* ── HERO STATUS ── */
 .hero-status {
   display: inline-flex;
   align-items: center;
@@ -348,54 +267,8 @@ nav {
   padding: 0.35rem 0.85rem;
 }
 
-.hero-hed {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 1;
-}
 
-.hero-name {
-  font-family: var(--display-serif);
-  font-size: clamp(3rem, 8vw, 7rem);
-  font-weight: 400;
-  color: var(--sand);
-  line-height: 1;
-  letter-spacing: -0.01em;
-  margin-bottom: 0.15em;
-  opacity: 0;
-  animation: slideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.1s;
-}
-
-.hero-line {
-  font-size: clamp(3rem, 9vw, 7.5rem);
-  font-weight: 400;
-  color: var(--primary);
-  opacity: 0;
-  padding-bottom: 0.2em;
-  animation: slideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.25s;
-}
-
-.hero-tag {
-  font-family: var(--display);
-  font-size: clamp(0.72rem, 1.4vw, 0.88rem);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(227, 212, 173, 0.45);
-  margin-bottom: 2.2rem;
-  opacity: 0;
-  animation: up 0.5s ease forwards 0.45s;
-}
-
-.hero-cta {
-  opacity: 0;
-  animation: up 0.5s ease forwards 0.6s;
-}
-
-
-/* ── MORPH ── */
+/* ── MORPH / WORD ROTATOR ── */
 .morph-container {
   position: relative;
   font-family: var(--display-serif);
@@ -418,10 +291,21 @@ nav {
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   opacity: 0;
-  color: var(--text);
-  text-shadow: 0 2px 40px rgba(0,0,0,0.6);
   white-space: nowrap;
   animation: rotate-words 12s infinite ease-in-out;
+  --gy: 140vh;
+  background-image: radial-gradient(
+    circle at 50% var(--gy),
+    oklch(0.92 0.13 280)     0vh,
+    oklch(0.72 0.27 310)    50vh,
+    oklch(0.52 0.22 340)    90vh,
+    oklch(0.18 0.06 280 / 0) 150vh
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
 }
 .word:nth-child(1) { animation-delay: 0s; }
 .word:nth-child(2) { animation-delay: 3s; }
@@ -674,7 +558,7 @@ nav {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--accent-turquoise);
+  color: var(--accent-teal);
 }
 .c-title {
   font-family: var(--serif);
@@ -712,7 +596,7 @@ nav {
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--accent-turquoise);
+  color: var(--accent-teal);
   position: relative;
   transition: gap 0.2s;
 }
@@ -721,7 +605,7 @@ nav {
   position: absolute;
   bottom: -2px; left: 0;
   width: 0; height: 1.5px;
-  background: var(--accent-turquoise);
+  background: var(--accent-teal);
   transition: width 0.25s ease;
 }
 .c-link:hover { gap: 0.6rem; }
@@ -939,7 +823,7 @@ a.card-feat:hover .c-link::after { width: 100%; }
 }
 .c-band h2 em {
   font-style: italic;
-  color: var(--sand);
+  color: var(--teal-600);
 }
 .c-band p {
   font-size: 0.9rem;
@@ -1045,43 +929,16 @@ footer {
   .morph-container { filter: none; }
   .m-track         { animation-duration: 120s; }
   .sdot            { animation: none; }
-  .aurora__item    { animation: none !important; }
 }
 
 
-/* Promote all desert layers to their own compositor layer */
-#heroDesert g, #d-l10 {
-  will-change: transform;
-}
+/* ══ HERO — scroll theater ══════════════════════════════════════════════════ */
 
-/* ── HERO CONTENT — word rotator only, no name/button ── */
-.hero-content {
-  padding-bottom: 300px;
-}
-.hero-hed {
-  margin-top: 0;
-}
-/* Make the morph words bigger — they're the only hero statement now */
-.morph-container {
-  font-size: clamp(3.5rem, 18vw, 12rem);
-}
-
-@media (max-width: 600px) {
-  .hero-desert { height: 280px; }
-  .hero-content { padding-bottom: 210px; }
-}
-
-
-
-/* ══ HERO — self-contained scroll theater ══════════════════════════════════ */
-
-/* Outer section is tall so user scrolls through it */
 .hero {
   height: 400svh;
   background: #0E0818;
 }
 
-/* Sticky pin — visible viewport, everything lives here */
 .hero-pin {
   position: sticky;
   top: 0;
@@ -1090,7 +947,6 @@ footer {
   overflow: hidden;
 }
 
-/* Fade out at the bottom of the pin as we scroll into the next section */
 .hero-pin::after {
   content: '';
   position: absolute;
@@ -1101,7 +957,6 @@ footer {
   pointer-events: none;
 }
 
-/* Firefly canvas fills the pin */
 #fireflies {
   position: absolute;
   inset: 0;
@@ -1111,7 +966,6 @@ footer {
   pointer-events: none;
 }
 
-/* Desert SVG fills the pin completely — no seams */
 .hero-desert {
   position: absolute;
   inset: 0;
@@ -1126,7 +980,6 @@ footer {
 }
 #heroDesert g { will-change: transform; }
 
-/* Word rotator — sits in upper portion of the pin */
 .hero-content {
   position: absolute;
   top: 0; left: 0; right: 0;
@@ -1152,12 +1005,6 @@ footer {
   display: block;
 }
 
-@media (max-width: 600px) {
-  .hero { height: 140svh; }
-  .hero-content { padding-top: 18vh; }
-}
-
-
 .hero-terrain {
   position: absolute;
   inset: 0;
@@ -1169,4 +1016,9 @@ footer {
   width: 100%;
   height: 100%;
   display: block;
+}
+
+@media (max-width: 600px) {
+  .hero { height: 140svh; }
+  .hero-content { padding-top: 18vh; }
 }
