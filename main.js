@@ -66,19 +66,20 @@ resize(); init(); requestAnimationFrame(tick);
 
 
 // ── Desert parallax (scroll theater) ─────────────────────────────────────────
-// Tracks scroll position within the hero section so parallax
-// is tied to exactly how far through the hero you've scrolled.
 const desertLayers = [
-  { id: 'd-l2', speed: -0.40 },   // far mountains
-  { id: 'd-l3', speed: -0.50 },   // mid terrain
-  { id: 'd-l4', speed: -0.60 },   // near terrain
-  { id: 'd-l5', speed: -0.70 },   // foreground fill
-  { id: 'd-l6', speed: -0.70 },   // stars / detail
+  { id: 'd-l2', speed: -0.40 },
+  { id: 'd-l3', speed: -0.50 },
+  { id: 'd-l4', speed: -0.60 },
+  { id: 'd-l5', speed: -0.70 },
+  { id: 'd-l6', speed: -0.70 },
 ];
-desertLayers.forEach(l => {
-  l.el = document.getElementById(l.id);
-  if (!l.el) console.warn('Desert layer not found:', l.id);
-});
+
+function initParallax() {
+  desertLayers.forEach(l => {
+    l.el = document.getElementById(l.id);
+    if (!l.el) console.warn('Desert layer not found:', l.id);
+  });
+}
 
 function parallaxDesert() {
   const hero = document.getElementById('hero');
@@ -91,6 +92,15 @@ function parallaxDesert() {
   });
 }
 window.addEventListener('scroll', parallaxDesert, { passive: true });
+
+// Fetch and inject terrain SVG, then init parallax ─────────────────
+fetch('terrain.svg')
+  .then(r => r.text())
+  .then(html => {
+    document.getElementById('heroTerrain').innerHTML = html;
+    initParallax();
+  })
+  .catch(err => console.error('Failed to load terrain SVG:', err));
 
 
 // ── Hero content — sinks and fades into the desert on scroll ─────────────────
