@@ -282,9 +282,10 @@ nav {
   height: 1em;
   width: 100%;
   min-width: 14ch;
-  display: flex;
+  display: inline-block;
   justify-content: center;
   align-items: center;
+  overflow: visible;
 }
 .word {
   position: absolute;
@@ -293,19 +294,19 @@ nav {
   opacity: 0;
   white-space: nowrap;
   animation: rotate-words 12s infinite ease-in-out;
-  --gy: 140vh;
   background-image: radial-gradient(
-    circle at 50% var(--gy),
-    oklch(0.92 0.13 280)     0vh,
-    oklch(0.72 0.27 310)    50vh,
-    oklch(0.52 0.22 340)    90vh,
-    oklch(0.18 0.06 280 / 0) 150vh
+    ellipse 150% 120% at 50% 50%,
+    oklch(0.90 0.28 350)    0%,
+    oklch(0.75 0.30 320)   35%,
+    oklch(0.60 0.25 300)   65%,
+    oklch(0.50 0.20 285)  100%
   );
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
   text-shadow: none;
+  padding: 0 0.15em;
 }
 .word:nth-child(1) { animation-delay: 0s; }
 .word:nth-child(2) { animation-delay: 3s; }
@@ -988,6 +989,7 @@ footer {
   justify-content: center;
   padding-top: 22vh;
   pointer-events: none;
+  overflow: visible;
 }
 .morph-container {
   font-family: 'Shrikhand', cursive;
@@ -995,15 +997,9 @@ footer {
   line-height: 1;
   color: var(--text);
   text-shadow: 0 2px 40px rgba(0,0,0,0.5);
+  overflow: visible;
 }
-.word-rotator {
-  position: relative;
-  display: inline-block;
-  min-width: 2ch;
-}
-.word-rotator .word {
-  display: block;
-}
+
 
 .hero-terrain {
   position: absolute;
@@ -1021,4 +1017,42 @@ footer {
 @media (max-width: 600px) {
   .hero { height: 140svh; }
   .hero-content { padding-top: 18vh; }
+}
+
+
+
+/* ── UFO ── */
+.hero-ufo {
+  position: absolute;
+  width: 200px;
+  z-index: 5;
+  pointer-events: none;
+  will-change: transform;
+  top: 0;
+  left: 0;
+}
+.hero-ufo-inner {
+  width: 100%;
+}
+.hero-ufo svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+@keyframes ufoLights {
+  0%, 100% { opacity: 0.9; }
+  50%       { opacity: 0.3; }
+}
+.hero-ufo circle:not(#ufoBeam) {
+  animation: ufoLights 1.2s ease-in-out infinite alternate;
+}
+.hero-ufo circle:nth-child(odd) {
+  animation-delay: 0.6s;
+}
+@keyframes ufoHover {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+.hero-ufo.hovering .hero-ufo-inner {
+  animation: ufoHover 3s ease-in-out infinite;
 }
