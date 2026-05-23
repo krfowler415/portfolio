@@ -66,20 +66,19 @@ resize(); init(); requestAnimationFrame(tick);
 
 
 // ── Desert parallax (scroll theater) ─────────────────────────────────────────
+// Tracks scroll position within the hero section so parallax
+// is tied to exactly how far through the hero you've scrolled.
 const desertLayers = [
-  { id: 'd-l2', speed: -0.40 },
-  { id: 'd-l3', speed: -0.50 },
-  { id: 'd-l4', speed: -0.60 },
-  { id: 'd-l5', speed: -0.70 },
-  { id: 'd-l6', speed: -0.70 },
+  { id: 'd-l2', speed: -0.40 },   // far mountains
+  { id: 'd-l3', speed: -0.50 },   // mid terrain
+  { id: 'd-l4', speed: -0.60 },   // near terrain
+  { id: 'd-l5', speed: -0.70 },   // foreground fill
+  { id: 'd-l6', speed: -0.70 },   // stars / detail
 ];
-
-function initParallax() {
-  desertLayers.forEach(l => {
-    l.el = document.getElementById(l.id);
-    if (!l.el) console.warn('Desert layer not found:', l.id);
-  });
-}
+desertLayers.forEach(l => {
+  l.el = document.getElementById(l.id);
+  if (!l.el) console.warn('Desert layer not found:', l.id);
+});
 
 function parallaxDesert() {
   const hero = document.getElementById('hero');
@@ -93,14 +92,73 @@ function parallaxDesert() {
 }
 window.addEventListener('scroll', parallaxDesert, { passive: true });
 
-// Fetch and inject terrain SVG, then init parallax ─────────────────
-fetch('terrain.svg')
-  .then(r => r.text())
-  .then(html => {
-    document.getElementById('heroTerrain').innerHTML = html;
-    initParallax();
-  })
-  .catch(err => console.error('Failed to load terrain SVG:', err));
+
+// ── UFO scroll animation ───────────────────────────────────────────────────────
+const heroUfo = document.getElementById('heroUfo');
+const ufoBeam = document.getElementById('ufoBeam');
+
+const ufoWaypoints = [
+  [0.00, -15,   8],   // off screen upper left
+  [0.08,   5,  15],   // enters screen
+  [0.14,  18,   8],   // zig up
+  [0.20,  30,  18],   // zag down
+  [0.26,  40,  10],   // zig up again
+  [0.34,  46,  20],   // settling lower
+  [0.42,  42,  28],   // approaching hover
+  [0.50,  38,  38],   // hover above terrain
+  [0.70,  38,  52],   // descending
+  [0.85,  38,  58],   // landed
+  [1.00,  38,  58],   // stays
+];
+
+function lerp(a, b, t) { return a + (b - a) * t; }
+
+function getUfoPos(progress) {
+  for (let i = 0; i < ufoWaypoints.length - 1; i++) {
+    const [p0, x0, y0] = ufoWaypoints[i];
+    const [p1, x1, y1] = ufoWaypoints[i + 1];
+    if (progress >= p0 && progress <= p1) {
+      const t = (progress - p0) / (p1 - p0);
+      return { x: lerp(x0, x1, t), y: lerp(y0, y1, t) };
+    }
+  }
+  return { x: ufoWaypoints[ufoWaypoints.length-1][1], y: ufoWaypoints[ufoWaypoints.length-1][2] };
+}
+
+function updateUfo() {
+  if (!heroUfo) return;
+  const hero = document.getElementById('hero');
+  if (!hero) return;
+
+  const scrolled = Math.max(0, -hero.getBoundingClientRect().top);
+  const totalScroll = hero.offsetHeight - window.innerHeight;
+  const progress = Math.min(Math.max(scrolled / totalScroll, 0), 1);
+
+  const { x, y } = getUfoPos(progress);
+  const xPx = (x / 100) * window.innerWidth;
+  const yPx = (y / 100) * window.innerHeight;
+  heroUfo.style.transform = `translate(${xPx}px, ${yPx}px)`;
+
+  const beamProgress = Math.min(Math.max((progress - 0.50) / 0.15, 0), 1);
+  ufoBeam.setAttribute('opacity', (beamProgress * 0.85).toFixed(3));
+
+  if (progress >= 0.45) {
+    heroUfo.classList.add('hovering');
+  } else {
+    heroUfo.classList.remove('hovering');
+  }
+
+  // Gradient sweep on words
+  const words = document.querySelectorAll('.word');
+  const gy = 50 - (progress * 120);
+  words.forEach(w => {
+    w.style.backgroundImage = `radial-gradient(ellipse 150% 120% at 50% ${gy}vh, oklch(0.90 0.28 350) 0%, oklch(0.75 0.30 320) 35%, oklch(0.60 0.25 300) 65%, oklch(0.50 0.20 285) 100%)`;
+  });
+}
+
+window.addEventListener('scroll', updateUfo, { passive: true });
+updateUfo();
+
 
 
 // ── Hero content — sinks and fades into the desert on scroll ─────────────────
