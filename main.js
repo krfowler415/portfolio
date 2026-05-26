@@ -134,18 +134,28 @@ window.addEventListener('scroll', parallaxDesert, { passive: true });
 const introXvw = ((window.innerWidth / 2 - 100) / window.innerWidth) * 100;
 const introYvh = 12;
 
+function calcTerrainTopVh() {
+  const vpAspect = window.innerWidth / window.innerHeight;
+  const svgAspect = 666.667 / 270;
+  if (vpAspect >= svgAspect) {
+    return Math.max(0, (1 - vpAspect / svgAspect) * 100);
+  }
+  return 0;
+}
+const terrainTopVh = calcTerrainTopVh();
+
 const ufoWaypoints = [
-  [0.00, introXvw, introYvh],  // matches intro landing position
+  [0.00, introXvw, introYvh],
   [0.08,   5,  15],
   [0.14,  18,   8],
   [0.20,  30,  18],
   [0.26,  40,  10],
   [0.34,  46,  20],
   [0.42,  42,  28],
-  [0.50,  38,  38],
-  [0.70,  38,  52],
-  [0.85,  38,  58],
-  [1.00,  38,  58],
+  [0.50,  38,  terrainTopVh - 8],   // hover above terrain
+  [0.70,  38,  terrainTopVh + 2],   // descending
+  [0.85,  38,  terrainTopVh + 5],   // landed
+  [1.00,  38,  terrainTopVh + 5],   // stays
 ];
 
 function lerp(a, b, t) { return a + (b - a) * t; }
