@@ -1,3 +1,39 @@
+let ufoIntroComplete = false;
+const heroUfo = document.getElementById('heroUfo');
+const ufoBeam = document.getElementById('ufoBeam');
+
+// ── Word rotation (GSAP) ──────────────────────────────────────────────────────
+const wordEls = gsap.utils.toArray('.word');
+const hold = 2.5;
+const fade = 1.0;
+
+gsap.set(wordEls, { opacity: 0 });
+
+const wordTl = gsap.timeline({ repeat: -1 });
+
+wordEls.forEach((word, i) => {
+  const t = i * hold;
+  wordTl
+    .to(word, { opacity: 1, duration: fade, ease: 'power2.inOut' }, t)
+    .to(word, { opacity: 0, duration: fade, ease: 'power2.inOut' }, t + hold);
+});
+
+
+// ── UFO intro ─────────────────────────────────────────────────────────────────
+const introX = window.innerWidth / 2 - 100;
+const introY = window.innerHeight * 0.12;
+
+gsap.set(heroUfo, { x: introX, y: -200, opacity: 1 });
+
+gsap.to(heroUfo, {
+  y: introY,
+  duration: 0.7,
+  ease: 'power4.out',
+  delay: 0.4,
+  onComplete: () => { ufoIntroComplete = true; }
+});
+
+
 // ── Fireflies ─────────────────────────────────────────────────────────────────
 const canvas = document.getElementById('fireflies');
 const ctx    = canvas.getContext('2d');
@@ -94,21 +130,22 @@ window.addEventListener('scroll', parallaxDesert, { passive: true });
 
 
 // ── UFO scroll animation ───────────────────────────────────────────────────────
-const heroUfo = document.getElementById('heroUfo');
-const ufoBeam = document.getElementById('ufoBeam');
+
+const introXvw = ((window.innerWidth / 2 - 100) / window.innerWidth) * 100;
+const introYvh = 12;
 
 const ufoWaypoints = [
-  [0.00, -15,   8],   // off screen upper left
-  [0.08,   5,  15],   // enters screen
-  [0.14,  18,   8],   // zig up
-  [0.20,  30,  18],   // zag down
-  [0.26,  40,  10],   // zig up again
-  [0.34,  46,  20],   // settling lower
-  [0.42,  42,  28],   // approaching hover
-  [0.50,  38,  38],   // hover above terrain
-  [0.70,  38,  52],   // descending
-  [0.85,  38,  58],   // landed
-  [1.00,  38,  58],   // stays
+  [0.00, introXvw, introYvh],  // matches intro landing position
+  [0.08,   5,  15],
+  [0.14,  18,   8],
+  [0.20,  30,  18],
+  [0.26,  40,  10],
+  [0.34,  46,  20],
+  [0.42,  42,  28],
+  [0.50,  38,  38],
+  [0.70,  38,  52],
+  [0.85,  38,  58],
+  [1.00,  38,  58],
 ];
 
 function lerp(a, b, t) { return a + (b - a) * t; }
@@ -129,6 +166,7 @@ function updateUfo() {
   if (!heroUfo) return;
   const hero = document.getElementById('hero');
   if (!hero) return;
+  if (!ufoIntroComplete) return; // don't fight the intro animation
 
   const scrolled = Math.max(0, -hero.getBoundingClientRect().top);
   const totalScroll = hero.offsetHeight - window.innerHeight;
@@ -183,12 +221,15 @@ window.addEventListener('scroll', () => {
 
 
 // ── Custom cursor ──────────────────────────────────────────────────────────────
-const cur = document.getElementById('cur');
-document.addEventListener('mousemove', e => {
-  cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
-});
-document.addEventListener('mousedown', () => document.body.classList.add('clicking'));
-document.addEventListener('mouseup',   () => document.body.classList.remove('clicking'));
+const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+if (!isTouchDevice) {
+  const cur = document.getElementById('cur');
+  document.addEventListener('mousemove', e => {
+    cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
+  });
+  document.addEventListener('mousedown', () => document.body.classList.add('clicking'));
+  document.addEventListener('mouseup',   () => document.body.classList.remove('clicking'));
+}
 
 
 // ── Click ripple ───────────────────────────────────────────────────────────────
