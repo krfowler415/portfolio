@@ -18,10 +18,11 @@ wordEls.forEach((word, i) => {
     .to(word, { opacity: 0, duration: fade, ease: 'power2.inOut' }, t + hold);
 });
 
-
 // ── UFO intro ─────────────────────────────────────────────────────────────────
 const introX = window.innerWidth / 2 - 100;
 const introY = window.innerHeight * 0.12;
+const introXvw = ((window.innerWidth / 2 - 100) / window.innerWidth) * 100;
+const introYvh = 12;
 
 gsap.set(heroUfo, { x: introX, y: -200, opacity: 1 });
 
@@ -32,7 +33,6 @@ gsap.to(heroUfo, {
   delay: 0.4,
   onComplete: () => { ufoIntroComplete = true; }
 });
-
 
 // ── Fireflies ─────────────────────────────────────────────────────────────────
 const canvas = document.getElementById('fireflies');
@@ -100,50 +100,44 @@ heroPin.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999;
 window.addEventListener('resize', () => { resize(); init(); });
 resize(); init(); requestAnimationFrame(tick);
 
+// ── Register ScrollTrigger ────────────────────────────────────────────────────
+gsap.registerPlugin(ScrollTrigger);
 
-// ── Desert parallax (scroll theater) ─────────────────────────────────────────
-// Tracks scroll position within the hero section so parallax
-// is tied to exactly how far through the hero you've scrolled.
-const desertLayers = [
-  { id: 'd-l2', speed: -0.40 },   // far mountains
-  { id: 'd-l3', speed: -0.50 },   // mid terrain
-  { id: 'd-l4', speed: -0.60 },   // near terrain
-  { id: 'd-l5', speed: -0.70 },   // foreground fill
-  { id: 'd-l6', speed: -0.70 },   // stars / detail
-];
-desertLayers.forEach(l => {
-  l.el = document.getElementById(l.id);
-  if (!l.el) console.warn('Desert layer not found:', l.id);
-});
-
-function parallaxDesert() {
-  const hero = document.getElementById('hero');
-  if (!hero) return;
-  const scrolled  = Math.max(0, -hero.getBoundingClientRect().top);
-  const maxTravel = hero.offsetHeight - window.innerHeight;
-  const s = Math.min(scrolled, Math.max(maxTravel, 0));
-  desertLayers.forEach(({ el, speed }) => {
-    if (el) el.style.transform = `translateY(${-(s * speed).toFixed(1)}px)`;
+// ── Desert parallax ───────────────────────────────────────────────────────────
+function initParallax() {
+  const layers = [
+    { id: 'd-l2', speed: 0.40 },
+    { id: 'd-l3', speed: 0.50 },
+    { id: 'd-l4', speed: 0.60 },
+    { id: 'd-l5', speed: 0.70 },
+    { id: 'd-l6', speed: 0.70 },
+  ];
+  layers.forEach(({ id, speed }) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    gsap.to(el, {
+      y: () => -(ScrollTrigger.maxScroll(window) * speed),
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: true,
+      }
+    });
   });
 }
-window.addEventListener('scroll', parallaxDesert, { passive: true });
 
+// ── Terrain fetch + parallax init ─────────────────────────────────────────────
+fetch('terrain.svg')
+  .then(r => r.text())
+  .then(html => {
+    document.getElementById('heroTerrain').innerHTML = html;
+    initParallax();
+  })
+  .catch(err => console.error('Failed to load terrain SVG:', err));
 
-// ── UFO scroll animation ───────────────────────────────────────────────────────
-
-const introXvw = ((window.innerWidth / 2 - 100) / window.innerWidth) * 100;
-const introYvh = 12;
-
-function calcTerrainTopVh() {
-  const vpAspect = window.innerWidth / window.innerHeight;
-  const svgAspect = 666.667 / 270;
-  if (vpAspect >= svgAspect) {
-    return Math.max(0, (1 - vpAspect / svgAspect) * 100);
-  }
-  return 0;
-}
-const terrainTopVh = calcTerrainTopVh();
-
+// ── UFO scroll ────────────────────────────────────────────────────────────────
 const ufoWaypoints = [
   [0.00, introXvw, introYvh],
   [0.08,   5,  15],
@@ -152,10 +146,10 @@ const ufoWaypoints = [
   [0.26,  40,  10],
   [0.34,  46,  20],
   [0.42,  42,  28],
-  [0.50,  38,  terrainTopVh - 8],   // hover above terrain
-  [0.70,  38,  terrainTopVh + 2],   // descending
-  [0.85,  38,  terrainTopVh + 5],   // landed
-  [1.00,  38,  terrainTopVh + 5],   // stays
+  [0.50,  38,  38],
+  [0.70,  38,  52],
+  [0.85,  38,  58],
+  [1.00,  38,  58],
 ];
 
 function lerp(a, b, t) { return a + (b - a) * t; }
@@ -172,63 +166,57 @@ function getUfoPos(progress) {
   return { x: ufoWaypoints[ufoWaypoints.length-1][1], y: ufoWaypoints[ufoWaypoints.length-1][2] };
 }
 
-function updateUfo() {
-  if (!heroUfo) return;
-  const hero = document.getElementById('hero');
-  if (!hero) return;
-  if (!ufoIntroComplete) return; // don't fight the intro animation
+ScrollTrigger.create({
+  trigger: '#hero',
+  start: 'top top',
+  end: 'bottom bottom',
+  scrub: true,
+  onUpdate: (self) => {
+    if (!ufoIntroComplete) return;
+    const progress = self.progress;
+    const { x, y } = getUfoPos(progress);
+    const xPx = (x / 100) * window.innerWidth;
+    const yPx = (y / 100) * window.innerHeight;
+    heroUfo.style.transform = `translate(${xPx}px, ${yPx}px)`;
 
-  const scrolled = Math.max(0, -hero.getBoundingClientRect().top);
-  const totalScroll = hero.offsetHeight - window.innerHeight;
-  const progress = Math.min(Math.max(scrolled / totalScroll, 0), 1);
+    const beamProgress = Math.min(Math.max((progress - 0.50) / 0.15, 0), 1);
+    ufoBeam.setAttribute('opacity', (beamProgress * 0.85).toFixed(3));
 
-  const { x, y } = getUfoPos(progress);
-  const xPx = (x / 100) * window.innerWidth;
-  const yPx = (y / 100) * window.innerHeight;
-  heroUfo.style.transform = `translate(${xPx}px, ${yPx}px)`;
+    if (progress >= 0.45) {
+      heroUfo.classList.add('hovering');
+    } else {
+      heroUfo.classList.remove('hovering');
+    }
 
-  const beamProgress = Math.min(Math.max((progress - 0.50) / 0.15, 0), 1);
-  ufoBeam.setAttribute('opacity', (beamProgress * 0.85).toFixed(3));
-
-  if (progress >= 0.45) {
-    heroUfo.classList.add('hovering');
-  } else {
-    heroUfo.classList.remove('hovering');
+    const words = document.querySelectorAll('.word');
+    const gy = 50 - (progress * 120);
+    words.forEach(w => {
+      w.style.backgroundImage = `radial-gradient(ellipse 150% 120% at 50% ${gy}vh, oklch(0.90 0.28 350) 0%, oklch(0.75 0.30 320) 35%, oklch(0.60 0.25 300) 65%, oklch(0.50 0.20 285) 100%)`;
+    });
   }
+});
 
-  // Gradient sweep on words
-  const words = document.querySelectorAll('.word');
-  const gy = 50 - (progress * 120);
-  words.forEach(w => {
-    w.style.backgroundImage = `radial-gradient(ellipse 150% 120% at 50% ${gy}vh, oklch(0.90 0.28 350) 0%, oklch(0.75 0.30 320) 35%, oklch(0.60 0.25 300) 65%, oklch(0.50 0.20 285) 100%)`;
-  });
-}
+// ── Hero content fade ─────────────────────────────────────────────────────────
+gsap.to('.hero-content', {
+  y: () => ScrollTrigger.maxScroll(window) * 0.15,
+  opacity: 0,
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '#hero',
+    start: 'top top',
+    end: '75% bottom',
+    scrub: true,
+  }
+});
 
-window.addEventListener('scroll', updateUfo, { passive: true });
-updateUfo();
-
-
-
-// ── Hero content — sinks and fades into the desert on scroll ─────────────────
-window.addEventListener('scroll', () => {
-  const hero = document.getElementById('hero');
-  const hc   = document.querySelector('.hero-content');
-  if (!hero || !hc) return;
-  const scrolled  = Math.max(0, -hero.getBoundingClientRect().top);
-  const maxScroll = window.innerHeight * 3.5; // fully gone at 150% through hero
-  const progress  = Math.min(scrolled / maxScroll, 1);
-  hc.style.transform = `translateY(${(scrolled * 0.15).toFixed(1)}px)`;
-  hc.style.opacity   = (1 - progress).toFixed(3);
-}, { passive: true });
-
-
-// ── Nav transparency ───────────────────────────────────────────────────────────
+// ── Nav transparency ──────────────────────────────────────────────────────────
 const nav = document.querySelector('nav');
-window.addEventListener('scroll', () => {
-  nav.style.background     = window.scrollY > 50 ? 'var(--bg-dark)' : 'transparent';
-  nav.style.backdropFilter = window.scrollY > 50 ? 'blur(16px)'     : 'none';
-}, { passive: true });
-
+ScrollTrigger.create({
+  start: 'top -50',
+  onUpdate: (self) => {
+    nav.classList.toggle('scrolled', self.scroll() > 50);
+  }
+});
 
 // ── Custom cursor ──────────────────────────────────────────────────────────────
 const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
@@ -241,7 +229,6 @@ if (!isTouchDevice) {
   document.addEventListener('mouseup',   () => document.body.classList.remove('clicking'));
 }
 
-
 // ── Click ripple ───────────────────────────────────────────────────────────────
 document.addEventListener('click', e => {
   const r = document.createElement('div');
@@ -252,7 +239,6 @@ document.addEventListener('click', e => {
 const rs = document.createElement('style');
 rs.textContent = '@keyframes rippleOut{to{transform:translate(-50%,-50%) scale(8);opacity:0}}';
 document.head.appendChild(rs);
-
 
 // ── Case study strip ───────────────────────────────────────────────────────────
 const csStrip    = document.getElementById('csStrip');
@@ -318,7 +304,6 @@ if (csStrip) {
   nextBtn?.addEventListener('click', () => { animateArrow(nextBtn); smoothScrollTo((Math.round(csStrip.scrollLeft / getCardWidth()) + 1) * getCardWidth(), 1000); });
 }
 
-
 // ── Scroll reveal ──────────────────────────────────────────────────────────────
 const obs = new IntersectionObserver((entries) => {
   entries.forEach((e, i) => {
@@ -327,15 +312,14 @@ const obs = new IntersectionObserver((entries) => {
 }, { threshold: 0.07 });
 document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => obs.observe(el));
 
-
 // ── Card tilt ──────────────────────────────────────────────────────────────────
 document.querySelectorAll('.card-tilt-wrap').forEach(wrap => {
   const inner = wrap.querySelector('.card-feat');
   if (!inner) return;
   wrap.addEventListener('mousemove', e => {
     const rect = wrap.getBoundingClientRect();
-    const rx = ((e.clientY - rect.top)  / rect.height - 0.5) * -8;
-    const ry = ((e.clientX - rect.left) / rect.width  - 0.5) *  8;
+    const rx = ((e.clientY - rect.top)  / rect.height - 0.5) * -4;
+    const ry = ((e.clientX - rect.left) / rect.width  - 0.5) *  4;
     inner.style.transition = 'transform 0.1s ease';
     inner.style.transform  = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
   });
