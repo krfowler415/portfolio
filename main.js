@@ -137,8 +137,8 @@ fetch('terrain.svg')
   .then(html => {
     document.getElementById('heroTerrain').innerHTML = html;
     initParallax();
+    ScrollTrigger.refresh(); // <--- Safely inside the block
   })
-  ScrollTrigger.refresh();
   .catch(err => console.error('Failed to load terrain SVG:', err));
 
 // ── UFO scroll ────────────────────────────────────────────────────────────────
