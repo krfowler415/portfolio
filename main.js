@@ -321,8 +321,8 @@ document.querySelectorAll('.card-tilt-wrap').forEach(wrap => {
   if (!inner) return;
   wrap.addEventListener('mousemove', e => {
     const rect = wrap.getBoundingClientRect();
-    const rx = ((e.clientY - rect.top)  / rect.height - 0.5) * -4;
-    const ry = ((e.clientX - rect.left) / rect.width  - 0.5) *  4;
+    const rx = ((e.clientY - rect.top)  / rect.height - 0.5) * -6;
+    const ry = ((e.clientX - rect.left) / rect.width  - 0.5) *  6;
     inner.style.transition = 'transform 0.1s ease';
     inner.style.transform  = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
   });
