@@ -106,25 +106,28 @@ gsap.registerPlugin(ScrollTrigger);
 // ── Desert parallax ───────────────────────────────────────────────────────────
 function initParallax() {
   const layers = [
-    { id: 'd-l2', speed: 0.40 },
-    { id: 'd-l3', speed: 0.50 },
-    { id: 'd-l4', speed: 0.60 },
-    { id: 'd-l5', speed: 0.70 },
-    { id: 'd-l6', speed: 0.70 },
+    { id: 'd-l2', speed: 40 },
+    { id: 'd-l3', speed: 50 },
+    { id: 'd-l4', speed: 60 },
+    { id: 'd-l5', speed: 70 },
+    { id: 'd-l6', speed: 70 },
   ];
   layers.forEach(({ id, speed }) => {
     const el = document.getElementById(id);
     if (!el) return;
-    gsap.to(el, {
-      y: () => -(ScrollTrigger.maxScroll(window) * speed),
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '#hero',
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: true,
+    gsap.fromTo(el,
+      { y: 0 },
+      {
+        y: -speed,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#hero',
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: true,
+        }
       }
-    });
+    );
   });
 }
 
@@ -198,7 +201,7 @@ ScrollTrigger.create({
 
 // ── Hero content fade ─────────────────────────────────────────────────────────
 gsap.to('.hero-content', {
-  y: () => ScrollTrigger.maxScroll(window) * 0.15,
+  y: () => window.innerHeight * 0.4,
   opacity: 0,
   ease: 'none',
   scrollTrigger: {
