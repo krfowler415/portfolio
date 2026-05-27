@@ -113,20 +113,22 @@ function initParallax() {
     { id: 'd-l6', speed: 0.70 },
   ];
 
-  layers.forEach(l => {
-    l.el = document.getElementById(l.id);
-  });
+  layers.forEach(({ id, speed }) => {
+    const el = document.getElementById(id);
+    if (!el) return;
 
-  window.addEventListener('scroll', () => {
-    const hero = document.getElementById('hero');
-    if (!hero) return;
-    const scrolled = Math.max(0, -hero.getBoundingClientRect().top);
-    const maxTravel = hero.offsetHeight - window.innerHeight;
-    const s = Math.min(scrolled, Math.max(maxTravel, 0));
-    layers.forEach(({ el, speed }) => {
-      if (el) el.style.transform = `translateY(${-(s * speed).toFixed(1)}px)`;
+    gsap.to(el, {
+      y: () => ScrollTrigger.maxScroll(window) * -speed,
+      ease: 'none',
+
+      scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: true,
+      }
     });
-  }, { passive: true });
+  });
 }
 
 // ── Terrain fetch + parallax init ─────────────────────────────────────────────
