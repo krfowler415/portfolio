@@ -106,11 +106,11 @@ gsap.registerPlugin(ScrollTrigger);
 // ── Desert parallax ───────────────────────────────────────────────────────────
 function initParallax() {
   const layers = [
-    { id: 'd-l2', speed: -0.40 },
-    { id: 'd-l3', speed: -0.50 },
-    { id: 'd-l4', speed: -0.60 },
-    { id: 'd-l5', speed: -0.70 },
-    { id: 'd-l6', speed: -0.70 },
+    { id: 'd-l2', speed: 0.40 },
+    { id: 'd-l3', speed: 0.50 },
+    { id: 'd-l4', speed: 0.60 },
+    { id: 'd-l5', speed: 0.70 },
+    { id: 'd-l6', speed: 0.70 },
   ];
 
   layers.forEach(l => {
