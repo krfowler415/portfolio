@@ -6,42 +6,45 @@
     <title>Kevin Fowler — UX Designer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400;1,9..144,600&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Instrument+Sans:wght@400;500;600;700&family=Shrikhand&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Instrument+Sans:wght@400;500;600;700&family=Shrikhand&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
    
   <div id="intro" aria-hidden="true">
+    <div id="intro-glow"></div>
     <div id="intro-ufo-wrap">
-    <svg id="intro-svg" viewBox="0 0 200 500" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;width:100%;height:auto;display:block;">
-      <defs>
-        <linearGradient id="iBeamGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stop-color="#30CED8" stop-opacity="0.6"/>
-          <stop offset="55%"  stop-color="#30CED8" stop-opacity="0.18"/>
-          <stop offset="100%" stop-color="#30CED8" stop-opacity="0"/>
-        </linearGradient>
-      </defs>
-      <polygon id="iBeam" points="72,58 128,58 198,500 2,500" fill="url(#iBeamGrad)"/>
-      <line id="iScan" x1="20" y1="80" x2="180" y2="80" stroke="rgba(48,206,216,0.55)" stroke-width="1.5" opacity="0" stroke-linecap="round"/>
-      <ellipse cx="100" cy="58" rx="66" ry="11" fill="none" stroke="rgba(48,206,216,0.3)" stroke-width="1.5"/>
-      <ellipse cx="100" cy="58" rx="62" ry="10" fill="#1A3A40"/>
-      <ellipse cx="100" cy="50" rx="42" ry="7" fill="#2A5560"/>
-      <path d="M58,50 Q60,24 100,20 Q140,24 142,50 Z" fill="rgba(48,206,216,0.18)" stroke="rgba(48,206,216,0.5)" stroke-width="1.5"/>
-      <ellipse cx="85" cy="35" rx="10" ry="6" fill="rgba(255,255,255,0.1)" transform="rotate(-20,85,35)"/>
-      <ellipse cx="100" cy="54" rx="55" ry="8" fill="#243E45"/>
-      <circle cx="62"  cy="54" r="3.5" fill="#30CED8" class="iLight"/>
-      <circle cx="76"  cy="57" r="3.5" fill="#A71930" class="iLight"/>
-      <circle cx="90"  cy="59" r="3.5" fill="#30CED8" class="iLight"/>
-      <circle cx="104" cy="59" r="3.5" fill="#A71930" class="iLight"/>
-      <circle cx="118" cy="57" r="3.5" fill="#30CED8" class="iLight"/>
-      <circle cx="132" cy="54" r="3.5" fill="#A71930" class="iLight"/>
-      <line x1="100" y1="20" x2="100" y2="10" stroke="#30CED8" stroke-width="1.5"/>
-      <circle cx="100" cy="8" r="3.5" fill="#A71930"/>
-    </svg>
+      <svg id="intro-svg" viewBox="0 0 200 500" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;width:100%;height:auto;display:block;">
+        <defs>
+          <linearGradient id="iBeamGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#30CED8" stop-opacity="0.6"/>
+            <stop offset="55%"  stop-color="#30CED8" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#30CED8" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <polygon id="iBeam" points="72,58 128,58 198,500 2,500" fill="url(#iBeamGrad)"/>
+        <line id="iScan" x1="20" y1="80" x2="180" y2="80" stroke="rgba(48,206,216,0.55)" stroke-width="1.5" opacity="0" stroke-linecap="round"/>
+        <ellipse cx="100" cy="58" rx="66" ry="11" fill="none" stroke="rgba(48,206,216,0.3)" stroke-width="1.5"/>
+        <ellipse cx="100" cy="58" rx="62" ry="10" fill="#1A3A40"/>
+        <ellipse cx="100" cy="50" rx="42" ry="7" fill="#2A5560"/>
+        <path d="M58,50 Q60,24 100,20 Q140,24 142,50 Z" fill="rgba(48,206,216,0.18)" stroke="rgba(48,206,216,0.5)" stroke-width="1.5"/>
+        <ellipse cx="85" cy="35" rx="10" ry="6" fill="rgba(255,255,255,0.1)" transform="rotate(-20,85,35)"/>
+        <ellipse cx="100" cy="54" rx="55" ry="8" fill="#243E45"/>
+        <circle cx="62"  cy="54" r="3.5" fill="#30CED8" class="iLight"/>
+        <circle cx="76"  cy="57" r="3.5" fill="#A71930" class="iLight"/>
+        <circle cx="90"  cy="59" r="3.5" fill="#30CED8" class="iLight"/>
+        <circle cx="104" cy="59" r="3.5" fill="#A71930" class="iLight"/>
+        <circle cx="118" cy="57" r="3.5" fill="#30CED8" class="iLight"/>
+        <circle cx="132" cy="54" r="3.5" fill="#A71930" class="iLight"/>
+        <line x1="100" y1="20" x2="100" y2="10" stroke="#30CED8" stroke-width="1.5"/>
+        <circle cx="100" cy="8" r="3.5" fill="#A71930"/>
+      </svg>
     <div id="intro-pts"></div>
     </div>
   </div>
+
+    <div id="intro-flash" aria-hidden="true"></div>
 
     <a href="#work" class="skip-nav">Skip to main content</a>
     <div id="cur"><div class="cur-dot"></div></div>
@@ -322,10 +325,10 @@
           <a href="about.html" class="c-link">Get to know me! &rarr;</a>
         </div>
         <div class="stat-grid reveal-right">
-          <div class="stat"><div class="stat-n">4.24</div><div class="stat-l">Current GPA, ASU - Ira A. Fulton</div></div>
+          <div class="stat"><div class="stat-n">4.24</div><div class="stat-l">Current GPA, ASU<br>Ira A. Fulton</div></div>
           <div class="stat"><div class="stat-n">4+</div><div class="stat-l">Years leading 100+ staff at the Phoenix Zoo</div></div>
           <div class="stat"><div class="stat-n">5+</div><div class="stat-l">Years coaching youth sports</div></div>
-          <div class="stat"><div class="stat-n">2027</div><div class="stat-l">Expected graduation, Spring</div></div>
+          <div class="stat"><div class="stat-n">2027</div><div class="stat-l">Expected graduation,<br>Spring</div></div>
         </div>
       </div>
     </div>
