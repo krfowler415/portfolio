@@ -200,11 +200,15 @@ fetch('terrain.svg')
   .then(html => {
     document.getElementById('heroTerrain').innerHTML = html;
     initParallax();
-    ScrollTrigger.refresh(); // <--- Safely inside the block
+    ScrollTrigger.refresh();
+    assetsDone = true;
+    tryOutro();
   })
-  assestsDone = true;
-  tryOutro();
-  .catch(err => console.error('Failed to load terrain SVG:', err));
+  .catch(err => {
+    console.error('terrain failed:', err);
+    assetsDone = true;
+    tryOutro();
+  });
 
 // ── UFO scroll ────────────────────────────────────────────────────────────────
 const ufoWaypoints = [
