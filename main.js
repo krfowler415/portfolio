@@ -2,21 +2,6 @@ let ufoIntroComplete = false;
 const heroUfo = document.getElementById('heroUfo');
 const ufoBeam = document.getElementById('ufoBeam');
 
-// ── Word rotation (GSAP) ──────────────────────────────────────────────────────
-const wordEls = gsap.utils.toArray('.word');
-const hold = 2.5;
-const fade = 1.0;
-
-gsap.set(wordEls, { opacity: 0 });
-
-const wordTl = gsap.timeline({ repeat: -1 });
-
-wordEls.forEach((word, i) => {
-  const t = i * hold;
-  wordTl
-    .to(word, { opacity: 1, duration: fade, ease: 'power2.inOut' }, t)
-    .to(word, { opacity: 0, duration: fade, ease: 'power2.inOut' }, t + hold);
-});
 
 // ── UFO intro ─────────────────────────────────────────────────────────────────
 const introX = window.innerWidth / 2 - 100;
@@ -24,18 +9,96 @@ const introY = window.innerHeight * 0.12;
 const introXvw = ((window.innerWidth / 2 - 100) / window.innerWidth) * 100;
 const introYvh = 12;
 
-gsap.set(heroUfo, { x: introX, y: -200, opacity: 1 });
+// ── INTRO ─────────────────────────────────────────────────────────────────────
+const introEl    = document.getElementById('intro');
+const introWrap  = document.getElementById('intro-ufo-wrap');
+const iBeam      = document.getElementById('iBeam');
+const iScan      = document.getElementById('iScan');
+const introPts   = document.getElementById('intro-pts');
 
-gsap.to(heroUfo, {
-  y: introY,
-  duration: 0.7,
-  ease: 'power4.out',
-  delay: 0.4,
-  onComplete: () => { ufoIntroComplete = true; }
-});
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (reducedMotion) {
+  introEl.style.display = 'none';
+  gsap.set(heroUfo, { x: introX, y: introY, opacity: 1 });
+  ufoIntroComplete = true;
+} else {
+  gsap.set(heroUfo, { x: introX, y: -200, opacity: 0 });
+  document.body.style.overflow = 'hidden';
+}
 
-// ── Fireflies ─────────────────────────────────────────────────────────────────
-const canvas = document.getElementById('fireflies');
+// Spawn beam particles
+;(function spawnPts() {
+  for (let i = 0; i < 24; i++) {
+    const pt    = document.createElement('div');
+    pt.className = 'ipt';
+    const size  = 1.5 + Math.random() * 3.5;
+    const left  = 5   + Math.random() * 90;
+    const dur   = 1.3 + Math.random() * 2;
+    const delay = Math.random() * 3;
+    const drift = (Math.random() - 0.5) * 24;
+    pt.style.cssText = `width:${size}px;height:${size}px;left:${left}%;animation-duration:${dur}s;animation-delay:-${delay}s;--drift:${drift}px;`;
+    introPts.appendChild(pt);
+  }
+})();
+
+// Scan line loop
+let scanTween;
+function runScan() {
+  scanTween = gsap.fromTo(iScan,
+    { attr: { y1: 70, y2: 70 }, opacity: 0.65 },
+    { attr: { y1: 460, y2: 460 }, opacity: 0, duration: 1.8, ease: 'power1.in', onComplete: runScan }
+  );
+}
+runScan();
+
+// Gate: minimum time + assets both needed
+let minTimeDone = false;
+let assetsDone  = false;
+let introFired  = false;
+
+function tryOutro() {
+  if (minTimeDone && assetsDone && !introFired) {
+    introFired = true;
+    runIntroOutro();
+  }
+}
+
+setTimeout(() => { minTimeDone = true; tryOutro(); }, 2800);
+
+function runIntroOutro() {
+  if (scanTween) scanTween.kill();
+
+  const tl = gsap.timeline({
+    onComplete() {
+      introEl.style.display = 'none';
+      document.body.style.overflow = '';
+      ScrollTrigger.refresh();
+    }
+  });
+
+  tl
+    .to(iBeam,    { scaleY: 0, svgOrigin: '100 58', duration: 0.7, ease: 'power2.in' })
+    .to(iScan,    { opacity: 0, duration: 0.2 }, '<')
+    .to(introPts, { opacity: 0, duration: 0.35 }, '<+=0.1')
+    .to(introWrap,{ y: -22, duration: 0.5, ease: 'power2.out' }, '<+=0.15')
+    .to(introEl,  {
+      opacity: 0,
+      duration: 0.9,
+      ease: 'power2.inOut',
+      onStart() {
+        setTimeout(() => {
+          gsap.to(heroUfo, {
+            y: introY, opacity: 1,
+            duration: 0.7, ease: 'power4.out',
+            onComplete: () => { ufoIntroComplete = true; }
+          });
+        }, 380);
+      }
+    });
+}
+
+// ── Stars ─────────────────────────────────────────────────────────────────
+const canvas = document.getElementById('stars');
 const ctx    = canvas.getContext('2d');
 let W, H, flies = [];
 let mouse = { x: -9999, y: -9999 };
@@ -139,6 +202,8 @@ fetch('terrain.svg')
     initParallax();
     ScrollTrigger.refresh(); // <--- Safely inside the block
   })
+  assestsDone = true;
+  tryOutro();
   .catch(err => console.error('Failed to load terrain SVG:', err));
 
 // ── UFO scroll ────────────────────────────────────────────────────────────────
@@ -191,27 +256,9 @@ ScrollTrigger.create({
     } else {
       heroUfo.classList.remove('hovering');
     }
-
-    const words = document.querySelectorAll('.word');
-    const gy = 50 - (progress * 120);
-    words.forEach(w => {
-      w.style.backgroundImage = `radial-gradient(ellipse 150% 120% at 50% ${gy}vh, oklch(0.90 0.28 350) 0%, oklch(0.75 0.30 320) 35%, oklch(0.60 0.25 300) 65%, oklch(0.50 0.20 285) 100%)`;
-    });
   }
 });
 
-// ── Hero content fade ─────────────────────────────────────────────────────────
-gsap.to('.hero-content', {
-  y: () => window.innerHeight * 0.4,
-  opacity: 0,
-  ease: 'none',
-  scrollTrigger: {
-    trigger: '#hero',
-    start: 'top top',
-    end: '75% bottom',
-    scrub: true,
-  }
-});
 
 // ── Nav transparency ──────────────────────────────────────────────────────────
 const nav = document.querySelector('nav');
