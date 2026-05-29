@@ -12,8 +12,8 @@ const introYvh = 12;
 // ── INTRO ─────────────────────────────────────────────────────────────────────
 const introEl    = document.getElementById('intro');
 const introWrap  = document.getElementById('intro-ufo-wrap');
-const iBeam      = document.getElementById('iBeam');
-const iScan      = document.getElementById('iScan');
+const introBeam  = document.getElementById('intro-beam');
+const introScan  = document.getElementById('intro-scan');
 const introPts   = document.getElementById('intro-pts');
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -26,32 +26,65 @@ if (reducedMotion) {
   document.body.style.overflow = 'hidden';
 }
 
-// Spawn beam particles
-;(function spawnPts() {
-  for (let i = 0; i < 24; i++) {
+const introGlow      = document.getElementById('intro-glow');
+const introScanlines = document.getElementById('intro-scanlines');
+
+// UFO body stays anchored at top as beam scales toward viewer
+gsap.set(introWrap, { transformOrigin: '50% 11%', y: -380, opacity: 0 });
+
+// Phase 1 — UFO descends, beam locks on
+gsap.to(introWrap, {
+  y: 0, opacity: 1,
+  duration: 0.8, ease: 'power3.out', delay: 0.2,
+  onComplete() {
+  gsap.to(introBeam, { opacity: 1, duration: 0.55, ease: 'power2.out' });
+  gsap.to(introGlow, { opacity: 1, duration: 0.7 });
+  runScan();
+  }
+});
+
+// Particles — full screen, rising toward beam
+function spawnPts(count, speedMult) {
+  for (let i = 0; i < count; i++) {
     const pt    = document.createElement('div');
     pt.className = 'ipt';
-    const size  = 1.5 + Math.random() * 3.5;
-    const left  = 5   + Math.random() * 90;
-    const dur   = 1.3 + Math.random() * 2;
-    const delay = Math.random() * 3;
-    const drift = (Math.random() - 0.5) * 24;
-    pt.style.cssText = `width:${size}px;height:${size}px;left:${left}%;animation-duration:${dur}s;animation-delay:-${delay}s;--drift:${drift}px;`;
+    const size  = 1.5 + Math.random() * 4;
+    const left  = 5 + Math.random() * 90;
+    const btm   = 5 + Math.random() * 80;
+    const dur   = (1.4 + Math.random() * 2.2) / speedMult;
+    const delay = (Math.random() * 2.5) / speedMult;
+    const drift = (Math.random() - 0.5) * 60;
+    const rise  = 65 + Math.random() * 35;
+    pt.style.cssText = `width:${size}px;height:${size}px;left:${left}%;bottom:${btm}%;animation-duration:${dur}s;animation-delay:-${delay}s;--drift:${drift}px;--rise:-${rise}vh;`;
     introPts.appendChild(pt);
   }
-})();
+}
+
+spawnPts(35, 1);
+
+// Phase 2 — 1.2s in, abduction intensifies
+setTimeout(() => {
+  if (introFired) return;
+  spawnPts(55, 2.5);
+  gsap.to(introWrap, { scale: 1.55, duration: 1.8, ease: 'power2.in' });
+}, 1200);
 
 // Scan line loop
 let scanTween;
 function runScan() {
-  scanTween = gsap.fromTo(iScan,
-    { attr: { y1: 70, y2: 70 }, opacity: 0.65 },
-    { attr: { y1: 460, y2: 460 }, opacity: 0, duration: 1.8, ease: 'power1.in', onComplete: runScan }
+  scanTween = gsap.fromTo(introScan,
+    { top: '14%', opacity: 0.9 },
+    {
+      top: '102%',
+      opacity: 0,
+      duration: 1.8,
+      ease: 'power1.in',
+      onComplete: runScan
+    }
   );
 }
-runScan();
 
-// Gate: minimum time + assets both needed
+// Gate
 let minTimeDone = false;
 let assetsDone  = false;
 let introFired  = false;
@@ -67,6 +100,12 @@ setTimeout(() => { minTimeDone = true; tryOutro(); }, 2800);
 
 function runIntroOutro() {
   if (scanTween) scanTween.kill();
+  gsap.set(introScan, { opacity: 0 });
+
+  const flash = document.getElementById('intro-flash')
+
+  // Final wave — frantic particle burst
+  spawnPts(90, 6);
 
   const tl = gsap.timeline({
     onComplete() {
@@ -77,24 +116,41 @@ function runIntroOutro() {
   });
 
   tl
-    .to(iBeam,    { scaleY: 0, svgOrigin: '100 58', duration: 0.7, ease: 'power2.in' })
-    .to(iScan,    { opacity: 0, duration: 0.2 }, '<')
-    .to(introPts, { opacity: 0, duration: 0.35 }, '<+=0.1')
-    .to(introWrap,{ y: -22, duration: 0.5, ease: 'power2.out' }, '<+=0.15')
-    .to(introEl,  {
+    // Beam locks on full
+    .to(introBeam, { opacity: 1, duration: 0.2, ease: 'power2.in' })
+
+    // UFO rushes toward viewer — beam floods the screen
+    .to(introWrap, { scale: 4.2, duration: 0.8, ease: 'power3.in' }, '+=0.05')
+    .to(introGlow, { opacity: 0.95, duration: 0.3 }, '<')
+
+    // GLITCH — malfunction
+    .to(introEl, {
+      keyframes: [
+        { x: -7,  skewX:  2, filter: 'hue-rotate(90deg) saturate(4) brightness(1.7)',  duration: 0.07 },
+        { x:  10, skewX: -3, filter: 'hue-rotate(210deg) saturate(3) brightness(0.6)', duration: 0.07 },
+        { x: -5,  skewX:  1, filter: 'hue-rotate(320deg) saturate(5) brightness(2.1)', duration: 0.06 },
+        { x:  12, skewX: -2, filter: 'hue-rotate(50deg) saturate(4) brightness(1.4)',  duration: 0.06 },
+        { x: -9,  skewX:  3, filter: 'hue-rotate(175deg) saturate(3) brightness(0.5)', duration: 0.07 },
+        { x:  7,  skewX: -1, filter: 'hue-rotate(270deg) saturate(6) brightness(2.3)', duration: 0.06 },
+        { x: -4,  skewX:  1, filter: 'hue-rotate(90deg) saturate(3) brightness(1.6)',  duration: 0.06 },
+        { x:  0,  skewX:  0, filter: 'none', duration: 0.06 },
+      ]
+    })
+    .to(introScanlines, { opacity: 1, duration: 0.04 }, '<')
+    .to(introScanlines, { opacity: 0, duration: 0.18 }, '>')
+
+    // FLASH — you're dropped
+    .to(flash, { opacity: 1, duration: 0.07 })
+    .add(() => {
+      gsap.set(introEl, { opacity: 0 });
+      gsap.set(heroUfo, { x: introX, y: introY, opacity: 1 });
+    })
+    .to(flash, {
       opacity: 0,
-      duration: 0.9,
-      ease: 'power2.inOut',
-      onStart() {
-        setTimeout(() => {
-          gsap.to(heroUfo, {
-            y: introY, opacity: 1,
-            duration: 0.7, ease: 'power4.out',
-            onComplete: () => { ufoIntroComplete = true; }
-          });
-        }, 380);
-      }
-    });
+      duration: 1.3,
+      ease: 'power2.out',
+      onComplete: () => { ufoIntroComplete = true; }
+    }, '+=0.05');
 }
 
 // ── Stars ─────────────────────────────────────────────────────────────────
