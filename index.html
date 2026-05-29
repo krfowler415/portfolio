@@ -12,19 +12,14 @@
 
   <body>
    
-  <div id="intro" aria-hidden="true">
+    <div id="intro" aria-hidden="true">
     <div id="intro-glow"></div>
+    <div id="intro-beam">
+      <div id="intro-scan"></div>
+    </div>
+    <div id="intro-pts"></div>
     <div id="intro-ufo-wrap">
-      <svg id="intro-svg" viewBox="0 0 200 500" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;width:100%;height:auto;display:block;">
-        <defs>
-          <linearGradient id="iBeamGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%"   stop-color="#30CED8" stop-opacity="0.6"/>
-            <stop offset="55%"  stop-color="#30CED8" stop-opacity="0.18"/>
-            <stop offset="100%" stop-color="#30CED8" stop-opacity="0"/>
-          </linearGradient>
-        </defs>
-        <polygon id="iBeam" points="72,58 128,58 198,500 2,500" fill="url(#iBeamGrad)"/>
-        <line id="iScan" x1="20" y1="80" x2="180" y2="80" stroke="rgba(48,206,216,0.55)" stroke-width="1.5" opacity="0" stroke-linecap="round"/>
+      <svg id="intro-svg" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;width:100%;height:auto;display:block;">
         <ellipse cx="100" cy="58" rx="66" ry="11" fill="none" stroke="rgba(48,206,216,0.3)" stroke-width="1.5"/>
         <ellipse cx="100" cy="58" rx="62" ry="10" fill="#1A3A40"/>
         <ellipse cx="100" cy="50" rx="42" ry="7" fill="#2A5560"/>
@@ -40,10 +35,9 @@
         <line x1="100" y1="20" x2="100" y2="10" stroke="#30CED8" stroke-width="1.5"/>
         <circle cx="100" cy="8" r="3.5" fill="#A71930"/>
       </svg>
-    <div id="intro-pts"></div>
     </div>
-  </div>
-
+    <div id="intro-scanlines"></div>
+    </div>
     <div id="intro-flash" aria-hidden="true"></div>
 
     <a href="#work" class="skip-nav">Skip to main content</a>
