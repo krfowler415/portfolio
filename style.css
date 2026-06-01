@@ -46,10 +46,10 @@
   /* ── Semantic Tokens ───────────────────────────────────── */
 
   /* Backgrounds */
-  --bg:                #1C1210;
-  --bg-dark:           #1C1210;
-  --bg-surface:        #2E1F1A;
-  --bg-raised:         #3D2820;
+  --bg:                #100820;
+  --bg-dark:           #100820;
+  --bg-surface:        #1C1232;
+  --bg-raised:         #281842;
   --bg-tint:           rgba(95, 37, 159, 0.28);
   --bg-marquee:        var(--sedona-400);
 
@@ -134,39 +134,10 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
   z-index: 1;
 }
-#intro-beam {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  opacity: 0;
-  pointer-events: none;
-  background: linear-gradient(to bottom,
-    rgba(48,206,216,0)    8%,
-    rgba(48,206,216,0.12) 30%,
-    rgba(48,206,216,0.4)  65%,
-    rgba(48,206,216,0.85) 100%
-  );
-  /* Narrow at UFO, full width at bottom — adjust 14% if UFO position shifts */
-  clip-path: polygon(
-    calc(50% - 28px) 14%,
-    calc(50% + 28px) 14%,
-    100% 100%,
-    0%   100%
-  );
-}
-#intro-scan {
-  position: absolute;
-  top: 14%;
-  left: 0; right: 0;
-  height: 2px;
-  background: rgba(48,206,216,0.8);
-  box-shadow: 0 0 12px 2px rgba(48,206,216,0.5);
-  opacity: 0;
-  pointer-events: none;
-}
 #intro-ufo-wrap {
   position: relative;
   width: min(48vw, 300px);
+  overflow: visible;
   will-change: transform, opacity;
   z-index: 3;
 }
@@ -385,17 +356,16 @@ nav.scrolled {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.5rem 1rem;
-  font-family: var(--instrument);
-  font-size: 0.8rem;
+  padding: 0.5rem 0.5rem;
+  font-family: var(--sans);
+  font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.03em;
   border-radius: 7px;
   transition: all 0.2s;
   white-space: nowrap;
 }
-.btn-primary,
-.btn-leaf {
+.btn-primary {
   background: linear-gradient(180deg, var(--primary-lt) 0%, var(--primary) 74%);
   color: var(--text);
   border: none;
@@ -403,8 +373,7 @@ nav.scrolled {
   position: relative;
   z-index: 1;
 }
-.btn-primary::after,
-.btn-leaf::after {
+.btn-primary::after {
   position: absolute;
   content: "";
   width: 100%; height: 0;
@@ -977,7 +946,7 @@ footer {
 
 .hero {
   height: 300svh;
-  background: #0E0818;
+  background: var(--bg);
   position: relative;
 }
 
@@ -987,14 +956,25 @@ footer {
   height: 100svh;
   min-height: 600px;
   overflow: hidden;
+  background:
+    radial-gradient(ellipse 55% 60% at 18% 55%, rgba(200,35,85,0.55)  0%, transparent 100%),
+    radial-gradient(ellipse 40% 45% at 8%  30%, rgba(26,58,154,0.70)  0%, transparent 100%),
+    radial-gradient(ellipse 50% 55% at 78% 38%, rgba(48,206,216,0.48) 0%, transparent 100%),
+    radial-gradient(ellipse 35% 40% at 94% 18%, rgba(30,70,180,0.58)  0%, transparent 100%),
+    radial-gradient(ellipse 45% 50% at 55% 68%, rgba(95,37,159,0.52)  0%, transparent 100%),
+    radial-gradient(ellipse 60% 50% at 32% 42%, rgba(110,30,175,0.48) 0%, transparent 100%),
+    radial-gradient(ellipse 30% 35% at 90% 58%, rgba(167,25,48,0.34)  0%, transparent 100%),
+    radial-gradient(ellipse 28% 32% at 62% 22%, rgba(48,206,216,0.30) 0%, transparent 100%),
+    radial-gradient(ellipse 22% 28% at 45% 18%, rgba(180,40,120,0.30) 0%, transparent 100%),
+    linear-gradient(to bottom, #010308 0%, #03050F 15%, #060818 35%, #0A0720 55%, #100826 75%, #100820 100%);
 }
 
 .hero-pin::after {
   content: '';
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 300px;
-  background: linear-gradient(to bottom, transparent, var(--bg-dark));
+  height: 45vh;
+  background: linear-gradient(to bottom, transparent, var(--bg));
   z-index: 8;
   pointer-events: none;
 }
@@ -1004,14 +984,14 @@ footer {
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 4;
+  z-index: 2;
   pointer-events: none;
 }
 
 .hero-desert {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 1;
   pointer-events: none;
 }
 .hero-desert svg {
@@ -1033,10 +1013,23 @@ footer {
   width: 100%;
   height: 100%;
   display: block;
+  max-height: 100vh;
 }
 
 @media (max-width: 600px) {
   .hero { height: 140svh; }
+}
+
+.hero-moon {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+.hero-moon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 
@@ -1046,7 +1039,6 @@ footer {
   width: 280px;
   z-index: 5;
   pointer-events: none;
-  will-change: transform;
   top: 0;
   left: 0;
 }
