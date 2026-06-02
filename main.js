@@ -21,8 +21,10 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matc
 if (reducedMotion) {
   introEl.style.display = 'none';
   gsap.set(heroUfo, { x: introX, y: introY, opacity: 1, force3D: false });
+  ufoIntroComplete = true;
 } else {
   gsap.set(heroUfo, { x: introX, y: -200, opacity: 0, force3D: false });
+  document.body.style.overflow = 'hidden';
 }
  
 // UFO is up there waiting — hover float gives it life
