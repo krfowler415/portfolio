@@ -161,6 +161,7 @@ function runIntroOutro() {
     .add(() => {
       // Hide intro immediately under the flash
       introEl.style.display = 'none';
+      introPts.innerHTML = '';
       gsap.set(heroUfo, { x: introX, y: introY, opacity: 1, force3D: false });
     })
     .to(flash, {
@@ -243,7 +244,6 @@ gsap.registerPlugin(ScrollTrigger);
 // ── Desert parallax ───────────────────────────────────────────────────────────
 function initParallax() {
   const layers = [
-    { id: 'd-l2', speed: -0.40 },
     { id: 'd-l3', speed: -0.50 },
     { id: 'd-l4', speed: -0.60 },
     { id: 'd-l5', speed: -0.70 },
@@ -323,7 +323,11 @@ ScrollTrigger.create({
     const xPx = (x / 100) * window.innerWidth;
 
     // Clamp max y so UFO stays in sky on wide/tall screens
-    const aspectRatio = window.innerWidth / window.innerHeight;
+    let aspectRatio = window.innerWidth / window.innerHeight;
+    window.addEventListener('resize', () => {
+      aspectRatio = window.innerWidth / window.innerHeight;
+      resize(); init();
+    });
     const maxYpct = aspectRatio > 2 ? 0.38 : aspectRatio > 1.6 ? 0.44 : 0.52;
     const yPx = Math.min((y / 100) * window.innerHeight, maxYpct * window.innerHeight);
 
