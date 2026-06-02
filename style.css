@@ -945,7 +945,7 @@ footer {
 /* ══ HERO — scroll theater ══════════════════════════════════════════════════ */
 
 .hero {
-  height: 300svh;
+  height: 250svh;
   background: var(--bg);
   position: relative;
 }
