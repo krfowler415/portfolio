@@ -301,6 +301,7 @@ nav {
 
 nav.scrolled {
   background: var(--bg-dark);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
 }
 
@@ -503,7 +504,6 @@ nav.scrolled {
   transition: transform 0.4s cubic-bezier(0.03, 0.98, 0.52, 0.99),
               box-shadow 0.3s;
   transform-style: preserve-3d;
-  will-change: transform;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
@@ -606,6 +606,13 @@ nav.scrolled {
   border-radius: 14px;
   overflow: hidden;
   will-change: transform;
+}
+.card-tilt-wrap:hover .card-feat {
+  will-change: transform;
+}
+
+.card-tilt-wrap:not(:hover) .card-feat {
+  will-change: auto;
 }
 a.card-feat { display: grid; color: inherit; text-decoration: none; }
 .card-feat:hover .c-link::after,
@@ -1014,7 +1021,7 @@ footer {
   0%, 100% { opacity: 0.9; }
   50%       { opacity: 0.3; }
 }
-.hero-ufo circle:not(#ufoBeam) {
+.hero-ufo circle {
   animation: ufoLights 1.2s ease-in-out infinite alternate;
 }
 .hero-ufo circle:nth-child(odd) {
