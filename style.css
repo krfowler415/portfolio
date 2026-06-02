@@ -610,10 +610,6 @@ nav.scrolled {
 .card-tilt-wrap:hover .card-feat {
   will-change: transform;
 }
-
-.card-tilt-wrap:not(:hover) .card-feat {
-  will-change: auto;
-}
 a.card-feat { display: grid; color: inherit; text-decoration: none; }
 .card-feat:hover .c-link::after,
 a.card-feat:hover .c-link::after { width: 100%; }
