@@ -479,35 +479,34 @@ function initStars() {
 /* =====================================================================
  * § 5  TERRAIN PARALLAX
  *
- *  GSAP ScrollTrigger parallax on the SVG terrain layer groups.
- *  Layers d-l2 through d-l6 are <g> elements inside the fetched
- *  terrain SVG. Each moves at a different speed to create depth.
+ *  The terrain SVG is fetched asynchronously from terrain.svg in the
+ *  repo root and injected into .hero-terrain at runtime.
  *
- *  d-l1 is the light mode terrain layer and is always hidden in
- *  dark mode — it is intentionally excluded from this list.
+ *  Layers d-l2 through d-l6 are <g> elements inside the SVG.
+ *  Each moves at a different speed to create parallax depth.
  *
- *  Speed values are negative — layers move upward as user scrolls down,
- *  creating the illusion that far-away layers move slower.
+ *  d-l1 is the light mode terrain layer — intentionally excluded.
+ *
+ *  Speed values are negative — layers move upward as user scrolls
+ *  down, making far layers appear slower than near ones.
  * ===================================================================== */
 
 /**
  * Sets up ScrollTrigger parallax for the five terrain depth layers.
- * Each layer is null-guarded — if the terrain SVG hasn't loaded yet,
- * getElementById returns null and the layer is silently skipped.
+ * Called only after fetchTerrain() has injected the SVG into the DOM.
+ * Each layer is null-guarded in case the SVG structure changes.
  */
 function initParallax() {
   const layers = [
-    { id: 'd-l2', speed: -0.40 },   // mid-distance
+    { id: 'd-l2', speed: -0.40 },
     { id: 'd-l3', speed: -0.50 },
     { id: 'd-l4', speed: -0.60 },
-    { id: 'd-l5', speed: -0.70 },   // foreground
-    { id: 'd-l6', speed: -0.70 },   // foreground details (cacti, etc.)
+    { id: 'd-l5', speed: -0.70 },
+    { id: 'd-l6', speed: -0.70 },
   ];
-
   layers.forEach(({ id, speed }) => {
     const el = document.getElementById(id);
     if (!el) return;
-
     gsap.to(el, {
       y: () => ScrollTrigger.maxScroll(window) * -speed,
       ease: 'none',
@@ -519,6 +518,33 @@ function initParallax() {
       }
     });
   });
+}
+
+/**
+ * Fetches terrain.svg from the repo root, injects it into .hero-terrain,
+ * then initialises parallax and opens the intro outro gate.
+ *
+ * Async order matters: initParallax() must run AFTER the SVG is in the
+ * DOM or all getElementById calls return null and parallax silently fails.
+ *
+ * The catch handler still sets assetsDone so the intro never hangs
+ * indefinitely if the fetch fails (e.g. offline or 404).
+ */
+function fetchTerrain() {
+  fetch('./terrain.svg')
+    .then(res => res.text())
+    .then(svgText => {
+      document.querySelector('.hero-terrain').innerHTML = svgText;
+      initParallax();
+      ScrollTrigger.refresh();
+      assetsDone = true;
+      tryStartOutro();
+    })
+    .catch(err => {
+      console.warn('Terrain SVG failed to load:', err);
+      assetsDone = true;
+      tryStartOutro();
+    });
 }
 
 
@@ -984,27 +1010,18 @@ function initResizeHandlers() {
  *    setViewportHeight     must run before CSS --vh is consumed
  *    initIntro             starts animation immediately on load
  *    initStars             starts canvas rAF loop
- *    initParallax          creates ScrollTrigger instances
- *    assetsDone + tryStartOutro  opens the intro gate after terrain init
+ *    fetchTerrain          async — fetches SVG, then calls initParallax(),
+ *                          ScrollTrigger.refresh(), assetsDone, tryStartOutro()
  *    initUfoScroll         creates UFO ScrollTrigger (after parallax)
  *    initNav               creates nav ScrollTrigger
  *    initResizeHandlers    must come last (ScrollTrigger must exist first)
  * ===================================================================== */
 
 gsap.registerPlugin(ScrollTrigger);
-
 setViewportHeight();
 initIntro();
 initStars();
-initParallax();
-
-// Signal that assets are ready and attempt to open the intro gate.
-// tryStartOutro() also fires from the 2800ms timer inside initIntro()
-// — whichever condition is last to be met will trigger the outro.
-ScrollTrigger.refresh();
-assetsDone = true;
-tryStartOutro();
-
+fetchTerrain();
 initUfoScroll();
 initNav();
 initCursor();
