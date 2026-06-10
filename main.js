@@ -862,13 +862,13 @@ function initCaseStudyStrip() {
   prevBtn?.addEventListener('click', () => {
     animateArrow(prevBtn);
     const target = Math.max(0, (Math.round(strip.scrollLeft / getCardWidth()) - 1) * getCardWidth());
-    smoothScrollTo(strip, target, 1000);
+    smoothScrollTo(strip, target, 500);
   });
 
   nextBtn?.addEventListener('click', () => {
     animateArrow(nextBtn);
     const target = (Math.round(strip.scrollLeft / getCardWidth()) + 1) * getCardWidth();
-    smoothScrollTo(strip, target, 1000);
+    smoothScrollTo(strip, target, 500);
   });
 }
 
