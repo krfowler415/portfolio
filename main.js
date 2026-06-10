@@ -36,7 +36,9 @@
  *  All shared constants and DOM node references.
  *  Declared at module scope so every init function can access them.
  *
- *  UFO position constants (introX / introXvw) are shared between the intro overlay AND the UFO scroll waypoints — they must agree on the UFO's starting position to produce a seamless transition.
+ *  UFO position constants (introX / introXvw) are shared between
+ *  the intro overlay AND the UFO scroll waypoints — they must agree
+ *  on the UFO's starting position to produce a seamless transition.
  * ===================================================================== */
 
 // ── Device / preference flags ─────────────────────────────────────────────────
@@ -123,7 +125,8 @@ function setViewportHeight() {
  * Each particle rises from a random screen position toward the UFO beam.
  * Position, size, speed, drift, and rise distance are all randomised.
  *
- * CSS custom properties --drift and --rise are set per-particle so the @keyframes iptRise animation in style.css can read them.
+ * CSS custom properties --drift and --rise are set per-particle so the
+ * @keyframes iptRise animation in style.css can read them.
  *
  * @param {number} count     - Number of particles to spawn
  * @param {number} speedMult - Animation speed multiplier (1 = normal, 6 = frantic)
@@ -476,33 +479,35 @@ function initStars() {
 /* =====================================================================
  * § 5  TERRAIN PARALLAX
  *
- *  The terrain SVG is fetched asynchronously from terrain.svg in the repo root and injected into .hero-terrain at runtime.
+ *  GSAP ScrollTrigger parallax on the SVG terrain layer groups.
+ *  Layers d-l2 through d-l6 are <g> elements inside the fetched
+ *  terrain SVG. Each moves at a different speed to create depth.
  *
- *  Layers d-l2 through d-l6 are <g> elements inside the SVG.
- *  Each moves at a different speed to create parallax depth.
+ *  d-l1 is the light mode terrain layer and is always hidden in
+ *  dark mode — it is intentionally excluded from this list.
  *
- *  d-l1 is the light mode terrain layer — intentionally excluded.
- *
- *  Speed values are negative — layers move upward as user scrolls down, making far layers appear slower than near ones.
+ *  Speed values are negative — layers move upward as user scrolls down,
+ *  creating the illusion that far-away layers move slower.
  * ===================================================================== */
 
 /**
  * Sets up ScrollTrigger parallax for the five terrain depth layers.
- * Called only after the SVG has been injected into the DOM by fetchTerrain().
- * Each layer is null-guarded in case the SVG structure changes.
+ * Each layer is null-guarded — if the terrain SVG hasn't loaded yet,
+ * getElementById returns null and the layer is silently skipped.
  */
 function initParallax() {
   const layers = [
-    { id: 'd-l2', speed: -0.40 },
+    { id: 'd-l2', speed: -0.40 },   // mid-distance
     { id: 'd-l3', speed: -0.50 },
     { id: 'd-l4', speed: -0.60 },
-    { id: 'd-l5', speed: -0.70 },   /* foreground */
-    { id: 'd-l6', speed: -0.70 },   /* foreground details (cacti, etc.) */
+    { id: 'd-l5', speed: -0.70 },   // foreground
+    { id: 'd-l6', speed: -0.70 },   // foreground details (cacti, etc.)
   ];
 
   layers.forEach(({ id, speed }) => {
     const el = document.getElementById(id);
     if (!el) return;
+
     gsap.to(el, {
       y: () => ScrollTrigger.maxScroll(window) * -speed,
       ease: 'none',
@@ -516,39 +521,18 @@ function initParallax() {
   });
 }
 
-/**
- * Fetches terrain.svg from the repo root, injects it into .hero-terrain, then initialises parallax and opens the intro outro gate.
- *
- * Async order matters: initParallax() must run AFTER the SVG is in the DOM or all getElementById calls return null and parallax silently fails.
- *
- * The catch handler still sets assetsDone so the intro never hangs indefinitely if the fetch fails (e.g. offline or 404).
- */
-function fetchTerrain() {
-  fetch('./terrain.svg')
-    .then(res => res.text())
-    .then(svgText => {
-      document.querySelector('.hero-terrain').innerHTML = svgText;
-      initParallax();
-      ScrollTrigger.refresh();
-      assetsDone = true;
-      tryStartOutro();
-    })
-    .catch(err => {
-      console.warn('Terrain SVG failed to load:', err);
-      assetsDone = true;
-      tryStartOutro();
-    });
-}
-
 
 /* =====================================================================
  * § 6  UFO SCROLL ANIMATION
  *
- *  Moves the UFO along a curved path through the hero as the user scrolls. Position is determined by interpolating between waypoints.
+ *  Moves the UFO along a curved path through the hero as the user
+ *  scrolls. Position is determined by interpolating between waypoints.
  *
- *  Waypoints are [progress, x (vw%), y (vh%)] tuples where progress is a 0–1 value matching ScrollTrigger's self.progress.
+ *  Waypoints are [progress, x (vw%), y (vh%)] tuples where progress
+ *  is a 0–1 value matching ScrollTrigger's self.progress.
  *
- *  The first two waypoints use introXvw / introYvh to ensure the UFO starts exactly where the intro animation left it — no jump.
+ *  The first two waypoints use introXvw / introYvh to ensure the UFO
+ *  starts exactly where the intro animation left it — no jump.
  * ===================================================================== */
 
 /**
@@ -584,7 +568,8 @@ const ufoWaypoints = [
 function lerp(a, b, t) { return a + (b - a) * t; }
 
 /**
- * Returns the UFO's position as { x, y } percentages for a given scroll progress by finding the enclosing waypoint pair and interpolating.
+ * Returns the UFO's position as { x, y } percentages for a given scroll
+ * progress by finding the enclosing waypoint pair and interpolating.
  *
  * @param {number} progress - ScrollTrigger progress value (0–1)
  * @returns {{ x: number, y: number }} Position in vw% and vh%
@@ -613,7 +598,8 @@ function getUfoPos(progress) {
  *   - Tractor beam fades in from 50%–65% scroll progress
  *   - .hovering class enables the CSS float animation once UFO settles
  *
- * Guarded by ufoIntroComplete — prevents the UFO from jumping during the intro animation if the user scrolls early.
+ * Guarded by ufoIntroComplete — prevents the UFO from jumping during
+ * the intro animation if the user scrolls early.
  */
 function initUfoScroll() {
   ScrollTrigger.create({
@@ -656,7 +642,8 @@ function initUfoScroll() {
  * ===================================================================== */
 
 /**
- * Attaches a ScrollTrigger that adds/removes .scrolled from <nav> based on whether window scroll position exceeds 50px.
+ * Attaches a ScrollTrigger that adds/removes .scrolled from <nav>
+ * based on whether window scroll position exceeds 50px.
  */
 function initNav() {
   const nav = document.querySelector('nav');
@@ -701,15 +688,19 @@ function initCursor() {
  * § 9  CLICK RIPPLE
  *
  *  Creates a circular ripple element at each click position.
- *  The element expands outward via @keyframes rippleOut in style.css, then removes itself after 600ms.
+ *  The element expands outward via @keyframes rippleOut in style.css,
+ *  then removes itself after 600ms.
  *
- *  NOTE: The previous JS-side style injection block (document.createElement('style') + @keyframes) has been removed.
+ *  NOTE: The previous JS-side style injection block
+ *  (document.createElement('style') + @keyframes) has been removed.
  *  @keyframes rippleOut now lives permanently in style.css.
  * ===================================================================== */
 
 /**
-* Attaches a global click listener that spawns a ripple div at the click coordinates. The ripple is positioned fixed, pointer-events none, so it never interferes with underlying click targets. 
-*/
+ * Attaches a global click listener that spawns a ripple div at the
+ * click coordinates. The ripple is positioned fixed, pointer-events none,
+ * so it never interferes with underlying click targets.
+ */
 function initClickRipple() {
   document.addEventListener('click', e => {
     const ripple = document.createElement('div');
@@ -745,7 +736,9 @@ function initClickRipple() {
  * ===================================================================== */
 
 /**
- * Adds the .animate class to an arrow button, triggering its stroke-drawing and chevron-slide CSS animation. Removes it after 1600ms (matching the longest animation duration in the keyframe set).
+ * Adds the .animate class to an arrow button, triggering its stroke-
+ * drawing and chevron-slide CSS animation. Removes it after 1600ms
+ * (matching the longest animation duration in the keyframe set).
  *
  * @param {HTMLElement} btn - The .cs-arrow button element
  */
@@ -862,13 +855,13 @@ function initCaseStudyStrip() {
   prevBtn?.addEventListener('click', () => {
     animateArrow(prevBtn);
     const target = Math.max(0, (Math.round(strip.scrollLeft / getCardWidth()) - 1) * getCardWidth());
-    smoothScrollTo(strip, target, 500);
+    smoothScrollTo(strip, target, 1000);
   });
 
   nextBtn?.addEventListener('click', () => {
     animateArrow(nextBtn);
     const target = (Math.round(strip.scrollLeft / getCardWidth()) + 1) * getCardWidth();
-    smoothScrollTo(strip, target, 500);
+    smoothScrollTo(strip, target, 1000);
   });
 }
 
@@ -876,15 +869,17 @@ function initCaseStudyStrip() {
 /* =====================================================================
  * § 11  SCROLL REVEAL
  *
- *  Uses IntersectionObserver to trigger entrance animations on elements with .reveal, .reveal-left, or .reveal-right classes.
+ *  Uses IntersectionObserver to trigger entrance animations on elements
+ *  with .reveal, .reveal-left, or .reveal-right classes.
  *
- *  When 7% of an element enters the viewport, the .in class is added after a stagger delay (75ms × element index in the current batch).
- 
+ *  When 7% of an element enters the viewport, the .in class is added
+ *  after a stagger delay (75ms × element index in the current batch).
  *  Elements are unobserved after triggering — animation plays once only.
  * ===================================================================== */
 
 /**
- * Initialises the scroll reveal IntersectionObserver and attaches it to all .reveal, .reveal-left, and .reveal-right elements.
+ * Initialises the scroll reveal IntersectionObserver and attaches it
+ * to all .reveal, .reveal-left, and .reveal-right elements.
  */
 function initScrollReveal() {
   const observer = new IntersectionObserver((entries) => {
@@ -904,14 +899,16 @@ function initScrollReveal() {
 /* =====================================================================
  * § 12  CARD TILT
  *
- *  Applies a subtle 3D perspective tilt to .card-feat elements as the cursor moves across their parent .card-tilt-wrap.
+ *  Applies a subtle 3D perspective tilt to .card-feat elements as the
+ *  cursor moves across their parent .card-tilt-wrap.
  *
  *  Rotation calculation:
  *    rotateX  vertical axis tilt (±3°, sign inverted for natural feel)
  *    rotateY  horizontal axis tilt (±3°)
  *    translateY  slight lift (-4px) to reinforce the 3D effect
  *
- *  mouseleave smoothly returns the card to its resting state using a cubic-bezier curve (0.23, 1, 0.32, 1) — fast out, slow settle.
+ *  mouseleave smoothly returns the card to its resting state using
+ *  a cubic-bezier curve (0.23, 1, 0.32, 1) — fast out, slow settle.
  *
  *  Skipped entirely when prefers-reduced-motion is active.
  * ===================================================================== */
@@ -929,15 +926,14 @@ function initCardTilt() {
 
     wrap.addEventListener('mousemove', e => {
       const rect = wrap.getBoundingClientRect();
-      const rx   = ((e.clientY - rect.top)  / rect.height - 0.5) * -6;   // vertical tilt
-      const ry   = ((e.clientX - rect.left) / rect.width  - 0.5) *  6;   // horizontal tilt
-
+      const rx = ((e.clientY - rect.top)  / rect.height - 0.5) * -6;
+      const ry = ((e.clientX - rect.left) / rect.width  - 0.5) *  6;
       inner.style.transition = 'transform 0.1s ease';
       inner.style.transform  = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
     });
 
     wrap.addEventListener('mouseleave', () => {
-      inner.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+      inner.style.transition = 'transform 0.6s cubic-bezier(0.23,1,0.32,1)';
       inner.style.transform  = '';
     });
   });
@@ -988,7 +984,8 @@ function initResizeHandlers() {
  *    setViewportHeight     must run before CSS --vh is consumed
  *    initIntro             starts animation immediately on load
  *    initStars             starts canvas rAF loop
- *    fetchTerrain          async — fetches SVG, then calls initParallax(), ScrollTrigger.refresh(), assetsDone, tryStartOutro()
+ *    initParallax          creates ScrollTrigger instances
+ *    assetsDone + tryStartOutro  opens the intro gate after terrain init
  *    initUfoScroll         creates UFO ScrollTrigger (after parallax)
  *    initNav               creates nav ScrollTrigger
  *    initResizeHandlers    must come last (ScrollTrigger must exist first)
@@ -999,7 +996,15 @@ gsap.registerPlugin(ScrollTrigger);
 setViewportHeight();
 initIntro();
 initStars();
-fetchTerrain();   // async — parallax init and intro gate live inside this
+initParallax();
+
+// Signal that assets are ready and attempt to open the intro gate.
+// tryStartOutro() also fires from the 2800ms timer inside initIntro()
+// — whichever condition is last to be met will trigger the outro.
+ScrollTrigger.refresh();
+assetsDone = true;
+tryStartOutro();
+
 initUfoScroll();
 initNav();
 initCursor();
