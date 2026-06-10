@@ -59,11 +59,8 @@
 /* =====================================================================
  * § 1  CSS VARIABLES & RESET
  *
- *  All design tokens live here. This is the single source of truth
- *  for every color, font, border, and spacing value in the system.
- *  Reference tokens by semantic name — never hardcode hex values
- *  outside of this block (exceptions: one-off glow opacities in
- *  component rules where a token doesn't exist at that alpha level).
+ *  All design tokens live here. This is the single source of truth for every color, font, border, and spacing value in the system.
+ *  Reference tokens by semantic name — never hardcode hex values outside of this block (exceptions: one-off glow opacities in component rules where a token doesn't exist at that alpha level).
  * ===================================================================== */
 
 :root {
@@ -210,8 +207,7 @@ html { scroll-behavior: smooth; }
 /* =====================================================================
  * § 2  GLOBAL LAYOUT
  *
- *  Base document layout: body, link reset, section containers,
- *  divider treatment, section atmospheric backgrounds, footer.
+ *  Base document layout: body, link reset, section containers, divider treatment, section atmospheric backgrounds, footer.
  * ===================================================================== */
 
 
@@ -250,8 +246,7 @@ a { color: inherit; text-decoration: none; }
 
 /* ── Section Dividers ────────────────────────────────────────────────
  *  Border between adjacent sections and the .s-border utility.
- *  Aurora glow on the top edge creates a faint "energy seam" effect
- *  that ties sections together without hard contrast breaks.
+ *  Aurora glow on the top edge creates a faint "energy seam" effect that ties sections together without hard contrast breaks.
  * ──────────────────────────────────────────────────────────────────── */
 .section + .section,
 .s-border {
@@ -260,8 +255,7 @@ a { color: inherit; text-decoration: none; }
 
 
 /* ── Section Atmospheric Backgrounds ────────────────────────────────
- *  Each section has a directional light pool to imply a light source
- *  offscreen and create visual depth across the scroll journey.
+ *  Each section has a directional light pool to imply a light source offscreen and create visual depth across the scroll journey.
  *
  *  #work    — cosmos purple pool from top (entering deep space)
  *  #about   — aurora teal from right + cosmos from left (alien zone)
@@ -329,12 +323,11 @@ footer {
 /* =====================================================================
  * § 3  TYPOGRAPHY & UTILITIES
  *
- *  Global type styles, gradient headings, link treatments,
- *  and scroll-reveal utility classes.
+ *  Global type styles, gradient headings, link treatments, and scroll-reveal utility classes.
  *
- *  GRADIENT TEXT NOTE: gradient text and text-shadow are mutually
- *  exclusive. -webkit-text-fill-color: transparent removes the surface
- *  that text-shadow attaches to. Use gradient depth for visual weight.
+ *  GRADIENT TEXT NOTE: gradient text and text-shadow are mutually exclusive. 
+ *  -webkit-text-fill-color: transparent removes the surface that text-shadow attaches to. 
+ *  Use gradient depth for visual weight.
  * ===================================================================== */
 
 
@@ -450,8 +443,7 @@ footer {
 
 
 /* ── Read / View Link ─────────────────────────────────────────────────
- *  Animated underline link used in cards ("Dive Deeper →") and
- *  about section ("More about me →").
+ *  Animated underline link used in cards ("Dive Deeper →") and about section ("More about me →").
  *
  *  Default color: aurora teal (card links)
  *  Plasma variant: see .about-copy .c-link override below.
@@ -494,8 +486,7 @@ footer {
 
 /* ── "More about me →" — Plasma Variant ─────────────────────────────
  *  The one intentional plasma moment in the design.
- *  Sits directly above the alien image — the color references the
- *  character literally. Higher specificity overrides .c-link aurora.
+ *  Sits directly above the alien image — the color references the character literally. Higher specificity overrides .c-link aurora.
  * ──────────────────────────────────────────────────────────────────── */
 .about-copy .c-link { color: var(--accent-plasma); }
 .about-copy .c-link::after { background: var(--accent-plasma); }
@@ -541,8 +532,7 @@ footer {
  * 4a  INTRO OVERLAY
  *
  *  Full-screen takeover that plays before the portfolio loads.
- *  The UFO hovers, a tractor beam abducts particles from the screen,
- *  then a glitch-and-flash transition drops the user into the hero.
+ *  The UFO hovers, a tractor beam abducts particles from the screen, then a glitch-and-flash transition drops the user into the hero.
  *
  *  DOM tree:
  *    #intro
@@ -683,8 +673,7 @@ a, button, .project-hover, .a-card, .card-feat, .nav-links a { cursor: none; }
  *  On scroll (nav.scrolled added by JS), a glass panel activates:
  *  blurred background + aurora teal border glow.
  *
- *  Nav links use a corner-bracket animation on hover — four pseudo-
- *  elements draw a box around each link as the cursor moves in.
+ *  Nav links use a corner-bracket animation on hover — four pseudo-elements draw a box around each link as the cursor moves in.
  * ───────────────────────────────────────────────────────────────────── */
 
 /* Transparent by default — sits above the hero scroll theater */
@@ -837,8 +826,7 @@ nav.scrolled {
 /* ─────────────────────────────────────────────────────────────────────
  * 4e  BUTTONS
  *
- *  Design system button variants. Not currently in index.html but
- *  defined for the design system and future pages (about.html, etc).
+ *  Design system button variants. Not currently in index.html but defined for the design system and future pages (about.html, etc).
  *
  *  .btn          base — shared layout and font properties
  *  .btn-primary  aurora teal gradient, reverses on hover
@@ -1135,11 +1123,9 @@ a.card-feat,
  * 4h  CASE STUDY SCROLL STRIP
  *
  *  Horizontally scrollable row of .cs-card wrappers.
- *  Negative margin on .cs-scroll-wrap bleeds the scroll area edge-to-edge
- *  while inner padding keeps cards aligned to the content column.
+ *  Negative margin on .cs-scroll-wrap bleeds the scroll area edge-to-edge while inner padding keeps cards aligned to the content column.
  *
- *  Drag-to-scroll handled by JS — user-select: none prevents
- *  accidental text selection during drag.
+ *  Drag-to-scroll handled by JS — user-select: none prevents accidental text selection during drag.
  * ───────────────────────────────────────────────────────────────────── */
 
 /* Negative side margins bleed the scroll container past --px padding */
@@ -1204,8 +1190,7 @@ a.card-feat,
  *  ::after  = border ring
  *  These are split to prevent backdrop-filter / border conflicts.
  *
- *  .cs-arrow.animate triggers the stroke-drawing animation via JS
- *  when an arrow button is clicked.
+ *  .cs-arrow.animate triggers the stroke-drawing animation via JS when an arrow button is clicked.
  * ───────────────────────────────────────────────────────────────────── */
 
 .cs-arrows {
@@ -1314,8 +1299,7 @@ a.card-feat,
  * 4j  ABOUT SECTION
  *
  *  Two-column layout: copy (left) + stat grid (right).
- *  Stat cards use pulsar accent bars — mirroring the UFO warning
- *  lights — while aurora drives the number glows and corner brackets.
+ *  Stat cards use pulsar accent bars — mirroring the UFO warning lights — while aurora drives the number glows and corner brackets.
  *
  *  .about-alien sits inside .stat-grid as the 5th grid item.
  * ───────────────────────────────────────────────────────────────────── */
@@ -1453,15 +1437,13 @@ a.card-feat,
 /* ─────────────────────────────────────────────────────────────────────
  * 4k  CONTACT SECTION
  *
- *  Single centered card (.c-band) with headline, body text,
- *  a large CTA button, and three secondary social links.
+ *  Single centered card (.c-band) with headline, body text, a large CTA button, and three secondary social links.
  *
  *  HUD corner brackets:
  *    .c-band::before  top-left bracket
  *    .c-band::after   bottom-right bracket
  *
- *  CTA button uses the aurora-to-cosmos gradient with reversed-gradient
- *  overlay that fades in on hover (same technique as .btn-primary).
+ *  CTA button uses the aurora-to-cosmos gradient with reversed-gradient overlay that fades in on hover (same technique as .btn-primary).
  *
  *  .c-secondary-link uses the same corner-bracket animation as .nav-links.
  * ───────────────────────────────────────────────────────────────────── */
@@ -1628,8 +1610,7 @@ a.card-feat,
 /* ─────────────────────────────────────────────────────────────────────
  * 4l  HERO SCROLL THEATER
  *
- *  The cinematic opening sequence — 300svh tall so the user scrolls
- *  through three full viewport heights while the scene is sticky.
+ *  The cinematic opening sequence — 300svh tall so the user scrolls through three full viewport heights while the scene is sticky.
  *
  *  Layer stack (z-index):
  *    2  #stars         canvas particle field
@@ -1785,11 +1766,7 @@ a.card-feat,
  *  All @keyframes definitions in one block.
  *  Component rules that reference these animations live in § 4.
  *
- *  NOTE: @keyframes rippleOut was previously injected by JS
- *  (document.createElement('style')). It has been moved here.
- *  The JS-side style injection block in main.js can be removed.
- *  Also note: the JS ripple still references var(--accent-teal)
- *  which is a dead token — update to var(--accent-aurora).
+ *  NOTE: @keyframes rippleOut was previously injected by JS (document.createElement('style')). It has been moved here.
  * ===================================================================== */
 
 
@@ -1897,10 +1874,7 @@ a.card-feat,
 /* ── Click Ripple ──────────────────────────────────────────────────── */
 
 /* Radial ripple that expands from click position.
- * Triggered by JS click handler which creates a div with inline styles.
- * NOTE: JS references var(--accent-teal) — update to var(--accent-aurora).
- * The JS-side style injection (document.createElement('style')) can
- * be removed now that this keyframe lives in the stylesheet. */
+ * Triggered by JS click handler which creates a div with inline styles. */
 @keyframes rippleOut {
   to { transform: translate(-50%, -50%) scale(8); opacity: 0; }
 }
