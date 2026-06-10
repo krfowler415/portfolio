@@ -1,100 +1,190 @@
+/*
+ * =====================================================================
+ *  SONORAN COSMOS — PORTFOLIO STYLESHEET
+ *  Kevin Fowler | UX Portfolio | krfowler415.github.io/portfolio
+ * =====================================================================
+ *
+ *  THEME: Nighttime Sonoran Desert meets alien cosmos.
+ *  Purple is the world. Teal is the alien energy.
+ *  Every color decision maps back to the scene, not aesthetics alone.
+ *
+ *  COLOR ROLE MAP
+ *  ─────────────────────────────────────────────────────────────────
+ *  Aurora  (#0AC39A)  — alien energy, all interactive states, glows
+ *  Cosmos  (#5F259F)  — deep space, structural backgrounds, containers
+ *  Pulsar  (#C81858)  — warning signals, UFO lights, data tension
+ *  Plasma  (#C818A8)  — one exotic moment: "More about me →" only
+ *  Aether  (#C8D0EC)  — moonlight, ambient text, non-glowing chrome
+ *
+ *  FONT ROLE MAP
+ *  ─────────────────────────────────────────────────────────────────
+ *  --display  'Audiowide'  — named for what it is: a display typeface
+ *                            used for: headings, logo, stat numbers
+ *  --serif    'Oxanium'    — secondary/label font (the non-sans slot)
+ *                            used for: tags, meta labels
+ *  --sans     'Orbitron'   — body copy and all UI chrome
+ *
+ *  LOCKED DECISIONS (do not change without empirical re-testing)
+ *  ─────────────────────────────────────────────────────────────────
+ *  --bg: #100820           flows from terrain SVG gradient
+ *  .hero height: 300svh    UFO journey pacing
+ *  .hero-pin::after: 65vh  terrain fade breakpoint
+ *  terrain viewBox: "0 150 666.667 150"   empirically tested
+ *  preserveAspectRatio: "xMidYMax"        no slice — prevents zoom
+ *
+ *  FILE STRUCTURE
+ *  ─────────────────────────────────────────────────────────────────
+ *  § 1  CSS Variables & Reset
+ *  § 2  Global Layout
+ *  § 3  Typography & Utilities
+ *  § 4  Component Styles
+ *       4a  Intro Overlay
+ *       4b  Cursor
+ *       4c  Navigation
+ *       4d  Status Badge
+ *       4e  Buttons
+ *       4f  Marquee
+ *       4g  Cards
+ *       4h  Case Study Scroll Strip
+ *       4i  Navigation Arrows
+ *       4j  About Section
+ *       4k  Contact Section
+ *       4l  Hero Scroll Theater
+ *  § 5  Animations & Keyframes
+ *  § 6  Media Queries
+ * =====================================================================
+ */
+
+
+/* =====================================================================
+ * § 1  CSS VARIABLES & RESET
+ *
+ *  All design tokens live here. This is the single source of truth
+ *  for every color, font, border, and spacing value in the system.
+ *  Reference tokens by semantic name — never hardcode hex values
+ *  outside of this block (exceptions: one-off glow opacities in
+ *  component rules where a token doesn't exist at that alpha level).
+ * ===================================================================== */
+
 :root {
 
-  /* ── Raw Palette — D-backs Hybrid ─────────────────────── */
+  /* ── Raw Palette ────────────────────────────────────────────────────
+   *  Named families with a full stop scale (50→900).
+   *  Use raw tokens only when a semantic token doesn't exist.
+   *  ─────────────────────────────────────────────────────────────── */
 
-  --sedona-50:   #FAEAEC;
-  --sedona-100:  #F0B8C0;
-  --sedona-200:  #E07888;
-  --sedona-400:  #A71930;
-  --sedona-600:  #780F20;
-  --sedona-800:  #4A0812;
-  --sedona-900:  #280408;
+  /* Pulsar — warning signal, UFO lights, tension */
+  --pulsar-50:   #FFE8EE;
+  --pulsar-100:  #FFB0C8;
+  --pulsar-200:  #F87098;
+  --pulsar-400:  #C81858;   /* primary accent value */
+  --pulsar-600:  #900840;
+  --pulsar-800:  #580428;
+  --pulsar-900:  #2C0114;
 
-  --purple-50:   #F0EAF8;
-  --purple-100:  #D4BAF0;
-  --purple-200:  #B080E0;
-  --purple-400:  #5F259F;
-  --purple-600:  #431878;
-  --purple-800:  #2A0E50;
-  --purple-900:  #160828;
+  /* Cosmos — deep space, structural, backgrounds */
+  --cosmos-50:   #F0EAF8;
+  --cosmos-100:  #D4BAF0;
+  --cosmos-200:  #B080E0;
+  --cosmos-300:  #8B45D4;
+  --cosmos-400:  #5F259F;   /* primary accent value */
+  --cosmos-600:  #431878;
+  --cosmos-800:  #2A0E50;
+  --cosmos-900:  #160828;
 
-  --teal-50:     #E0F8FA;
-  --teal-100:    #A8EEF2;
-  --teal-200:    #60D8DE;
-  --teal-400:    #30CED8;
-  --teal-600:    #108A90;
-  --teal-800:    #005F61;
-  --teal-900:    #003438;
+  /* Aurora — alien energy, interactive, emissive (source: alien image) */
+  --aurora-50:   #E3FDF8;
+  --aurora-100:  #ADFAEC;
+  --aurora-200:  #7FF6E4;   /* light variant — glow contexts */
+  --aurora-400:  #0AC39A;   /* primary interactive value */
+  --aurora-600:  #17A487;
+  --aurora-800:  #0F5042;
+  --aurora-900:  #0C1916;
 
-  --copper-50:   #FDF0E8;
-  --copper-100:  #F5D5B0;
-  --copper-200:  #DFA876;
-  --copper-400:  #B87333;
-  --copper-600:  #8A5220;
-  --copper-800:  #5C3312;
-  --copper-900:  #321A08;
+  /* Plasma — exotic accent, used in one place only */
+  --plasma-50:   #FFE8FA;
+  --plasma-100:  #FFB0F0;
+  --plasma-200:  #F870D8;
+  --plasma-400:  #C818A8;   /* primary accent value */
+  --plasma-600:  #900878;
+  --plasma-800:  #580448;
+  --plasma-900:  #2C0124;
 
-  --sand-50:   #F8F0EA;
-  --sand-100:  #EDD8C4;
-  --sand-200:  #D8B090;
-  --sand-400:  #8B634B;
-  --sand-600:  #5E3E2C;
-  --sand-800:  #38241A;
-  --sand-900:  #20120E;
+  /* Aether — moonlight, ambient, non-glowing UI chrome */
+  --aether-50:   #F0F2FA;
+  --aether-100:  #C8D0EC;   /* secondary text, nav default */
+  --aether-200:  #98A8D4;   /* borders, neutral chrome */
+  --aether-400:  #5868A8;
+  --aether-600:  #384880;
+  --aether-800:  #202858;
+  --aether-900:  #101430;
 
 
-  /* ── Semantic Tokens ───────────────────────────────────── */
+  /* ── Semantic Background Tokens ─────────────────────────────────── */
+  --bg:          #100820;   /* LOCKED — must match terrain SVG gradient */
+  --bg-dark:     #100820;   /* nav glass base */
+  --bg-surface:  #1C1232;   /* card backgrounds */
+  --bg-raised:   #281842;   /* elevated surfaces */
+  --bg-tint:     #5F259F47; /* tag / chip fill */
+  --bg-marquee:  #17A487;   /* aurora-600 — marquee strip */
 
-  /* Backgrounds */
-  --bg:                #100820;
-  --bg-dark:           #100820;
-  --bg-surface:        #1C1232;
-  --bg-raised:         #281842;
-  --bg-tint:           rgba(95, 37, 159, 0.28);
-  --bg-marquee:        var(--sedona-400);
+  /* ── Semantic Text Tokens ────────────────────────────────────────── */
+  --text:        #F4F2FF;   /* primary — near-white with cool tint */
+  --text-muted:  #C8D0EC;   /* secondary — aether-100, moonlit ambient */
+  --text-light:  #7FF6E4;   /* tertiary — aurora-200, footer / meta */
+  --text-inv:    #1C1210;   /* dark text on light surfaces (light mode) */
 
-  /* Text */
-  --text:              #F0E2D0;
-  --text-muted:        #C8A882;
-  --text-light:        #A07850;
-  --text-inv:          #1C1210;
+  /* ── Primary Action — Aurora Teal ───────────────────────────────── */
+  --primary:        #0AC39A;
+  --primary-hover:  #17A487;
+  --primary-lt:     #7FF6E4;   /* light variant for gradients */
+  --primary-subtle: #0C1916;   /* very dark teal background tint */
 
-  /* Primary — Sedona Red */
-  --primary:           var(--sedona-400);
-  --primary-hover:     var(--sedona-600);
-  --primary-lt:        #C84860;
-  --primary-subtle:    var(--sedona-900);
+  /* ── Named Accent Aliases (semantic, component-facing) ──────────── */
+  --accent-pulsar:           #C81858;
+  --accent-pulsar-subtle:    #2C0114;
+  --accent-cosmos:           #5F259F;
+  --accent-cosmos-subtle:    #160828;
+  --accent-aurora:           #0AC39A;
+  --accent-aurora-subtle:    #0C1916;
+  --accent-plasma:           #C818A8;   /* ONE USE: "More about me →" */
+  --accent-plasma-subtle:    #2C0124;
+  --accent-turquoise:        #0F5042;
+  --accent-turquoise-subtle: #0C1916;
 
-  /* Accent — Monsoon Purple */
-  --accent-purple:        var(--purple-400);
-  --accent-purple-subtle: var(--purple-900);
+  /* ── Neutral Aliases ─────────────────────────────────────────────── */
+  --aether: #98A8D4;         /* general-purpose mid neutral */
+  --dune:   #D8B090;         /* warm sand — reserved for light mode */
 
-  /* Accent — Electric Teal */
-  --accent-teal:          var(--teal-400);
-  --accent-teal-subtle:   var(--teal-900);
+  /* ── Border Tokens — aether at controlled opacity ────────────────── */
+  --border:        #98A8D45A;   /* standard border */
+  --border-subtle: #98A8D42D;   /* ghost border, arrow fill */
 
-  /* Accent — Deep Turquoise */
-  --accent-turquoise:        var(--teal-800);
-  --accent-turquoise-subtle: var(--teal-900);
+  /* ── Aurora Transparency Set — for glow and bloom effects only ───── */
+  --aurora-glass: #0AC39A14;   /* arrow hover fill */
+  --aurora-glow:  #0AC39A40;   /* arrow hover outer shadow */
+  --aurora-inset: #0AC39A0D;   /* arrow hover inner shadow */
 
-  /* Neutrals */
-  --copper:            var(--copper-400);
-  --sand:              var(--sand-200);
+  /* ── Typography ──────────────────────────────────────────────────────
+   *  Token names map to role, not literal type classification.
+   *  --display  Audiowide  named for what it is: a display typeface
+   *  --serif    Oxanium    the non-sans secondary slot
+   *  --sans     Orbitron   body copy and all UI chrome
+   *  ─────────────────────────────────────────────────────────────── */
+  --display: 'Audiowide', sans-serif;
+  --serif:   'Oxanium', system-ui, sans-serif;
+  --sans:    'Orbitron', sans-serif;
 
-  /* Borders */
-  --border:            rgba(227, 212, 173, 0.22);
-  --border-subtle:     rgba(227, 212, 173, 0.10);
-
-  /* Typography */
-  --sans:         'Unbounded', sans-serif;
-  --serif:        'Shrikhand', Georgia, serif;
-  --display:      'Bricolage Grotesque', system-ui, sans-serif;
-  --instrument:   'Instrument Sans', system-ui, sans-serif;
-
-  --max: 1100px;
-  --px:  clamp(1.25rem, 5vw, 3rem);
+  /* ── Layout ──────────────────────────────────────────────────────── */
+  --max: 1100px;                         /* max content width */
+  --px:  clamp(1.25rem, 5vw, 3rem);      /* fluid horizontal padding */
 }
 
+
+/* ── Box Model Reset ─────────────────────────────────────────────────
+ *  Applies border-box sizing universally, removes all default
+ *  margin/padding, and enforces smooth scrolling at the root.
+ * ──────────────────────────────────────────────────────────────────── */
 *,
 *::before,
 *::after {
@@ -102,9 +192,39 @@
   margin: 0;
   padding: 0;
 }
+
 html { scroll-behavior: smooth; }
+
+
+/* ── Global Focus Style ──────────────────────────────────────────────
+ *  Visible keyboard focus ring using aurora teal.
+ *  Only shows on keyboard navigation, not on click (:focus-visible).
+ * ──────────────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent-aurora);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+
+/* =====================================================================
+ * § 2  GLOBAL LAYOUT
+ *
+ *  Base document layout: body, link reset, section containers,
+ *  divider treatment, section atmospheric backgrounds, footer.
+ * ===================================================================== */
+
+
+/* ── Body ─────────────────────────────────────────────────────────────
+ *  Dot grid layered over the locked base background (#100820).
+ *  The radial-gradient circle creates a 1px dot at each 28px tile.
+ *  aether-200 at 16% opacity keeps it subtle — felt, not seen.
+ *  cursor: none defers to the custom cursor (#cur) on desktop.
+ * ──────────────────────────────────────────────────────────────────── */
 body {
-  background: var(--bg);
+  background:
+    radial-gradient(circle, #98A8D428 1px, transparent 1px) center / 28px 28px,
+    var(--bg);
   color: var(--text);
   font-family: var(--sans);
   line-height: 1.6;
@@ -112,89 +232,116 @@ body {
   cursor: none;
   overflow-x: hidden;
 }
+
+/* Removes default link styles — all anchors inherit parent color. */
 a { color: inherit; text-decoration: none; }
 
-/* ── INTRO OVERLAY ── */
-#intro {
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
-  background: #0E0818;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 6vh;
-  overflow: hidden;
-}
-#intro-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(48,206,216,0.5) 0%, transparent 65%);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 1;
-}
-#intro-ufo-wrap {
-  position: relative;
-  width: min(48vw, 300px);
-  overflow: visible;
-  will-change: transform, opacity;
-  z-index: 3;
-}
-#intro-pts {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
-}
-.ipt {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(48, 206, 216, 0.85);
-  box-shadow: 0 0 6px rgba(48, 206, 216, 0.6);
-  animation: iptRise linear infinite;
-}
-@keyframes iptRise {
-  0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
-  8%   { opacity: 0.85; }
-  75%  { opacity: 0.5; }
-  100% { transform: translateY(var(--rise,-100vh)) translateX(var(--drift,0px)) scale(0.1); opacity: 0; }
-}
-#intro-scanlines {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0;
-  z-index: 4;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 3px,
-    rgba(0,0,0,0.2) 3px,
-    rgba(0,0,0,0.2) 4px
-  );
-}
-#intro-flash {
-  position: fixed;
-  inset: 0;
-  background: #30CED8;
-  opacity: 0;
-  z-index: 10001;
-  pointer-events: none;
-}
-.iLight {
-  animation: iLightBlink 1.1s ease-in-out infinite alternate;
-}
-.iLight:nth-child(even) { animation-delay: 0.55s; }
-@keyframes iLightBlink {
-  0%   { opacity: 0.95; }
-  100% { opacity: 0.2; }
-}
-@media (prefers-reduced-motion: reduce) {
-  #intro, #intro-flash { display: none !important; }
+
+/* ── Section Container ───────────────────────────────────────────────
+ *  Centered max-width wrapper used for Work, About, and Contact.
+ *  --px provides fluid horizontal padding across viewport sizes.
+ * ──────────────────────────────────────────────────────────────────── */
+.section {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 6rem var(--px);
 }
 
-/* ── SKIP NAV ── */
+
+/* ── Section Dividers ────────────────────────────────────────────────
+ *  Border between adjacent sections and the .s-border utility.
+ *  Aurora glow on the top edge creates a faint "energy seam" effect
+ *  that ties sections together without hard contrast breaks.
+ * ──────────────────────────────────────────────────────────────────── */
+.section + .section,
+.s-border {
+  border-top: 1px solid var(--border);
+}
+
+
+/* ── Section Atmospheric Backgrounds ────────────────────────────────
+ *  Each section has a directional light pool to imply a light source
+ *  offscreen and create visual depth across the scroll journey.
+ *
+ *  #work    — cosmos purple pool from top (entering deep space)
+ *  #about   — aurora teal from right + cosmos from left (alien zone)
+ *  #contact — aurora teal from bottom (signal origin point)
+ * ──────────────────────────────────────────────────────────────────── */
+#work {
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% 0%, #5F259F38 0%, transparent 70%);
+}
+
+#about {
+  background-image:
+    radial-gradient(ellipse 55% 70% at 75% 55%, #0AC39A22 0%, transparent 65%),
+    radial-gradient(ellipse 45% 50% at 20% 45%, #5F259F28 0%, transparent 60%);
+}
+
+#contact {
+  background-image:
+    radial-gradient(ellipse 70% 80% at 50% 100%, #0AC39A20 0%, transparent 65%);
+}
+
+
+/* ── Section Header Row ──────────────────────────────────────────────
+ *  Flexbox row that holds the section title and optional metadata.
+ *  align-items: baseline keeps title and count optically aligned.
+ * ──────────────────────────────────────────────────────────────────── */
+.sec-hd {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+
+/* ── Footer ──────────────────────────────────────────────────────────
+ *  Full-width footer constrained to --max, matching section alignment.
+ *  foot-l: aurora-200 — active identity, the site owner's name.
+ *  foot-r: faint pulsar — warm tension in a quiet corner.
+ * ──────────────────────────────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border);
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 1.6rem var(--px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.foot-l {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 0.92rem;
+  color: var(--aurora-200);   /* active identity — aurora, not passive */
+}
+
+.foot-r {
+  font-family: var(--display);
+  font-size: 0.72rem;
+  color: #C8185870;   /* faint pulsar — warmth and tension */
+}
+
+
+/* =====================================================================
+ * § 3  TYPOGRAPHY & UTILITIES
+ *
+ *  Global type styles, gradient headings, link treatments,
+ *  and scroll-reveal utility classes.
+ *
+ *  GRADIENT TEXT NOTE: gradient text and text-shadow are mutually
+ *  exclusive. -webkit-text-fill-color: transparent removes the surface
+ *  that text-shadow attaches to. Use gradient depth for visual weight.
+ * ===================================================================== */
+
+
+/* ── Accessibility: Skip Nav Link ────────────────────────────────────
+ *  Off-screen by default, jumps into view on keyboard focus.
+ *  Gives keyboard-only users a fast path past the nav.
+ * ──────────────────────────────────────────────────────────────────── */
 .skip-nav {
   position: absolute;
   top: -100%;
@@ -214,7 +361,292 @@ a { color: inherit; text-decoration: none; }
 .skip-nav:focus { top: 0; }
 
 
-/* ── CURSOR ── */
+/* ── Section Title ───────────────────────────────────────────────────
+ *  Primary heading for Work and About sections (h2).
+ *  Gradient fades from near-white (--text) to aurora-100 (mint),
+ *  implying the heading is illuminated by the UFO beam above.
+ * ──────────────────────────────────────────────────────────────────── */
+.sec-title {
+  font-family: var(--display);
+  font-size: clamp(1.75rem, 3.8vw, 2.6rem);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-100) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── Section Title — Italic Accent ──────────────────────────────────
+ *  The <em> inside a section title (e.g. "Greetings, Earthling!").
+ *  Cosmos gradient (cosmos-200 → cosmos-300) keeps it in the
+ *  structural/world color family while adding italic emphasis.
+ * ──────────────────────────────────────────────────────────────────── */
+.sec-title em {
+  font-style: italic;
+  background: linear-gradient(135deg, var(--cosmos-200) 0%, var(--cosmos-300) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+/* ── Card Title ──────────────────────────────────────────────────────
+ *  h3 inside a case study card (.card-body).
+ *  Same gradient logic as .sec-title but slightly smaller.
+ * ──────────────────────────────────────────────────────────────────── */
+.c-title {
+  font-family: var(--display);
+  font-size: clamp(1.3rem, 2.4vw, 1.85rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-200) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+/* ── Contact Headline ────────────────────────────────────────────────
+ *  "Awaiting Your Signal" — the primary heading inside .c-band.
+ *  Gradient from --text to aurora-200; heavier weight than .sec-title.
+ * ──────────────────────────────────────────────────────────────────── */
+.c-headline {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-200) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+/* ── Card Description ────────────────────────────────────────────────
+ *  Body text inside a case study card.
+ *  Lighter weight (300) and increased line-height for readability.
+ * ──────────────────────────────────────────────────────────────────── */
+.c-desc {
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.82;
+}
+
+
+/* ── Contact Body Text ───────────────────────────────────────────────
+ *  Paragraph text inside .c-header in the contact section.
+ * ──────────────────────────────────────────────────────────────────── */
+.c-body {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+
+/* ── Read / View Link ─────────────────────────────────────────────────
+ *  Animated underline link used in cards ("Dive Deeper →") and
+ *  about section ("More about me →").
+ *
+ *  Default color: aurora teal (card links)
+ *  Plasma variant: see .about-copy .c-link override below.
+ *
+ *  Animation: gap widens on hover, underline slides in via ::after.
+ * ──────────────────────────────────────────────────────────────────── */
+.c-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-aurora);
+  position: relative;
+  transition: gap 0.2s;
+}
+
+/* Underline — starts at 0 width, animates to 100% on hover */
+.c-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 1.5px;
+  background: var(--accent-aurora);
+  transition: width 0.25s ease;
+}
+
+.c-link:hover {
+  gap: 0.6rem;
+  text-shadow: 0 0 12px var(--aurora-400);
+}
+
+/* Underline triggers on direct hover or when parent card is hovered */
+.c-link:hover::after,
+.card-feat:hover .c-link::after { width: 100%; }
+
+
+/* ── "More about me →" — Plasma Variant ─────────────────────────────
+ *  The one intentional plasma moment in the design.
+ *  Sits directly above the alien image — the color references the
+ *  character literally. Higher specificity overrides .c-link aurora.
+ * ──────────────────────────────────────────────────────────────────── */
+.about-copy .c-link { color: var(--accent-plasma); }
+.about-copy .c-link::after { background: var(--accent-plasma); }
+.about-copy .c-link:hover { text-shadow: 0 0 14px var(--accent-plasma); }
+
+
+/* ── Scroll Reveal Utilities ──────────────────────────────────────────
+ *  Elements are invisible and offset until IntersectionObserver
+ *  adds the .in class, triggering the transition to final state.
+ *
+ *  .reveal       fades up from below
+ *  .reveal-left  fades in from the left
+ *  .reveal-right fades in from the right
+ * ──────────────────────────────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.in { opacity: 1; transform: none; }
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-left.in { opacity: 1; transform: none; }
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-right.in { opacity: 1; transform: none; }
+
+
+/* =====================================================================
+ * § 4  COMPONENT STYLES
+ * ===================================================================== */
+
+
+/* ─────────────────────────────────────────────────────────────────────
+ * 4a  INTRO OVERLAY
+ *
+ *  Full-screen takeover that plays before the portfolio loads.
+ *  The UFO hovers, a tractor beam abducts particles from the screen,
+ *  then a glitch-and-flash transition drops the user into the hero.
+ *
+ *  DOM tree:
+ *    #intro
+ *      #intro-glow       aurora radial underneath the UFO
+ *      #intro-ufo-wrap   the SVG UFO itself
+ *      #intro-pts        particle container (populated by JS)
+ *      #intro-scanlines  horizontal scan-line overlay
+ *    #intro-flash        full-viewport white flash (separate from #intro)
+ * ───────────────────────────────────────────────────────────────────── */
+
+/* Fixed full-viewport overlay. Removed from view by JS on completion. */
+#intro {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: #0E0818;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 6vh;
+  overflow: hidden;
+}
+
+/* Radial teal glow beneath the UFO — fades in via GSAP at 0.4s delay */
+#intro-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 100%, #0AC39A80 0%, transparent 65%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* UFO SVG wrapper — will-change primes GPU for GSAP transforms */
+#intro-ufo-wrap {
+  position: relative;
+  width: min(48vw, 300px);
+  overflow: visible;
+  will-change: transform, opacity;
+  z-index: 3;
+}
+
+/* Container for JS-spawned .ipt particle elements */
+#intro-pts {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Rising particle bubble — created and positioned by spawnPts() in JS.
+ * --rise and --drift are CSS custom properties set inline per-particle.
+ * animation: iptRise defined in § 5 */
+.ipt {
+  position: absolute;
+  border-radius: 50%;
+  background: #0AC39AD9;
+  box-shadow: 0 0 6px #0AC39A99;
+  animation: iptRise linear infinite;
+}
+
+/* CRT scan-line texture — flashes on during the glitch sequence */
+#intro-scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 4;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    #00000033 3px,
+    #00000033 4px
+  );
+}
+
+/* Full-viewport aurora flash — sits above #intro, triggers GSAP transition */
+#intro-flash {
+  position: fixed;
+  inset: 0;
+  background: var(--aurora-400);
+  opacity: 0;
+  z-index: 10001;
+  pointer-events: none;
+}
+
+/* UFO rim light circles — alternating blink creates the alien strobe effect.
+ * animation: iLightBlink defined in § 5 */
+.iLight {
+  animation: iLightBlink 1.1s ease-in-out infinite alternate;
+}
+.iLight:nth-child(even) { animation-delay: 0.55s; }
+
+
+/* ─────────────────────────────────────────────────────────────────────
+ * 4b  CURSOR
+ *
+ *  Custom aurora-teal dot that replaces the default cursor on desktop.
+ *  body.clicking shrinks the dot on mousedown for press feedback.
+ *  Hidden at 600px and below via § 6 media query.
+ * ───────────────────────────────────────────────────────────────────── */
+
+/* Fixed element that tracks mouse position via JS (mousemove event) */
 #cur {
   position: fixed;
   z-index: 9999;
@@ -222,22 +654,40 @@ a { color: inherit; text-decoration: none; }
   top: 0; left: 0;
   transform: translate(-50%, -50%);
 }
+
+/* The visible dot — aurora teal with multi-layer glow */
 .cur-dot {
   position: absolute;
   width: 11px; height: 11px;
-  background: var(--accent-teal);
+  background: var(--accent-aurora);
   border-radius: 50%;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   transition: transform 0.12s ease;
-  box-shadow: 0 0 10px 2px rgba(48, 206, 216, 0.5);
+  box-shadow:
+    0 0 8px 2px var(--aurora-400),
+    0 0 20px 4px #0AC39A60;
 }
+
+/* Scales the dot to 50% on mousedown — tactile press feedback */
 body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 
+/* Suppress the OS cursor on all interactive and hoverable elements */
 a, button, .project-hover, .a-card, .card-feat, .nav-links a { cursor: none; }
 
 
-/* ── NAV ── */
+/* ─────────────────────────────────────────────────────────────────────
+ * 4c  NAVIGATION
+ *
+ *  Fixed top nav with transparent default state.
+ *  On scroll (nav.scrolled added by JS), a glass panel activates:
+ *  blurred background + aurora teal border glow.
+ *
+ *  Nav links use a corner-bracket animation on hover — four pseudo-
+ *  elements draw a box around each link as the cursor moves in.
+ * ───────────────────────────────────────────────────────────────────── */
+
+/* Transparent by default — sits above the hero scroll theater */
 nav {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -248,33 +698,59 @@ nav {
   justify-content: space-between;
   padding: 0 var(--px);
   background: transparent;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid #FFFFFF0A;
   transition: background 0.8s ease, backdrop-filter 0.8s ease;
 }
+
+/* Glass panel state — activated by JS when window.scrollY > 50 */
+nav.scrolled {
+  background: var(--bg-dark);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid #0AC39A25;
+  box-shadow: 0 1px 20px #0AC39A10;
+}
+
+/* "Kevin Fowler" wordmark — Audiowide italic with warm glow */
 .nav-logo {
-  font-family: var(--serif);
-  font-style: italic;
+  font-family: var(--display);
+  font-style: italic;   /* synthesized italic — Audiowide has no italic variant */
   font-size: 1.5rem;
   color: var(--text);
+  text-shadow: 0 0 25px #F4F2FF35;
 }
-.nav-logo:hover { opacity: 0.8; color: var(--teal-400); }
+.nav-logo:hover { opacity: 0.8; color: var(--aurora-400); }
+
+/* Horizontal list of WORK / ABOUT / CONTACT links */
 .nav-links {
   display: flex;
   gap: 2rem;
   list-style: none;
 }
+
+/* aether-100 default — moonlit, present but not emitting energy */
 .nav-links a {
   position: relative;
-  font-family: var(--display);
+  font-family: var(--sans);
   font-size: 0.78rem;
   font-weight: 500;
   letter-spacing: 0.1em;
   display: inline-block;
   padding: 0.3rem;
   text-transform: uppercase;
-  color: var(--text);
+  color: var(--aether-100);
   transition: color 0.2s;
 }
+
+/* ── Corner Bracket Hover Animation ──────────────────────────────────
+ *  Four pseudo-elements (::before/::after on both <a> and <span>)
+ *  draw a 1.5px bracket around the link text.
+ *  The <a> pseudo-elements form the RIGHT side (top-right corner).
+ *  The <span> pseudo-elements form the LEFT side (bottom-left corner).
+ *  Together they complete the full rectangular bracket on hover.
+ * ──────────────────────────────────────────────────────────────────── */
+
+/* Right side: vertical line (top → down) + horizontal line (right → left) */
 .nav-links a::before, .nav-links a::after {
   position: absolute;
   content: "";
@@ -282,11 +758,14 @@ nav {
   background: var(--text);
   transition: all 0.3s ease;
 }
-.nav-links a::before { height: 0%; width: 1.5px; }
-.nav-links a::after  { width:  0%; height: 1.5px; }
-.nav-links a:hover   { color: var(--text); }
+.nav-links a::before { height: 0%; width: 1.5px; }  /* right vertical */
+.nav-links a::after  { width:  0%; height: 1.5px; }  /* top horizontal */
+
+.nav-links a:hover { color: var(--text); }
 .nav-links a:hover::before { height: 100%; }
 .nav-links a:hover::after  { width:  100%; }
+
+/* Left side: vertical line (bottom → up) + horizontal line (left → right) */
 .nav-links a span::before, .nav-links a span::after {
   position: absolute;
   content: "";
@@ -294,33 +773,32 @@ nav {
   background: var(--text);
   transition: all 0.3s ease;
 }
-.nav-links a span::before { width: 1.5px; height: 0%; }
-.nav-links a span::after  { width: 0%; height: 1.5px; }
+.nav-links a span::before { width: 1.5px; height: 0%; }  /* left vertical */
+.nav-links a span::after  { width: 0%; height: 1.5px; }   /* bottom horizontal */
+
 .nav-links a:hover span::before { height: 100%; }
 .nav-links a:hover span::after  { width:  100%; }
 
-nav.scrolled {
-  background: var(--bg-dark);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-}
 
-/* ── STATUS DOT ── */
+/* ─────────────────────────────────────────────────────────────────────
+ * 4d  STATUS BADGE
+ *
+ *  "Available for Work" badge in the center of the nav.
+ *  aurora-200 color signals active/live status.
+ *  On hover, badge expands to reveal "Arizona & Remote" text swap.
+ *  Pulse dot uses the sdpulse keyframe (defined in § 5).
+ * ───────────────────────────────────────────────────────────────────── */
+
+/* Pulsing dot — the "live" indicator. animation: sdpulse in § 5 */
 .sdot {
   width: 10px; height: 10px;
   border-radius: 50%;
-  background: var(--accent-teal);
-  box-shadow: 0 0 20px var(--accent-teal);
+  background: var(--accent-aurora);
   animation: sdpulse 1.5s infinite;
   flex-shrink: 0;
 }
-@keyframes sdpulse {
-  0%, 100% { opacity: 1;   box-shadow: 0 0 10px var(--accent-teal); }
-  50%       { opacity: 0.4; box-shadow: 0 0 3px  var(--accent-teal); }
-}
 
-
-/* ── HERO STATUS ── */
+/* Badge — aurora-200 text, transparent until hover. Fades in via JS */
 .hero-status {
   display: inline-flex;
   align-items: center;
@@ -330,29 +808,45 @@ nav.scrolled {
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--sand);
+  color: var(--aurora-200);   /* live active signal */
   padding: 0.35rem 0.35rem;
   border-radius: 20px;
   border: 1.5px solid transparent;
   background: transparent;
   opacity: 0;
-  animation: up 0.5s ease forwards 0.1s;
+  animation: up 0.5s ease forwards 0.1s;   /* @keyframes up — § 5 */
   white-space: nowrap;
   text-decoration: none;
   overflow: hidden;
   transition: background 0.35s ease, border-color 0.35s ease, padding 0.35s ease;
 }
+
+/* Text swap on hover — "Available for Work" → "Arizona & Remote" */
 .status-hover { display: none; }
 .hero-status:hover .status-default { display: none; }
 .hero-status:hover .status-hover   { display: inline; }
+
+/* Badge expands on hover — padding increase reveals full text */
 .hero-status:hover {
-  background: rgba(28, 18, 16, 0.6);
-  border-color: var(--accent-teal);
+  background: #1C121099;
+  border-color: var(--accent-aurora);
   padding: 0.35rem 0.85rem;
 }
 
 
-/* ── BUTTONS ── */
+/* ─────────────────────────────────────────────────────────────────────
+ * 4e  BUTTONS
+ *
+ *  Design system button variants. Not currently in index.html but
+ *  defined for the design system and future pages (about.html, etc).
+ *
+ *  .btn          base — shared layout and font properties
+ *  .btn-primary  aurora teal gradient, reverses on hover
+ *  .btn-ghost    borderless with corner bracket animation
+ *  .btn-outline  bordered, bg-raised fill on hover
+ * ───────────────────────────────────────────────────────────────────── */
+
+/* Shared base — all variants extend from here */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -366,6 +860,9 @@ nav.scrolled {
   transition: all 0.2s;
   white-space: nowrap;
 }
+
+/* Primary — aurora gradient fills from top (light) to bottom (dark).
+ * ::after holds the reversed gradient, fades in on hover via height. */
 .btn-primary {
   background: linear-gradient(180deg, var(--primary-lt) 0%, var(--primary) 74%);
   color: var(--text);
@@ -388,9 +885,10 @@ nav.scrolled {
 .btn-primary:hover::after { top: 0; height: 100%; }
 .btn-primary:active { top: 2px; }
 
+/* Ghost — transparent with same corner bracket as nav links */
 .btn-ghost {
   background: transparent;
-  color: rgba(242, 233, 234, 0.5);
+  color: #F2E9EA80;
   border: none;
   line-height: normal;
   position: relative;
@@ -419,81 +917,114 @@ nav.scrolled {
 .btn-ghost:hover span::before { height: 100%; }
 .btn-ghost:hover span::after  { width:  100%; }
 
+/* Outline — bg-raised fill slides in from the right on hover */
+.btn-outline {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1.5px solid var(--border);
+  position: relative;
+  z-index: 1;
+}
+.btn-outline::after {
+  position: absolute;
+  content: "";
+  width: 0; height: 100%;
+  top: 0; right: 0;
+  z-index: -1;
+  background: var(--bg-raised);
+  border-radius: 7px;
+  transition: all 0.3s ease;
+}
+.btn-outline:hover { color: var(--text); border-color: var(--bg-raised); }
+.btn-outline:hover::after { left: 0; width: 100%; }
+.btn-outline:active { top: 2px; }
 
-/* ── MARQUEE ── */
+
+/* ─────────────────────────────────────────────────────────────────────
+ * 4f  MARQUEE
+ *
+ *  Horizontally scrolling skills strip between hero and case studies.
+ *  aurora-600 background (#17A487) — the marquee is an energy band.
+ *  Pulsar-colored separator dots mirror the UFO's warning lights.
+ *  Pauses on hover for readability.
+ * ───────────────────────────────────────────────────────────────────── */
+
 .marquee {
-  background: var(--bg-marquee);
+  background: var(--bg-marquee);   /* aurora-600 */
   overflow: hidden;
   padding: 0.75rem 0;
   white-space: nowrap;
 }
+
+/* Doubled track — animation scrolls to exactly 50% for seamless loop */
 .m-track {
   display: inline-flex;
-  animation: marquee 30s linear infinite;
+  animation: marquee 30s linear infinite;   /* @keyframes marquee — § 5 */
 }
 .m-track:hover { animation-play-state: paused; }
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
+
+/* Individual skill item */
 .m-item {
   font-family: var(--sans);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(242, 233, 234, 0.9);
+  color: #F2E9EAE6;
   display: inline-flex;
   align-items: center;
   gap: 1.5rem;
   padding: 0 1.5rem;
 }
+
+/* Separator dot between items — pulsar red to mirror UFO warning lights */
 .m-sep {
   width: 3px; height: 3px;
   border-radius: 50%;
-  background: rgba(242, 233, 234, 0.4);
+  background: var(--accent-pulsar);
+  opacity: 0.7;
 }
 
 
-/* ── SECTIONS ── */
-.section {
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 6rem var(--px);
-}
-.section + .section,
-.s-border { border-top: 1px solid var(--border); }
+/* ─────────────────────────────────────────────────────────────────────
+ * 4g  CARDS
+ *
+ *  Two-part structure: outer wrapper + inner card.
+ *
+ *  .card-tilt-wrap   outer — holds the outer glow; overflow: hidden
+ *                    clips corner radius cleanly during 3D tilt.
+ *                    box-shadow MUST live here — on .card-feat it
+ *                    would be clipped by overflow: hidden.
+ *
+ *  .card-feat        inner — the actual card with image and text panels.
+ *                    JS applies a 3D perspective tilt on mousemove.
+ *
+ *  .card-vis         left panel — project image / visual preview
+ *  .card-body        right panel — title, description, tags, link
+ * ───────────────────────────────────────────────────────────────────── */
 
-.sec-hd {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 3rem;
-}
-.sec-title {
-  font-family: var(--serif);
-  font-size: clamp(1.75rem, 3.8vw, 2.6rem);
-  font-weight: 400;
-  letter-spacing: -0.025em;
-  line-height: 1.1;
-  color: var(--text);
-}
-.sec-title em {
-  font-style: italic;
-  color: var(--accent-purple);
-}
-.sec-count {
-  font-family: var(--display);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-light);
+/* Outer wrapper — clips border-radius and holds outer atmosphere glow */
+.card-tilt-wrap {
+  border-radius: 14px;
+  overflow: hidden;
+  will-change: transform;
+  box-shadow:
+    0 0 0 1px #98A8D418,
+    0 0 25px #5F259F25;   /* cosmos haze — resting state */
+  transition: box-shadow 0.4s ease;
 }
 
+/* On hover — cosmos purple haze replaced by aurora teal bloom */
+.card-tilt-wrap:hover {
+  box-shadow:
+    0 0 0 1px #0AC39A50,
+    0 0 35px #0AC39A25,
+    0 0 70px #5F259F30;
+}
 
-/* ── CARDS ── */
+/* Inner card — inset top-edge aurora creates "lit from above" panel.
+ * a.card-feat handles the anchor-tag variant; both share all rules. */
+a.card-feat,
 .card-feat {
   background: var(--bg-surface);
   border: 1px solid var(--border);
@@ -501,16 +1032,23 @@ nav.scrolled {
   overflow: hidden;
   display: grid;
   grid-template-columns: 1.15fr 1fr;
-  transition: transform 0.4s cubic-bezier(0.03, 0.98, 0.52, 0.99),
-              box-shadow 0.3s;
-  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.03, 0.98, 0.52, 0.99), box-shadow 0.3s;
+  transform-style: preserve-3d;   /* enables JS 3D tilt effect */
+  will-change: transform;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  box-shadow: inset 0 1px 0 #0AC39A40;   /* inset top-edge aurora glow */
+  color: inherit;
+  text-decoration: none;
 }
+
+/* Lift + deepen shadow on hover */
 .card-feat:hover {
   transform: translateY(-5px);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 1px 0 #0AC39A40, 0 24px 70px #00000080;
 }
+
+/* Visual / preview panel — dark background with cosmos radial fill */
 .card-vis {
   background: var(--bg-dark);
   min-height: 420px;
@@ -521,12 +1059,17 @@ nav.scrolled {
   position: relative;
   overflow: hidden;
 }
+
+/* Cosmos atmosphere inside the visual panel */
 .card-vis::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 30% 50%, rgba(95,37,159,0.25) 0%, transparent 65%);
+  background: radial-gradient(ellipse at 30% 50%, #5F259F40 0%, transparent 65%);
 }
+
+/* Card number tag (e.g. "◈ 01") — pulsar mirrors UFO warning lights.
+ * NOTE: xlink:href on arrow buttons is deprecated — use href (known bug) */
 .card-vis-tag {
   position: absolute;
   top: 1.2rem; left: 1.2rem;
@@ -534,89 +1077,74 @@ nav.scrolled {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(227, 212, 173, 0.4);
+  color: var(--accent-pulsar);
+  opacity: 0.75;
 }
+
+/* HUD marker prefix before the number */
+.card-vis-tag::before {
+  content: '◈ ';
+  opacity: 0.8;
+}
+
+/* Content panel — position: relative required for ::after bracket.
+ * Inset cosmos glow creates depth without a visible border. */
 .card-body {
   padding: 2.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
-  background: var(--bg-surface);
+  background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
+  box-shadow: inset 0 0 30px #5F259F25;
+  position: relative;
 }
-.c-type {
-  font-family: var(--display);
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent-teal);
+
+/* Top-right HUD corner bracket inside .card-body */
+.card-body::after {
+  content: '';
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 10px; height: 10px;
+  border-top: 1.5px solid var(--accent-aurora);
+  border-right: 1.5px solid var(--accent-aurora);
+  opacity: 0.25;
+  pointer-events: none;
 }
-.c-title {
-  font-family: var(--serif);
-  font-size: clamp(1.3rem, 2.4vw, 1.85rem);
-  font-weight: 400;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  color: var(--text);
-}
-.c-desc {
-  font-size: 0.87rem;
-  font-weight: 300;
-  color: var(--text-muted);
-  line-height: 1.82;
-}
+
+/* Tag chip container */
 .c-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;
+  font-family: var(--serif);   /* Oxanium — label/meta font */
 }
+
+/* Individual tag chip — pulsar border adds warm tension vs cosmos bg */
 .c-tag {
-  font-size: 0.68rem;
-  padding: 0.25rem 0.65rem;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
   border-radius: 20px;
   background: var(--bg-tint);
-  border: 1px solid var(--border);
+  border: 1px solid #C8185840;   /* pulsar at low opacity */
   color: var(--text-muted);
 }
-.c-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-family: var(--display);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--accent-teal);
-  position: relative;
-  transition: gap 0.2s;
-}
-.c-link::after {
-  content: '';
-  position: absolute;
-  bottom: -2px; left: 0;
-  width: 0; height: 1.5px;
-  background: var(--accent-teal);
-  transition: width 0.25s ease;
-}
-.c-link:hover { gap: 0.6rem; }
-.c-link:hover::after { width: 100%; }
-.card-tilt-wrap {
-  border-radius: 14px;
-  overflow: hidden;
-  will-change: transform;
-}
-.card-tilt-wrap:hover .card-feat {
-  will-change: transform;
-}
-a.card-feat { display: grid; color: inherit; text-decoration: none; }
-.card-feat:hover .c-link::after,
-a.card-feat:hover .c-link::after { width: 100%; }
 
 
-/* ── CASE STUDY SCROLL ── */
+/* ─────────────────────────────────────────────────────────────────────
+ * 4h  CASE STUDY SCROLL STRIP
+ *
+ *  Horizontally scrollable row of .cs-card wrappers.
+ *  Negative margin on .cs-scroll-wrap bleeds the scroll area edge-to-edge
+ *  while inner padding keeps cards aligned to the content column.
+ *
+ *  Drag-to-scroll handled by JS — user-select: none prevents
+ *  accidental text selection during drag.
+ * ───────────────────────────────────────────────────────────────────── */
+
+/* Negative side margins bleed the scroll container past --px padding */
 .cs-scroll-wrap { margin: 0 calc(-1 * var(--px)); }
+
 .cs-strip {
   display: flex;
   gap: 1.5rem;
@@ -629,15 +1157,23 @@ a.card-feat:hover .c-link::after { width: 100%; }
   -webkit-user-select: none;
   scrollbar-width: none;
 }
-.cs-strip a, .cs-strip img { -webkit-user-drag: none; user-drag: none; pointer-events: auto; }
+
+/* Suppress WebKit scrollbar */
 .cs-strip::-webkit-scrollbar { display: none; }
+
+/* Prevent drag ghost image on anchors and images inside the strip */
+.cs-strip a, .cs-strip img { -webkit-user-drag: none; user-drag: none; pointer-events: auto; }
 .cs-strip:active { cursor: none; }
+
+/* Individual card slot — 80vw with 1000px cap for legibility */
 .cs-card {
   flex-shrink: 0;
   width: 80vw;
   max-width: 1000px;
   scroll-snap-align: start;
 }
+
+/* Scroll progress track */
 .cs-progress-wrap {
   margin: 0 var(--px);
   height: 2px;
@@ -645,24 +1181,43 @@ a.card-feat:hover .c-link::after { width: 100%; }
   border-radius: 2px;
   overflow: hidden;
 }
+
+/* Filled portion — aurora teal with glow. Width set by JS on scroll. */
 .cs-progress-bar {
   height: 100%;
   width: 0%;
-  background: var(--primary);
+  background: var(--accent-aurora);
   border-radius: 2px;
+  box-shadow: 0 0 8px var(--accent-aurora);
   transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 
-/* ── ARROWS ── */
+/* ─────────────────────────────────────────────────────────────────────
+ * 4i  NAVIGATION ARROWS
+ *
+ *  Two circular arrow buttons (prev / next) below the card strip.
+ *  Default state: aether-100 chevron on a faint glass circle.
+ *  Hover state: aurora teal activation — glow, border, chevron color.
+ *
+ *  ::before = glass fill (blurred background)
+ *  ::after  = border ring
+ *  These are split to prevent backdrop-filter / border conflicts.
+ *
+ *  .cs-arrow.animate triggers the stroke-drawing animation via JS
+ *  when an arrow button is clicked.
+ * ───────────────────────────────────────────────────────────────────── */
+
 .cs-arrows {
   display: flex;
   justify-content: center;
   gap: 2rem;
   margin: 1rem var(--px) 0.75rem;
 }
+
+/* Base arrow button — --active CSS var drives all color states */
 .cs-arrow {
-  --active: var(--primary);
+  --active: var(--aether-100);   /* moonlit default — visible, not glowing */
   display: block;
   position: relative;
   width: 44px; height: 44px;
@@ -671,7 +1226,11 @@ a.card-feat:hover .c-link::after { width: 100%; }
   cursor: none;
   padding: 0;
 }
+
+/* .left variant — mirror the SVG to point backward */
 .cs-arrow.left { transform: scaleX(-1); }
+
+/* Chevron icon container — centered inside the 44×44 button */
 .cs-arrow i {
   display: block;
   position: absolute;
@@ -679,6 +1238,8 @@ a.card-feat:hover .c-link::after { width: 100%; }
   width: 20px; height: 20px;
   left: 50%; top: 50%;
 }
+
+/* Two lines form the chevron (before = top stroke, after = bottom stroke) */
 .cs-arrow i::before, .cs-arrow i::after {
   content: '';
   width: 10px; height: 2px;
@@ -691,15 +1252,33 @@ a.card-feat:hover .c-link::after { width: 100%; }
   transform-origin: 9px 50%;
 }
 .cs-arrow i::before { transform: rotate(-40deg); }
-.cs-arrow i::after  { transform: rotate(40deg);  }
-.cs-arrow::before, .cs-arrow::after {
+.cs-arrow i::after  { transform: rotate(40deg); }
+
+/* Glass fill — backdrop-filter blur gives frosted glass effect */
+.cs-arrow::before {
   content: '';
   display: block;
   position: absolute;
   left: 1px; right: 1px; top: 1px; bottom: 1px;
   border-radius: 50%;
-  border: 2px solid var(--border);
+  background: var(--border-subtle);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
+
+/* Border ring — separate from ::before to avoid backdrop-filter interference */
+.cs-arrow::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 1px; right: 1px; top: 1px; bottom: 1px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  transition: border-color 0.3s ease;
+}
+
+/* Circle SVG (stroke-dasharray animation on click) */
 .cs-arrow svg {
   width: 44px; height: 44px;
   display: block;
@@ -711,251 +1290,421 @@ a.card-feat:hover .c-link::after { width: 100%; }
   stroke-dasharray: 126 126 0;
   transform: rotate(0deg);
 }
+
+/* Hover — aurora activation: updates --active, glass fill, border */
+.cs-arrow:hover { --active: var(--accent-aurora); }
+
+.cs-arrow:hover::before {
+  background: var(--aurora-glass);
+  box-shadow:
+    0 0 28px var(--aurora-glow),
+    inset 0 0 14px var(--aurora-inset);
+}
+
+.cs-arrow:hover::after { border-color: var(--accent-aurora); }
+
+/* Click animation state — added/removed by JS */
 .cs-arrow.animate svg { animation: arrowStroke 1s ease forwards 0.3s; }
-.cs-arrow.animate i   { animation: arrowSlide  1.6s ease forwards; }
-.cs-arrow.animate i::before { animation: arrowUp   1.6s ease forwards; }
+.cs-arrow.animate i   { animation: arrowSlide 1.6s ease forwards; }
+.cs-arrow.animate i::before { animation: arrowUp 1.6s ease forwards; }
 .cs-arrow.animate i::after  { animation: arrowDown 1.6s ease forwards; }
 
-@keyframes arrowStroke {
-  52%   { transform: rotate(-180deg); stroke-dashoffset: 0;   }
-  52.1% { transform: rotate(-360deg); stroke-dashoffset: 0;   }
-  100%  { transform: rotate(-180deg); stroke-dashoffset: 126; }
-}
-@keyframes arrowSlide {
-  0%, 100% { transform: translateX(0);     opacity: 1; }
-  23%       { transform: translateX(17px);  opacity: 1; }
-  24%, 80%  { transform: translateX(-22px); opacity: 0; }
-  81%       { opacity: 1; transform: translateX(-22px); }
-}
-@keyframes arrowUp {
-  0%, 100% { transform: rotate(-40deg) scaleX(1);   }
-  20%, 80% { transform: rotate(0deg)   scaleX(0.1); }
-}
-@keyframes arrowDown {
-  0%, 100% { transform: rotate(40deg) scaleX(1);   }
-  20%, 80% { transform: rotate(0deg)  scaleX(0.1); }
-}
 
+/* ─────────────────────────────────────────────────────────────────────
+ * 4j  ABOUT SECTION
+ *
+ *  Two-column layout: copy (left) + stat grid (right).
+ *  Stat cards use pulsar accent bars — mirroring the UFO warning
+ *  lights — while aurora drives the number glows and corner brackets.
+ *
+ *  .about-alien sits inside .stat-grid as the 5th grid item.
+ * ───────────────────────────────────────────────────────────────────── */
 
-/* ── ABOUT ── */
+/* Two-column layout — copy is slightly wider than the stat grid */
 .about-layout {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: 5rem;
   align-items: start;
 }
+
+/* About copy column — flex column with gap between paragraphs */
 .about-copy {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
+
+/* Body paragraphs in the about section */
 .about-copy p {
-  font-size: 0.97rem;
-  font-weight: 300;
+  font-size: 1rem;
+  font-weight: 400;
+  font-family: var(--sans);
   color: var(--text-muted);
   line-height: 1.9;
 }
-.about-copy strong { color: var(--accent-purple); font-weight: 600; }
 
+/* Bold inline text in about paragraphs — cosmos purple for emphasis */
+.about-copy strong { color: var(--accent-cosmos); font-weight: 600; }
+
+/* Stat grid — 2×2 card matrix. .about-alien is the 5th child */
 .stat-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
+  gap: 1.25rem;
   margin-top: 2rem;
+  width: 100%;
 }
+
+/* ── Stat Card ────────────────────────────────────────────────────────
+ *  Each stat card has:
+ *  ::before  left accent bar (pulsar — warning/data tension)
+ *  ::after   bottom-right corner bracket (aurora — active panel)
+ *
+ *  Resting glow uses pulsar family.
+ *  Hover glow intensifies the pulsar.
+ * ──────────────────────────────────────────────────────────────────── */
 .stat {
-  background: var(--bg-surface);
+  background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 1.1rem;
-  position: relative;
+  position: relative;   /* required for ::before and ::after */
   overflow: hidden;
+  box-shadow:
+    0 0 0 1px #98A8D418,
+    0 0 15px #C8185820,   /* pulsar haze */
+    inset 0 1px 0 #C8185840;
+  transition: box-shadow 0.3s ease;
 }
+
+/* Left accent bar — pulsar crimson, mirrors UFO warning lights */
 .stat::before {
   content: '';
   position: absolute;
   top: 0; left: 0;
   width: 3px; height: 100%;
-  background: var(--accent-purple);
+  background: var(--accent-pulsar);
   border-radius: 3px 0 0 3px;
+  box-shadow: 2px 0 12px #C8185880;
 }
+
+/* Bottom-right corner bracket — aurora, signals a live active panel */
+.stat::after {
+  content: '';
+  position: absolute;
+  bottom: 8px; right: 8px;
+  width: 10px; height: 10px;
+  border-bottom: 1.5px solid var(--accent-aurora);
+  border-right: 1.5px solid var(--accent-aurora);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* Hover — pulsar glow intensifies */
+.stat:hover {
+  box-shadow:
+    0 0 0 1px #C8185840,
+    0 0 20px #C8185825,
+    inset 0 1px 0 #C8185850;
+}
+
+/* Stat number — aurora with multi-layer text glow */
 .stat-n {
-  font-family: var(--serif);
+  font-family: var(--display);
   font-size: 2.2rem;
   font-weight: 400;
-  color: var(--accent-teal);
+  color: var(--accent-aurora);
   line-height: 1;
   margin-bottom: 0.2rem;
+  transition: text-shadow 0.3s ease;
+  text-shadow:
+    0 0 7px var(--aurora-400),
+    0 0 20px var(--aurora-400),
+    0 0 45px #0AC39A80;
 }
+
+/* Hover — glow radius expands */
+.stat:hover .stat-n {
+  text-shadow:
+    0 0 7px var(--aurora-400),
+    0 0 30px var(--aurora-400),
+    0 0 65px #0AC39A90;
+}
+
+/* Stat label — secondary text below the number */
 .stat-l {
   font-size: 0.75rem;
   font-weight: 400;
+  font-family: var(--sans);
   color: var(--text-muted);
   line-height: 1.45;
 }
 
+/* Alien image — 5th item in .stat-grid, spans full two-column width */
+.about-alien {
+  width: 75%;
+  grid-column: 1 / -1;   /* span both columns */
+  margin: 1rem auto 0;
+  opacity: 0.9;
+}
 
-/* ── CONTACT ── */
+
+/* ─────────────────────────────────────────────────────────────────────
+ * 4k  CONTACT SECTION
+ *
+ *  Single centered card (.c-band) with headline, body text,
+ *  a large CTA button, and three secondary social links.
+ *
+ *  HUD corner brackets:
+ *    .c-band::before  top-left bracket
+ *    .c-band::after   bottom-right bracket
+ *
+ *  CTA button uses the aurora-to-cosmos gradient with reversed-gradient
+ *  overlay that fades in on hover (same technique as .btn-primary).
+ *
+ *  .c-secondary-link uses the same corner-bracket animation as .nav-links.
+ * ───────────────────────────────────────────────────────────────────── */
+
+/* Contact card — position: relative required for corner brackets */
 .c-band {
-  background: linear-gradient(135deg, var(--purple-900), var(--sedona-900));
+  background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 3.5rem;
   display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   align-items: center;
-  justify-content: space-between;
-  gap: 2.5rem;
-  flex-wrap: wrap;
+  text-align: center;
+  width: 100%;
+  position: relative;
+  box-shadow:
+    0 0 0 1px #98A8D420,
+    0 0 50px #5F259F30,
+    inset 0 1px 0 #5F259F60;
 }
-.c-band h2 {
-  font-family: var(--serif);
-  font-size: clamp(1.5rem, 3.5vw, 2.4rem);
-  font-weight: 400;
-  letter-spacing: -0.025em;
-  line-height: 1.2;
+
+/* Top-left corner bracket */
+.c-band::before {
+  content: '';
+  position: absolute;
+  top: 16px; left: 16px;
+  width: 14px; height: 14px;
+  border-top: 1.5px solid var(--accent-aurora);
+  border-left: 1.5px solid var(--accent-aurora);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Bottom-right corner bracket */
+.c-band::after {
+  content: '';
+  position: absolute;
+  bottom: 16px; right: 16px;
+  width: 14px; height: 14px;
+  border-bottom: 1.5px solid var(--accent-aurora);
+  border-right: 1.5px solid var(--accent-aurora);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Flex column holding the headline and body text */
+.c-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* "Establish Contact" CTA button — largest interactive element on page.
+ * Aurora-to-cosmos gradient reverses on hover via ::after overlay. */
+.c-cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 1.25rem 3rem;
+  gap: 1rem;
+  background: linear-gradient(135deg, var(--aurora-400) 0%, var(--cosmos-600) 100%);
+  border-radius: 10px;
   color: var(--text);
-  margin-bottom: 0.6rem;
+  font-family: var(--sans);
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  position: relative;
+  z-index: 1;
+  transition: opacity 0.2s ease;
+  box-shadow:
+    0 0 25px #0AC39A50,
+    0 0 60px #0AC39A25;   /* outer aurora bloom */
 }
-.c-band h2 em {
-  font-style: italic;
-  color: var(--teal-600);
-}
-.c-band p {
-  font-size: 0.9rem;
-  font-weight: 300;
-  color: var(--text-muted);
-  max-width: 340px;
-  line-height: 1.8;
-}
-.c-btns {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-}
-.c-btns .btn-ghost {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-color: rgba(242,233,234,0.2);
-}
-.c-btns .btn-ghost:hover { text-decoration: none; }
 
+/* Reversed-gradient overlay — fades in on hover */
+.c-cta-btn::after {
+  position: absolute;
+  content: "";
+  width: 100%; height: 0;
+  bottom: 0; left: 0;
+  z-index: -1;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--cosmos-600) 0%, var(--aurora-400) 100%);
+  transition: all 0.3s ease;
+}
+.c-cta-btn:hover::after { top: 0; height: 100%; }
 
-/* ── FOOTER ── */
-footer {
-  border-top: 1px solid var(--border);
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 1.6rem var(--px);
+/* Bloom intensifies on hover */
+.c-cta-btn:hover {
+  box-shadow:
+    0 0 35px #0AC39A70,
+    0 0 80px #0AC39A35;
+}
+
+/* Arrow character inside the CTA button — nudges right on hover */
+.c-cta-arrow {
+  font-size: 2rem;
+  transition: transform 0.2s ease;
+}
+.c-cta-btn:hover .c-cta-arrow { transform: translateX(4px); }
+
+/* Secondary link row — GitHub / Handshake / LinkedIn */
+.c-secondary {
   display: flex;
+  gap: 1.5rem;
   align-items: center;
-  justify-content: space-between;
-}
-.foot-l {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 0.92rem;
-  color: var(--text-muted);
-}
-.foot-r {
-  font-family: var(--display);
-  font-size: 0.72rem;
-  color: var(--text-light);
 }
 
-
-/* ── ANIMATIONS ── */
-@keyframes up {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0);    }
+/* Secondary links — aurora-200 color signals these are live endpoints.
+ * Uses same corner-bracket animation as .nav-links a. */
+.c-secondary-link {
+  position: relative;
+  display: inline-block;
+  padding: 0.3rem;
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--aurora-200);
+  text-decoration: underline;
+  text-decoration-color: #0AC39A40;
+  transition: color 0.2s ease;
 }
-.reveal {
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.reveal.in { opacity: 1; transform: none; }
-.reveal-left {
-  opacity: 0;
-  transform: translateX(-24px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.reveal-left.in { opacity: 1; transform: none; }
-.reveal-right {
-  opacity: 0;
-  transform: translateX(24px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.reveal-right.in { opacity: 1; transform: none; }
-
-
-/* ── RESPONSIVE ── */
-@media (max-width: 900px) {
-  .card-feat    { grid-template-columns: 1fr; }
-  .card-vis     { min-height: 260px; }
-  .about-layout { grid-template-columns: 1fr; gap: 2.5rem; }
-  .c-band       { flex-direction: column; align-items: flex-start; }
-}
-@media (max-width: 600px) {
-  .nav-links    { display: none; }
-  .stat-grid    { grid-template-columns: 1fr 1fr; }
-  footer        { flex-direction: column; gap: 0.4rem; }
-  body          { cursor: auto; }
-  #cur          { display: none; }
+.c-secondary-link:hover {
+  color: var(--text);
+  text-decoration: none;
+  text-shadow: 0 0 12px var(--accent-aurora);
 }
 
-
-/* ── FOCUS ── */
-:focus-visible {
-  outline: 2px solid var(--accent-teal);
-  outline-offset: 3px;
-  border-radius: 3px;
+/* Corner bracket animation — right side */
+.c-secondary-link::before, .c-secondary-link::after {
+  position: absolute;
+  content: "";
+  right: 0; top: 0;
+  background: var(--text);
+  transition: all 0.3s ease;
 }
+.c-secondary-link::before { height: 0%; width: 1.5px; }
+.c-secondary-link::after  { width: 0%; height: 1.5px; }
+.c-secondary-link:hover::before { height: 100%; }
+.c-secondary-link:hover::after  { width: 100%; }
 
-
-/* ── REDUCED MOTION ── */
-@media (prefers-reduced-motion: reduce) {
-  .m-track         { animation-duration: 120s; }
-  .sdot            { animation: none; }
+/* Corner bracket animation — left side (via <span> children) */
+.c-secondary-link span::before, .c-secondary-link span::after {
+  position: absolute;
+  content: "";
+  left: 0; bottom: 0;
+  background: var(--text);
+  transition: all 0.3s ease;
 }
+.c-secondary-link span::before { width: 1.5px; height: 0%; }
+.c-secondary-link span::after  { width: 0%; height: 1.5px; }
+.c-secondary-link:hover span::before { height: 100%; }
+.c-secondary-link:hover span::after  { width: 100%; }
 
 
-/* ══ HERO — scroll theater ══════════════════════════════════════════════════ */
+/* ─────────────────────────────────────────────────────────────────────
+ * 4l  HERO SCROLL THEATER
+ *
+ *  The cinematic opening sequence — 300svh tall so the user scrolls
+ *  through three full viewport heights while the scene is sticky.
+ *
+ *  Layer stack (z-index):
+ *    2  #stars         canvas particle field
+ *    3  .hero-moon     SVG moon
+ *    4  .hero-terrain  SVG terrain (fetched from GitHub)
+ *    5  .hero-ufo      SVG UFO (GSAP-controlled position)
+ *    6  ::before       scanlines overlay
+ *    8  ::after        bottom fade to --bg
+ *
+ *  LOCKED VALUES — do not change without re-testing on GitHub Pages:
+ *    height: 300svh          UFO journey pacing
+ *    .hero-pin::after: 65vh  terrain fade breakpoint (empirical)
+ *    terrain viewBox: "0 150 666.667 150"
+ *    preserveAspectRatio: "xMidYMax" (no slice)
+ * ───────────────────────────────────────────────────────────────────── */
 
+/* Outer scroll container — 300svh creates the scroll space for the theater */
 .hero {
-  height: 250svh;
+  height: calc(var(--vh, 1vh) * 300);   /* LOCKED */
   background: var(--bg);
   position: relative;
 }
 
+/* Sticky viewport — the scene itself.
+ * Composited night sky background from all five palette families:
+ * pulsar pinks, cosmos purples, aurora teals, deep navy blues. */
 .hero-pin {
   position: sticky;
   top: 0;
-  height: 100svh;
+  height: calc(var(--vh, 1vh) * 100);
   min-height: 600px;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 55% 60% at 18% 55%, rgba(200,35,85,0.55)  0%, transparent 100%),
-    radial-gradient(ellipse 40% 45% at 8%  30%, rgba(26,58,154,0.70)  0%, transparent 100%),
-    radial-gradient(ellipse 50% 55% at 78% 38%, rgba(48,206,216,0.48) 0%, transparent 100%),
-    radial-gradient(ellipse 35% 40% at 94% 18%, rgba(30,70,180,0.58)  0%, transparent 100%),
-    radial-gradient(ellipse 45% 50% at 55% 68%, rgba(95,37,159,0.52)  0%, transparent 100%),
-    radial-gradient(ellipse 60% 50% at 32% 42%, rgba(110,30,175,0.48) 0%, transparent 100%),
-    radial-gradient(ellipse 30% 35% at 90% 58%, rgba(167,25,48,0.34)  0%, transparent 100%),
-    radial-gradient(ellipse 28% 32% at 62% 22%, rgba(48,206,216,0.30) 0%, transparent 100%),
-    radial-gradient(ellipse 22% 28% at 45% 18%, rgba(180,40,120,0.30) 0%, transparent 100%),
+    radial-gradient(ellipse 55% 60% at 18% 55%, #C823558C  0%, transparent 100%),
+    radial-gradient(ellipse 40% 45% at 8%  30%, #1A3A9AB3  0%, transparent 100%),
+    radial-gradient(ellipse 50% 55% at 78% 38%, #0AC39A7A  0%, transparent 100%),
+    radial-gradient(ellipse 35% 40% at 94% 18%, #1E46B494  0%, transparent 100%),
+    radial-gradient(ellipse 45% 50% at 55% 68%, #5F259F85  0%, transparent 100%),
+    radial-gradient(ellipse 60% 50% at 32% 42%, #6E1EAF7A  0%, transparent 100%),
+    radial-gradient(ellipse 30% 35% at 90% 58%, #A7193057  0%, transparent 100%),
+    radial-gradient(ellipse 28% 32% at 62% 22%, #0AC39A4D  0%, transparent 100%),
+    radial-gradient(ellipse 22% 28% at 45% 18%, #B428784D  0%, transparent 100%),
     linear-gradient(to bottom, #010308 0%, #03050F 15%, #060818 35%, #0A0720 55%, #100826 75%, #100820 100%);
 }
 
+/* Scanline overlay — z-index 6, above terrain and moon, below UFO.
+ * Very subtle (opacity #000006) — felt as texture, not seen as lines. */
+.hero-pin::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    #00000006 2px,
+    #00000006 3px
+  );
+  z-index: 6;
+  pointer-events: none;
+}
+
+/* Gradient fade at bottom — blends the sticky scene into --bg.
+ * Height of 65vh is empirically tested. Do not change. */
 .hero-pin::after {
   content: '';
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 45vh;
+  height: 65vh;   /* LOCKED — empirically tested */
   background: linear-gradient(to bottom, transparent, var(--bg));
   z-index: 8;
   pointer-events: none;
 }
 
+/* Star particle canvas — fills the full sticky viewport */
 #stars {
   position: absolute;
   inset: 0;
@@ -965,6 +1714,10 @@ footer {
   pointer-events: none;
 }
 
+/* Terrain container — div stays in HTML; SVG is fetched from GitHub.
+ * NOTE: hero-terrain SVG is NOT inline — it is loaded via fetch() in
+ * main.js from GitHub. The div element must remain in index.html.
+ * Do not remove this CSS; it styles the dynamically-injected SVG. */
 .hero-terrain {
   position: absolute;
   inset: 0;
@@ -979,10 +1732,7 @@ footer {
   max-height: 100vh;
 }
 
-@media (max-width: 600px) {
-  .hero { height: 140svh; }
-}
-
+/* Moon SVG container */
 .hero-moon {
   position: absolute;
   inset: 0;
@@ -995,38 +1745,217 @@ footer {
   display: block;
 }
 
-
-/* ── UFO ── */
+/* UFO container — positioned absolutely; GSAP moves it via transform.
+ * top: 0 / left: 0 is the transform origin; JS sets actual position. */
 .hero-ufo {
   position: absolute;
   width: 280px;
   z-index: 5;
   pointer-events: none;
-  top: 0;
-  left: 0;
+  top: 0; left: 0;
 }
-.hero-ufo-inner {
-  width: 100%;
-}
+
+.hero-ufo-inner { width: 100%; }
+
 .hero-ufo svg {
   width: 100%;
   height: auto;
   overflow: visible;
 }
+
+/* UFO rim lights — alternating circles blink at different phases.
+ * :not(#ufoBeam) excludes the tractor beam polygon from blinking.
+ * animation: ufoLights defined in § 5 */
+.hero-ufo circle:not(#ufoBeam) {
+  animation: ufoLights 1.2s ease-in-out infinite alternate;
+}
+.hero-ufo circle:nth-child(odd) { animation-delay: 0.6s; }
+
+/* Hover float — JS adds .hovering when UFO reaches its hover waypoint.
+ * The inner div animates independently to allow JS transform on wrapper.
+ * animation: ufoHover defined in § 5 */
+.hero-ufo.hovering .hero-ufo-inner {
+  animation: ufoHover 3s ease-in-out infinite;
+}
+
+
+/* =====================================================================
+ * § 5  ANIMATIONS & KEYFRAMES
+ *
+ *  All @keyframes definitions in one block.
+ *  Component rules that reference these animations live in § 4.
+ *
+ *  NOTE: @keyframes rippleOut was previously injected by JS
+ *  (document.createElement('style')). It has been moved here.
+ *  The JS-side style injection block in main.js can be removed.
+ *  Also note: the JS ripple still references var(--accent-teal)
+ *  which is a dead token — update to var(--accent-aurora).
+ * ===================================================================== */
+
+
+/* ── Intro Overlay Animations ────────────────────────────────────── */
+
+/* Rising particle — translates up by --rise, drifts by --drift.
+ * Both custom properties are set inline per particle by JS spawnPts(). */
+@keyframes iptRise {
+  0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+  8%   { opacity: 0.85; }
+  75%  { opacity: 0.5; }
+  100% { transform: translateY(var(--rise, -100vh)) translateX(var(--drift, 0px)) scale(0.1); opacity: 0; }
+}
+
+/* UFO rim lights alternate blink — used by .iLight */
+@keyframes iLightBlink {
+  0%   { opacity: 0.95; }
+  100% { opacity: 0.2; }
+}
+
+
+/* ── Status Dot Animation ─────────────────────────────────────────── */
+
+/* Pulsing glow for the "Available for Work" dot.
+ * Multi-layer box-shadow scales with opacity for a breathing effect. */
+@keyframes sdpulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 8px var(--accent-aurora), 0 0 20px var(--accent-aurora);
+  }
+  50% {
+    opacity: 0.4;
+    box-shadow: 0 0 3px var(--accent-aurora), 0 0 8px var(--accent-aurora);
+  }
+}
+
+
+/* ── General UI Animations ────────────────────────────────────────── */
+
+/* Fade up — used for hero-status badge entrance (animation: up) */
+@keyframes up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Slide up — general utility for entrance animations */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(110%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Marquee horizontal scroll — track moves exactly 50% for seamless loop */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+
+/* ── Hero UFO Animations ──────────────────────────────────────────── */
+
+/* UFO rim light blink — applied to circle:not(#ufoBeam) */
 @keyframes ufoLights {
   0%, 100% { opacity: 0.9; }
   50%       { opacity: 0.3; }
 }
-.hero-ufo circle {
-  animation: ufoLights 1.2s ease-in-out infinite alternate;
-}
-.hero-ufo circle:nth-child(odd) {
-  animation-delay: 0.6s;
-}
+
+/* UFO hover float — gentle 8px bob. Applied to .hero-ufo-inner
+ * when .hero-ufo.hovering is active (JS waypoint-based class toggle). */
 @keyframes ufoHover {
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(-8px); }
 }
-.hero-ufo.hovering .hero-ufo-inner {
-  animation: ufoHover 3s ease-in-out infinite;
+
+
+/* ── Navigation Arrow Click Animations ───────────────────────────── */
+
+/* Circle stroke draws around the button then resets */
+@keyframes arrowStroke {
+  52%   { transform: rotate(-180deg); stroke-dashoffset: 0; }
+  52.1% { transform: rotate(-360deg); stroke-dashoffset: 0; }
+  100%  { transform: rotate(-180deg); stroke-dashoffset: 126; }
+}
+
+/* Chevron slides out right, teleports to left, slides back in */
+@keyframes arrowSlide {
+  0%, 100% { transform: translateX(0);     opacity: 1; }
+  23%       { transform: translateX(17px);  opacity: 1; }
+  24%, 80%  { transform: translateX(-22px); opacity: 0; }
+  81%       { opacity: 1; transform: translateX(-22px); }
+}
+
+/* Top chevron stroke collapses during slide */
+@keyframes arrowUp {
+  0%, 100% { transform: rotate(-40deg) scaleX(1); }
+  20%, 80% { transform: rotate(0deg) scaleX(0.1); }
+}
+
+/* Bottom chevron stroke collapses during slide */
+@keyframes arrowDown {
+  0%, 100% { transform: rotate(40deg) scaleX(1); }
+  20%, 80% { transform: rotate(0deg) scaleX(0.1); }
+}
+
+
+/* ── Click Ripple ──────────────────────────────────────────────────── */
+
+/* Radial ripple that expands from click position.
+ * Triggered by JS click handler which creates a div with inline styles.
+ * NOTE: JS references var(--accent-teal) — update to var(--accent-aurora).
+ * The JS-side style injection (document.createElement('style')) can
+ * be removed now that this keyframe lives in the stylesheet. */
+@keyframes rippleOut {
+  to { transform: translate(-50%, -50%) scale(8); opacity: 0; }
+}
+
+
+/* =====================================================================
+ * § 6  MEDIA QUERIES
+ *
+ *  Responsive overrides and accessibility preferences.
+ *  Organized from preferences → large breakpoint → small breakpoint.
+ * ===================================================================== */
+
+
+/* ── Reduced Motion ───────────────────────────────────────────────────
+ *  Respects prefers-reduced-motion OS setting.
+ *  Marquee slows dramatically (120s) instead of stopping entirely.
+ *  Status dot animation disabled.
+ *  Intro overlay hidden immediately (also handled in JS).
+ * ──────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .m-track { animation-duration: 120s; }
+  .sdot    { animation: none; }
+  #intro, #intro-flash { display: none !important; }
+}
+
+
+/* ── Tablet / Narrow Desktop (≤ 900px) ───────────────────────────────
+ *  Card grid collapses to single column.
+ *  About layout stacks vertically.
+ *  Contact band left-aligns.
+ * ──────────────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .card-feat    { grid-template-columns: 1fr; }
+  .card-vis     { min-height: 260px; }
+  .about-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+  .c-band       { flex-direction: column; align-items: flex-start; padding: 2.5rem; }
+}
+
+
+/* ── Mobile (≤ 600px) ─────────────────────────────────────────────────
+ *  Nav links hidden (no mobile menu yet — planned).
+ *  Footer stacks vertically.
+ *  OS cursor restored (custom cursor hidden via #cur display: none).
+ *  Hero shortens — 300svh is too long on mobile; 140svh is sufficient.
+ *  UFO shrinks proportionally.
+ *  CTA button reduces padding.
+ *  Stat grid always 2-column (cards are narrow enough).
+ * ──────────────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .nav-links { display: none; }
+  footer     { flex-direction: column; gap: 0.4rem; }
+  body       { cursor: auto; }
+  #cur       { display: none; }
+  .hero      { height: calc(var(--vh, 1vh) * 140); }
+  .hero-ufo  { width: 160px; }
+  .c-cta-btn { padding: 1rem 1.25rem; }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
 }
