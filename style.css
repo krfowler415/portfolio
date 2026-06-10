@@ -1706,10 +1706,12 @@ a.card-feat,
   overflow: hidden;
 }
 .hero-terrain svg {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   display: block;
-  max-height: calc(var(--vh, 1vh) * 100);
+  overflow: hidden;
 }
 
 /* Moon SVG container */
