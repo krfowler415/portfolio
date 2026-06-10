@@ -27,8 +27,8 @@
  *  LOCKED DECISIONS (do not change without empirical re-testing)
  *  ─────────────────────────────────────────────────────────────────
  *  --bg: #100820           flows from terrain SVG gradient
- *  .hero height: 300svh    UFO journey pacing
- *  .hero-pin::after: 65vh  terrain fade breakpoint
+ *  .hero height: 300s    UFO journey pacing
+ *  .hero-pin::after: 65  terrain fade breakpoint
  *  terrain viewBox: "0 150 666.667 150"   empirically tested
  *  preserveAspectRatio: "xMidYMax"        no slice — prevents zoom
  *
