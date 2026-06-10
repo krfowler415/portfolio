@@ -1,0 +1,657 @@
+/*
+ * Sonoran Cosmos — Case Study Stylesheet
+ * Kevin Fowler · UX Portfolio · eDreams Redesign
+ *
+ * Sections:
+ *   1. Variables & Reset
+ *   2. Cursor
+ *   3. Nav
+ *   4. Hero
+ *   5. Wave Divider
+ *   6. Body Copy
+ *   7. Stats
+ *   8. Findings Grid
+ *   9. Images / Placeholders
+ *  10. Dark Band
+ *  11. Buttons
+ *  12. Next Project / CTA
+ *  13. Footer
+ *  14. Animations & Keyframes
+ *  15. Media Queries
+ */
+
+
+/* ═══════════════════════════════════════════════════════
+   1. VARIABLES & RESET
+   ═══════════════════════════════════════════════════════ */
+
+:root {
+
+  /* Backgrounds — deep night sky → raised surface hierarchy */
+  --bg:          #100820;   /* page bg — deepest space */
+  --bg-surface:  #1C1232;   /* cards, containers — slightly lifted */
+  --bg-raised:   #281842;   /* dark band, alternate sections */
+
+  /* Text — warm cream, no white (moonlit hierarchy) */
+  --text:    #F0E2D0;    /* headlines, strong text */
+  --mid:     #C8D0EC;    /* aether-100 — body paragraphs, moonlit */
+  --light:   #98A8D4;    /* aether-200 — captions, muted labels */
+
+  /* Borders — cool cosmic tint */
+  --border:      rgba(200, 208, 236, 0.12);
+  --border-mid:  rgba(200, 208, 236, 0.22);
+
+  /* Accent palette — Sonoran Cosmos
+     Each color has a specific semantic role, same as main portfolio */
+  --aurora:      #0AC39A;   /* all interactive states, live signals */
+  --aurora-dim:  #087A61;   /* darker aurora for gradient bottoms */
+  --pulsar:      #C81858;   /* warning beats — findings, problem signals */
+  --cosmos:      #5F259F;   /* structural purple — dividers, borders */
+  --aether:      #C8D0EC;   /* moonlit chrome — pull quotes, nav defaults */
+
+  /* Typography — token names match main portfolio exactly */
+  --display: 'Audiowide', sans-serif;            /* display headlines */
+  --serif:   'Oxanium', system-ui, sans-serif;   /* labels, secondary */
+  --sans:    'Orbitron', system-ui, sans-serif;  /* body text, UI */
+
+  /* Layout */
+  --max:       780px;
+  --max-wide:  1100px;
+  --px:        clamp(1.25rem, 5vw, 3rem);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--mid);
+  font-family: var(--sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  cursor: none;
+}
+
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+
+/* ═══════════════════════════════════════════════════════
+   2. CURSOR
+   Aurora dot — matches main portfolio cursor color
+   ═══════════════════════════════════════════════════════ */
+
+#cur {
+  position: fixed; z-index: 9999;
+  pointer-events: none;
+  top: 0; left: 0;
+  transform: translate(-50%, -50%);
+}
+
+.cur-dot {
+  position: absolute;
+  width: 11px; height: 11px;
+  background: var(--aurora);
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.12s ease;
+}
+
+body.clicking .cur-dot {
+  transform: translate(-50%, -50%) scale(0.5);
+}
+
+a, button { cursor: none; }
+
+
+/* ═══════════════════════════════════════════════════════
+   3. NAV
+   Dark glass — same approach as main portfolio scrolled state
+   ═══════════════════════════════════════════════════════ */
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 54px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 var(--px);
+  background: rgba(16, 8, 32, 0.90);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Back link — aether at rest, brighter on hover */
+.nav-back {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--serif);
+  font-size: 0.78rem; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(200, 208, 236, 0.45);
+  transition: color 0.2s;
+}
+.nav-back:hover { color: var(--aether); }
+.nav-back svg { width: 14px; height: 14px; }
+
+/* Logo — Audiowide to match main portfolio nav identity */
+.nav-logo {
+  font-family: var(--display);
+  font-size: 0.92rem;
+  letter-spacing: 0.04em;
+  color: var(--aether);
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   4. HERO
+   Deep dark bg with cosmos nebula glow — same spatial
+   language as the main portfolio hero section.
+   ═══════════════════════════════════════════════════════ */
+
+.hero {
+  background: var(--bg);
+  padding: calc(54px + 5rem) var(--px) 5rem;
+  position: relative; overflow: hidden;
+}
+
+/* Cosmos nebula glow behind hero content */
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(95, 37, 159, 0.20) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-inner {
+  max-width: var(--max-wide);
+  margin: 0 auto;
+  position: relative; z-index: 1;
+}
+
+/* Eyebrow — aurora signals this is live/active content */
+.hero-eyebrow {
+  font-family: var(--serif);
+  font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--aurora);
+  margin-bottom: 1.5rem;
+  opacity: 0; animation: up 0.5s ease forwards 0.1s;
+}
+
+/* Hero title — Audiowide to match main portfolio display style.
+   Font size pulled down slightly from the Fraunces version —
+   Audiowide renders wider, needs a bit less room. */
+.hero-title {
+  font-family: var(--display);
+  font-size: clamp(2rem, 5.5vw, 4.2rem);
+  font-weight: 400; line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 2rem;
+}
+
+.hero-title .line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.25em;
+}
+
+.hero-title .line span {
+  display: block;
+  opacity: 0; transform: translateY(110%);
+  animation: slideUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-title .line:nth-child(1) span { animation-delay: 0.15s; }
+.hero-title .line:nth-child(2) span { animation-delay: 0.30s; }
+
+/* Audiowide has no italic variant — aurora color does the job */
+.hero-title em {
+  font-style: normal;
+  color: var(--aurora);
+}
+
+/* Meta row — role, timeline, tools, outcome */
+.hero-meta {
+  display: flex; flex-wrap: wrap; gap: 2rem;
+  opacity: 0; animation: up 0.5s ease forwards 0.6s;
+}
+
+.meta-label {
+  font-family: var(--serif);
+  font-size: 0.65rem; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(200, 208, 236, 0.35);
+  margin-bottom: 0.25rem;
+}
+
+.meta-val {
+  font-family: var(--sans);
+  font-size: 0.9rem; font-weight: 400;
+  color: rgba(200, 208, 236, 0.65);
+}
+.meta-val strong { color: var(--text); font-weight: 500; }
+
+
+/* ═══════════════════════════════════════════════════════
+   5. WAVE DIVIDER
+   Both sections are dark, so the original light-to-dark
+   wave doesn't apply. Replaced with a cosmos/aurora
+   gradient arch — a nebula sweep between hero and body.
+   ═══════════════════════════════════════════════════════ */
+
+.wave { background: var(--bg); line-height: 0; }
+.wave svg { display: block; width: 100%; }
+
+
+/* ═══════════════════════════════════════════════════════
+   6. BODY COPY
+   ═══════════════════════════════════════════════════════ */
+
+.cs-body {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 5rem var(--px);
+}
+
+/* Body paragraph — aether-100 (--mid) as the moonlit text */
+.graf {
+  font-family: var(--serif);
+  font-size: 1.05rem; font-weight: 400;
+  color: var(--mid);
+  line-height: 1.9;
+  margin-bottom: 1.5rem;
+}
+.graf strong { color: var(--text); font-weight: 500; }
+.graf em { font-style: italic; color: var(--aurora); }
+.graf:last-child { margin-bottom: 0; }
+
+/* Lead paragraph — warmer, bigger opener */
+.graf-lead {
+  font-family: var(--sans);
+  font-size: 1.15rem; font-weight: 400;
+  color: var(--text);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+.graf-lead strong { font-weight: 600; }
+
+/* Section label — aurora accent, Oxanium caps (same as main portfolio) */
+.cs-label {
+  font-family: var(--serif);
+  font-size: 0.68rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--aurora);
+  margin-bottom: 1rem;
+  display: block;
+}
+
+/* Pull quote — Audiowide for impact, cosmos left border,
+   aether text keeps it moonlit rather than screaming */
+.pull-q {
+  font-family: var(--display);
+  font-size: 1.05rem;
+  color: var(--aether);
+  line-height: 1.65;
+  border-left: 2px solid var(--cosmos);
+  padding: 0.25rem 0 0.25rem 1.5rem;
+  margin: 2.5rem 0;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   7. STATS
+   bg-surface cards with aurora stat numbers — "live reading"
+   ═══════════════════════════════════════════════════════ */
+
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 2.5rem 0;
+}
+
+.stat-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+  text-align: center;
+}
+
+/* Aurora for stat numbers — same logic as main portfolio stat bars */
+.stat-box-n {
+  font-family: var(--display);
+  font-size: 2.2rem; font-weight: 400;
+  color: var(--aurora);
+  line-height: 1;
+  margin-bottom: 0.35rem;
+}
+
+.stat-box-l {
+  font-family: var(--serif);
+  font-size: 0.78rem; font-weight: 400;
+  color: var(--light);
+  line-height: 1.4;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   8. FINDINGS GRID
+   Pulsar headlines — findings are problem signals,
+   same reasoning as pulsar on card tags in main portfolio
+   ═══════════════════════════════════════════════════════ */
+
+.findings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+  margin: 2rem 0;
+}
+
+.finding {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+/* Pulsar — problem signal, mirrors warning-beat logic from main portfolio */
+.finding-hed {
+  font-family: var(--serif);
+  font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--pulsar);
+  margin-bottom: 0.5rem;
+}
+
+.finding p {
+  font-family: var(--sans);
+  font-size: 0.85rem; font-weight: 400;
+  color: var(--light);
+  line-height: 1.65;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   9. IMAGES / PLACEHOLDERS
+   bg-surface with cosmos nebula glow — same dark treatment
+   as the main portfolio card vis areas
+   ═══════════════════════════════════════════════════════ */
+
+.img-full {
+  max-width: var(--max-wide);
+  margin: 4rem auto;
+  padding: 0 var(--px);
+}
+
+.img-full-inner {
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--bg-surface);
+}
+
+.img-grid {
+  max-width: var(--max-wide);
+  margin: 4rem auto;
+  padding: 0 var(--px);
+  display: grid;
+  gap: 1rem;
+}
+
+.img-grid-2 { grid-template-columns: 1fr 1fr; }
+.img-grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+.img-placeholder {
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg-surface);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+}
+
+/* Cosmos nebula behind placeholder icon */
+.img-placeholder::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 40% 50%, rgba(95, 37, 159, 0.18) 0%, transparent 65%);
+}
+
+.img-ph-label {
+  font-family: var(--serif);
+  font-size: 0.68rem; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(200, 208, 236, 0.30);
+  text-align: center;
+  padding: 0 1rem;
+  position: relative; z-index: 1;
+}
+
+.img-ph-icon {
+  font-size: 1.5rem;
+  opacity: 0.2;
+  position: relative; z-index: 1;
+}
+
+.ar-16-9 { aspect-ratio: 16/9; }
+.ar-4-3  { aspect-ratio: 4/3;  }
+.ar-3-2  { aspect-ratio: 3/2;  }
+.ar-1-1  { aspect-ratio: 1/1;  }
+
+.img-caption {
+  font-family: var(--sans);
+  font-size: 0.78rem; font-weight: 400;
+  color: var(--light);
+  text-align: center;
+  margin-top: 0.75rem;
+  font-style: italic;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+  10. DARK BAND
+   bg-raised differentiates from the page bg.
+   Cosmos seam borders — same logic as section dividers
+   on main portfolio (subtle, not glowing box outlines)
+   ═══════════════════════════════════════════════════════ */
+
+.band-dark {
+  background: var(--bg-raised);
+  padding: 5rem var(--px);
+  margin: 5rem 0;
+  border-top: 1px solid rgba(95, 37, 159, 0.3);
+  border-bottom: 1px solid rgba(95, 37, 159, 0.3);
+}
+
+.band-dark-inner { max-width: var(--max); margin: 0 auto; }
+
+.band-dark .graf        { color: rgba(200, 208, 236, 0.65); }
+.band-dark .graf strong { color: var(--text); }
+.band-dark .cs-label    { color: var(--aurora); }
+.band-dark .pull-q      { color: var(--aurora); border-left-color: rgba(10, 195, 154, 0.35); }
+
+
+/* ═══════════════════════════════════════════════════════
+  11. BUTTONS
+   Aurora primary gradient. Ghost border animation uses
+   aether — matches main portfolio ghost/outline buttons.
+   ═══════════════════════════════════════════════════════ */
+
+.btn {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.7rem 1.4rem;
+  font-family: var(--serif);
+  font-size: 0.82rem; font-weight: 500;
+  letter-spacing: 0.06em;
+  border-radius: 7px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+/* Primary CTA — aurora gradient */
+.btn-leaf {
+  background: linear-gradient(180deg, var(--aurora) 0%, var(--aurora-dim) 100%);
+  color: var(--bg);
+  border: none;
+  font-weight: 600;
+  position: relative; z-index: 1;
+}
+
+.btn-leaf::after {
+  position: absolute; content: "";
+  width: 100%; height: 0;
+  bottom: 0; left: 0; z-index: -1;
+  border-radius: 7px;
+  background: linear-gradient(180deg, var(--aurora-dim) 0%, var(--aurora) 100%);
+  transition: all 0.3s ease;
+}
+
+.btn-leaf:hover { color: var(--bg); }
+.btn-leaf:hover::after { top: 0; height: 100%; }
+.btn-leaf:active { top: 2px; }
+
+/* Ghost — wire-frame corner animation with aether lines */
+.btn-ghost {
+  background: transparent;
+  color: rgba(200, 208, 236, 0.5);
+  border: none; line-height: normal;
+  position: relative;
+}
+
+.btn-ghost::before, .btn-ghost::after {
+  position: absolute; content: "";
+  right: 0; top: 0;
+  background: var(--aether);
+  transition: all 0.3s ease;
+}
+.btn-ghost::before { height: 0%; width: 1.5px; }
+.btn-ghost::after  { width: 0%;  height: 1.5px; }
+
+.btn-ghost:hover { background: transparent; color: var(--aether); box-shadow: none; }
+.btn-ghost:hover::before { height: 100%; }
+.btn-ghost:hover::after  { width: 100%; }
+
+.btn-ghost span::before,
+.btn-ghost span::after {
+  position: absolute; content: "";
+  left: 0; bottom: 0;
+  background: var(--aether);
+  transition: all 0.3s ease;
+}
+.btn-ghost span::before { width: 1.5px; height: 0%; }
+.btn-ghost span::after  { width: 0%;    height: 1.5px; }
+
+.btn-ghost:hover span::before { height: 100%; }
+.btn-ghost:hover span::after  { width: 100%; }
+
+
+/* ═══════════════════════════════════════════════════════
+  12. NEXT PROJECT / CTA BLOCK
+   ═══════════════════════════════════════════════════════ */
+
+.next-project {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 3.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 2rem; flex-wrap: wrap;
+  margin: 5rem auto 0;
+  max-width: var(--max-wide);
+}
+
+.next-project p {
+  font-family: var(--serif);
+  font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(200, 208, 236, 0.35);
+  margin-bottom: 0.5rem;
+}
+
+.next-project h3 {
+  font-family: var(--display);
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+/* Audiowide has no italic — aurora color replaces italic emphasis */
+.next-project h3 em {
+  font-style: normal;
+  color: var(--aurora);
+}
+
+
+/* ═══════════════════════════════════════════════════════
+  13. FOOTER
+   ═══════════════════════════════════════════════════════ */
+
+footer {
+  border-top: 1px solid var(--border);
+  max-width: var(--max-wide);
+  margin: 0 auto;
+  padding: 1.6rem var(--px);
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.foot-l {
+  font-family: var(--display);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  color: var(--light);
+}
+
+.foot-r {
+  font-family: var(--serif);
+  font-size: 0.72rem;
+  color: var(--light);
+}
+
+
+/* ═══════════════════════════════════════════════════════
+  14. ANIMATIONS & KEYFRAMES
+   rippleOut lives here (not JS-injected) — same as main
+   portfolio after the refactor.
+   ═══════════════════════════════════════════════════════ */
+
+@keyframes up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(110%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rippleOut {
+  to { transform: translate(-50%, -50%) scale(8); opacity: 0; }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+  15. MEDIA QUERIES
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 700px) {
+  .stat-row            { grid-template-columns: 1fr 1fr; }
+  .findings-grid       { grid-template-columns: 1fr; }
+  .img-grid-2,
+  .img-grid-3          { grid-template-columns: 1fr; }
+  .next-project        { flex-direction: column; align-items: flex-start; }
+  body                 { cursor: auto; }
+  #cur                 { display: none; }
+}
