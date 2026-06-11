@@ -382,7 +382,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 .cs-body {
   max-width: var(--max-text);
   margin: 0 auto;
-  padding: 5rem var(--px);
+  padding: 3rem var(--px);
 }
 
 .graf {
@@ -568,7 +568,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 
 .img-full {
   max-width: var(--max);
-  margin: 4rem auto;
+  margin: 2rem auto;
   padding: 0 var(--px);
 }
 
@@ -580,7 +580,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 
 .img-grid {
   max-width: var(--max);
-  margin: 4rem auto;
+  margin: 2rem auto;
   padding: 0 var(--px);
   display: grid;
   gap: 1rem;
@@ -653,8 +653,8 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 
 .band-dark {
   background: var(--bg-raised);
-  padding: 5rem var(--px);
-  margin: 5rem 0;
+  padding: 3.5rem var(--px);
+  margin: 3rem 0;
   border-top:    1px solid rgba(95, 37, 159, 0.3);
   border-bottom: 1px solid rgba(95, 37, 159, 0.3);
 }
