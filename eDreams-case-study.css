@@ -1,88 +1,245 @@
 /*
- * Sonoran Cosmos — Case Study Stylesheet
- * Kevin Fowler · UX Portfolio · eDreams Redesign
+ * =====================================================================
+ *  SONORAN COSMOS — CASE STUDY STYLESHEET
+ *  Kevin Fowler | UX Portfolio | eDreams Redesign
+ * =====================================================================
  *
- * Sections:
- *   1. Variables & Reset
- *   2. Cursor
- *   3. Nav
- *   4. Hero
- *   5. Wave Divider
- *   6. Body Copy
- *   7. Stats
- *   8. Findings Grid
- *   9. Images / Placeholders
- *  10. Dark Band
- *  11. Buttons
- *  12. Next Project / CTA
- *  13. Footer
- *  14. Animations & Keyframes
- *  15. Media Queries
+ *  § 1  CSS Variables & Reset
+ *  § 2  Global Layout & Body
+ *  § 3  Navigation
+ *  § 4  Cursor
+ *  § 5  Hero
+ *  § 6  Wave Divider
+ *  § 7  Body Copy
+ *  § 8  Stat Row
+ *  § 9  Findings Grid
+ * § 10  Images & Placeholders
+ * § 11  Dark Band
+ * § 12  Buttons
+ * § 13  CTA Section
+ * § 14  Footer
+ * § 15  Animations & Keyframes
+ * § 16  Beam Me Up
+ * § 17  Media Queries
+ * =====================================================================
  */
 
 
-/* ═══════════════════════════════════════════════════════
-   1. VARIABLES & RESET
-   ═══════════════════════════════════════════════════════ */
+/* =====================================================================
+ * § 1  CSS VARIABLES & RESET
+ * ===================================================================== */
 
 :root {
+  --pulsar-50:   #FFE8EE;
+  --pulsar-100:  #FFB0C8;
+  --pulsar-200:  #F87098;
+  --pulsar-400:  #C81858;
+  --pulsar-600:  #900840;
+  --pulsar-800:  #580428;
+  --pulsar-900:  #2C0114;
 
-  /* Backgrounds — deep night sky → raised surface hierarchy */
-  --bg:          #100820;   /* page bg — deepest space */
-  --bg-surface:  #1C1232;   /* cards, containers — slightly lifted */
-  --bg-raised:   #281842;   /* dark band, alternate sections */
+  --cosmos-50:   #F0EAF8;
+  --cosmos-100:  #D4BAF0;
+  --cosmos-200:  #B080E0;
+  --cosmos-300:  #8B45D4;
+  --cosmos-400:  #5F259F;
+  --cosmos-600:  #431878;
+  --cosmos-800:  #2A0E50;
+  --cosmos-900:  #160828;
 
-  /* Text — warm cream, no white (moonlit hierarchy) */
-  --text:    #F0E2D0;    /* headlines, strong text */
-  --mid:     #C8D0EC;    /* aether-100 — body paragraphs, moonlit */
-  --light:   #98A8D4;    /* aether-200 — captions, muted labels */
+  --aurora-50:   #E3FDF8;
+  --aurora-100:  #ADFAEC;
+  --aurora-200:  #7FF6E4;
+  --aurora-400:  #0AC39A;
+  --aurora-600:  #17A487;
+  --aurora-800:  #0F5042;
+  --aurora-900:  #0C1916;
 
-  /* Borders — cool cosmic tint */
-  --border:      rgba(200, 208, 236, 0.12);
-  --border-mid:  rgba(200, 208, 236, 0.22);
+  --plasma-50:   #FFE8FA;
+  --plasma-100:  #FFB0F0;
+  --plasma-200:  #F870D8;
+  --plasma-400:  #C818A8;
+  --plasma-600:  #900878;
+  --plasma-800:  #580448;
+  --plasma-900:  #2C0124;
 
-  /* Accent palette — Sonoran Cosmos
-     Each color has a specific semantic role, same as main portfolio */
-  --aurora:      #0AC39A;   /* all interactive states, live signals */
-  --aurora-dim:  #087A61;   /* darker aurora for gradient bottoms */
-  --pulsar:      #C81858;   /* warning beats — findings, problem signals */
-  --cosmos:      #5F259F;   /* structural purple — dividers, borders */
-  --aether:      #C8D0EC;   /* moonlit chrome — pull quotes, nav defaults */
+  --aether-50:   #F0F2FA;
+  --aether-100:  #C8D0EC;
+  --aether-200:  #98A8D4;
+  --aether-400:  #5868A8;
+  --aether-600:  #384880;
+  --aether-800:  #202858;
+  --aether-900:  #101430;
 
-  /* Typography — token names match main portfolio exactly */
-  --display: 'Audiowide', sans-serif;            /* display headlines */
-  --serif:   'Oxanium', system-ui, sans-serif;   /* labels, secondary */
-  --sans:    'Orbitron', system-ui, sans-serif;  /* body text, UI */
+  --bg:          #100820;
+  --bg-dark:     #100820;
+  --bg-surface:  #1C1232;
+  --bg-raised:   #281842;
+  --bg-tint:     #5F259F47;
 
-  /* Layout */
-  --max:       780px;
+  --text:        #F4F2FF;
+  --text-muted:  #C8D0EC;
+  --text-light:  #7FF6E4;
+  --text-inv:    #1C1210;
+
+  --primary:        #0AC39A;
+  --primary-hover:  #17A487;
+  --primary-lt:     #7FF6E4;
+  --primary-subtle: #0C1916;
+
+  --accent-pulsar:        #C81858;
+  --accent-pulsar-subtle: #2C0114;
+  --accent-cosmos:        #5F259F;
+  --accent-cosmos-subtle: #160828;
+  --accent-aurora:        #0AC39A;
+  --accent-aurora-subtle: #0C1916;
+  --accent-plasma:        #C818A8;
+  --accent-plasma-subtle: #2C0124;
+
+  --aether: #98A8D4;
+
+  --border:        #98A8D45A;
+  --border-subtle: #98A8D42D;
+
+  --aurora-glass: #0AC39A14;
+  --aurora-glow:  #0AC39A40;
+  --aurora-inset: #0AC39A0D;
+
+  --display: 'Audiowide', sans-serif;
+  --serif:   'Oxanium', system-ui, sans-serif;
+  --sans:    'Orbitron', sans-serif;
+
+  --max:       1100px;
   --max-wide:  1100px;
+  --max-text:   780px;
   --px:        clamp(1.25rem, 5vw, 3rem);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
+:focus-visible {
+  outline: 2px solid var(--accent-aurora);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+
+/* =====================================================================
+ * § 2  GLOBAL LAYOUT & BODY
+ * ===================================================================== */
+
 body {
-  background: var(--bg);
-  color: var(--mid);
+  background:
+    radial-gradient(circle, #98A8D428 1px, transparent 1px) center / 28px 28px,
+    var(--bg);
+  color: var(--text);
   font-family: var(--sans);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   cursor: none;
+  overflow-x: hidden;
 }
 
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 
+/* .cs-hidden — used on "Next Case Study" nav link and CTA link.
+   Set to display:flex or display:inline-flex when the next page exists. */
+.cs-hidden { display: none; }
 
-/* ═══════════════════════════════════════════════════════
-   2. CURSOR
-   Aurora dot — matches main portfolio cursor color
-   ═══════════════════════════════════════════════════════ */
+
+/* =====================================================================
+ * § 3  NAVIGATION
+ * ===================================================================== */
+
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--px);
+  background: rgba(16, 8, 32, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid #FFFFFF0A;
+  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+nav.scrolled {
+  background: var(--bg-dark);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid #0AC39A25;
+  box-shadow: 0 1px 20px #0AC39A10;
+}
+
+/* Logo — exact copy of .nav-logo from style.css */
+.nav-logo {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--text);
+  text-shadow: 0 0 25px #F4F2FF35;
+}
+.nav-logo:hover { opacity: 0.8; color: var(--aurora-200); }
+
+/* Next case study nav link — mirrors .nav-links a from style.css.
+   Hidden via .cs-hidden until next study is built. */
+.nav-next-cs {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--aether-100);
+  transition: color 0.2s;
+  position: relative;   /* required for pseudo-element positioning */
+  padding: 0.3rem;
+}
+.nav-next-cs:hover { color: var(--text); }
+
+/* Right side — on the element itself */
+.nav-next-cs::before, .nav-next-cs::after {
+  position: absolute; content: "";
+  right: 0; top: 0;
+  background: var(--text);
+  transition: all 0.3s ease;
+}
+.nav-next-cs::before { height: 0%; width: 1.5px; }
+.nav-next-cs::after  { width:  0%; height: 1.5px; }
+.nav-next-cs:hover::before { height: 100%; }
+.nav-next-cs:hover::after  { width:  100%; }
+
+/* Left side — on the span child */
+.nav-next-cs span::before, .nav-next-cs span::after {
+  position: absolute; content: "";
+  left: 0; bottom: 0;
+  background: var(--text);
+  transition: all 0.3s ease;
+}
+.nav-next-cs span::before { width: 1.5px; height: 0%; }
+.nav-next-cs span::after  { width: 0%;   height: 1.5px; }
+.nav-next-cs:hover span::before { height: 100%; }
+.nav-next-cs:hover span::after  { width:  100%; }
+
+
+a, button { cursor: none; }
+
+
+/* =====================================================================
+ * § 4  CURSOR
+ * ===================================================================== */
 
 #cur {
-  position: fixed; z-index: 9999;
+  position: fixed;
+  z-index: 9999;
   pointer-events: none;
   top: 0; left: 0;
   transform: translate(-50%, -50%);
@@ -91,102 +248,64 @@ img { display: block; max-width: 100%; }
 .cur-dot {
   position: absolute;
   width: 11px; height: 11px;
-  background: var(--aurora);
+  background: var(--accent-aurora);
   border-radius: 50%;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   transition: transform 0.12s ease;
+  box-shadow:
+    0 0 8px 2px var(--aurora-400),
+    0 0 20px 4px #0AC39A60;
 }
 
-body.clicking .cur-dot {
-  transform: translate(-50%, -50%) scale(0.5);
-}
-
-a, button { cursor: none; }
+body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 
 
-/* ═══════════════════════════════════════════════════════
-   3. NAV
-   Dark glass — same approach as main portfolio scrolled state
-   ═══════════════════════════════════════════════════════ */
-
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  height: 54px;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 var(--px);
-  background: rgba(16, 8, 32, 0.90);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-}
-
-/* Back link — aether at rest, brighter on hover */
-.nav-back {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  font-family: var(--serif);
-  font-size: 0.78rem; font-weight: 500;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  color: rgba(200, 208, 236, 0.45);
-  transition: color 0.2s;
-}
-.nav-back:hover { color: var(--aether); }
-.nav-back svg { width: 14px; height: 14px; }
-
-/* Logo — Audiowide to match main portfolio nav identity */
-.nav-logo {
-  font-family: var(--display);
-  font-size: 0.92rem;
-  letter-spacing: 0.04em;
-  color: var(--aether);
-}
-
-
-/* ═══════════════════════════════════════════════════════
-   4. HERO
-   Deep dark bg with cosmos nebula glow — same spatial
-   language as the main portfolio hero section.
-   ═══════════════════════════════════════════════════════ */
+/* =====================================================================
+ * § 5  HERO
+ * ===================================================================== */
 
 .hero {
   background: var(--bg);
   padding: calc(54px + 5rem) var(--px) 5rem;
-  position: relative; overflow: hidden;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Cosmos nebula glow behind hero content */
 .hero::before {
   content: '';
   position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 70% 50%, rgba(95, 37, 159, 0.20) 0%, transparent 60%);
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, #5F259F38 0%, transparent 70%);
   pointer-events: none;
 }
 
 .hero-inner {
-  max-width: var(--max-wide);
+  max-width: var(--max);
   margin: 0 auto;
   position: relative; z-index: 1;
 }
 
-/* Eyebrow — aurora signals this is live/active content */
 .hero-eyebrow {
   font-family: var(--serif);
-  font-size: 0.7rem; font-weight: 600;
-  letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--aurora);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-aurora);
   margin-bottom: 1.5rem;
-  opacity: 0; animation: up 0.5s ease forwards 0.1s;
+  opacity: 0;
+  animation: up 0.5s ease forwards 0.1s;
 }
 
-/* Hero title — Audiowide to match main portfolio display style.
-   Font size pulled down slightly from the Fraunces version —
-   Audiowide renders wider, needs a bit less room. */
+/* Gradient on .line span, not the parent — avoids GPU compositing
+   issue where background-clip:text breaks inside overflow:hidden
+   animated containers. */
 .hero-title {
   font-family: var(--display);
   font-size: clamp(2rem, 5.5vw, 4.2rem);
-  font-weight: 400; line-height: 1.3;
-  letter-spacing: -0.01em;
-  color: var(--text);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
   margin-bottom: 2rem;
 }
 
@@ -198,111 +317,128 @@ nav {
 
 .hero-title .line span {
   display: block;
-  opacity: 0; transform: translateY(110%);
+  opacity: 0;
+  transform: translateY(110%);
   animation: slideUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-100) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .hero-title .line:nth-child(1) span { animation-delay: 0.15s; }
 .hero-title .line:nth-child(2) span { animation-delay: 0.30s; }
 
-/* Audiowide has no italic variant — aurora color does the job */
-.hero-title em {
-  font-style: normal;
-  color: var(--aurora);
+
+.hero-plane {
+  height: 0.75em;
+  width: auto;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.2em;
+  transform: translateY(-0.08em);
 }
 
-/* Meta row — role, timeline, tools, outcome */
 .hero-meta {
-  display: flex; flex-wrap: wrap; gap: 2rem;
-  opacity: 0; animation: up 0.5s ease forwards 0.6s;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  opacity: 0;
+  animation: up 0.5s ease forwards 0.6s;
 }
 
 .meta-label {
   font-family: var(--serif);
-  font-size: 0.65rem; font-weight: 600;
-  letter-spacing: 0.12em; text-transform: uppercase;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: rgba(200, 208, 236, 0.35);
   margin-bottom: 0.25rem;
 }
 
 .meta-val {
   font-family: var(--sans);
-  font-size: 0.9rem; font-weight: 400;
-  color: rgba(200, 208, 236, 0.65);
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--text-muted);
 }
 .meta-val strong { color: var(--text); font-weight: 500; }
 
 
-/* ═══════════════════════════════════════════════════════
-   5. WAVE DIVIDER
-   Both sections are dark, so the original light-to-dark
-   wave doesn't apply. Replaced with a cosmos/aurora
-   gradient arch — a nebula sweep between hero and body.
-   ═══════════════════════════════════════════════════════ */
+/* =====================================================================
+ * § 6  WAVE DIVIDER
+ * ===================================================================== */
 
 .wave { background: var(--bg); line-height: 0; }
 .wave svg { display: block; width: 100%; }
 
 
-/* ═══════════════════════════════════════════════════════
-   6. BODY COPY
-   ═══════════════════════════════════════════════════════ */
+/* =====================================================================
+ * § 7  BODY COPY
+ * ===================================================================== */
 
 .cs-body {
-  max-width: var(--max);
+  max-width: var(--max-text);
   margin: 0 auto;
   padding: 5rem var(--px);
 }
 
-/* Body paragraph — aether-100 (--mid) as the moonlit text */
 .graf {
-  font-family: var(--serif);
-  font-size: 1.05rem; font-weight: 400;
-  color: var(--mid);
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-muted);
   line-height: 1.9;
   margin-bottom: 1.5rem;
 }
-.graf strong { color: var(--text); font-weight: 500; }
-.graf em { font-style: italic; color: var(--aurora); }
 .graf:last-child { margin-bottom: 0; }
+.graf strong { color: var(--text); font-weight: 600; }
+.graf em { font-style: italic; color: var(--accent-aurora); }
 
-/* Lead paragraph — warmer, bigger opener */
 .graf-lead {
   font-family: var(--sans);
-  font-size: 1.15rem; font-weight: 400;
+  font-size: 1.05rem;
+  font-weight: 400;
   color: var(--text);
-  line-height: 1.8;
+  line-height: 1.85;
   margin-bottom: 1.5rem;
 }
 .graf-lead strong { font-weight: 600; }
 
-/* Section label — aurora accent, Oxanium caps (same as main portfolio) */
 .cs-label {
   font-family: var(--serif);
-  font-size: 0.68rem; font-weight: 600;
-  letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--aurora);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-aurora);
   margin-bottom: 1rem;
   display: block;
 }
 
-/* Pull quote — Audiowide for impact, cosmos left border,
-   aether text keeps it moonlit rather than screaming */
 .pull-q {
-  font-family: var(--display);
-  font-size: 1.05rem;
-  color: var(--aether);
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--aether-100);
   line-height: 1.65;
-  border-left: 2px solid var(--cosmos);
+  border-left: 2px solid var(--accent-cosmos);
   padding: 0.25rem 0 0.25rem 1.5rem;
   margin: 2.5rem 0;
 }
 
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.in { opacity: 1; transform: none; }
 
-/* ═══════════════════════════════════════════════════════
-   7. STATS
-   bg-surface cards with aurora stat numbers — "live reading"
-   ═══════════════════════════════════════════════════════ */
+
+/* =====================================================================
+ * § 8  STAT ROW
+ * ===================================================================== */
 
 .stat-row {
   display: grid;
@@ -312,35 +448,70 @@ nav {
 }
 
 .stat-box {
-  background: var(--bg-surface);
+  background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 1.25rem;
+  padding: 1.1rem;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px #98A8D418,
+    0 0 15px #C8185820,
+    inset 0 1px 0 #C8185840;
+  transition: box-shadow 0.3s ease;
 }
 
-/* Aurora for stat numbers — same logic as main portfolio stat bars */
+.stat-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: var(--accent-pulsar);
+  border-radius: 3px 0 0 3px;
+  box-shadow: 2px 0 12px #C8185880;
+}
+
+.stat-box:hover {
+  box-shadow:
+    0 0 0 1px #C8185840,
+    0 0 20px #C8185825,
+    inset 0 1px 0 #C8185850;
+}
+
 .stat-box-n {
   font-family: var(--display);
-  font-size: 2.2rem; font-weight: 400;
-  color: var(--aurora);
+  font-size: 2.2rem;
+  font-weight: 400;
+  color: var(--accent-aurora);
   line-height: 1;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.2rem;
+  text-shadow:
+    0 0 7px var(--aurora-400),
+    0 0 20px var(--aurora-400),
+    0 0 45px #0AC39A80;
+  transition: text-shadow 0.3s ease;
+}
+
+.stat-box:hover .stat-box-n {
+  text-shadow:
+    0 0 7px var(--aurora-400),
+    0 0 30px var(--aurora-400),
+    0 0 65px #0AC39A90;
 }
 
 .stat-box-l {
-  font-family: var(--serif);
-  font-size: 0.78rem; font-weight: 400;
-  color: var(--light);
-  line-height: 1.4;
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.45;
 }
 
 
-/* ═══════════════════════════════════════════════════════
-   8. FINDINGS GRID
-   Pulsar headlines — findings are problem signals,
-   same reasoning as pulsar on card tags in main portfolio
-   ═══════════════════════════════════════════════════════ */
+/* =====================================================================
+ * § 9  FINDINGS GRID
+ * ===================================================================== */
 
 .findings-grid {
   display: grid;
@@ -350,37 +521,52 @@ nav {
 }
 
 .finding {
-  background: var(--bg-surface);
+  background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px #98A8D418,
+    inset 0 1px 0 #5F259F40;
 }
 
-/* Pulsar — problem signal, mirrors warning-beat logic from main portfolio */
+.finding::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: var(--accent-pulsar);
+  border-radius: 3px 0 0 3px;
+  box-shadow: 2px 0 10px #C8185860;
+}
+
 .finding-hed {
   font-family: var(--serif);
-  font-size: 0.72rem; font-weight: 600;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--pulsar);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-pulsar);
   margin-bottom: 0.5rem;
 }
 
 .finding p {
   font-family: var(--sans);
-  font-size: 0.85rem; font-weight: 400;
-  color: var(--light);
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--text-muted);
   line-height: 1.65;
 }
 
 
-/* ═══════════════════════════════════════════════════════
-   9. IMAGES / PLACEHOLDERS
-   bg-surface with cosmos nebula glow — same dark treatment
-   as the main portfolio card vis areas
-   ═══════════════════════════════════════════════════════ */
+/* =====================================================================
+ * § 10  IMAGES & PLACEHOLDERS
+ * ===================================================================== */
 
 .img-full {
-  max-width: var(--max-wide);
+  max-width: var(--max);
   margin: 4rem auto;
   padding: 0 var(--px);
 }
@@ -392,7 +578,7 @@ nav {
 }
 
 .img-grid {
-  max-width: var(--max-wide);
+  max-width: var(--max);
   margin: 4rem auto;
   padding: 0 var(--px);
   display: grid;
@@ -406,23 +592,26 @@ nav {
   border-radius: 10px;
   overflow: hidden;
   background: var(--bg-surface);
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
   gap: 0.75rem;
   position: relative;
 }
 
-/* Cosmos nebula behind placeholder icon */
 .img-placeholder::before {
   content: '';
   position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 40% 50%, rgba(95, 37, 159, 0.18) 0%, transparent 65%);
+  background: radial-gradient(ellipse at 40% 50%, #5F259F20 0%, transparent 65%);
 }
 
 .img-ph-label {
   font-family: var(--serif);
-  font-size: 0.68rem; font-weight: 600;
-  letter-spacing: 0.12em; text-transform: uppercase;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: rgba(200, 208, 236, 0.30);
   text-align: center;
   padding: 0 1rem;
@@ -442,180 +631,318 @@ nav {
 
 .img-caption {
   font-family: var(--sans);
-  font-size: 0.78rem; font-weight: 400;
-  color: var(--light);
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--aether-200);
   text-align: center;
   margin-top: 0.75rem;
   font-style: italic;
 }
 
 
-/* ═══════════════════════════════════════════════════════
-  10. DARK BAND
-   bg-raised differentiates from the page bg.
-   Cosmos seam borders — same logic as section dividers
-   on main portfolio (subtle, not glowing box outlines)
-   ═══════════════════════════════════════════════════════ */
+/* =====================================================================
+ * § 11  DARK BAND
+ * ===================================================================== */
 
 .band-dark {
   background: var(--bg-raised);
   padding: 5rem var(--px);
   margin: 5rem 0;
-  border-top: 1px solid rgba(95, 37, 159, 0.3);
+  border-top:    1px solid rgba(95, 37, 159, 0.3);
   border-bottom: 1px solid rgba(95, 37, 159, 0.3);
 }
-
-.band-dark-inner { max-width: var(--max); margin: 0 auto; }
+.band-dark-inner { max-width: var(--max-text); margin: 0 auto; }
 
 .band-dark .graf        { color: rgba(200, 208, 236, 0.65); }
 .band-dark .graf strong { color: var(--text); }
-.band-dark .cs-label    { color: var(--aurora); }
-.band-dark .pull-q      { color: var(--aurora); border-left-color: rgba(10, 195, 154, 0.35); }
+.band-dark .cs-label    { color: var(--accent-aurora); }
+.band-dark .pull-q      { color: var(--aurora-200); border-left-color: rgba(10, 195, 154, 0.35); }
 
 
-/* ═══════════════════════════════════════════════════════
-  11. BUTTONS
-   Aurora primary gradient. Ghost border animation uses
-   aether — matches main portfolio ghost/outline buttons.
-   ═══════════════════════════════════════════════════════ */
+/* =====================================================================
+ * § 12  BUTTONS
+ *  .btn-primary — small utility button (mirrors .btn-primary style.css)
+ *  .btn-ghost   — wire-frame corner animation
+ * ===================================================================== */
 
 .btn {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  padding: 0.7rem 1.4rem;
-  font-family: var(--serif);
-  font-size: 0.82rem; font-weight: 500;
-  letter-spacing: 0.06em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.5rem;
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
   border-radius: 7px;
   transition: all 0.2s;
   white-space: nowrap;
 }
 
-/* Primary CTA — aurora gradient */
-.btn-leaf {
-  background: linear-gradient(180deg, var(--aurora) 0%, var(--aurora-dim) 100%);
-  color: var(--bg);
+.btn-primary {
+  background: linear-gradient(180deg, var(--primary-lt) 0%, var(--primary) 74%);
+  color: var(--text);
   border: none;
   font-weight: 600;
   position: relative; z-index: 1;
 }
-
-.btn-leaf::after {
+.btn-primary::after {
   position: absolute; content: "";
   width: 100%; height: 0;
   bottom: 0; left: 0; z-index: -1;
   border-radius: 7px;
-  background: linear-gradient(180deg, var(--aurora-dim) 0%, var(--aurora) 100%);
+  background: linear-gradient(180deg, var(--primary) 0%, var(--primary-lt) 74%);
   transition: all 0.3s ease;
 }
+.btn-primary:hover { color: var(--text); }
+.btn-primary:hover::after { top: 0; height: 100%; }
+.btn-primary:active { top: 2px; }
 
-.btn-leaf:hover { color: var(--bg); }
-.btn-leaf:hover::after { top: 0; height: 100%; }
-.btn-leaf:active { top: 2px; }
-
-/* Ghost — wire-frame corner animation with aether lines */
 .btn-ghost {
   background: transparent;
-  color: rgba(200, 208, 236, 0.5);
-  border: none; line-height: normal;
+  color: #F2E9EA80;
+  border: none;
+  line-height: normal;
   position: relative;
 }
-
 .btn-ghost::before, .btn-ghost::after {
   position: absolute; content: "";
   right: 0; top: 0;
-  background: var(--aether);
+  background: var(--text);
   transition: all 0.3s ease;
 }
 .btn-ghost::before { height: 0%; width: 1.5px; }
-.btn-ghost::after  { width: 0%;  height: 1.5px; }
-
-.btn-ghost:hover { background: transparent; color: var(--aether); box-shadow: none; }
+.btn-ghost::after  { width:  0%; height: 1.5px; }
+.btn-ghost:hover   { background: transparent; color: var(--text); box-shadow: none; }
 .btn-ghost:hover::before { height: 100%; }
-.btn-ghost:hover::after  { width: 100%; }
-
-.btn-ghost span::before,
-.btn-ghost span::after {
+.btn-ghost:hover::after  { width:  100%; }
+.btn-ghost span::before, .btn-ghost span::after {
   position: absolute; content: "";
   left: 0; bottom: 0;
-  background: var(--aether);
+  background: var(--text);
   transition: all 0.3s ease;
 }
 .btn-ghost span::before { width: 1.5px; height: 0%; }
-.btn-ghost span::after  { width: 0%;    height: 1.5px; }
-
+.btn-ghost span::after  { width: 0%;   height: 1.5px; }
 .btn-ghost:hover span::before { height: 100%; }
-.btn-ghost:hover span::after  { width: 100%; }
+.btn-ghost:hover span::after  { width:  100%; }
 
 
-/* ═══════════════════════════════════════════════════════
-  12. NEXT PROJECT / CTA BLOCK
-   ═══════════════════════════════════════════════════════ */
+/* =====================================================================
+ * § 13  CTA SECTION
+ *
+ *  Mirrors the contact section (.c-band) from style.css.
+ *  Centered column layout, prominent aurora CTA button,
+ *  secondary link row with corner-bracket animation.
+ *
+ *  .cs-cta-btn     large primary CTA — exact copy of .c-cta-btn
+ *  .cs-cta-arrow   arrow inside the button
+ *  .c-secondary-link  secondary links — exact copy from style.css
+ * ===================================================================== */
 
-.next-project {
-  background: var(--bg-surface);
+/* Outer wrapper */
+.cs-cta-wrap {
+  padding: 0 var(--px) 6rem;
+  max-width: var(--max-wide);
+  margin: 0 auto;
+}
+
+/* Card — mirrors .c-band from style.css */
+.cs-cta {
+  background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 3.5rem;
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 2rem; flex-wrap: wrap;
-  margin: 5rem auto 0;
-  max-width: var(--max-wide);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  box-shadow:
+    0 0 0 1px #98A8D420,
+    0 0 50px #5F259F30,
+    inset 0 1px 0 #5F259F60;
 }
 
-.next-project p {
+/* HUD corner brackets — mirrors .c-band::before / ::after */
+.cs-cta::before {
+  content: '';
+  position: absolute;
+  top: 16px; left: 16px;
+  width: 14px; height: 14px;
+  border-top: 1.5px solid var(--accent-aurora);
+  border-left: 1.5px solid var(--accent-aurora);
+  opacity: 0.5;
+  pointer-events: none;
+}
+.cs-cta::after {
+  content: '';
+  position: absolute;
+  bottom: 16px; right: 16px;
+  width: 14px; height: 14px;
+  border-bottom: 1.5px solid var(--accent-aurora);
+  border-right: 1.5px solid var(--accent-aurora);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Header block */
+.cs-cta-header { display: flex; flex-direction: column; gap: 0.75rem; }
+
+/* Eyebrow */
+.cs-cta-eyebrow {
   font-family: var(--serif);
-  font-size: 0.7rem; font-weight: 600;
-  letter-spacing: 0.12em; text-transform: uppercase;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: rgba(200, 208, 236, 0.35);
-  margin-bottom: 0.5rem;
 }
 
-.next-project h3 {
+/* Headline — mirrors .c-headline from style.css */
+.cs-cta-headline {
   font-family: var(--display);
-  font-size: clamp(1.3rem, 3vw, 2rem);
-  font-weight: 400;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-200) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Large CTA button — exact copy of .c-cta-btn from style.css */
+.cs-cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 1.25rem 3rem;
+  gap: 1rem;
+  background: linear-gradient(135deg, var(--aurora-400) 0%, var(--cosmos-600) 100%);
+  border-radius: 10px;
   color: var(--text);
+  font-family: var(--sans);
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  position: relative;
+  z-index: 1;
+  box-shadow:
+    0 0 25px #0AC39A50,
+    0 0 60px #0AC39A25;
 }
 
-/* Audiowide has no italic — aurora color replaces italic emphasis */
-.next-project h3 em {
-  font-style: normal;
-  color: var(--aurora);
+.cs-cta-btn::after {
+  position: absolute; content: "";
+  width: 100%; height: 0;
+  bottom: 0; left: 0; z-index: -1;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--cosmos-600) 0%, var(--aurora-400) 100%);
+  transition: all 0.3s ease;
+}
+.cs-cta-btn:hover::after { top: 0; height: 100%; }
+
+.cs-cta-btn:hover {
+  box-shadow:
+    0 0 35px #0AC39A70,
+    0 0 80px #0AC39A35;
 }
 
+.cs-cta-arrow {
+  font-size: 2rem;
+  transition: transform 0.2s ease;
+}
+.cs-cta-btn:hover .cs-cta-arrow { transform: translateX(4px); }
 
-/* ═══════════════════════════════════════════════════════
-  13. FOOTER
-   ═══════════════════════════════════════════════════════ */
+/* Secondary link row */
+.cs-cta-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+/* Secondary links — exact copy of .c-secondary-link from style.css */
+.c-secondary-link {
+  position: relative;
+  display: inline-block;
+  padding: 0.3rem;
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--aurora-200);
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+.c-secondary-link:hover {
+  color: var(--text);
+  text-decoration: none;
+  text-shadow: 0 0 12px var(--accent-aurora);
+}
+
+/* Corner bracket animation — right side */
+.c-secondary-link::before, .c-secondary-link::after {
+  position: absolute; content: "";
+  right: 0; top: 0;
+  background: var(--text);
+  transition: all 0.3s ease;
+}
+.c-secondary-link::before { height: 0%; width: 1.5px; }
+.c-secondary-link::after  { width:  0%; height: 1.5px; }
+.c-secondary-link:hover::before { height: 100%; }
+.c-secondary-link:hover::after  { width:  100%; }
+
+/* Corner bracket animation — left side */
+.c-secondary-link span::before, .c-secondary-link span::after {
+  position: absolute; content: "";
+  left: 0; bottom: 0;
+  background: var(--text);
+  transition: all 0.3s ease;
+}
+.c-secondary-link span::before { width: 1.5px; height: 0%; }
+.c-secondary-link span::after  { width: 0%;   height: 1.5px; }
+.c-secondary-link:hover span::before { height: 100%; }
+.c-secondary-link:hover span::after  { width:  100%; }
+
+
+/* =====================================================================
+ * § 14  FOOTER
+ *  Exact copy from style.css.
+ * ===================================================================== */
 
 footer {
   border-top: 1px solid var(--border);
-  max-width: var(--max-wide);
+  max-width: var(--max);
   margin: 0 auto;
   padding: 1.6rem var(--px);
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .foot-l {
   font-family: var(--display);
-  font-size: 0.85rem;
-  letter-spacing: 0.04em;
-  color: var(--light);
+  font-style: italic;
+  font-size: 0.92rem;
+  color: var(--aurora-200);
 }
 
 .foot-r {
-  font-family: var(--serif);
+  font-family: var(--display);
   font-size: 0.72rem;
-  color: var(--light);
+  color: #C8185870;
 }
 
 
-/* ═══════════════════════════════════════════════════════
-  14. ANIMATIONS & KEYFRAMES
-   rippleOut lives here (not JS-injected) — same as main
-   portfolio after the refactor.
-   ═══════════════════════════════════════════════════════ */
+/* =====================================================================
+ * § 15  ANIMATIONS & KEYFRAMES
+ * ===================================================================== */
 
 @keyframes up {
   from { opacity: 0; transform: translateY(14px); }
@@ -631,27 +958,95 @@ footer {
   to { transform: translate(-50%, -50%) scale(8); opacity: 0; }
 }
 
-.reveal {
+
+/* =====================================================================
+ * § 16  BEAM ME UP
+ * ===================================================================== */
+
+#beamUp {
+  position: fixed;
+  bottom: 2rem;
+  right: var(--px);
+  z-index: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  background: linear-gradient(135deg, var(--aurora-400) 0%, var(--cosmos-600) 100%);
+  border: none;
+  border-radius: 100px;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.65s ease, transform 0.65s ease;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.25s ease;
+  box-shadow: 0 0 20px #0AC39A40, 0 0 50px #0AC39A20;
+  cursor: none;
 }
-.reveal.in {
+
+#beamUp.visible {
   opacity: 1;
-  transform: none;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+#beamUp:hover {
+  box-shadow: 0 0 30px #0AC39A60, 0 0 70px #0AC39A30;
+}
+
+#beamUp::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  background: linear-gradient(135deg, var(--cosmos-600) 0%, var(--aurora-400) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+#beamUp:hover::after { opacity: 1; }
+
+#beam-streak {
+  position: fixed;
+  width: 3px;
+  height: 0;
+  background: linear-gradient(to top, var(--aurora-400) 0%, rgba(10,195,154,0.5) 50%, transparent 100%);
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0;
+  border-radius: 3px;
+  box-shadow: 0 0 8px var(--aurora-400), 0 0 20px #0AC39A60;
+}
+
+#beam-flash {
+  position: fixed;
+  inset: 0;
+  background: var(--aurora-400);
+  opacity: 0;
+  z-index: 9999;
+  pointer-events: none;
 }
 
 
-/* ═══════════════════════════════════════════════════════
-  15. MEDIA QUERIES
-   ═══════════════════════════════════════════════════════ */
+/* =====================================================================
+ * § 17  MEDIA QUERIES
+ * ===================================================================== */
 
 @media (max-width: 700px) {
-  .stat-row            { grid-template-columns: 1fr 1fr; }
-  .findings-grid       { grid-template-columns: 1fr; }
+  .stat-row         { grid-template-columns: 1fr 1fr; }
+  .findings-grid    { grid-template-columns: 1fr; }
   .img-grid-2,
-  .img-grid-3          { grid-template-columns: 1fr; }
-  .next-project        { flex-direction: column; align-items: flex-start; }
-  body                 { cursor: auto; }
-  #cur                 { display: none; }
+  .img-grid-3       { grid-template-columns: 1fr; }
+  .cs-cta           { padding: 2.5rem; }
+  .cs-cta-links     { flex-direction: column; gap: 0.75rem; }
+  footer            { flex-direction: column; gap: 0.4rem; }
+  body              { cursor: auto; }
+  #cur              { display: none; }
+  #beamUp           { display: none; }
 }
