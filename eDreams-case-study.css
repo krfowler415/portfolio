@@ -331,7 +331,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 
 
 .hero-plane {
-  height: 0.75em;
+  height: 1.5em;
   width: auto;
   display: inline-block;
   vertical-align: middle;
