@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <!-- Single combined request: Audiowide (--display) · Oxanium (--serif) · Orbitron (--sans) -->
   <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Oxanium:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="eDreams-case-study.css"/>
-</head> 
+  <link rel="stylesheet" href="case-study.css"/>
+</head>
 <body>
 
 <div id="cur">
@@ -17,27 +17,21 @@
 </div>
 
 <nav>
-  <a href="index.html" class="nav-back">
-    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M12 7H2M2 7L7 2M2 7L7 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    Back to Home
-  </a>
   <a href="index.html" class="nav-logo">Kevin Fowler</a>
+  <!-- Next case study nav link. Remove cs-hidden and update href when next study is built. -->
+  <a href="#" class="nav-next-cs cs-hidden"><span>Next Case Study →</span></a>
 </nav>
 
 <div class="hero">
   <div class="hero-inner">
     <p class="hero-eyebrow">UX Case Study · GIT 340 · Spring 2026</p>
     <h1 class="hero-title">
-      <span class="line"><span>Redesigning how</span></span>
-      <span class="line"><span>people <em>compare flights.</em></span></span>
+      <span class="line"><span>Redesigning how people compare flights.&thinsp;<img src="images/Plane-Icon-Colored.png" class="hero-plane" alt="" aria-hidden="true"/></span></span>
     </h1>
     <div class="hero-meta">
       <div><div class="meta-label">Role</div><div class="meta-val">UX Researcher &amp; Designer (student)</div></div>
       <div><div class="meta-label">Timeline</div><div class="meta-val">Spring 2026</div></div>
       <div><div class="meta-label">Tools</div><div class="meta-val">Figma · Nielsen Norman Heuristics</div></div>
-      <div><div class="meta-label">Outcome</div><div class="meta-val"><strong>100 / 100</strong></div></div>
     </div>
   </div>
 </div>
@@ -55,6 +49,15 @@
     <path d="M0,0 C360,80 1080,80 1440,0 L1440,80 L0,80 Z" fill="url(#cosmosSweep)"/>
   </svg>
 </div>
+
+<button id="beamUp" aria-label="Scroll to top">
+  <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true">
+    <path d="M5.5 9V2M5.5 2L2 5.5M5.5 2L9 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  Beam Me Up
+</button>
+<div id="beam-streak"></div>
+<div id="beam-flash"></div>
 
 <div class="cs-body">
   <p class="graf-lead reveal"><strong>It was spring semester 2026.</strong> I was handed eDreams.net (a travel booking site most people have probably never heard of) and told to pick a section and make it better. That turned into one of the first complete research-to-design cycles I've done.</p>
@@ -121,9 +124,9 @@
 
 <div class="cs-body">
   <div class="stat-row reveal">
-    <div class="stat-box"><div class="stat-box-n">3</div><div class="stat-box-l">Participants — ages 29, 45, and 70</div></div>
-    <div class="stat-box"><div class="stat-box-n">9</div><div class="stat-box-l">Tasks completed across 3 scenarios</div></div>
-    <div class="stat-box"><div class="stat-box-n">1.8</div><div class="stat-box-l">Average ease of comparing options (out of 5)</div></div>
+    <div class="stat-box"><div class="stat-box-n">3</div><div class="stat-box-l">Participants<br>Ages 29, 45, and 70</div></div>
+    <div class="stat-box"><div class="stat-box-n">9</div><div class="stat-box-l">Tasks completed across<br>3 scenarios</div></div>
+    <div class="stat-box"><div class="stat-box-n">1.8</div><div class="stat-box-l">Average ease of comparing options<br>(out of 5)</div></div>
   </div>
 
   <span class="cs-label reveal">Key Findings</span>
@@ -235,24 +238,29 @@
   <p class="graf reveal">Final grade: <strong>100/100.</strong></p>
 </div>
 
-<div style="padding:0 var(--px) 6rem;max-width:var(--max-wide);margin:0 auto;">
-  <div class="next-project reveal">
-    <div>
-      <p>Liked what you saw?</p>
-      <h3>Let's <em>work together!</em></h3>
+<div class="cs-cta-wrap">
+  <div class="cs-cta reveal">
+    <div class="cs-cta-header">
+      <p class="cs-cta-eyebrow">Liked what you saw?</p>
+      <h2 class="cs-cta-headline">Open to New Missions!</h2>
     </div>
-    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
-      <a href="mailto:krfowler415@gmail.com" class="btn btn-leaf">Get In Touch</a>
-      <a href="index.html" class="btn btn-ghost"><span>Back to All Work</span></a>
+    <a href="mailto:krfowler415@gmail.com" class="cs-cta-btn">
+      <span>Establish Contact</span>
+      <span class="cs-cta-arrow">→</span>
+    </a>
+    <div class="cs-cta-links">
+      <a href="index.html" class="c-secondary-link"><span>Back to All Work</span></a>
+      <!-- Next case study link. Remove cs-hidden and update href when next study is built. -->
+      <a href="#" class="c-secondary-link cs-hidden"><span>Next Case Study →</span></a>
     </div>
   </div>
 </div>
 
 <footer>
   <span class="foot-l">Kevin Fowler</span>
-  <span class="foot-r">© 2026 · HTML &amp; CSS · 🐱🐱</span>
+  <span class="foot-r">&copy; 2026 &middot; Made in AZ &middot; &#x1F335;&#x1F335;</span>
 </footer>
 
-<script src="eDreams-case-study.js"></script>
+<script src="case-study.js"></script>
 </body>
 </html>
