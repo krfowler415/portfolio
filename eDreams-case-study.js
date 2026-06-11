@@ -1,25 +1,32 @@
-// ── Nav scroll state ─────────────────────────────────
+// eDreams-case-study.js
+// Sonoran Cosmos — Kevin Fowler
+
+// ── Nav scroll state ─────────────────────────────────────────────────
 const nav = document.querySelector('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 50);
-}, { passive: true });
+if (nav) {
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  }, { passive: true });
+}
 
-// ── Cursor ───────────────────────────────────────────
+// ── Cursor ───────────────────────────────────────────────────────────
 const cur = document.getElementById('cur');
-document.addEventListener('mousemove', e => {
-  cur.style.left = `${e.clientX}px`;
-  cur.style.top  = `${e.clientY}px`;
-});
-document.addEventListener('mousedown', () => document.body.classList.add('clicking'));
-document.addEventListener('mouseup',   () => document.body.classList.remove('clicking'));
+if (cur) {
+  document.addEventListener('mousemove', e => {
+    cur.style.left = `${e.clientX}px`;
+    cur.style.top  = `${e.clientY}px`;
+  });
+  document.addEventListener('mousedown', () => document.body.classList.add('clicking'));
+  document.addEventListener('mouseup',   () => document.body.classList.remove('clicking'));
+}
 
-// ── Click ripple ─────────────────────────────────────
+// ── Click ripple ─────────────────────────────────────────────────────
+// @keyframes rippleOut lives in eDreams-case-study.css
 document.addEventListener('click', e => {
   const r = document.createElement('div');
   r.style.cssText = [
     'position:fixed',
-    'width:10px',
-    'height:10px',
+    'width:10px', 'height:10px',
     'border-radius:50%',
     'border:1.5px solid var(--accent-aurora)',
     'transform:translate(-50%,-50%) scale(0)',
@@ -33,66 +40,117 @@ document.addEventListener('click', e => {
   setTimeout(() => r.remove(), 600);
 });
 
-// ── Scroll reveal ─────────────────────────────────────
-const obs = new IntersectionObserver(entries => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) {
-      setTimeout(() => e.target.classList.add('in'), i * 75);
-      obs.unobserve(e.target);
+// ── Scroll reveal ────────────────────────────────────────────────────
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('in'), i * 75);
+      revealObs.unobserve(entry.target);
     }
   });
 }, { threshold: 0.07 });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-// ── Beam Me Up ────────────────────────────────────────
-const beamBtn    = document.getElementById('beamUp');
+// ── Beam Me Up ───────────────────────────────────────────────────────
+const beamUp     = document.getElementById('beamUp');
 const beamStreak = document.getElementById('beam-streak');
 const beamFlash  = document.getElementById('beam-flash');
 
-// Show pill after 400px scroll, hide at top
-window.addEventListener('scroll', () => {
-  beamBtn.classList.toggle('visible', window.scrollY > 400);
-}, { passive: true });
+if (beamUp) {
+  // Show button after scrolling down
+  window.addEventListener('scroll', () => {
+    beamUp.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
 
-beamBtn.addEventListener('click', () => {
-  const rect    = beamBtn.getBoundingClientRect();
-  const centerX = rect.left + rect.width / 2;
+  beamUp.addEventListener('click', () => {
+    if (!beamStreak || !beamFlash) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
 
-  // Position streak: centered on button, bottom edge at button's top
-  beamStreak.style.left     = `${centerX - 1.5}px`;
-  beamStreak.style.bottom   = `${window.innerHeight - rect.top}px`;
-  beamStreak.style.height   = '0';
-  beamStreak.style.opacity  = '1';
-  beamStreak.style.transition = 'none';
+    const rect   = beamUp.getBoundingClientRect();
+    const centreX = rect.left + rect.width / 2;
+    const fromTop = rect.top;
 
-  // 1. Streak shoots upward over 320ms
-  requestAnimationFrame(() => {
+    // Position streak at button centre, pointing up
+    beamStreak.style.cssText = `
+      left: ${centreX}px;
+      top: 0;
+      bottom: auto;
+      height: 0;
+      opacity: 1;
+      transform: translateX(-50%);
+      transition: none;
+    `;
+
+    // Let the browser register the start state, then animate
     requestAnimationFrame(() => {
-      beamStreak.style.transition = 'height 0.32s ease-in';
-      beamStreak.style.height = `${rect.top}px`;
+      requestAnimationFrame(() => {
+        beamStreak.style.transition = 'height 0.32s ease-out, opacity 0.18s ease 0.26s';
+        beamStreak.style.height  = `${fromTop}px`;
+        beamStreak.style.opacity = '0';
+      });
     });
+
+    // Flash slam
+    setTimeout(() => {
+      beamFlash.style.transition = 'opacity 0.08s ease';
+      beamFlash.style.opacity    = '0.3';
+    }, 300);
+
+    // Scroll
+    setTimeout(() => window.scrollTo(0, 0), 370);
+
+    // Fade flash
+    setTimeout(() => {
+      beamFlash.style.transition = 'opacity 0.45s ease';
+      beamFlash.style.opacity    = '0';
+    }, 430);
+
+    // Reset streak
+    setTimeout(() => {
+      beamStreak.style.transition = 'none';
+      beamStreak.style.height     = '0';
+      beamStreak.style.opacity    = '0';
+    }, 750);
+  });
+}
+
+// ── Lightbox ─────────────────────────────────────────────────────────
+const lightbox      = document.getElementById('lightbox');
+const lightboxImg   = document.getElementById('lightbox-img');
+const lightboxClose = document.getElementById('lightbox-close');
+
+// Guard: only wire up if all three elements exist in the HTML
+if (lightbox && lightboxImg && lightboxClose) {
+
+  function openLightbox(src, alt) {
+    lightboxImg.src = src;
+    lightboxImg.alt = alt || '';
+    lightbox.classList.add('active');
+    lightbox.removeAttribute('aria-hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  // Attach click to every content image (skip hero plane and the lightbox img itself)
+  document.querySelectorAll('img:not(.hero-plane):not(#lightbox-img)').forEach(img => {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => openLightbox(img.src, img.alt));
   });
 
-  // 2. Flash slams in as streak hits the top
-  setTimeout(() => {
-    beamFlash.style.transition = 'opacity 0.08s ease-in';
-    beamFlash.style.opacity = '1';
-  }, 300);
+  // Close handlers
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
+  });
 
-  // 3. Scroll to top instantly under the flash
-  setTimeout(() => {
-    window.scrollTo(0, 0);
-  }, 370);
-
-  // 4. Flash fades out, reset streak
-  setTimeout(() => {
-    beamFlash.style.transition  = 'opacity 0.9s ease-out';
-    beamFlash.style.opacity     = '0';
-    beamStreak.style.transition = 'opacity 0.2s ease';
-    beamStreak.style.opacity    = '0';
-    setTimeout(() => {
-      beamStreak.style.height = '0';
-      beamStreak.style.transition = 'none';
-    }, 200);
-  }, 450);
-});
+}
