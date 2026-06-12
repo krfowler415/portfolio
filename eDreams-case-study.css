@@ -136,6 +136,7 @@ body {
   background:
     radial-gradient(circle, #98A8D428 1px, transparent 1px) center / 28px 28px,
     var(--bg);
+  background-attachment: fixed;
   color: var(--text);
   font-family: var(--sans);
   line-height: 1.6;
@@ -978,6 +979,12 @@ footer {
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(110%); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Gentle cruising motion for the hero plane icon — subtle bob and tilt */
+@keyframes planeFloat {
+  0%, 100% { transform: translateY(-0.08em) rotate(0deg); }
+  50%      { transform: translateY(-0.24em) rotate(-4deg); }
 }
 
 @keyframes rippleOut {
