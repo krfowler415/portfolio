@@ -176,6 +176,19 @@ nav.scrolled {
   box-shadow: 0 1px 20px #0AC39A10;
 }
 
+#scroll-progress {
+  position: fixed;
+  top: 54px;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: var(--accent-aurora);
+  box-shadow: 0 0 6px var(--aurora-400);
+  z-index: 99;
+  transition: width 0.1s ease-out;
+  pointer-events: none;
+}
+
 .nav-logo {
   font-family: var(--display);
   font-style: italic;
@@ -473,7 +486,7 @@ body {
     0 0 0 1px #98A8D418,
     0 0 15px #C8185820,
     inset 0 1px 0 #C8185840;
-  transition: box-shadow 0.3s ease;
+  transition: transform 0.25s ease, box-shadow 0.3s ease;
 }
 
 .stat-box::before {
@@ -487,6 +500,7 @@ body {
 }
 
 .stat-box:hover {
+  transform: translateY(-3px);
   box-shadow:
     0 0 0 1px #C8185840,
     0 0 20px #C8185825,
@@ -541,9 +555,18 @@ body {
   padding: 1.25rem;
   position: relative;
   overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.3s ease;
   box-shadow:
     0 0 0 1px #98A8D418,
     inset 0 1px 0 #5F259F40;
+}
+
+.finding:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 1px #C8185840,
+    0 0 20px #C8185820,
+    inset 0 1px 0 #C8185850;
 }
 
 .finding::before {
@@ -683,12 +706,15 @@ body {
   color: var(--text);
   border: none;
   font-weight: 600;
-  position: relative; z-index: 1;
+  position: relative; 
+  z-index: 1;
 }
 .btn-primary::after {
-  position: absolute; content: "";
+  position: absolute; 
+  content: "";
   width: 100%; height: 0;
-  bottom: 0; left: 0; z-index: -1;
+  bottom: 0; left: 0; 
+  z-index: -1;
   border-radius: 7px;
   background: linear-gradient(180deg, var(--primary) 0%, var(--primary-lt) 74%);
   transition: all 0.3s ease;
@@ -943,6 +969,11 @@ footer {
   to { transform: translate(-50%, -50%) scale(8); opacity: 0; }
 }
 
+/* Idle bounce on the Beam Me Up arrow — pauses on hover */
+@keyframes arrowBounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
 
 /* =====================================================================
  * § 15  BEAM ME UP
@@ -970,9 +1001,22 @@ footer {
   opacity: 0;
   transform: translateY(10px);
   pointer-events: none;
-  transition: opacity 0.4s ease, transform 0.4s ease, filter 0.25s ease;
-  box-shadow: 0 0 20px #0AC39A40, 0 0 50px #0AC39A20;
+  transition: opacity 0.4s ease, transform 0.4s ease, filter 0.25s ease, box-shadow 0.3s ease,
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.3),
+    0 4px 14px rgba(0, 0, 0, 0.35),
+    0 0 20px #0AC39A40,
+    0 0 50px #0AC39A20;
   cursor: none;
+}
+
+#beamUp::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 55%);
+  pointer-events: none;
 }
 
 #beamUp.visible {
@@ -983,7 +1027,31 @@ footer {
 
 #beamUp:hover {
   filter: brightness(1.12);
-  box-shadow: 0 0 30px #0AC39A60, 0 0 70px #0AC39A30;
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.15),
+    0 6px 18px rgba(0, 0, 0, 0.4),
+    0 0 30px #0AC39A60,
+    0 0 70px #0AC39A30;
+}
+
+#beamUp:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 2px 4px rgba(0, 0, 0, 0.3),
+    0 1px 4px rgba(0, 0, 0, 0.3),
+    0 0 20px #0AC39A40,
+    0 0 50px #0AC39A20;
+}
+
+#beamUp.visible .beam-arrow {
+  animation: arrowBounce 1.8s ease-in-out infinite;
+}
+
+#beamUp:hover .beam-arrow {
+  animation-play-state: paused;
 }
 
 #beam-streak {
