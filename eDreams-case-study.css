@@ -14,14 +14,13 @@
  *  § 8   Stats
  *  § 9   Findings
  *  § 10  Images & Placeholders
- *  § 11  Dark Band
- *  § 12  Buttons
- *  § 13  CTA Section
- *  § 14  Footer
- *  § 15  Animations
- *  § 16  Beam Me Up
- *  § 17  Lightbox
- *  § 18  Media Queries
+ *  § 11  Buttons
+ *  § 12  CTA Section
+ *  § 13  Footer
+ *  § 14  Animations
+ *  § 15  Beam Me Up
+ *  § 16  Lightbox
+ *  § 17  Media Queries
  * =====================================================================
  */
 
@@ -184,7 +183,7 @@ nav.scrolled {
   color: var(--text);
   text-shadow: 0 0 25px #F4F2FF35;
 }
-.nav-logo:hover { opacity: 0.8; color: var(--aurora-400); }
+.nav-logo:hover { opacity: 0.8; color: var(--aurora-200); }
 
 .nav-next-cs {
   display: inline-flex;
@@ -383,7 +382,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 .cs-body {
   max-width: var(--max-text);
   margin: 0 auto;
-  padding: 3rem var(--px);
+  padding: 2rem var(--px);
 }
 
 .graf {
@@ -436,7 +435,7 @@ body {
   font-family: var(--sans);
   font-size: 1.05rem;
   font-weight: 400;
-  color: var(--aether-100);
+  color: var(--aurora-200);
   line-height: 1.65;
   border-left: 2px solid var(--accent-cosmos);
   padding: 0.25rem 0 0.25rem 1.5rem;
@@ -459,7 +458,7 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
-  margin: 2.5rem 0;
+  margin: 1.5rem 0;
 }
 
 .stat-box {
@@ -661,32 +660,8 @@ body {
   cursor: zoom-in;
 }
 
-
 /* =====================================================================
- * § 11  DARK BAND
- * ===================================================================== */
-
-.band-dark {
-  background: var(--bg-raised);
-  padding: 3.5rem var(--px);
-  margin: 3rem 0 1.5rem;
-  border-top:    1px solid rgba(95, 37, 159, 0.3);
-  border-bottom: 1px solid rgba(95, 37, 159, 0.3);
-}
-
-.band-dark-inner {
-  max-width: var(--max-text);
-  margin: 0 auto;
-}
-
-.band-dark .graf        { color: rgba(200, 208, 236, 0.65); }
-.band-dark .graf strong { color: var(--text); }
-.band-dark .cs-label    { color: var(--accent-aurora); }
-.band-dark .pull-q      { color: var(--aurora-200); border-left-color: rgba(10, 195, 154, 0.35); }
-
-
-/* =====================================================================
- * § 12  BUTTONS
+ * § 11  BUTTONS
  * ===================================================================== */
 
 .btn {
@@ -753,7 +728,7 @@ body {
 
 
 /* =====================================================================
- * § 13  CTA SECTION
+ * § 12  CTA SECTION
  * ===================================================================== */
 
 .cs-cta-wrap {
@@ -910,7 +885,7 @@ body {
 
 
 /* =====================================================================
- * § 14  FOOTER
+ * § 13  FOOTER
  * ===================================================================== */
 
 footer {
@@ -938,7 +913,7 @@ footer {
 
 
 /* =====================================================================
- * § 15  ANIMATIONS
+ * § 14  ANIMATIONS
  * ===================================================================== */
 
 @keyframes up {
@@ -963,7 +938,7 @@ footer {
 
 
 /* =====================================================================
- * § 16  BEAM ME UP
+ * § 15  BEAM ME UP
  * ===================================================================== */
 
 #beamUp {
@@ -1027,7 +1002,7 @@ footer {
 
 
 /* =====================================================================
- * § 17  LIGHTBOX
+ * § 16  LIGHTBOX
  * ===================================================================== */
 
 #lightbox {
@@ -1099,7 +1074,7 @@ footer {
 
 
 /* =====================================================================
- * § 18  MEDIA QUERIES
+ * § 17  MEDIA QUERIES
  * ===================================================================== */
 
 @media (max-width: 700px) {
