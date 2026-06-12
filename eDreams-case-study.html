@@ -99,7 +99,7 @@
 
 <!-- ── THE AUDIT ───────────────────────────────────────────────────── -->
 
-<div class="cs-body" style="margin-bottom: 0.5rem">
+<div class="cs-body">
   <span class="cs-label reveal">The Audit</span>
   <p class="graf reveal">Before running usability sessions, I evaluated the flight results page against Nielsen Norman's 10 heuristics. It was a way to identify structural problems before bringing real people into the room.</p>
   <p class="graf reveal">Two violations stood out. The page was visually dense, with promotions and banners competing against the core booking content for attention. And there were no shortcuts for repeat travelers. Every session started from scratch regardless of how many times you had used the site before.</p>
@@ -112,20 +112,18 @@
 
 <!-- ── IN THE ROOM ─────────────────────────────────────────────────── -->
 
-<div class="band-dark reveal">
-  <div class="band-dark-inner">
-    <span class="cs-label">In the Room</span>
+<div class="cs-body">
+  <span class="cs-label">In the Room</span>
     <p class="graf">Three participants, three scenarios: find a round-trip flight, explore current deals, and navigate to transportation options. Think-aloud protocol throughout. I wrote the test script, the pre and post questionnaires, and the observation sheets.</p>
     <p class="graf">Then I sat with each person and watched the site fight them.</p>
     <div class="pull-q">"These all look the same."<br><small style="font-size:0.75rem;opacity:0.7;font-style:normal;letter-spacing:0.06em;text-transform:uppercase;">User 2, comparing flight options</small></div>
     <p class="graf">Cards were visually identical. Nothing distinguished a nonstop flight from one with a connection at a glance. There was no way to hold two options side by side, so users scrolled up and down trying to keep the details straight in their heads. The oldest participant convinced himself at one point that he had left the site entirely when the navigation disappeared on a secondary page.</p>
     <p class="graf">After each session, participants filled out a post-test questionnaire rating their experience across several dimensions. The numbers matched what I had just watched happen. Ease of comparing options came back as the lowest score by a wide margin.</p>
-  </div>
 </div>
 
 <!-- ── STATS + KEY FINDINGS ───────────────────────────────────────── -->
 
-<div class="cs-body" style="padding-bottom:0.5rem;">
+<div class="cs-body" style="padding-bottom: 0.5rem;">
   <span class="cs-label reveal">Key Findings</span>
   <div class="stat-row reveal">
     <div class="stat-box"><div class="stat-box-n">3</div><div class="stat-box-l">Participants<br>Ages 29, 45, and 70</div></div>
@@ -133,7 +131,7 @@
     <div class="stat-box"><div class="stat-box-n">1.8</div><div class="stat-box-l">Average ease of comparing options<br>(out of 5)</div></div>
   </div>
 
-  <div class="findings-grid reveal" style="margin-bottom:0.5rem;">
+  <div class="findings-grid reveal">
     <div class="finding"><div class="finding-hed">Flight comparison friction</div><p>No way to save or compare flights side by side. Users had to rely on memory and repeated scrolling to make a decision.</p></div>
     <div class="finding"><div class="finding-hed">Weak visual hierarchy</div><p>Identical icons for nonstop and connecting flights forced users to read small text to distinguish options, which slowed scanning considerably for all three participants.</p></div>
     <div class="finding"><div class="finding-hed">Pricing confusion</div><p>Prices changed after selection, and baggage inclusions weren't visible at the results level. Trust dropped immediately.</p></div>
@@ -143,7 +141,7 @@
 
 <!-- ── THE DIRECTION ───────────────────────────────────────────────── -->
 
-<div class="cs-body">
+<div class="cs-body" style="padding-top:2rem;">
   <span class="cs-label reveal">The Direction</span>
   <p class="graf reveal">One problem had to be solved before anything else: users could not compare flights without memorizing them. Every other issue on the page flowed from that.</p>
   <p class="graf reveal">I ran Crazy 8s to generate options quickly. Most of the sketches kept circling back to the same core idea, a persistent way to hold selected flights somewhere visible so users could compare them without losing their place in the results. The concept that kept standing out was a floating comparison panel. It appears once two or more flights are selected, sits at the bottom of the screen, and lets you book directly without navigating away from the list.</p>
