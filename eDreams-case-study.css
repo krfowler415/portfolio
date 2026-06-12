@@ -418,6 +418,19 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   display: block;
 }
 
+/* Section index marker — // 01, // 02, etc. Counts every .cs-label in
+   document order. Reset on body so it spans the whole page. */
+body {
+  counter-reset: section-index;
+}
+.cs-label::before {
+  counter-increment: section-index;
+  content: " "counter(section-index, decimal-leading-zero)" //  ";
+  color: var(--aether-200);
+  opacity: 0.45;
+  font-weight: 500;
+}
+
 .pull-q {
   font-family: var(--sans);
   font-size: 1.05rem;
@@ -570,6 +583,37 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   max-width: var(--max);
   margin: 2rem auto;
   padding: 0 var(--px);
+  text-align: center;
+}
+
+/* HUD frame — corner brackets float just outside the image edges,
+   echoing the .cs-cta corner brackets elsewhere on the page.
+   Apply by wrapping <img> in <div class="img-frame">. Default
+   display:block for full-width images; add style="display:inline-block"
+   for images that are centered/auto-width (e.g. max-height images). */
+.img-frame {
+  position: relative;
+  display: block;
+  max-width: 100%;
+}
+.img-frame::before,
+.img-frame::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  opacity: 0.55;
+}
+.img-frame::before {
+  top: -7px; left: -7px;
+  border-top: 1.5px solid var(--accent-aurora);
+  border-left: 1.5px solid var(--accent-aurora);
+}
+.img-frame::after {
+  bottom: -7px; right: -7px;
+  border-bottom: 1.5px solid var(--accent-aurora);
+  border-right: 1.5px solid var(--accent-aurora);
 }
 
 .img-full-inner {
@@ -654,7 +698,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 .band-dark {
   background: var(--bg-raised);
   padding: 3.5rem var(--px);
-  margin: 3rem 0;
+  margin: 3rem 0 1.5rem;
   border-top:    1px solid rgba(95, 37, 159, 0.3);
   border-bottom: 1px solid rgba(95, 37, 159, 0.3);
 }
