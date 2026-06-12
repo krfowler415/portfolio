@@ -23,6 +23,7 @@ if (cur) {
 // ── Click ripple ─────────────────────────────────────────────────────
 // @keyframes rippleOut lives in eDreams-case-study.css
 document.addEventListener('click', e => {
+  if (e.target.closest('#lightbox')) return; // skip ripple inside lightbox
   const r = document.createElement('div');
   r.style.cssText = [
     'position:fixed',
