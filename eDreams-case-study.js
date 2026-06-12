@@ -69,26 +69,27 @@ if (beamUp) {
       return;
     }
 
-    const rect   = beamUp.getBoundingClientRect();
+    const rect    = beamUp.getBoundingClientRect();
     const centreX = rect.left + rect.width / 2;
-    const fromTop = rect.top;
 
-    // Position streak at button centre, pointing up
+    // Anchor the streak at the button, pointing upward
+    // bottom = distance from viewport bottom to the button's top edge
     beamStreak.style.cssText = `
       left: ${centreX}px;
-      top: 0;
-      bottom: auto;
+      bottom: ${window.innerHeight - rect.top}px;
+      top: auto;
       height: 0;
       opacity: 1;
       transform: translateX(-50%);
       transition: none;
     `;
 
-    // Let the browser register the start state, then animate
+    // Double rAF so browser registers the start state before animating
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
+        // Growing height with bottom anchor extends upward toward top of screen
         beamStreak.style.transition = 'height 0.32s ease-out, opacity 0.18s ease 0.26s';
-        beamStreak.style.height  = `${fromTop}px`;
+        beamStreak.style.height  = `${rect.top}px`;
         beamStreak.style.opacity = '0';
       });
     });
