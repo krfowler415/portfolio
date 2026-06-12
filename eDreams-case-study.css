@@ -132,9 +132,7 @@ html { scroll-behavior: smooth; }
  * ===================================================================== */
 
 body {
-  background:
-    radial-gradient(circle, #98A8D428 1px, transparent 1px) center / 28px 28px,
-    var(--bg);
+  background: radial-gradient(circle, #98A8D428 1px, transparent 1px) center / 28px 28px, var(--bg);
   background-attachment: fixed;
   color: var(--text);
   font-family: var(--sans);
@@ -259,8 +257,7 @@ a, button { cursor: none; }
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   transition: transform 0.12s ease;
-  box-shadow:
-    0 0 8px 2px var(--aurora-400),
+  box-shadow: 0 0 8px 2px var(--aurora-400),
     0 0 20px 4px #0AC39A60;
 }
 
@@ -482,11 +479,11 @@ body {
   text-align: center;
   position: relative;
   overflow: hidden;
-  box-shadow:
-    0 0 0 1px #98A8D418,
+  box-shadow: 0 0 0 1px #98A8D418,
     0 0 15px #C8185820,
     inset 0 1px 0 #C8185840;
   transition: transform 0.25s ease, box-shadow 0.3s ease;
+  will-change: transform;
 }
 
 .stat-box::before {
@@ -501,8 +498,7 @@ body {
 
 .stat-box:hover {
   transform: translateY(-3px);
-  box-shadow:
-    0 0 0 1px #C8185840,
+  box-shadow: 0 0 0 1px #C8185840,
     0 0 20px #C8185825,
     inset 0 1px 0 #C8185850;
 }
@@ -514,16 +510,14 @@ body {
   color: var(--accent-aurora);
   line-height: 1;
   margin-bottom: 0.2rem;
-  text-shadow:
-    0 0 7px var(--aurora-400),
+  text-shadow: 0 0 7px var(--aurora-400),
     0 0 20px var(--aurora-400),
     0 0 45px #0AC39A80;
   transition: text-shadow 0.3s ease;
 }
 
 .stat-box:hover .stat-box-n {
-  text-shadow:
-    0 0 7px var(--aurora-400),
+  text-shadow: 0 0 7px var(--aurora-400),
     0 0 30px var(--aurora-400),
     0 0 65px #0AC39A90;
 }
@@ -556,15 +550,14 @@ body {
   position: relative;
   overflow: hidden;
   transition: transform 0.25s ease, box-shadow 0.3s ease;
-  box-shadow:
-    0 0 0 1px #98A8D418,
+  will-change: transform;
+  box-shadow: 0 0 0 1px #98A8D418,
     inset 0 1px 0 #5F259F40;
 }
 
 .finding:hover {
   transform: translateY(-3px);
-  box-shadow:
-    0 0 0 1px #C8185840,
+  box-shadow: 0 0 0 1px #C8185840,
     0 0 20px #C8185820,
     inset 0 1px 0 #C8185850;
 }
@@ -774,8 +767,7 @@ body {
   align-items: center;
   text-align: center;
   position: relative;
-  box-shadow:
-    0 0 0 1px #98A8D420,
+  box-shadow: 0 0 0 1px #98A8D420,
     0 0 50px #5F259F30,
     inset 0 1px 0 #5F259F60;
 }
@@ -847,8 +839,7 @@ body {
   text-decoration: none;
   position: relative;
   z-index: 1;
-  box-shadow:
-    0 0 25px #0AC39A50,
+  box-shadow: 0 0 25px #0AC39A50,
     0 0 60px #0AC39A25;
 }
 
@@ -1028,8 +1019,7 @@ footer {
 #beamUp:hover {
   filter: brightness(1.12);
   transform: translateY(-2px);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3),
     inset 0 -2px 4px rgba(0, 0, 0, 0.15),
     0 6px 18px rgba(0, 0, 0, 0.4),
     0 0 30px #0AC39A60,
@@ -1038,8 +1028,7 @@ footer {
 
 #beamUp:active {
   transform: translateY(1px);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),
     inset 0 2px 4px rgba(0, 0, 0, 0.3),
     0 1px 4px rgba(0, 0, 0, 0.3),
     0 0 20px #0AC39A40,
@@ -1110,8 +1099,7 @@ footer {
   border-radius: 8px;
   display: block;
   cursor: auto;
-  box-shadow:
-    0 0 0 1px rgba(10, 195, 154, 0.15),
+  box-shadow: 0 0 0 1px rgba(10, 195, 154, 0.15),
     0 40px 80px rgba(0, 0, 0, 0.8);
   transform: scale(0.96);
   transition: transform 0.25s ease;
