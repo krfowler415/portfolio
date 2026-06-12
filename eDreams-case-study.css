@@ -587,36 +587,6 @@ body {
   text-align: center;
 }
 
-/* HUD frame — corner brackets float just outside the image edges,
-   echoing the .cs-cta corner brackets elsewhere on the page.
-   Apply by wrapping <img> in <div class="img-frame">. Default
-   display:block for full-width images; add style="display:inline-block"
-   for images that are centered/auto-width (e.g. max-height images). */
-.img-frame {
-  position: relative;
-  display: block;
-  max-width: 100%;
-}
-.img-frame::before,
-.img-frame::after {
-  content: '';
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  pointer-events: none;
-  opacity: 0.55;
-}
-.img-frame::before {
-  top: -7px; left: -7px;
-  border-top: 1.5px solid var(--accent-aurora);
-  border-left: 1.5px solid var(--accent-aurora);
-}
-.img-frame::after {
-  bottom: -7px; right: -7px;
-  border-bottom: 1.5px solid var(--accent-aurora);
-  border-right: 1.5px solid var(--accent-aurora);
-}
-
 .img-full-inner {
   border-radius: 12px;
   overflow: hidden;
