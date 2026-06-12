@@ -819,18 +819,25 @@ body {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   text-decoration: none;
-  transition: box-shadow 0.3s ease, filter 0.3s ease;
+  position: relative;
+  z-index: 1;
   box-shadow:
     0 0 25px #0AC39A50,
     0 0 60px #0AC39A25;
 }
 
-.cs-cta-btn:hover {
-  filter: brightness(1.1);
-  box-shadow:
-    0 0 35px #0AC39A70,
-    0 0 80px #0AC39A35;
+.cs-cta-btn::after {
+  position: absolute; content: "";
+  width: 100%; height: 0;
+  bottom: 0; left: 0; z-index: -1;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--cosmos-600) 0%, var(--aurora-400) 100%);
+  transition: all 0.3s ease;
 }
+ 
+.cs-cta-btn:hover { color: var(--text); }
+.cs-cta-btn:hover::after { top: 0; height: 100%; }
+.cs-cta-btn:active { top: 2px; }
 
 .cs-cta-arrow {
   font-size: 1.5rem;
