@@ -225,6 +225,7 @@ body {
   background:
     radial-gradient(circle, #98A8D428 1px, transparent 1px) center / 28px 28px,
     var(--bg);
+  background-attachment: fixed;
   color: var(--text);
   font-family: var(--sans);
   line-height: 1.6;
