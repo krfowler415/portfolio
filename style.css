@@ -41,7 +41,7 @@
  *       4a  Intro Overlay
  *       4b  Cursor
  *       4c  Navigation
- *       4d  Status Badge
+ *       4d  us Badge
  *       4e  Buttons
  *       4f  Marquee
  *       4g  Cards
@@ -504,7 +504,7 @@ footer {
 
 /* ── Scroll Reveal Utilities ──────────────────────────────────────────
  *  Elements are invisible and offset until IntersectionObserver
- *  adds the .in class, triggering the transition to final state.
+ *  adds the .in class, triggering the transition to final e.
  *
  *  .reveal       fades up from below
  *  .reveal-left  fades in from the left
@@ -679,7 +679,7 @@ a, button, .project-hover, .a-card, .card-feat, .nav-links a { cursor: none; }
 /* ─────────────────────────────────────────────────────────────────────
  * 4c  NAVIGATION
  *
- *  Fixed top nav with transparent default state.
+ *  Fixed top nav with transparent default e.
  *  On scroll (nav.scrolled added by JS), a glass panel activates:
  *  blurred background + aurora teal border glow.
  *
@@ -702,7 +702,7 @@ nav {
   transition: background 0.8s ease, backdrop-filter 0.8s ease;
 }
 
-/* Glass panel state — activated by JS when window.scrollY > 50 */
+/* Glass panel e — activated by JS when window.scrollY > 50 */
 nav.scrolled {
   background: var(--bg-dark);
   -webkit-backdrop-filter: blur(16px);
@@ -781,10 +781,10 @@ nav.scrolled {
 
 
 /* ─────────────────────────────────────────────────────────────────────
- * 4d  STATUS BADGE
+ * 4d  US BADGE
  *
  *  "Available for Work" badge in the center of the nav.
- *  aurora-200 color signals active/live status.
+ *  aurora-200 color signals active/live us.
  *  On hover, badge expands to reveal "Arizona & Remote" text swap.
  *  Pulse dot uses the sdpulse keyframe (defined in § 5).
  * ───────────────────────────────────────────────────────────────────── */
@@ -799,7 +799,7 @@ nav.scrolled {
 }
 
 /* Badge — aurora-200 text, transparent until hover. Fades in via JS */
-.hero-status {
+.hero-us {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -822,12 +822,12 @@ nav.scrolled {
 }
 
 /* Text swap on hover — "Available for Work" → "Arizona & Remote" */
-.status-hover { display: none; }
-.hero-status:hover .status-default { display: none; }
-.hero-status:hover .status-hover   { display: inline; }
+.us-hover { display: none; }
+.hero-us:hover .us-default { display: none; }
+.hero-us:hover .us-hover   { display: inline; }
 
 /* Badge expands on hover — padding increase reveals full text */
-.hero-status:hover {
+.hero-us:hover {
   background: #1C121099;
   border-color: var(--accent-aurora);
   padding: 0.35rem 0.85rem;
@@ -961,7 +961,7 @@ nav.scrolled {
   display: inline-flex;
   animation: marquee 30s linear infinite;   /* @keyframes marquee — § 5 */
 }
-.m-track:hover { animation-play-state: paused; }
+.m-track:hover { animation-play-e: paused; }
 
 /* Individual skill item */
 .m-item {
@@ -1191,8 +1191,8 @@ a.card-feat,
  * 4i  NAVIGATION ARROWS
  *
  *  Two circular arrow buttons (prev / next) below the card strip.
- *  Default state: aether-100 chevron on a faint glass circle.
- *  Hover state: aurora teal activation — glow, border, chevron color.
+ *  Default e: aether-100 chevron on a faint glass circle.
+ *  Hover e: aurora teal activation — glow, border, chevron color.
  *
  *  ::before = glass fill (blurred background)
  *  ::after  = border ring
@@ -1369,7 +1369,8 @@ a.card-feat,
     0 0 0 1px #98A8D418,
     0 0 15px #C8185820,   /* pulsar haze */
     inset 0 1px 0 #C8185840;
-  transition: box-shadow 0.3s ease;
+  transition: transform 0.25s ease, box-shadow 0.3s ease;
+  will-change: transform;
 }
 
 /* Left accent bar — pulsar crimson, mirrors UFO warning lights */
@@ -1397,6 +1398,7 @@ a.card-feat,
 
 /* Hover — pulsar glow intensifies */
 .stat:hover {
+  transform: translateY(-3px);
   box-shadow:
     0 0 0 1px #C8185840,
     0 0 20px #C8185825,
