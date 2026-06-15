@@ -1,0 +1,648 @@
+/*
+ * =====================================================================
+ *  SONORAN COSMOS — ABOUT PAGE
+ *  Kevin Fowler | krfowler415.github.io/portfolio
+ * =====================================================================
+ *
+ *  § 1   Variables & Reset
+ *  § 2   Body & Global
+ *  § 3   Navigation
+ *  § 4   Cursor
+ *  § 5   Header
+ *  § 6   The Long Version
+ *  § 7   Off the Clock
+ *  § 8   Toolkit
+ *  § 9   Closing
+ *  § 10  Footer
+ *  § 11  Reveal & Animations
+ *  § 12  Media Queries
+ * =====================================================================
+ */
+
+
+/* =====================================================================
+ * § 1  VARIABLES & RESET
+ * ===================================================================== */
+
+:root {
+  --pulsar-50:   #FFE8EE;
+  --pulsar-100:  #FFB0C8;
+  --pulsar-200:  #F87098;
+  --pulsar-400:  #C81858;
+  --pulsar-600:  #900840;
+  --pulsar-800:  #580428;
+  --pulsar-900:  #2C0114;
+
+  --cosmos-50:   #F0EAF8;
+  --cosmos-100:  #D4BAF0;
+  --cosmos-200:  #B080E0;
+  --cosmos-300:  #8B45D4;
+  --cosmos-400:  #5F259F;
+  --cosmos-600:  #431878;
+  --cosmos-800:  #2A0E50;
+  --cosmos-900:  #160828;
+
+  --aurora-50:   #E3FDF8;
+  --aurora-100:  #ADFAEC;
+  --aurora-200:  #7FF6E4;
+  --aurora-400:  #0AC39A;
+  --aurora-600:  #17A487;
+  --aurora-800:  #0F5042;
+  --aurora-900:  #0C1916;
+
+  --plasma-50:   #FFE8FA;
+  --plasma-100:  #FFB0F0;
+  --plasma-200:  #F870D8;
+  --plasma-400:  #C818A8;
+  --plasma-600:  #900878;
+  --plasma-800:  #580448;
+  --plasma-900:  #2C0124;
+
+  --aether-50:   #F0F2FA;
+  --aether-100:  #C8D0EC;
+  --aether-200:  #98A8D4;
+  --aether-400:  #5868A8;
+  --aether-600:  #384880;
+  --aether-800:  #202858;
+  --aether-900:  #101430;
+
+  --bg:          #100820;
+  --bg-dark:     #100820;
+  --bg-surface:  #1C1232;
+  --bg-raised:   #281842;
+  --bg-tint:     #5F259F47;
+
+  --text:        #F4F2FF;
+  --text-muted:  #C8D0EC;
+  --text-light:  #7FF6E4;
+  --text-inv:    #1C1210;
+
+  --primary:        #0AC39A;
+  --primary-hover:  #17A487;
+  --primary-lt:     #7FF6E4;
+  --primary-subtle: #0C1916;
+
+  --accent-pulsar:        #C81858;
+  --accent-pulsar-subtle: #2C0114;
+  --accent-cosmos:        #5F259F;
+  --accent-cosmos-subtle: #160828;
+  --accent-aurora:        #0AC39A;
+  --accent-aurora-subtle: #0C1916;
+  --accent-plasma:        #C818A8;
+  --accent-plasma-subtle: #2C0124;
+
+  --aether: #98A8D4;
+
+  --border:        #98A8D45A;
+  --border-subtle: #98A8D42D;
+
+  --aurora-glass: #0AC39A14;
+  --aurora-glow:  #0AC39A40;
+  --aurora-inset: #0AC39A0D;
+
+  --display: 'Audiowide', sans-serif;
+  --serif:   'Oxanium', system-ui, sans-serif;
+  --sans:    'Orbitron', sans-serif;
+
+  --max:      1100px;
+  --max-text:  640px;
+  --px:       clamp(1.25rem, 5vw, 3rem);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+:focus-visible {
+  outline: 2px solid var(--accent-aurora);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+
+/* =====================================================================
+ * § 2  BODY & GLOBAL
+ * ===================================================================== */
+
+body {
+  background: radial-gradient(circle, #98A8D428 1px, transparent 1px) center / 28px 28px, var(--bg);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: var(--sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  cursor: none;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+a, button { cursor: none; }
+
+.skip-nav {
+  position: absolute;
+  top: -100%;
+  left: var(--px);
+  background: var(--primary);
+  color: var(--text);
+  font-family: var(--display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0 0 7px 7px;
+  z-index: 9999;
+  transition: top 0.2s ease;
+}
+.skip-nav:focus { top: 0; }
+
+/* Shared section rhythm — matches index.html section spacing */
+.section {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 6rem var(--px);
+}
+.section + .section { border-top: 1px solid var(--border); }
+
+.sec-title {
+  font-family: var(--display);
+  font-size: clamp(1.75rem, 3.8vw, 2.6rem);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-100) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+/* =====================================================================
+ * § 3  NAVIGATION
+ * ===================================================================== */
+
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--px);
+  background: rgba(16, 8, 32, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid #FFFFFF0A;
+  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+nav.scrolled {
+  background: var(--bg-dark);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid #0AC39A25;
+  box-shadow: 0 1px 20px #0AC39A10;
+}
+
+.nav-logo {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--text);
+  text-shadow: 0 0 25px #F4F2FF35;
+}
+.nav-logo:hover { opacity: 0.8; color: var(--aurora-200); }
+
+
+/* =====================================================================
+ * § 4  CURSOR
+ * ===================================================================== */
+
+#cur {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  top: 0; left: 0;
+  transform: translate(-50%, -50%);
+}
+
+.cur-dot {
+  position: absolute;
+  width: 11px; height: 11px;
+  background: var(--accent-aurora);
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.12s ease;
+  box-shadow:
+    0 0 8px 2px var(--aurora-400),
+    0 0 20px 4px #0AC39A60;
+}
+
+body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
+
+
+/* =====================================================================
+ * § 5  HEADER
+ *
+ *  Two-column intro: eyebrow/title/copy on the left, profile photo on
+ *  the right in a framed card. The "Earthling" badge on the photo is
+ *  the one payoff to the homepage's "Greetings, Earthling!" — the
+ *  alien's files on the actual human, finally declassified.
+ * ===================================================================== */
+
+.about-header {
+  background: var(--bg);
+  padding: calc(54px + 5rem) var(--px) 5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-header::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, #5F259F38 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.about-header-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  position: relative; z-index: 1;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.about-eyebrow {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-aurora);
+  margin-bottom: 1.25rem;
+  opacity: 0;
+  animation: up 0.5s ease forwards 0.1s;
+}
+
+.about-title {
+  font-family: var(--display);
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-100) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0;
+  animation: up 0.6s ease forwards 0.2s;
+}
+
+.about-intro {
+  font-family: var(--serif);
+  font-size: 1rem;
+  line-height: 1.9;
+  color: var(--text-muted);
+  max-width: var(--max-text);
+  opacity: 0;
+  animation: up 0.6s ease forwards 0.35s;
+}
+
+.about-intro strong { color: var(--accent-cosmos); font-weight: 600; }
+
+/* Profile photo card */
+.profile-frame {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  box-shadow:
+    0 0 0 1px #0AC39A18,
+    0 20px 60px -20px #00000080,
+    0 0 40px -10px var(--aurora-glow);
+  max-width: 340px;
+  margin: 0 auto;
+  opacity: 0;
+  animation: up 0.7s ease forwards 0.3s;
+}
+
+.profile-frame img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+.profile-badge {
+  position: absolute;
+  top: 1rem; left: 1rem;
+  font-family: var(--sans);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-pulsar);
+  background: var(--bg-dark);
+  border: 1px solid #C8185840;
+  border-radius: 4px;
+  padding: 0.3rem 0.55rem;
+}
+.profile-badge::before { content: '◈ '; opacity: 0.8; }
+
+
+/* =====================================================================
+ * § 6  THE LONG VERSION
+ *
+ *  Career story as a short log: a fixed "when" column on the left,
+ *  heading + body on the right. Order carries real information here —
+ *  this is an actual timeline, not decorative numbering.
+ * ===================================================================== */
+
+.story-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+  margin-top: 3rem;
+}
+
+.story-entry {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 2.5rem;
+}
+
+.story-when {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-aurora);
+  line-height: 1.7;
+}
+
+.story-when span {
+  display: block;
+  font-family: var(--serif);
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-muted);
+  margin-top: 0.4rem;
+}
+
+.story-entry h3 {
+  font-family: var(--display);
+  font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+
+.story-entry p {
+  font-family: var(--serif);
+  font-size: 1rem;
+  line-height: 1.9;
+  color: var(--text-muted);
+  max-width: var(--max-text);
+}
+
+.story-entry p + p { margin-top: 1rem; }
+
+
+/* =====================================================================
+ * § 7  OFF THE CLOCK
+ *
+ *  2x2 card grid, same surface treatment as the homepage stat cards —
+ *  a small label up top, a sentence underneath instead of a number.
+ * ===================================================================== */
+
+.off-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-top: 3rem;
+}
+
+.off-card {
+  background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.4rem;
+  box-shadow: 0 0 0 1px #98A8D418, inset 0 1px 0 #FFFFFF0D;
+}
+
+.off-label {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-aurora);
+  margin-bottom: 0.6rem;
+}
+
+.off-card p {
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+
+/* =====================================================================
+ * § 8  TOOLKIT
+ *
+ *  Reuses .c-tags / .c-tag from style.css (cosmos-tinted pill,
+ *  pulsar border) so this matches the case-study tag chips exactly.
+ * ===================================================================== */
+
+.tool-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  margin-top: 3rem;
+}
+
+.tool-group h3 {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+
+.c-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-family: var(--serif);
+}
+
+.c-tag {
+  font-size: 0.78rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  background: var(--bg-tint);
+  border: 1px solid #C8185840;
+  color: var(--text-muted);
+}
+
+
+/* =====================================================================
+ * § 9  CLOSING
+ * ===================================================================== */
+
+.about-closing {
+  text-align: center;
+  padding-top: 4.5rem;
+  padding-bottom: 5rem;
+}
+
+.about-closing p {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  margin-bottom: 1.75rem;
+}
+
+.closing-links {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.c-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-aurora);
+  transition: gap 0.25s ease, text-shadow 0.25s ease;
+}
+
+.c-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 1.5px;
+  background: var(--accent-aurora);
+  transition: width 0.25s ease;
+}
+
+.c-link:hover {
+  gap: 0.6rem;
+  text-shadow: 0 0 12px var(--aurora-400);
+}
+.c-link:hover::after { width: 100%; }
+
+
+/* =====================================================================
+ * § 10  FOOTER
+ * ===================================================================== */
+
+footer {
+  border-top: 1px solid var(--border);
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 1.6rem var(--px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.foot-l {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 0.92rem;
+  color: var(--aurora-200);
+}
+
+.foot-r {
+  font-family: var(--display);
+  font-size: 0.72rem;
+  color: #C8185870;
+}
+
+
+/* =====================================================================
+ * § 11  REVEAL & ANIMATIONS
+ *
+ *  .reveal / .reveal-left / .reveal-right are copied verbatim from
+ *  style.css so about.js can drive them with the same IntersectionObserver
+ *  pattern used on the homepage (threshold 0.07, .in trigger class).
+ * ===================================================================== */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.in { opacity: 1; transform: none; }
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-left.in { opacity: 1; transform: none; }
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-right.in { opacity: 1; transform: none; }
+
+@keyframes up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rippleOut {
+  to { transform: translate(-50%, -50%) scale(8); opacity: 0; }
+}
+
+
+/* =====================================================================
+ * § 12  MEDIA QUERIES
+ * ===================================================================== */
+
+@media (max-width: 900px) {
+  .about-header-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .profile-frame { max-width: 280px; }
+}
+
+@media (max-width: 700px) {
+  .section { padding: 4rem var(--px); }
+  .about-header { padding: calc(54px + 3.5rem) var(--px) 3.5rem; }
+
+  .story-entry { grid-template-columns: 1fr; gap: 0.75rem; }
+  .story-when { display: flex; align-items: baseline; gap: 0.6rem; }
+  .story-when span { margin-top: 0; }
+
+  .off-grid { grid-template-columns: 1fr; }
+
+  .closing-links { gap: 1.5rem 2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-eyebrow, .about-title, .about-intro, .profile-frame {
+    animation: none;
+    opacity: 1;
+  }
+}
