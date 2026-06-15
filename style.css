@@ -800,7 +800,7 @@ nav.scrolled {
 }
 
 /* Badge — aurora-200 text, transparent until hover. Fades in via JS */
-.hero-us {
+.hero-status {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -823,12 +823,12 @@ nav.scrolled {
 }
 
 /* Text swap on hover — "Available for Work" → "Arizona & Remote" */
-.us-hover { display: none; }
-.hero-us:hover .us-default { display: none; }
-.hero-us:hover .us-hover   { display: inline; }
+.status-hover { display: none; }
+.hero-status:hover .status-default { display: none; }
+.hero-status:hover .status-hover   { display: inline; }
 
 /* Badge expands on hover — padding increase reveals full text */
-.hero-us:hover {
+.hero-status:hover {
   background: #1C121099;
   border-color: var(--accent-aurora);
   padding: 0.35rem 0.85rem;
