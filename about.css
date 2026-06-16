@@ -314,44 +314,196 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 
 .about-intro strong { color: var(--accent-cosmos); font-weight: 600; }
 
-/* Profile photo card */
-.profile-frame {
+/* Subject file card — replaces photo card.
+ * Pays off the "Transmission Decoded" eyebrow as a classified dossier. */
+/* Gradient border: aurora→cosmos wraps the full card via padding-box/border-box
+ * background-clip technique. No separate ::before stripe needed — the border
+ * itself is the gradient, and it rounds correctly with the card's border-radius.
+ * Wild west swap: change gradient stops to gold/brown tones. */
+.subject-card {
   position: relative;
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  background: var(--bg-surface);
+  border-radius: 14px;
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box,
+    linear-gradient(135deg, var(--accent-aurora) 0%, var(--accent-cosmos) 100%) border-box;
   box-shadow:
-    0 0 0 1px #0AC39A18,
-    0 20px 60px -20px #00000080,
-    0 0 40px -10px var(--aurora-glow);
-  max-width: 340px;
+    0 20px 60px -20px #00000060,
+    0 0 20px -8px var(--aurora-glow),
+    inset 0 1px 0 #FFFFFF0A;
+  max-width: 440px;
   margin: 0 auto;
   opacity: 0;
   animation: up 0.7s ease forwards 0.3s;
 }
 
-.profile-frame img {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
+.subject-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.4rem 1rem;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
-.profile-badge {
-  position: absolute;
-  top: 1rem; left: 1rem;
+.subject-card-eyebrow {
   font-family: var(--sans);
   font-size: 0.62rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent-pulsar);
-  background: var(--bg-dark);
-  border: 1px solid #C8185840;
-  border-radius: 4px;
-  padding: 0.3rem 0.55rem;
+  color: var(--accent-aurora);
 }
-.profile-badge::before { content: '◈ '; opacity: 0.8; }
+
+.subject-file-no {
+  font-family: var(--sans);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--aether-400);
+}
+
+/* Body: mugshot column (fixed 110px) | fields column */
+.subject-card-body {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+}
+
+/* Corner brackets — TL and BR aurora L-corners, sci-fi reticle feel.
+ * Wild west swap: change color to --accent-pulsar or gold. */
+.sc-corners {
+  position: absolute;
+  inset: 7px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.sc-corners::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 14px; height: 14px;
+  border-top: 1.5px solid var(--accent-aurora);
+  border-left: 1.5px solid var(--accent-aurora);
+}
+
+.sc-corners::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 14px; height: 14px;
+  border-bottom: 1.5px solid var(--accent-aurora);
+  border-right: 1.5px solid var(--accent-aurora);
+}
+
+/* Mugshot — dossier photo. Light background so the JPEG's
+ * white margin blends in; slight desaturation for classified feel.
+ * Wild west theme: swap filter for sepia, overlay for WANTED frame. */
+.subject-mugshot {
+  position: relative;
+  background: var(--bg-dark);
+  border-right: 1px solid var(--border-subtle);
+  border-bottom-left-radius: 12.5px; /* match card inner corner so photo is flush */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.subject-mugshot img {
+  width: 100%;
+  flex: 1;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  filter: grayscale(20%) contrast(1.02);
+}
+
+/* Scan-line overlay — horizontal lines over the mugshot photo,
+ * matching the sci-fi criminal files reference aesthetic. */
+.subject-mugshot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.07) 3px,
+    rgba(0, 0, 0, 0.07) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+/* Right column wrapper — holds name header + the dl */
+.subject-right {
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* prevent grid blowout */
+}
+
+/* Prominent name display — mirrors "DRAX" above the data in the reference.
+ * Wild west swap: change text to uppercase, add serif font if desired. */
+.subject-name {
+  font-family: var(--display);
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text);
+  padding: 0.85rem 1.1rem 0.7rem;
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.subject-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 0.8rem 1.1rem 1rem;
+  flex: 1;
+}
+
+.subject-row {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.subject-row dt {
+  font-family: var(--sans);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--aether-400);
+}
+
+.subject-row dd {
+  font-family: var(--serif);
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+/* Status row — aurora color + pulsing dot matching homepage Available badge */
+.subject-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--accent-aurora);
+}
+
+.subject-status::before {
+  content: '';
+  flex-shrink: 0;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-aurora);
+  box-shadow: 0 0 6px var(--aurora-400);
+  animation: statusPulse 2.2s ease-in-out infinite;
+}
 
 
 /* =====================================================================
@@ -617,6 +769,11 @@ footer {
   to { transform: translate(-50%, -50%) scale(8); opacity: 0; }
 }
 
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--aurora-400); }
+  50%       { opacity: 0.4; box-shadow: none; }
+}
+
 
 /* =====================================================================
  * § 12  MEDIA QUERIES
@@ -624,7 +781,7 @@ footer {
 
 @media (max-width: 900px) {
   .about-header-inner { grid-template-columns: 1fr; gap: 2.5rem; }
-  .profile-frame { max-width: 280px; }
+  .subject-card { max-width: 400px; }
 }
 
 @media (max-width: 700px) {
@@ -641,7 +798,7 @@ footer {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .about-eyebrow, .about-title, .about-intro, .profile-frame {
+  .about-eyebrow, .about-title, .about-intro, .subject-card {
     animation: none;
     opacity: 1;
   }
