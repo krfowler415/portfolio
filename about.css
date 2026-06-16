@@ -379,7 +379,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .subject-card:hover::after {
-  animation: scanBeam 0.85s ease-in-out forwards;
+  animation: scanBeam 1.5s ease-in-out infinite;
 }
 
 .subject-card-eyebrow {
@@ -748,6 +748,13 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   background: var(--bg-tint);
   border: 1px solid #C8185840;
   color: var(--text-muted);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.c-tag:hover, .c-tag.in:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-pulsar);
+  box-shadow: 0 0 8px #C8185840;
 }
 
 
@@ -775,34 +782,56 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   flex-wrap: wrap;
 }
 
-.c-link {
+/* Matches .c-secondary-link from style.css — corner bracket animation,
+ * aurora underline at rest, text glow on hover. */
+.c-secondary-link {
   position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
+  display: inline-block;
+  padding: 0.3rem;
   font-family: var(--sans);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent-aurora);
-  transition: gap 0.25s ease, text-shadow 0.25s ease;
+  color: var(--aurora-200);
+  text-decoration: underline;
+  text-decoration-color: #0AC39A40;
+  transition: color 0.2s ease;
 }
 
-.c-link::after {
-  content: '';
+.c-secondary-link:hover {
+  color: var(--text);
+  text-decoration: none;
+  text-shadow: 0 0 12px var(--accent-aurora);
+}
+
+/* Corner bracket — right side */
+.c-secondary-link::before,
+.c-secondary-link::after {
   position: absolute;
-  bottom: -2px; left: 0;
-  width: 0; height: 1.5px;
-  background: var(--accent-aurora);
-  transition: width 0.25s ease;
+  content: '';
+  right: 0; top: 0;
+  background: var(--text);
+  transition: all 0.3s ease;
 }
+.c-secondary-link::before { height: 0%; width: 1.5px; }
+.c-secondary-link::after  { width: 0%; height: 1.5px; }
+.c-secondary-link:hover::before { height: 100%; }
+.c-secondary-link:hover::after  { width: 100%; }
 
-.c-link:hover {
-  gap: 0.6rem;
-  text-shadow: 0 0 12px var(--aurora-400);
+/* Corner bracket — left side (via <span> children) */
+.c-secondary-link span::before,
+.c-secondary-link span::after {
+  position: absolute;
+  content: '';
+  left: 0; bottom: 0;
+  background: var(--text);
+  transition: all 0.3s ease;
 }
-.c-link:hover::after { width: 100%; }
+.c-secondary-link span::before { width: 1.5px; height: 0%; }
+.c-secondary-link span::after  { width: 0%; height: 1.5px; }
+.c-secondary-link:hover span::before { height: 100%; }
+.c-secondary-link:hover span::after  { width: 100%; }
 
 
 /* =====================================================================
@@ -832,6 +861,110 @@ footer {
   color: #C8185870;
 }
 
+
+
+/* =====================================================================
+ * § 10b  BEAM ME UP
+ *  Copied verbatim from eDreams-case-study.css — same mechanism,
+ *  same skin. Wild west swap: change gradient to gold/brown tones.
+ * ===================================================================== */
+
+#beamUp {
+  position: fixed;
+  bottom: 2rem;
+  right: var(--px);
+  z-index: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  background: linear-gradient(135deg, var(--aurora-400) 0%, var(--cosmos-600) 100%);
+  border: none;
+  border-radius: 100px;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease, filter 0.25s ease, box-shadow 0.3s ease;
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,0.45),
+    inset 0 -3px 5px rgba(0,0,0,0.3),
+    0 4px 14px rgba(0,0,0,0.35),
+    0 0 20px #0AC39A40,
+    0 0 50px #0AC39A20;
+  cursor: none;
+}
+
+#beamUp::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 55%);
+  pointer-events: none;
+}
+
+#beamUp.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+#beamUp:hover {
+  filter: brightness(1.12);
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.3),
+    inset 0 -2px 4px rgba(0,0,0,0.15),
+    0 6px 18px rgba(0,0,0,0.4),
+    0 0 30px #0AC39A60,
+    0 0 70px #0AC39A30;
+}
+
+#beamUp:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.15),
+    inset 0 2px 4px rgba(0,0,0,0.3),
+    0 1px 4px rgba(0,0,0,0.3),
+    0 0 20px #0AC39A40,
+    0 0 50px #0AC39A20;
+}
+
+#beamUp.visible .beam-arrow { animation: arrowBounce 1.8s ease-in-out infinite; }
+#beamUp:hover .beam-arrow   { animation-play-state: paused; }
+
+#beam-streak {
+  position: fixed;
+  width: 3px;
+  height: 0;
+  background: linear-gradient(to top, var(--aurora-400) 0%, rgba(10,195,154,0.5) 50%, transparent 100%);
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0;
+  border-radius: 3px;
+  box-shadow: 0 0 8px var(--aurora-400), 0 0 20px #0AC39A60;
+}
+
+#beam-flash {
+  position: fixed;
+  inset: 0;
+  background: var(--aurora-400);
+  opacity: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+@keyframes arrowBounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-3px); }
+}
 
 /* =====================================================================
  * § 11  REVEAL & ANIMATIONS
@@ -942,4 +1075,5 @@ footer {
   .subject-mugshot:hover img,
   .subject-mugshot:hover::after { animation: none; }
   .subject-card:hover::after { animation: none; }
+  #beamUp { display: none; }
 }
