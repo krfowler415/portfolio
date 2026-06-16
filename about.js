@@ -54,3 +54,60 @@ const revealObs = new IntersectionObserver(entries => {
 
 document.querySelectorAll('.reveal, .reveal-left, .reveal-right')
   .forEach(el => revealObs.observe(el));
+
+// ── Beam Me Up ───────────────────────────────────────────────────────
+const beamUp     = document.getElementById('beamUp');
+const beamStreak = document.getElementById('beam-streak');
+const beamFlash  = document.getElementById('beam-flash');
+
+if (beamUp) {
+  window.addEventListener('scroll', () => {
+    beamUp.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+
+  beamUp.addEventListener('click', () => {
+    if (!beamStreak || !beamFlash) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    const rect    = beamUp.getBoundingClientRect();
+    const centreX = rect.left + rect.width / 2;
+
+    beamStreak.style.cssText = `
+      left: ${centreX}px;
+      bottom: ${window.innerHeight - rect.top}px;
+      top: auto;
+      height: 0;
+      opacity: 1;
+      transform: translateX(-50%);
+      transition: none;
+    `;
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        beamStreak.style.transition = 'height 0.32s ease-out, opacity 0.18s ease 0.26s';
+        beamStreak.style.height  = `${rect.top}px`;
+        beamStreak.style.opacity = '0';
+      });
+    });
+
+    setTimeout(() => {
+      beamFlash.style.transition = 'opacity 0.08s ease';
+      beamFlash.style.opacity    = '0.3';
+    }, 300);
+
+    setTimeout(() => window.scrollTo(0, 0), 370);
+
+    setTimeout(() => {
+      beamFlash.style.transition = 'opacity 0.45s ease';
+      beamFlash.style.opacity    = '0';
+    }, 430);
+
+    setTimeout(() => {
+      beamStreak.style.transition = 'none';
+      beamStreak.style.height     = '0';
+      beamStreak.style.opacity    = '0';
+    }, 750);
+  });
+}
