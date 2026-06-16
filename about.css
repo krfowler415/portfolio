@@ -333,8 +333,20 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
     inset 0 1px 0 #FFFFFF0A;
   max-width: 440px;
   margin: 0 auto;
+  overflow: hidden;
   opacity: 0;
   animation: up 0.7s ease forwards 0.3s;
+  transition: transform 0.25s ease, box-shadow 0.3s ease;
+}
+
+/* Hover: lift + aurora glow bloom + scan beam (::after) fires simultaneously */
+.subject-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 24px 60px -16px #00000070,
+    0 0 0 1px var(--accent-aurora),
+    0 0 24px -4px var(--aurora-glow),
+    inset 0 1px 0 #FFFFFF14;
 }
 
 .subject-card-header {
@@ -343,6 +355,31 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   justify-content: space-between;
   padding: 1.1rem 1.4rem 1rem;
   border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Scan beam — aurora-tinted light strip that sweeps top→bottom on hover.
+ * Starts hidden above the card; overflow:hidden on .subject-card clips it.
+ * Wild west swap: change rgba color to a warm gold/sepia tone. */
+.subject-card::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  top: -80px;
+  height: 80px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(10, 195, 154, 0.07) 25%,
+    rgba(10, 195, 154, 0.2) 50%,
+    rgba(10, 195, 154, 0.07) 75%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+.subject-card:hover::after {
+  animation: scanBeam 0.85s ease-in-out forwards;
 }
 
 .subject-card-eyebrow {
@@ -366,6 +403,8 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 .subject-card-body {
   display: grid;
   grid-template-columns: 180px 1fr;
+  overflow: hidden;
+  border-radius: 0 0 12.5px 12.5px;
 }
 
 /* Corner brackets — TL and BR aurora L-corners, sci-fi reticle feel.
@@ -402,10 +441,15 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   position: relative;
   background: var(--bg-dark);
   border-right: 1px solid var(--border-subtle);
-  border-bottom-left-radius: 12.5px; /* match card inner corner so photo is flush */
+  border-bottom-left-radius: 12.5px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  /* Hologram fade — image, scanlines, and vignette all dissolve together.
+   * The signal drops out from 60% down, fully gone by the bottom edge.
+   * Wild west swap: keep fade, change gradient stops for a dusty vignette look. */
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 58%, transparent 96%);
+  mask-image: linear-gradient(to bottom, black 0%, black 58%, transparent 96%);
 }
 
 .subject-mugshot img {
@@ -417,22 +461,40 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   filter: grayscale(20%) contrast(1.02);
 }
 
-/* Scan-line overlay — horizontal lines over the mugshot photo,
- * matching the sci-fi criminal files reference aesthetic. */
+/* CRT vignette — darkens photo edges for authentic screen depth. */
+.subject-mugshot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 40%, transparent 35%, rgba(0,0,0,0.6) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* CRT scanlines — 1px dark lines on 3px repeat, clearly legible.
+ * Wild west swap: sepia-tinted horizontal bars. */
 .subject-mugshot::after {
   content: '';
   position: absolute;
   inset: 0;
-  bottom: 0;
   background: repeating-linear-gradient(
     0deg,
-    transparent,
-    transparent 3px,
-    rgba(0, 0, 0, 0.07) 3px,
-    rgba(0, 0, 0, 0.07) 4px
+    rgba(0, 0, 0, 0.28) 0px,
+    rgba(0, 0, 0, 0.28) 1px,
+    transparent 1px,
+    transparent 3px
   );
   pointer-events: none;
   z-index: 1;
+}
+
+/* CRT glitch on hover — color-channel split + horizontal jitter, two bursts per cycle. */
+.subject-mugshot img {
+  animation: crtGlitch 2s steps(1) infinite;
+}
+
+.subject-mugshot::after {
+  animation: scanlineShift 0.18s linear infinite;
 }
 
 
@@ -572,8 +634,9 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 /* =====================================================================
  * § 7  OFF THE CLOCK
  *
- *  2x2 card grid, same surface treatment as the homepage stat cards —
- *  a small label up top, a sentence underneath instead of a number.
+ *  Matches the .stat card pattern from the main portfolio page:
+ *  cosmos gradient, pulsar left bar (::before), aurora corner bracket
+ *  (::after), hover lift with intensified pulsar glow.
  * ===================================================================== */
 
 .off-grid {
@@ -588,7 +651,46 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 1.4rem;
-  box-shadow: 0 0 0 1px #98A8D418, inset 0 1px 0 #FFFFFF0D;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px #98A8D418,
+    0 0 15px #C8185820,
+    inset 0 1px 0 #C8185840;
+  transition: transform 0.25s ease, box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+/* Left pulsar accent bar — matches .stat::before on the homepage */
+.off-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: var(--accent-pulsar);
+  border-radius: 3px 0 0 3px;
+  box-shadow: 2px 0 12px #C8185880;
+}
+
+/* Bottom-right aurora corner bracket — matches .stat::after */
+.off-card::after {
+  content: '';
+  position: absolute;
+  bottom: 8px; right: 8px;
+  width: 10px; height: 10px;
+  border-bottom: 1.5px solid var(--accent-aurora);
+  border-right: 1.5px solid var(--accent-aurora);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* Hover — pulsar glow intensifies, card lifts */
+.off-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 1px #C8185840,
+    0 0 20px #C8185825,
+    inset 0 1px 0 #C8185850;
 }
 
 .off-label {
@@ -769,6 +871,41 @@ footer {
   to { transform: translate(-50%, -50%) scale(8); opacity: 0; }
 }
 
+/* Scan beam sweeps from above the card to well past the bottom.
+ * overflow:hidden on the card clips it invisibly at both ends. */
+@keyframes scanBeam {
+  from { top: -80px; }
+  to   { top: 110%; }
+}
+
+/* CRT glitch — subtle phosphor flicker + brief aurora-tinted signal interference.
+ * Retro/sci-fi feel: small brightness dips, 1px drift, slight teal tint.
+ * NOT horror: no white flashes, no extreme contrast, no large displacement. */
+@keyframes crtGlitch {
+  0%, 100% { filter: grayscale(20%) contrast(1.02) brightness(1); transform: translateX(0); }
+
+  /* Phosphor flicker — brief brightness dip */
+  8%  { filter: grayscale(20%) contrast(1.02) brightness(0.85); }
+  9%  { filter: grayscale(20%) contrast(1.02) brightness(1); }
+
+  /* Signal interference — faint aurora/teal tint, 1px drift */
+  38% { filter: grayscale(20%) contrast(1.02) brightness(1); transform: translateX(0); }
+  39% { filter: grayscale(5%) contrast(1.06) brightness(1.04) hue-rotate(155deg) saturate(0.5); transform: translateX(1px); }
+  40% { filter: grayscale(5%) contrast(1.06) brightness(1.04) hue-rotate(155deg) saturate(0.5); transform: translateX(-1px); }
+  41% { filter: grayscale(20%) contrast(1.02) brightness(1); transform: translateX(0); }
+
+  /* Second phosphor dip */
+  72% { filter: grayscale(20%) contrast(1.02) brightness(1); }
+  73% { filter: grayscale(25%) contrast(0.98) brightness(0.9); }
+  74% { filter: grayscale(20%) contrast(1.02) brightness(1); }
+}
+
+/* Scanline roll during glitch — lines appear to move */
+@keyframes scanlineShift {
+  from { background-position: 0 0; }
+  to   { background-position: 0 3px; }
+}
+
 @keyframes statusPulse {
   0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--aurora-400); }
   50%       { opacity: 0.4; box-shadow: none; }
@@ -802,4 +939,7 @@ footer {
     animation: none;
     opacity: 1;
   }
+  .subject-mugshot:hover img,
+  .subject-mugshot:hover::after { animation: none; }
+  .subject-card:hover::after { animation: none; }
 }
