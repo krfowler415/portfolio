@@ -118,6 +118,11 @@ function setViewportHeight() {
  *  Gate mechanism (minTimeDone + assetsDone + introFired):
  *    Prevents the outro from playing before the terrain has loaded
  *    AND before the minimum display time has elapsed.
+ *
+ *  sessionStorage gate:
+ *    On return visits within the same browser session, the intro is
+ *    skipped entirely. The flag is set when the outro completes and
+ *    clears automatically when the tab is closed.
  * ===================================================================== */
 
 /**
@@ -196,6 +201,7 @@ function tryStartOutro() {
  *   6.  White aurora flash covers the screen
  *   7.  Under the flash: #intro hides, hero UFO snaps to position
  *   8.  Flash fades out — ufoIntroComplete set, UFO scroll enabled
+ *   9.  sessionStorage flag set so return visits skip the intro
  */
 function playIntroOutro() {
   if (scanTween) scanTween.kill();
@@ -262,20 +268,30 @@ function playIntroOutro() {
       opacity: 0,
       duration: 1.1,
       ease: 'power2.out',
-      onComplete: () => { ufoIntroComplete = true; }
+      onComplete: () => {
+        ufoIntroComplete = true;
+        sessionStorage.setItem('introPlayed', 'true');
+      }
     }, '+=0.05');
 }
 
 /**
  * Initialises the intro overlay.
  *
+ * sessionStorage path: intro already played this session — skip instantly.
  * Reduced-motion path: hides intro instantly, positions UFO, sets
  * ufoIntroComplete so the scroll handler works immediately.
- *
  * Normal path: locks body scroll, positions UFO off-screen, starts
  * all intro animations, and arms the 2800ms minimum-time gate.
  */
 function initIntro() {
+  if (sessionStorage.getItem('introPlayed')) {
+    introEl.style.display = 'none';
+    gsap.set(heroUfo, { x: introX, y: introY, opacity: 1, force3D: false });
+    ufoIntroComplete = true;
+    return;
+  }
+
   if (reducedMotion) {
     // Skip animation — respect OS preference
     introEl.style.display = 'none';
