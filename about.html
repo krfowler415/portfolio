@@ -328,7 +328,7 @@
     #define LAYERS layers
     vec4 readTex(vec2 uv){
       if(uv.x<0.||uv.x>1.||uv.y<0.||uv.y>1.)return vec4(0);
-      return texture(src,uv);
+      return texture2D(src,uv);
     }
     float hash(vec2 p){return fract(sin(dot(p,vec2(4859.,3985.)))*3984.);}
     float sdBox(vec2 p,float r){vec2 q=abs(p)-r;return min(length(q),max(q.y,q.x));}
@@ -378,8 +378,8 @@
       if(leaveTime>0.){dir=-1.;t=clamp(leaveTime*speed,0.,1.);}
       else{t=clamp((enterTime-delay)*speed,0.,1.);}
       t=(fract(t*.99999)-.5)*dir+.5;
-      for(float i=0.;i<LAYERS;i++){float s=cos(i)*7.3+10.;gl_FragColor+=draw(uv,p,t,abs(s));}
-      gl_FragColor/=LAYERS;
+      for(int i=0;i<2;i++){float s=cos(float(i))*7.3+10.;gl_FragColor+=draw(uv,p,t,abs(s));}
+      gl_FragColor/=2.;
       gl_FragColor*=smoothstep(0.,.01,t);
     }`;
 
