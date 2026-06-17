@@ -686,8 +686,11 @@ function initBeamUp() {
 
   if (!beamUp) return;
 
+  const workSection = document.getElementById('work');
+
   window.addEventListener('scroll', () => {
-    beamUp.classList.toggle('visible', window.scrollY > 400);
+    const threshold = workSection ? workSection.offsetTop : window.innerHeight * 2;
+    beamUp.classList.toggle('visible', window.scrollY > threshold);
   }, { passive: true });
 
   beamUp.addEventListener('click', () => {
