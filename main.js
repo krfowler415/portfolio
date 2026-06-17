@@ -686,10 +686,10 @@ function initBeamUp() {
 
   if (!beamUp) return;
 
-  const workSection = document.getElementById('work');
+  const marqueeEl = document.querySelector('.marquee');
 
   window.addEventListener('scroll', () => {
-    const threshold = workSection ? workSection.offsetTop : window.innerHeight * 2;
+    const threshold = marqueeEl ? marqueeEl.offsetTop : window.innerHeight * 2;
     beamUp.classList.toggle('visible', window.scrollY > threshold);
   }, { passive: true });
 
