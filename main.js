@@ -674,7 +674,7 @@ function initResizeHandlers() {
 /* =====================================================================
  * § 14  BEAM ME UP
  *
- *  Fixed back-to-top button — appears after 400px scroll.
+ *  Appears after one full viewport height of scroll.
  *  Click fires the streak-and-flash sequence then scrolls to top.
  *  Matches the implementation in eDreams-case-study.js and about.js.
  * ===================================================================== */
@@ -686,9 +686,12 @@ function initBeamUp() {
 
   if (!beamUp) return;
 
-  window.addEventListener('scroll', () => {
-    beamUp.classList.toggle('visible', window.scrollY > window.innerHeight);
-  }, { passive: true });
+  ScrollTrigger.create({
+    trigger: '#hero',
+    start: 'top+=20% top',
+    onEnter:     () => beamUp.classList.add('visible'),
+    onLeaveBack: () => beamUp.classList.remove('visible'),
+  });
 
   beamUp.addEventListener('click', () => {
     if (!beamStreak || !beamFlash) {
