@@ -686,11 +686,8 @@ function initBeamUp() {
 
   if (!beamUp) return;
 
-  const marqueeEl = document.querySelector('.marquee');
-
   window.addEventListener('scroll', () => {
-    const threshold = marqueeEl ? marqueeEl.offsetTop : window.innerHeight * 2;
-    beamUp.classList.toggle('visible', window.scrollY > threshold);
+    beamUp.classList.toggle('visible', window.scrollY > window.innerHeight);
   }, { passive: true });
 
   beamUp.addEventListener('click', () => {
