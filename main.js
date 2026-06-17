@@ -688,7 +688,7 @@ function initBeamUp() {
 
   ScrollTrigger.create({
     trigger: '#hero',
-    start: 'top+=75% top',
+    start: 'top+=69% top',
     onEnter:     () => beamUp.classList.add('visible'),
     onLeaveBack: () => beamUp.classList.remove('visible'),
   });
