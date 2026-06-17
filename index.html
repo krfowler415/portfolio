@@ -13,7 +13,9 @@
   </head>
 
   <body>
-   
+
+    <!-- ── Loading Screen ─────────────────────────────────────────────────────── -->
+    
   <div id="intro" aria-hidden="true">
     <div id="intro-glow"></div>
     <div id="intro-ufo-wrap">
@@ -71,8 +73,12 @@
   </div>
   <div id="intro-flash" aria-hidden="true"></div>
 
+    <!-- ── Tab to skip to Case Studies ─────────────────────────────────────────────────────── -->
+    
     <a href="#work" class="skip-nav">Skip to main content</a>
     <div id="cur"><div class="cur-dot"></div></div>
+
+    <!-- ── Nav ─────────────────────────────────────────────────────── -->
     
     <nav aria-label="Main navigation">
       <a href="#" class="nav-logo">Kevin Fowler</a>
@@ -88,10 +94,14 @@
       </ul>
     </nav>
 
+    <!-- ── Hero ─────────────────────────────────────────────────────── -->
+    
     <section class="hero" id="hero" aria-label="Hero">
       <div class="hero-pin">
         <canvas id="stars"></canvas>
 
+    <!-- ── Hero Moon ─────────────────────────────────────────────────────── -->
+        
         <div class="hero-moon">
           <svg xmlns="http://www.w3.org/2000/svg"
               viewBox="0 90 666.667 300"
@@ -113,6 +123,8 @@
           </svg>
         </div>
 
+    <!-- ── Hero UFO ─────────────────────────────────────────────────────── -->
+        
         <div class="hero-ufo" id="heroUfo" aria-hidden="true">
           <div class="hero-ufo-inner">
           <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
@@ -154,13 +166,16 @@
           </div>
         </div>
 
-
+    <!-- ── Hero Terrain ─────────────────────────────────────────────────────── -->
+        
         <div class="hero-terrain" id="heroTerrain">
         </div>
 
       </div>
     </section>
 
+    <!-- ── Marquee ─────────────────────────────────────────────────────── -->
+    
     <div class="marquee">
       <div class="m-track">
         <span class="m-item">User Research <span class="m-sep"></span></span>
@@ -187,8 +202,10 @@
       </div>
     </div>
 
+    <!-- ── Case Studies ─────────────────────────────────────────────────────── -->
+    
     <div class="section" id="work">
-      <div class="sec-hd reveal" <div class="sec-hd reveal" style="margin-bottom: 0.5rem">
+      <div class="sec-hd reveal" style="margin-bottom: 0.5rem">
         <h2 class="sec-title">Case Studies</h2>
       </div>
       <div class="cs-scroll-wrap">
@@ -227,6 +244,8 @@
           </div>
         </div>
 
+    <!-- ── Card Scroll Arrows / Progress Bar ─────────────────────────────────────────────────────── -->
+        
         <div class="cs-arrows">
           <svg xmlns="http://www.w3.org/2000/svg" style="display:none;"><symbol viewBox="0 0 44 44" width="44" height="44" id="circle" fill="none" stroke="currentColor"><circle r="20" cy="22" cx="22"></circle></symbol></svg>
           <button class="cs-arrow left" id="csPrev" aria-label="Previous"><i aria-hidden="true"></i><svg aria-hidden="true"><use href="#circle"></use></svg></button>
@@ -235,6 +254,8 @@
         <div class="cs-progress-wrap"><div class="cs-progress-bar" id="csProgress"></div></div>
       </div>
     </div>
+
+    <!-- ── About ─────────────────────────────────────────────────────── -->    
 
     <div class="section s-border" id="about">
       <div class="about-layout">
@@ -256,6 +277,8 @@
       </div>
     </div>
 
+     <!-- ── Contact ─────────────────────────────────────────────────────── -->
+
     <div class="section s-border" id="contact">
       <div class="c-band reveal">
         <div class="c-header">
@@ -274,11 +297,26 @@
       </div>
     </div>
 
+    <!-- ── Footer ─────────────────────────────────────────────────────── -->
+    
     <footer>
       <span class="foot-l">Kevin Fowler</span>
       <span class="foot-r">© 2026 · Made in AZ · 🌵🌵</span>
     </footer>
 
+    <!-- ── BeamUp Button ─────────────────────────────────────────────────────── -->
+
+    <button id="beamUp" aria-label="Scroll to top">
+      <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true" class="beam-arrow">
+        <path d="M5.5 9V2M5.5 2L2 5.5M5.5 2L9 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Beam Me Up
+    </button>
+    <div id="beam-streak"></div>
+    <div id="beam-flash"></div>
+    
+    <!-- ── Scripts ─────────────────────────────────────────────────────── -->
+    
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
     <script src="main.js"></script>
