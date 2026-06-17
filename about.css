@@ -164,6 +164,12 @@ a, button { cursor: none; }
 }
 .section + .section { border-top: 1px solid var(--border); }
 
+/* Stacking safeguard: sections sit above any VFX-JS canvas overlays (z-index: 1) */
+.section {
+  position: relative;
+  z-index: 2;
+}
+
 .sec-title {
   font-family: var(--display);
   font-size: clamp(1.75rem, 3.8vw, 2.6rem);
@@ -965,6 +971,25 @@ footer {
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(-3px); }
 }
+
+/* =====================================================================
+ * § 10c  TITLE SCAN WIPE
+ *
+ *  CSS clip-path left-to-right wipe used for the rotating word cycle
+ *  after VFX-JS has completed the initial pixel scan entrance.
+ *  The three-step timing curve gives a slightly organic feel.
+ * ===================================================================== */
+
+.about-title.scan-wipe {
+  animation: scanWipe 0.45s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes scanWipe {
+  0%   { clip-path: inset(0 100% 0 0); opacity: 0.4; }
+  40%  { clip-path: inset(0 45% 0 0);  opacity: 0.9; }
+  100% { clip-path: inset(0 0% 0 0);   opacity: 1; }
+}
+
 
 /* =====================================================================
  * § 11  REVEAL & ANIMATIONS
