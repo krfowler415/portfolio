@@ -337,13 +337,12 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 .subject-card {
   position: relative;
   border-radius: 14px;
-  border: 1.5px solid transparent;
-  background:
-    linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box,
-    linear-gradient(135deg, var(--accent-aurora) 0%, var(--accent-cosmos) 100%) border-box;
+  border: 2px solid var(--accent-aurora);
+  background: var(--bg-surface);
   box-shadow:
     0 20px 60px -20px #00000060,
-    0 0 20px -8px var(--aurora-glow),
+    0 0 18px -4px rgba(10,195,154,0.45),
+    0 0 40px -8px rgba(10,195,154,0.2),
     inset 0 1px 0 #FFFFFF0A;
   max-width: 440px;
   margin: 0 auto;
@@ -359,7 +358,8 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   box-shadow:
     0 24px 60px -16px #00000070,
     0 0 0 1px var(--accent-aurora),
-    0 0 24px -4px var(--aurora-glow),
+    0 0 30px -2px rgba(10,195,154,0.6),
+    0 0 60px -8px rgba(10,195,154,0.25),
     inset 0 1px 0 #FFFFFF14;
 }
 
@@ -759,16 +759,18 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .off-card {
-  background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
-  border: 1px solid var(--border);
+  background:
+    linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800)) padding-box,
+    linear-gradient(135deg, var(--accent-pulsar) 0%, var(--accent-cosmos) 100%) border-box;
+  border: 1.5px solid transparent;
   border-radius: 10px;
   padding: 1.4rem;
   position: relative;
   overflow: hidden;
   box-shadow:
     0 0 0 1px #98A8D418,
-    0 0 15px #C8185820,
-    inset 0 1px 0 #C8185840;
+    0 0 15px rgba(200,24,88,0.1),
+    inset 0 1px 0 rgba(200,24,88,0.15);
   transition: transform 0.25s ease, box-shadow 0.3s ease;
   will-change: transform;
 }
@@ -781,28 +783,27 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   width: 3px; height: 100%;
   background: var(--accent-pulsar);
   border-radius: 3px 0 0 3px;
-  box-shadow: 2px 0 12px #C8185880;
+  box-shadow: 2px 0 12px rgba(200,24,88,0.5);
 }
 
-/* Bottom-right aurora corner bracket — matches .stat::after */
+/* Bottom-right corner bracket */
 .off-card::after {
   content: '';
   position: absolute;
   bottom: 8px; right: 8px;
   width: 10px; height: 10px;
-  border-bottom: 1.5px solid var(--accent-aurora);
-  border-right: 1.5px solid var(--accent-aurora);
-  opacity: 0.45;
+  border-bottom: 1.5px solid var(--accent-pulsar);
+  border-right: 1.5px solid var(--accent-pulsar);
+  opacity: 0.35;
   pointer-events: none;
 }
 
-/* Hover — pulsar glow intensifies, card lifts */
 .off-card:hover {
   transform: translateY(-3px);
   box-shadow:
-    0 0 0 1px #C8185840,
-    0 0 20px #C8185825,
-    inset 0 1px 0 #C8185850;
+    0 0 0 1px rgba(200,24,88,0.3),
+    0 0 20px rgba(200,24,88,0.12),
+    inset 0 1px 0 rgba(200,24,88,0.2);
 }
 
 .off-label {
@@ -812,7 +813,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent-aurora);
+  color: var(--accent-pulsar);
   margin-bottom: 0.6rem;
 }
 
@@ -827,46 +828,97 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 /* =====================================================================
  * § 8  TOOLKIT
  *
- *  Reuses .c-tags / .c-tag from style.css (cosmos-tinted pill,
- *  pulsar border) so this matches the case-study tag chips exactly.
+ *  Three cards across matching the off-card aesthetic.
+ *  Tags stack vertically inside each card.
  * ===================================================================== */
 
-.tool-groups {
-  display: flex;
-  flex-direction: column;
-  gap: 1.75rem;
-  margin-top: 3rem;
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-top: 2rem;
+  align-items: stretch;
 }
 
-.tool-group h3 {
-  font-family: var(--display);
-  font-size: 1rem;
-  font-weight: 400;
-  color: var(--text);
-  margin-bottom: 0.75rem;
+/* Card — identical treatment to .off-card */
+.tool-card {
+  background:
+    linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800)) padding-box,
+    linear-gradient(135deg, var(--accent-pulsar) 0%, var(--accent-cosmos) 100%) border-box;
+  border: 1.5px solid transparent;
+  border-radius: 10px;
+  padding: 1.4rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px #98A8D418,
+    0 0 15px rgba(200,24,88,0.1),
+    inset 0 1px 0 rgba(200,24,88,0.2);
+  transition: transform 0.25s ease, box-shadow 0.3s ease;
+  will-change: transform;
 }
 
+.tool-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: var(--accent-pulsar);
+  border-radius: 3px 0 0 3px;
+  box-shadow: 2px 0 12px rgba(200,24,88,0.5);
+}
+
+.tool-card::after {
+  content: '';
+  position: absolute;
+  bottom: 8px; right: 8px;
+  width: 10px; height: 10px;
+  border-bottom: 1.5px solid var(--accent-pulsar);
+  border-right: 1.5px solid var(--accent-pulsar);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.tool-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 1px rgba(200,24,88,0.25),
+    0 0 20px rgba(200,24,88,0.12),
+    inset 0 1px 0 rgba(200,24,88,0.3);
+}
+
+.tool-card h3 {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-pulsar);
+  margin-bottom: 1rem;
+}
+
+/* Tags in 2-column grid */
 .c-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  font-family: var(--serif);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem;
 }
 
 .c-tag {
-  font-size: 0.78rem;
-  padding: 0.35rem 0.75rem;
+  font-family: var(--serif);
+  font-size: 0.8rem;
+  padding: 0.3rem 0.75rem;
   border-radius: 20px;
   background: var(--bg-tint);
-  border: 1px solid #C8185840;
+  border: 1px solid rgba(200,24,88,0.2);
   color: var(--text-muted);
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.c-tag:hover, .c-tag.in:hover {
+.c-tag:hover {
   transform: translateY(-2px);
   border-color: var(--accent-pulsar);
-  box-shadow: 0 0 8px #C8185840;
+  box-shadow: 0 0 8px rgba(200,24,88,0.3);
 }
 
 
@@ -1197,6 +1249,13 @@ footer {
   .story-entry::before { left: calc(-1.75rem + 2px); width: 10px; height: 10px; }
 
   .off-grid { grid-template-columns: 1fr; }
+
+  .tool-grid { grid-template-columns: 1fr; }
+  .c-tags    { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 480px) {
+  .c-tags { grid-template-columns: 1fr; }
 
   .closing-links { gap: 1.5rem 2rem; }
 }
