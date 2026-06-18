@@ -164,11 +164,6 @@ a, button { cursor: none; }
 }
 .section + .section { border-top: 1px solid var(--border); }
 
-/* Stacking safeguard: sections sit above any VFX-JS canvas overlays (z-index: 1) */
-.section {
-  position: relative;
-  z-index: 2;
-}
 
 .sec-title {
   font-family: var(--display);
@@ -587,12 +582,15 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   flex-direction: column;
   gap: 3.5rem;
   margin-top: 3rem;
+  position: relative;
+  padding-left: 2.5rem; /* space for vertical timeline */
 }
 
 .story-entry {
   display: grid;
   grid-template-columns: 180px 1fr;
   gap: 2.5rem;
+  position: relative;
 }
 
 .story-when {
@@ -635,6 +633,101 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .story-entry p + p { margin-top: 1rem; }
+
+/* ── Vertical timeline ────────────────────────────────────────────
+ * Gradient line (aurora→cosmos→pulsar) draws in on scroll via .in.
+ * Each node glows in its entry's accent colour with staggered pulse.
+ * Line centre: x = 8px from story-list left edge.
+ * Node centre: calc(-2.5rem + 2px) from story-entry = same 8px.
+ * ------------------------------------------------------------------ */
+
+/* Vertical glowing line */
+.story-list::before {
+  content: '';
+  position: absolute;
+  left: 7px;              /* 7px + 2px width → centre at 8px          */
+  top: 0.4rem;
+  bottom: 0.4rem;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--accent-aurora)  0%,
+    var(--accent-cosmos)  50%,
+    var(--accent-pulsar)  100%
+  );
+  border-radius: 2px;
+  box-shadow:
+    0 0 6px  var(--accent-aurora),
+    0 0 18px rgba(10,195,154,0.25);
+  transform-origin: top center;
+  transform: scaleY(0);
+  transition: transform 1.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+  animation: timelineGlow 5s ease-in-out infinite;
+}
+
+.story-list.in::before {
+  transform: scaleY(1);
+}
+
+/* Subtle breathing glow on the line (fires after draw-in settles) */
+@keyframes timelineGlow {
+  0%, 100% { opacity: 0.55; }
+  50%       { opacity: 0.9; }
+}
+
+/* Node dot shared base */
+.story-entry::before {
+  content: '';
+  position: absolute;
+  left: calc(-2.5rem + 2px); /* centres 12px dot on the line at x=8px */
+  top: 0.3em;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2.5px solid var(--bg);
+  /* default: aurora — overridden per-entry below */
+  background: var(--accent-aurora);
+  box-shadow:
+    0 0 0 1.5px var(--accent-aurora),
+    0 0 8px      var(--accent-aurora),
+    0 0 20px     rgba(10,195,154,0.3);
+  animation: pulseAurora 3s ease-in-out infinite;
+}
+
+/* Node 2 — cosmos (ASU) */
+.story-entry:nth-child(2)::before {
+  background: var(--accent-cosmos);
+  box-shadow:
+    0 0 0 1.5px var(--accent-cosmos),
+    0 0 8px      var(--accent-cosmos),
+    0 0 20px     rgba(95,37,159,0.35);
+  animation: pulseCosmos 3s ease-in-out 1s infinite;
+}
+
+/* Node 3 — pulsar (Precision Air) */
+.story-entry:nth-child(3)::before {
+  background: var(--accent-pulsar);
+  box-shadow:
+    0 0 0 1.5px var(--accent-pulsar),
+    0 0 8px      var(--accent-pulsar),
+    0 0 20px     rgba(200,24,88,0.3);
+  animation: pulsePulsar 3s ease-in-out 2s infinite;
+}
+
+@keyframes pulseAurora {
+  0%, 100% { box-shadow: 0 0 0 1.5px var(--accent-aurora), 0 0 8px var(--accent-aurora), 0 0 20px rgba(10,195,154,0.3); }
+  50%       { box-shadow: 0 0 0 1.5px var(--accent-aurora), 0 0 14px var(--accent-aurora), 0 0 36px rgba(10,195,154,0.55), 0 0 52px rgba(10,195,154,0.15); }
+}
+
+@keyframes pulseCosmos {
+  0%, 100% { box-shadow: 0 0 0 1.5px var(--accent-cosmos), 0 0 8px var(--accent-cosmos), 0 0 20px rgba(95,37,159,0.35); }
+  50%       { box-shadow: 0 0 0 1.5px var(--accent-cosmos), 0 0 14px var(--accent-cosmos), 0 0 36px rgba(95,37,159,0.6), 0 0 52px rgba(95,37,159,0.2); }
+}
+
+@keyframes pulsePulsar {
+  0%, 100% { box-shadow: 0 0 0 1.5px var(--accent-pulsar), 0 0 8px var(--accent-pulsar), 0 0 20px rgba(200,24,88,0.3); }
+  50%       { box-shadow: 0 0 0 1.5px var(--accent-pulsar), 0 0 14px var(--accent-pulsar), 0 0 36px rgba(200,24,88,0.55), 0 0 52px rgba(200,24,88,0.15); }
+}
 
 
 /* =====================================================================
@@ -1086,6 +1179,9 @@ footer {
   .story-entry { grid-template-columns: 1fr; gap: 0.75rem; }
   .story-when { display: flex; align-items: baseline; gap: 0.6rem; }
   .story-when span { margin-top: 0; }
+  .story-list { padding-left: 1.75rem; }
+  .story-list::before { left: 5px; }
+  .story-entry::before { left: calc(-1.75rem + 2px); width: 10px; height: 10px; }
 
   .off-grid { grid-template-columns: 1fr; }
 
