@@ -160,7 +160,7 @@ a, button { cursor: none; }
 .section {
   max-width: var(--max);
   margin: 0 auto;
-  padding: 6rem var(--px);
+  padding: 5rem var(--px);
 }
 .section + .section { border-top: 1px solid var(--border); }
 
@@ -254,7 +254,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 
 .about-header {
   background: var(--bg);
-  padding: calc(54px + 5rem) var(--px) 5rem;
+  padding: calc(54px + 5rem) var(--px) 3rem;
   position: relative;
   overflow: hidden;
 }
@@ -276,17 +276,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   align-items: center;
 }
 
-.about-eyebrow {
-  font-family: var(--sans);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent-aurora);
-  margin-bottom: 1.25rem;
-  opacity: 0;
-  animation: up 0.5s ease forwards 0.1s;
-}
+/* .about-eyebrow removed — replaced by VFX title scan */
 
 .about-title {
   font-family: var(--display);
@@ -314,6 +304,34 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .about-intro strong { color: var(--accent-cosmos); font-weight: 600; }
+
+/* ── "Here is how I got here" downward CTA ────────────────────── */
+.about-cta-down {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.75rem;
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-aurora);
+  text-decoration: none;
+  opacity: 0;
+  animation: up 0.6s ease forwards 0.5s;
+  transition: none;
+}
+
+.cta-arrow {
+  animation: arrowBounceDown 1.8s ease-in-out infinite;
+  animation-delay: 1.2s;
+}
+
+@keyframes arrowBounceDown {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(4px); }
+}
 
 /* Subject file card — replaces photo card.
  * Pays off the "Transmission Decoded" eyebrow as a classified dossier. */
