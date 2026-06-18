@@ -496,6 +496,17 @@ body {
   box-shadow: 2px 0 12px #C8185880;
 }
 
+.stat-box::after {
+  content: '';
+  position: absolute;
+  bottom: 8px; right: 8px;
+  width: 10px; height: 10px;
+  border-bottom: 1.5px solid var(--accent-aurora);
+  border-right: 1.5px solid var(--accent-aurora);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
 .stat-box:hover {
   transform: translateY(-3px);
   box-shadow: 0 0 0 1px #C8185840,
