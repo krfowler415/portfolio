@@ -808,30 +808,41 @@ nav.scrolled {
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--aurora-200);   /* live active signal */
-  padding: 0.35rem 0.35rem;
+  color: var(--aurora-200);
+  padding: 0.35rem 0.75rem;
   border-radius: 20px;
-  border: 1.5px solid transparent;
-  background: transparent;
+  border: 1.5px solid rgba(10,195,154,0.3);
+  background: rgba(10,195,154,0.05);
   opacity: 0;
-  animation: up 0.5s ease forwards 0.1s;   /* @keyframes up — § 5 */
+  animation: up 0.5s ease forwards 0.1s;
   white-space: nowrap;
   text-decoration: none;
-  overflow: hidden;
-  transition: background 0.35s ease, border-color 0.35s ease, padding 0.35s ease;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Text swap on hover — "Available for Work" → "Arizona & Remote" */
-.us-hover { display: none; }
-.hero-us:hover .us-default { display: none; }
-.hero-us:hover .us-hover   { display: inline; }
-
-/* Badge expands on hover — padding increase reveals full text */
 .hero-us:hover {
-  background: #1C121099;
+  background: rgba(10,195,154,0.1);
   border-color: var(--accent-aurora);
-  padding: 0.35rem 0.85rem;
+  box-shadow: 0 0 12px rgba(10,195,154,0.2);
 }
+
+/* Smooth crossfade text swap */
+.us-default,
+.us-hover {
+  transition: opacity 0.2s ease;
+}
+
+.us-hover {
+  position: absolute;
+  left: 2rem; /* offset past the dot */
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hero-us:hover .us-default { opacity: 0; }
+.hero-us:hover .us-hover   { opacity: 1; }
 
 
 /* ─────────────────────────────────────────────────────────────────────
