@@ -416,7 +416,7 @@
         return;
       }
 
-      await wait(950);  // scan duration at speed 1.2
+      // vfx.add() already waited for scan to complete — remove immediately
       try { vfx.remove(h1); } catch (_) {}
       h1.style.opacity = '1';
 
