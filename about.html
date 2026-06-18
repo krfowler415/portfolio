@@ -416,10 +416,16 @@
         return;
       }
 
-      // Scan duration = 1/speed * 1000ms. At speed 1.2 that's ~833ms.
-      // Small buffer for dom2canvas setup time (~50ms) = 880ms total.
-      await wait(880);
+      // enterTime resets at first render frame (~32ms after vfx.add resolves).
+      // Scan duration = 1/speed * 1000 = 833ms. Total needed: ~865ms.
+      // We wait 900ms to ensure scan fully completes, then cross-fade h1 in
+      // over 120ms while VFX canvas still shows — hides the texture-vs-CSS diff.
+      await wait(900);
+      h1.style.transition = 'opacity 0.12s ease';
+      h1.style.opacity = '1';
+      await wait(120);
       try { vfx.remove(h1); } catch (_) {}
+      h1.style.transition = 'none';
       h1.style.opacity = '1';
 
       await wait(2200); // hold word
