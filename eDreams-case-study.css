@@ -583,6 +583,17 @@ body {
   box-shadow: 2px 0 10px #C8185860;
 }
 
+.finding::after {
+  content: '';
+  position: absolute;
+  bottom: 8px; right: 8px;
+  width: 10px; height: 10px;
+  border-bottom: 1.5px solid var(--accent-aurora);
+  border-right: 1.5px solid var(--accent-aurora);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
 .finding-hed {
   font-family: var(--sans);
   font-size: 0.72rem;
