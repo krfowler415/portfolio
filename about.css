@@ -253,7 +253,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
  * ===================================================================== */
 
 .about-header {
-  background: var(--bg);
   padding: calc(54px + 5rem) var(--px) 3rem;
   position: relative;
   overflow: hidden;
