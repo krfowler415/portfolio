@@ -818,7 +818,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .off-card p {
-  font-family: var(--sans);
+  font-family: var(--serif);
   font-size: 0.92rem;
   line-height: 1.7;
   color: var(--text-muted);
