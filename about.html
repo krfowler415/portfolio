@@ -296,9 +296,10 @@
 
     <script type="module">
     /* ── VFX-JS pixel scan title rotation ──────────────────────────────
-     * Self-hosted vfx.js — no CDN dependency.
-     * Each word decodes in via left-to-right pixel scatter using the
-     * portfolio palette (aurora / cosmos / pulsar).
+     * Clean state machine. h1 is either:
+     *   HIDDEN  — opacity:'' (CSS controls = 0), VFX scanning
+     *   VISIBLE — opacity:1 (inline), no VFX canvas
+     * Never both at once. No cross-fades.
      */
     const { VFX } = await import('./vfx.js');
 
@@ -307,9 +308,15 @@
     let   idx   = 0;
     if (!h1) throw new Error('about-title not found');
 
+    // Cancel CSS entrance animation — VFX handles the first word
+    h1.style.animation = 'none';
+
     const vfx  = new VFX({ zIndex: 100 });
     const wait = ms => new Promise(r => setTimeout(r, ms));
     const raf2 = ()  => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+    const SPEED   = 1.2;
+    const SCAN_MS = Math.ceil(1000 / SPEED) + 80; // 914ms — scan + buffer for first render frame
 
     const shader = `
     precision highp float;
@@ -383,58 +390,39 @@
       gl_FragColor*=smoothstep(0.,.01,t);
     }`;
 
-
-    let rotating = false;
-
-    async function rotate() {
-      if (rotating) return;
-      rotating = true;
-
-      idx = (idx + 1) % words.length;
-
-      // Clean up any previous effect then swap text
+    async function scanIn(word) {
+      // HIDDEN state: clear any existing VFX, set h1 to CSS-controlled opacity (0)
       try { vfx.remove(h1); } catch (_) {}
-      h1.textContent = words[idx];
+      h1.style.opacity = '';      // empty string → VFX reads originalOpacity as 1
+      h1.textContent   = word;    // update text while CSS keeps it invisible
+      await raf2();               // browser renders new text at CSS opacity:0
 
-      // Two frames so browser renders new text before VFX-JS captures it
-      await raf2();
+      // Start scan — VFX captures texture at originalOpacity=1 (default for empty string)
+      await vfx.add(h1, {
+        shader,
+        overflow: 40,
+        intersection: { threshold: 0.1 },
+        uniforms: { mode: 0, width: 0.22, layers: 2, speed: SPEED, delay: 0 },
+      });
 
-      // vfx.add is async — must await it or cycles overlap and stack
-      try {
-        await vfx.add(h1, {
-          shader,
-          overflow: 40,
-          intersection: { threshold: 0.1 },
-          uniforms: { mode: 0, width: 0.22, layers: 2, speed: 1.2, delay: 0 },
-        });
-      } catch (e) {
-        console.warn('VFX scan failed:', e);
-        h1.style.opacity = '1';
-        rotating = false;
-        await wait(2200);
-        rotate();
-        return;
-      }
+      // Wait for scan to play through
+      await wait(SCAN_MS);
 
-      // enterTime resets at first render frame (~32ms after vfx.add resolves).
-      // Scan duration = 1/speed * 1000 = 833ms. Total needed: ~865ms.
-      // We wait 900ms to ensure scan fully completes, then cross-fade h1 in
-      // over 120ms while VFX canvas still shows — hides the texture-vs-CSS diff.
-      await wait(900);
-      h1.style.transition = 'opacity 0.12s ease';
-      h1.style.opacity = '1';
-      await wait(120);
+      // VISIBLE state: remove VFX (restores opacity to originalOpacity=1), ensure visible
       try { vfx.remove(h1); } catch (_) {}
-      h1.style.transition = 'none';
       h1.style.opacity = '1';
-
-      await wait(2200); // hold word
-      rotating = false;
-      rotate();
     }
 
-    await wait(2500);   // let CSS entrance animation finish first
-    rotate();
+    async function run() {
+      await wait(400); // brief pause for page to settle before first scan
+      while (true) {
+        await scanIn(words[idx]);
+        await wait(2000);
+        idx = (idx + 1) % words.length;
+      }
+    }
+
+    run();
     </script>
 </body>
 </html>
