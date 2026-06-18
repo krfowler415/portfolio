@@ -423,7 +423,9 @@
       cv.width   = W * dpr;
       cv.height  = H * dpr;
       Object.assign(cv.style, {
-        position: 'fixed', left: rect.left + 'px', top: rect.top + 'px',
+        position: 'absolute',
+        left: (rect.left + window.scrollX) + 'px',
+        top:  (rect.top  + window.scrollY) + 'px',
         width: W + 'px', height: H + 'px', pointerEvents: 'none', opacity: '1',
       });
       const ctx = cv.getContext('2d');
