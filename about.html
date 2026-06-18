@@ -384,28 +384,44 @@
     }`;
 
 
+    let rotating = false;
+
     async function rotate() {
+      if (rotating) return;
+      rotating = true;
+
       idx = (idx + 1) % words.length;
 
-      // Swap text first — VFX-JS must capture a visible element.
-      // Setting opacity:0 before vfx.add() gives it a transparent texture.
+      // Clean up any previous effect then swap text
       try { vfx.remove(h1); } catch (_) {}
       h1.textContent = words[idx];
 
       // Two frames so browser renders new text before VFX-JS captures it
       await raf2();
-      vfx.add(h1, {
-        shader,
-        overflow: 40,
-        intersection: { threshold: 0.1 },
-        uniforms: { mode: 0, width: 0.22, layers: 2, speed: 1.2, delay: 0 },
-      });
+
+      // vfx.add is async — must await it or cycles overlap and stack
+      try {
+        await vfx.add(h1, {
+          shader,
+          overflow: 40,
+          intersection: { threshold: 0.1 },
+          uniforms: { mode: 0, width: 0.22, layers: 2, speed: 1.2, delay: 0 },
+        });
+      } catch (e) {
+        console.warn('VFX scan failed:', e);
+        h1.style.opacity = '1';
+        rotating = false;
+        await wait(2200);
+        rotate();
+        return;
+      }
 
       await wait(950);  // scan duration at speed 1.2
       try { vfx.remove(h1); } catch (_) {}
       h1.style.opacity = '1';
 
       await wait(2200); // hold word
+      rotating = false;
       rotate();
     }
 
