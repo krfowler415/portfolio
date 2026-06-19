@@ -823,7 +823,6 @@ nav.scrolled {
   color: var(--aurora-200);
   padding: 0.35rem 0.75rem 0.35rem 1.7rem; /* extra left room for the dot */
   border-radius: 20px;
-  border: 1.5px solid rgba(10,195,154,0.3);
   background: rgba(10,195,154,0.05);
   opacity: 0;
   animation: up 0.5s ease forwards 0.1s;
@@ -831,12 +830,13 @@ nav.scrolled {
   text-decoration: none;
   position: relative;
   overflow: hidden; /* clips the expanding dot to the pill shape */
-  cursor: pointer;
-  transition: border-color 0.3s ease;
+  cursor: default;
+  transition: padding 0.4s cubic-bezier(0.65,0,0.076,1);
 }
 
 .hero-us:hover {
-  border-color: var(--accent-aurora);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 /* Hover — dot grows to fill the entire pill (border-radius stays fixed,
