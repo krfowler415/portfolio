@@ -20,16 +20,16 @@
  *  ─────────────────────────────────────────────────────────────────
  *  --display  'Audiowide'  — named for what it is: a display typeface
  *                            used for: headings, logo, stat numbers
- *  --serif    'Oxanium'    — secondary/label font (the non-sans slot)
+ *  --Ox       'Oxanium'    — secondary/label font (the non-sans slot)
  *                            used for: tags, meta labels
- *  --sans     'Orbitron'   — body copy and all UI chrome
+ *  --Orb      'Orbitron'   — body copy and all UI chrome
  *
  *  LOCKED DECISIONS (do not change without empirical re-testing)
  *  ─────────────────────────────────────────────────────────────────
- *  --bg: #100820           flows from terrain SVG gradient
- *  .hero height: 300svh    UFO journey pacing
- *  .hero-pin::after: 65vh  terrain fade breakpoint
- *  terrain viewBox: "0 180 666.667 90"   empirically tested
+ *  --bg: #100820            flows from terrain SVG gradient
+ *  .hero height: 300 × --vh   UFO journey pacing
+ *  .hero-pin::after: 24vh   terrain fade breakpoint
+ *  terrain viewBox: "0 160 666.667 90"   empirically tested
  *  preserveAspectRatio: "xMidYMax"        no slice — prevents zoom
  *
  *  FILE STRUCTURE
@@ -50,6 +50,7 @@
  *       4j  About Section
  *       4k  Contact Section
  *       4l  Hero Scroll Theater
+ *       4m  Beam Me Up (appears after § 5 in the file order below)
  *  § 5  Animations & Keyframes
  *  § 6  Media Queries
  * =====================================================================
@@ -168,12 +169,12 @@
   /* ── Typography ──────────────────────────────────────────────────────
    *  Token names map to role, not literal type classification.
    *  --display  Audiowide  named for what it is: a display typeface
-   *  --serif    Oxanium    the non-sans secondary slot
-   *  --sans     Orbitron   body copy and all UI chrome
+   *  --Ox       Oxanium    the non-sans secondary slot
+   *  --Orb      Orbitron   body copy and all UI chrome
    *  ─────────────────────────────────────────────────────────────── */
-  --display: 'Audiowide', sans-serif;
-  --serif:   'Oxanium', system-ui, sans-serif;
-  --sans:    'Orbitron', sans-serif;
+  --display:  'Audiowide', sans-serif;
+  --Ox:       'Oxanium', system-ui, sans-serif;
+  --Orb:      'Orbitron', sans-serif;
 
   /* ── Layout ──────────────────────────────────────────────────────── */
   --max: 1100px;                         /* max content width */
@@ -226,7 +227,7 @@ body {
     radial-gradient(circle, #98A8D428 1px, transparent 1px) center / 28px 28px,
     var(--bg);
   color: var(--text);
-  font-family: var(--sans);
+  font-family: var(--Orb);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   cursor: none;
@@ -250,8 +251,8 @@ a { color: inherit; text-decoration: none; }
 
 /* ── Section Dividers ────────────────────────────────────────────────
  *  Border between adjacent sections and the .s-border utility.
- *  Aurora glow on the top edge creates a faint "energy seam" effect
- *  that ties sections together without hard contrast breaks.
+ *  Uses var(--border) (aether at low opacity) — a quiet neutral seam
+ *  between sections rather than a glowing accent.
  * ──────────────────────────────────────────────────────────────────── */
 .section + .section,
 .s-border {
@@ -458,6 +459,7 @@ footer {
 .c-desc {
   font-size: 0.9rem;
   font-weight: 300;
+  font-family: var(--Ox);
   color: var(--text-muted);
   line-height: 1.82;
 }
@@ -469,6 +471,7 @@ footer {
 .c-body {
   font-size: 0.9rem;
   font-weight: 400;
+  font-family: var(--Orb);
   color: var(--text-muted);
   line-height: 1.8;
 }
@@ -487,7 +490,7 @@ footer {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -756,7 +759,7 @@ nav.scrolled {
 /* aether-100 default — moonlit, present but not emitting energy */
 .nav-links a {
   position: relative;
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.78rem;
   font-weight: 500;
   letter-spacing: 0.1em;
@@ -844,7 +847,7 @@ nav.scrolled {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -919,7 +922,7 @@ nav.scrolled {
   align-items: center;
   gap: 0.4rem;
   padding: 0.5rem 0.5rem;
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.03em;
@@ -1034,7 +1037,7 @@ nav.scrolled {
 
 /* Individual skill item */
 .m-item {
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -1126,8 +1129,7 @@ a.card-feat,
   background: radial-gradient(ellipse at 30% 50%, #5F259F40 0%, transparent 65%);
 }
 
-/* Card number tag (e.g. "◈ 01") — pulsar mirrors UFO warning lights.
- * NOTE: xlink:href on arrow buttons is deprecated — use href (known bug) */
+/* Card number tag (e.g. "◈ 01") — pulsar mirrors UFO warning lights. */
 .card-vis-tag {
   position: absolute;
   top: 1.2rem; left: 1.2rem;
@@ -1175,7 +1177,7 @@ a.card-feat,
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;
-  font-family: var(--serif);   /* Oxanium — label/meta font */
+  font-family: var(--Ox);   /* Oxanium — label/meta font */
 }
 
 /* Individual tag chip — pulsar border adds warm tension vs cosmos bg */
@@ -1418,7 +1420,7 @@ a.card-feat,
 .about-copy p {
   font-size: 1rem;
   font-weight: 400;
-  font-family: var(--sans);
+  font-family: var(--Ox);
   color: var(--text-muted);
   line-height: 1.9;
 }
@@ -1517,7 +1519,7 @@ a.card-feat,
 .stat-l {
   font-size: 0.75rem;
   font-weight: 400;
-  font-family: var(--sans);
+  font-family: var(--Orb);
   color: var(--text-muted);
   line-height: 1.45;
 }
@@ -1609,7 +1611,7 @@ a.card-feat,
   background: linear-gradient(135deg, var(--aurora-400) 0%, var(--cosmos-600) 100%);
   border-radius: 10px;
   color: var(--text);
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: clamp(1rem, 2vw, 1.4rem);
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -1663,7 +1665,7 @@ a.card-feat,
   position: relative;
   display: inline-block;
   padding: 0.3rem;
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.68rem;
   font-weight: 500;
   letter-spacing: 0.1em;
@@ -1709,8 +1711,9 @@ a.card-feat,
 /* ─────────────────────────────────────────────────────────────────────
  * 4l  HERO SCROLL THEATER
  *
- *  The cinematic opening sequence — 300svh tall so the user scrolls
- *  through three full viewport heights while the scene is sticky.
+ *  The cinematic opening sequence — 300 viewport-heights tall (via
+ *  the --vh custom property) so the user scrolls through three full
+ *  viewport heights while the scene is sticky.
  *
  *  Layer stack (z-index):
  *    2  #stars         canvas particle field
@@ -1720,14 +1723,14 @@ a.card-feat,
  *    8  .hero-ufo      SVG UFO (GSAP-controlled position)
  *
  *  Current terrain SVG:
- *    viewBox="0 180 666.667 90"
+ *    viewBox="0 160 666.667 90"
  *    preserveAspectRatio="xMidYMax"
  *
  *  Do not edit the terrain SVG viewBox for layout tweaks.
  *  Adjust .hero-terrain and .hero-terrain svg instead.
  * ───────────────────────────────────────────────────────────────────── */
 
-/* Outer scroll container — 300svh creates the scroll space for the theater */
+/* Outer scroll container — 300 × --vh creates the scroll space for the theater */
 .hero {
   height: calc(var(--vh, 1vh) * 300);
   background: var(--bg);
@@ -1799,8 +1802,8 @@ a.card-feat,
   height: 100%;
   display: block;
   max-height: none;
-  transform: none;
-  clip-path: none;
+  transform-origin: 50% 100%;
+  transform: scale(1.08);
 }
 
 /* Moon SVG container */
@@ -1857,12 +1860,6 @@ a.card-feat,
  *
  *  All @keyframes definitions in one block.
  *  Component rules that reference these animations live in § 4.
- *
- *  NOTE: @keyframes rippleOut was previously injected by JS
- *  (document.createElement('style')). It has been moved here.
- *  The JS-side style injection block in main.js can be removed.
- *  Also note: the JS ripple still references var(--accent-teal)
- *  which is a dead token — update to var(--accent-aurora).
  * ===================================================================== */
 
 
@@ -1970,10 +1967,9 @@ a.card-feat,
 /* ── Click Ripple ──────────────────────────────────────────────────── */
 
 /* Radial ripple that expands from click position.
- * Triggered by JS click handler which creates a div with inline styles.
- * NOTE: JS references var(--accent-teal) — update to var(--accent-aurora).
- * The JS-side style injection (document.createElement('style')) can
- * be removed now that this keyframe lives in the stylesheet. */
+ * Triggered by the click handler in main.js (initClickRipple), which
+ * creates a div with inline styles and references this keyframe by
+ * name plus var(--accent-aurora) for its border color. */
 @keyframes rippleOut {
   to { transform: translate(-50%, -50%) scale(8); opacity: 0; }
 }
@@ -1990,7 +1986,10 @@ a.card-feat,
 /* =====================================================================
  * § 4m  BEAM ME UP
  *
- *  Fixed back-to-top button — appears after 400px scroll.
+ *  Fixed back-to-top button — visibility is controlled by a
+ *  ScrollTrigger in main.js keyed to #hero, currently set to fire
+ *  once scroll passes 69% of the hero's total height
+ *  (start: 'top+=69% top'), not a fixed pixel offset.
  *  Aurora-to-cosmos gradient pill with 3D gloss overlay (::before).
  *  Click fires beam-streak up toward the top + aurora flash.
  *  Matches eDreams-case-study.css implementation exactly.
@@ -2009,7 +2008,7 @@ a.card-feat,
   border: none;
   border-radius: 100px;
   color: var(--text);
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -2127,7 +2126,8 @@ a.card-feat,
  *  Nav links hidden (no mobile menu yet — planned).
  *  Footer stacks vertically.
  *  OS cursor restored (custom cursor hidden via #cur display: none).
- *  Hero shortens — 300svh is too long on mobile; 140svh is sufficient.
+ *  Hero shortens — 300 is too long on mobile; 140 is sufficient
+ *  (both via the --vh custom property).
  *  UFO shrinks proportionally.
  *  CTA button reduces padding.
  *  Stat grid always 2-column (cards are narrow enough).
