@@ -1756,6 +1756,11 @@ a.card-feat,
     linear-gradient(to bottom, #010308 0%, #03050F 15%, #060818 35%, #0A0720 55%, #100826 75%, #100820 100%);
 }
 
+/* Remove hero scanlines */
+.hero-pin::before {
+  display: none;
+}
+
 /* Bottom fade — sits above terrain */
 .hero-pin::after {
   content: '';
@@ -1763,7 +1768,7 @@ a.card-feat,
   bottom: 0;
   left: 0;
   right: 0;
-  height: 34vh;
+  height: 24vh;
   background: linear-gradient(to bottom, transparent, var(--bg));
   z-index: 7;
   pointer-events: none;
@@ -1788,35 +1793,14 @@ a.card-feat,
   overflow: hidden;
 }
 
-/* Dark floor behind the SVG.
-   This covers the moon/gap created when the SVG is lifted. */
-.hero-terrain::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -1px;
-  height: 30vh;
-  z-index: 1;
-  background: linear-gradient(
-    to bottom,
-    #280C44 0%,
-    #160828 45%,
-    var(--bg) 100%
-  );
-  pointer-events: none;
-}
-
 /* Injected terrain SVG */
 .hero-terrain svg {
-  position: relative;
-  z-index: 2;
   width: 100%;
   height: 100%;
   display: block;
   max-height: none;
-  transform-origin: center bottom;
-  transform: translateY(-7vh) scale(1.1);
+  transform-origin: 50% 100%;
+  transform: scaleY(1.14);
 }
 
 /* Moon SVG container */
