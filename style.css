@@ -803,11 +803,15 @@ nav.scrolled {
   width: 10px; height: 10px;
   border-radius: 20px; /* fixed — CSS auto-clamps to a circle at this size */
   background: var(--accent-aurora);
+  border: 1.5px solid transparent; /* reserved now, becomes visible on hover */
+  box-sizing: border-box;
   animation: sdpulse 1.5s infinite;
   z-index: 0;
   transition: width 0.4s cubic-bezier(0.65,0,0.076,1),
               height 0.4s cubic-bezier(0.65,0,0.076,1),
-              left 0.4s cubic-bezier(0.65,0,0.076,1);
+              left 0.4s cubic-bezier(0.65,0,0.076,1),
+              background-color 0.4s cubic-bezier(0.65,0,0.076,1),
+              border-color 0.4s cubic-bezier(0.65,0,0.076,1);
 }
 
 /* Badge — aurora-200 text, transparent until hover. Fades in via JS */
@@ -831,29 +835,34 @@ nav.scrolled {
   position: relative;
   overflow: hidden; /* clips the expanding dot to the pill shape */
   cursor: none;
-  transition: padding 0.4s cubic-bezier(0.65,0,0.076,1);
+  transition: padding 0.4s cubic-bezier(0.65,0,0.076,1),
+              background 0.4s cubic-bezier(0.65,0,0.076,1);
 }
 
 .hero-us:hover {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+  background: rgba(10,195,154,0.12);
 }
 
-/* Hover — dot grows to fill the entire pill (border-radius stays fixed,
- * so it auto-clamps from circle → stadium pill with no morph artifact) */
+/* Hover — dot stretches into a ring that outlines the pill.
+ * Solid fill fades to transparent as the border becomes visible —
+ * the dot becomes the badge's border, not a background fill. */
 .hero-us:hover .sdot {
   width: 100%;
   height: 100%;
   left: 0;
-  animation: none; /* idle pulse stops once the fill takes over */
+  background: transparent;
+  border-color: var(--accent-aurora);
+  animation: none; /* idle pulse stops once the outline takes over */
 }
 
-/* Text sits above the fill */
+/* Text sits above the dot/ring layer */
 .us-default,
 .us-hover {
   position: relative;
   z-index: 1;
-  transition: opacity 0.2s ease 0.12s, color 0.4s cubic-bezier(0.65,0,0.076,1);
+  transition: opacity 0.2s ease 0.12s;
 }
 
 .us-hover {
@@ -865,12 +874,6 @@ nav.scrolled {
 
 .hero-us:hover .us-default { opacity: 0; }
 .hero-us:hover .us-hover   { opacity: 1; }
-
-/* Dark text reads clearly once the aurora fill passes underneath */
-.hero-us:hover .us-default,
-.hero-us:hover .us-hover {
-  color: var(--bg);
-}
 
 
 /* ─────────────────────────────────────────────────────────────────────
