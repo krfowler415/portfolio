@@ -789,13 +789,27 @@ nav.scrolled {
  *  Pulse dot uses the sdpulse keyframe (defined in § 5).
  * ───────────────────────────────────────────────────────────────────── */
 
-/* Pulsing dot — the "live" indicator. animation: sdpulse in § 5 */
+/* Pulsing dot — idle "live" indicator AND the hover-fill circle.
+ * Idle: small pulsing aurora dot, absolutely positioned at the left.
+ * Hover: expands to fill the entire pill — same mechanic as
+ * codepen.io/kathykato/pen/rZRaNe, swapped to our aurora dot instead
+ * of a grey circle. Text flips dark on top for contrast.
+ */
 .sdot {
+  position: absolute;
+  left: 0.75rem;
+  top: 0; bottom: 0;
+  margin: auto;
   width: 10px; height: 10px;
   border-radius: 50%;
   background: var(--accent-aurora);
   animation: sdpulse 1.5s infinite;
-  flex-shrink: 0;
+  z-index: 0;
+  transition:
+    width 0.45s cubic-bezier(0.65,0,0.076,1),
+    height 0.45s cubic-bezier(0.65,0,0.076,1),
+    left 0.45s cubic-bezier(0.65,0,0.076,1),
+    border-radius 0.45s cubic-bezier(0.65,0,0.076,1);
 }
 
 /* Badge — aurora-200 text, transparent until hover. Fades in via JS */
@@ -809,7 +823,7 @@ nav.scrolled {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--aurora-200);
-  padding: 0.35rem 0.75rem;
+  padding: 0.35rem 0.75rem 0.35rem 1.7rem; /* extra left room for the dot */
   border-radius: 20px;
   border: 1.5px solid rgba(10,195,154,0.3);
   background: rgba(10,195,154,0.05);
@@ -818,31 +832,47 @@ nav.scrolled {
   white-space: nowrap;
   text-decoration: none;
   position: relative;
+  overflow: hidden; /* clips the expanding dot to the pill shape */
   cursor: pointer;
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: border-color 0.3s ease;
 }
 
 .hero-us:hover {
-  background: rgba(10,195,154,0.1);
   border-color: var(--accent-aurora);
-  box-shadow: 0 0 12px rgba(10,195,154,0.2);
 }
 
-/* Smooth crossfade text swap */
+/* Hover — dot grows to fill the entire pill, matching its border-radius */
+.hero-us:hover .sdot {
+  width: 100%;
+  height: 100%;
+  left: 0;
+  border-radius: 20px;
+  animation: none; /* idle pulse stops once the fill takes over */
+}
+
+/* Text sits above the fill */
 .us-default,
 .us-hover {
-  transition: opacity 0.2s ease;
+  position: relative;
+  z-index: 1;
+  transition: opacity 0.25s ease, color 0.4s ease;
 }
 
 .us-hover {
   position: absolute;
-  left: 2rem; /* offset past the dot */
+  left: 1.7rem; /* matches container's left padding */
   opacity: 0;
   pointer-events: none;
 }
 
 .hero-us:hover .us-default { opacity: 0; }
 .hero-us:hover .us-hover   { opacity: 1; }
+
+/* Dark text reads clearly once the aurora fill passes underneath */
+.hero-us:hover .us-default,
+.hero-us:hover .us-hover {
+  color: var(--bg);
+}
 
 
 /* ─────────────────────────────────────────────────────────────────────
@@ -2038,7 +2068,8 @@ a.card-feat,
  * ──────────────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .m-track { animation-duration: 120s; }
-  .sdot    { animation: none; }
+  .sdot    { animation: none; transition: none; }
+  .us-default, .us-hover { transition: none; }
   #intro, #intro-flash { display: none !important; }
 }
 
