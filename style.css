@@ -1027,8 +1027,10 @@ nav.scrolled {
 .m-track {
   display: inline-flex;
   animation: marquee 30s linear infinite;   /* @keyframes marquee — § 5 */
+  will-change: transform;       /* hints GPU compositing — smooths the scroll */
+  backface-visibility: hidden;  /* avoids sub-pixel flicker on some browsers */
 }
-.m-track:hover { animation-play-e: paused; }
+.m-track:hover { animation-play-state: paused; }
 
 /* Individual skill item */
 .m-item {
