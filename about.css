@@ -933,10 +933,61 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .about-closing p {
+  margin-bottom: 2rem;
+}
+
+.closing-copy {
+  max-width: 680px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.closing-kicker {
+  font-family: var(--Orb);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-pulsar);
+}
+
+.closing-main {
   font-family: var(--Ox);
-  font-size: 1.05rem;
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  color: var(--text);
+}
+
+.closing-sub {
+  max-width: 580px;
+  font-family: var(--Ox);
+  font-size: clamp(0.95rem, 1.3vw, 1.05rem);
+  line-height: 1.65;
   color: var(--text-muted);
-  margin-bottom: 1.75rem;
+}
+
+.closing-invite {
+  margin-top: 0.15rem;
+  font-family: var(--Ox);
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  color: var(--text);
+}
+
+.closing-status {
+  margin-top: 0.55rem;
+  font-family: var(--Orb);
+  font-size: 0.62rem;
+  line-height: 1.7;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-pulsar);
+}
+
+.closing-status strong {
+  color: var(--accent-pulsar);
+  font-weight: 500;
 }
 
 .closing-links {
