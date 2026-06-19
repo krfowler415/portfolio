@@ -825,7 +825,7 @@ nav.scrolled {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--aurora-200);
-  padding: 0.35rem 0.75rem 0.35rem 1.7rem; /* extra left room for the dot */
+  padding: 0.35rem 0.75rem 0.35rem 2rem; /* extra left room for the dot */
   border-radius: 20px;
   background: radial-gradient(circle 22px at 1.1rem center, rgba(10,195,154,0.22) 0%, rgba(10,195,154,0.06) 55%, transparent 100%);
   opacity: 0;
@@ -867,7 +867,7 @@ nav.scrolled {
 
 .us-hover {
   position: absolute;
-  left: 1.7rem; /* matches container's left padding */
+  left: 2rem; /* matches container's left padding */
   opacity: 0;
   pointer-events: none;
 }
