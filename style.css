@@ -801,15 +801,13 @@ nav.scrolled {
   top: 0; bottom: 0;
   margin: auto;
   width: 10px; height: 10px;
-  border-radius: 50%;
+  border-radius: 20px; /* fixed — CSS auto-clamps to a circle at this size */
   background: var(--accent-aurora);
   animation: sdpulse 1.5s infinite;
   z-index: 0;
-  transition:
-    width 0.45s cubic-bezier(0.65,0,0.076,1),
-    height 0.45s cubic-bezier(0.65,0,0.076,1),
-    left 0.45s cubic-bezier(0.65,0,0.076,1),
-    border-radius 0.45s cubic-bezier(0.65,0,0.076,1);
+  transition: width 0.4s cubic-bezier(0.65,0,0.076,1),
+              height 0.4s cubic-bezier(0.65,0,0.076,1),
+              left 0.4s cubic-bezier(0.65,0,0.076,1);
 }
 
 /* Badge — aurora-200 text, transparent until hover. Fades in via JS */
@@ -841,12 +839,12 @@ nav.scrolled {
   border-color: var(--accent-aurora);
 }
 
-/* Hover — dot grows to fill the entire pill, matching its border-radius */
+/* Hover — dot grows to fill the entire pill (border-radius stays fixed,
+ * so it auto-clamps from circle → stadium pill with no morph artifact) */
 .hero-us:hover .sdot {
   width: 100%;
   height: 100%;
   left: 0;
-  border-radius: 20px;
   animation: none; /* idle pulse stops once the fill takes over */
 }
 
@@ -855,7 +853,7 @@ nav.scrolled {
 .us-hover {
   position: relative;
   z-index: 1;
-  transition: opacity 0.25s ease, color 0.4s ease;
+  transition: opacity 0.2s ease 0.12s, color 0.4s cubic-bezier(0.65,0,0.076,1);
 }
 
 .us-hover {
