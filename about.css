@@ -901,7 +901,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 .c-tags {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.45rem;
+  gap: 0.5rem;
 }
 
 .c-tag {
