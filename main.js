@@ -674,7 +674,10 @@ function initResizeHandlers() {
 /* =====================================================================
  * § 14  BEAM ME UP
  *
- *  Appears after one full viewport height of scroll.
+ *  Appears once scroll passes 69% of #hero's total height
+ *  (ScrollTrigger start: 'top+=69% top'). Since .hero is 300
+ *  viewport-heights tall, this is well into the scroll journey, not
+ *  a fixed pixel offset.
  *  Click fires the streak-and-flash sequence then scrolls to top.
  *  Matches the implementation in eDreams-case-study.js and about.js.
  * ===================================================================== */
