@@ -1803,24 +1803,6 @@ a.card-feat,
   transform: scale(1.08);
 }
 
-/* Foreground cactus — sits closer than the terrain, deliberately
- * cropped by .hero-pin's overflow:hidden to cue "more below" */
-.hero-foreground {
-  position: absolute;
-  left: 8%;
-  bottom: -9vh;
-  width: clamp(70px, 9vw, 130px);
-  z-index: 6;
-  pointer-events: none;
-  filter: drop-shadow(0 0 14px rgba(10, 195, 154, 0.18));
-}
-
-.hero-foreground svg {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
 /* Moon SVG container */
 .hero-moon {
   position: absolute;
