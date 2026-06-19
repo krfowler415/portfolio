@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="terrainSvg" viewBox="0 150 666.667 100" 
+<svg xmlns="http://www.w3.org/2000/svg" id="terrainSvg" viewBox="0 160 666.667 90" 
           preserveAspectRatio="xMidYMax" aria-hidden="true"> 
             <defs>
               <linearGradient x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0,5000,5000,0,2500,0)" spreadMethod="pad" id="linearGradient36">
