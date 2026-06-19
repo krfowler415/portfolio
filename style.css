@@ -1799,8 +1799,8 @@ a.card-feat,
   height: 100%;
   display: block;
   max-height: none;
-  transform-origin: 50% 100%;
-  transform: scale(1.08);
+  transform: none;
+  clip-path: none;
 }
 
 /* Moon SVG container */
