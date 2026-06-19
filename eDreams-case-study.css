@@ -106,8 +106,8 @@
   --aurora-inset: #0AC39A0D;
 
   --display: 'Audiowide', sans-serif;
-  --serif:   'Oxanium', system-ui, sans-serif;
-  --sans:    'Orbitron', sans-serif;
+  --Ox:   'Oxanium', system-ui, sans-serif;
+  --Orb:    'Orbitron', sans-serif;
 
   --max:       1100px;
   --max-wide:  1100px;
@@ -135,7 +135,7 @@ body {
   background: radial-gradient(circle, #98A8D428 1px, transparent 1px) center / 28px 28px, var(--bg);
   background-attachment: fixed;
   color: var(--text);
-  font-family: var(--sans);
+  font-family: var(--Orb);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   cursor: none;
@@ -200,7 +200,7 @@ nav.scrolled {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.1em;
@@ -289,7 +289,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .hero-eyebrow {
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -359,7 +359,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .meta-label {
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -369,7 +369,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .meta-val {
-  font-family: var(--serif);
+  font-family: var(--Ox);
   font-size: 0.9rem;
   font-weight: 400;
   color: var(--text-muted);
@@ -396,7 +396,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .graf {
-  font-family: var(--serif);
+  font-family: var(--Ox);
   font-size: 1rem;
   font-weight: 400;
   color: var(--text-muted);
@@ -408,7 +408,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 .graf em { font-style: italic; color: var(--accent-aurora); }
 
 .graf-lead {
-  font-family: var(--serif);
+  font-family: var(--Ox);
   font-size: 1.05rem;
   font-weight: 400;
   color: var(--text);
@@ -418,7 +418,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 .graf-lead strong { font-weight: 600; }
 
 .cs-label {
-  font-family: var(--serif);
+  font-family: var(--Ox);
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -442,7 +442,7 @@ body {
 }
 
 .pull-q {
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 1.05rem;
   font-weight: 400;
   color: var(--aurora-200);
@@ -534,7 +534,7 @@ body {
 }
 
 .stat-box-l {
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.75rem;
   font-weight: 400;
   color: var(--text-muted);
@@ -595,7 +595,7 @@ body {
 }
 
 .finding-hed {
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -605,7 +605,7 @@ body {
 }
 
 .finding p {
-  font-family: var(--serif);
+  font-family: var(--Ox);
   font-size: 0.85rem;
   font-weight: 400;
   color: var(--text-muted);
@@ -660,7 +660,7 @@ body {
 }
 
 .img-ph-label {
-  font-family: var(--serif);
+  font-family: var(--Ox);
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -683,7 +683,7 @@ body {
 .ar-1-1  { aspect-ratio: 1/1;  }
 
 .img-caption {
-  font-family: var(--serif);
+  font-family: var(--Ox);
   font-size: 0.78rem;
   font-weight: 400;
   color: var(--aether-200);
@@ -707,7 +707,7 @@ body {
   align-items: center;
   gap: 0.4rem;
   padding: 0.5rem 0.5rem;
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.03em;
@@ -824,7 +824,7 @@ body {
 }
 
 .cs-cta-eyebrow {
-  font-family: var(--serif);
+  font-family: var(--Ox);
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -853,7 +853,7 @@ body {
   background: linear-gradient(135deg, var(--aurora-400) 0%, var(--cosmos-600) 100%);
   border-radius: 10px;
   color: var(--text);
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: clamp(0.9rem, 1.8vw, 1.2rem);
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -894,7 +894,7 @@ body {
   position: relative;
   display: inline-block;
   padding: 0.3rem;
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.68rem;
   font-weight: 500;
   letter-spacing: 0.1em;
@@ -1005,7 +1005,7 @@ footer {
   border: none;
   border-radius: 100px;
   color: var(--text);
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.08em;
