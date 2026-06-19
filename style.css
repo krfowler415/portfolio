@@ -827,7 +827,7 @@ nav.scrolled {
   color: var(--aurora-200);
   padding: 0.35rem 0.75rem 0.35rem 1.7rem; /* extra left room for the dot */
   border-radius: 20px;
-  background: rgba(10,195,154,0.05);
+  background: radial-gradient(circle at 1.1rem center, rgba(10,195,154,0.16) 0%, rgba(10,195,154,0.05) 40%, transparent 70%);
   opacity: 0;
   animation: up 0.5s ease forwards 0.1s;
   white-space: nowrap;
@@ -842,7 +842,7 @@ nav.scrolled {
 .hero-us:hover {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  background: rgba(10,195,154,0.12);
+  background: transparent;
 }
 
 /* Hover — dot stretches into a ring that outlines the pill.
