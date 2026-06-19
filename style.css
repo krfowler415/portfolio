@@ -29,7 +29,7 @@
  *  --bg: #100820           flows from terrain SVG gradient
  *  .hero height: 300svh    UFO journey pacing
  *  .hero-pin::after: 65vh  terrain fade breakpoint
- *  terrain viewBox: "0 150 666.667 150"   empirically tested
+ *  terrain viewBox: "0 180 666.667 90"   empirically tested
  *  preserveAspectRatio: "xMidYMax"        no slice — prevents zoom
  *
  *  FILE STRUCTURE
@@ -1715,21 +1715,21 @@ a.card-feat,
  *  Layer stack (z-index):
  *    2  #stars         canvas particle field
  *    3  .hero-moon     SVG moon
- *    4  .hero-terrain  SVG terrain (fetched from GitHub)
- *    5  .hero-ufo      SVG UFO (GSAP-controlled position)
- *    6  ::before       scanlines overlay
- *    8  ::after        bottom fade to --bg
+ *    6  .hero-terrain  fetched terrain SVG
+ *    7  ::after        bottom fade to --bg
+ *    8  .hero-ufo      SVG UFO (GSAP-controlled position)
  *
- *  LOCKED VALUES — do not change without re-testing on GitHub Pages:
- *    height: 300svh          UFO journey pacing
- *    .hero-pin::after: 65vh  terrain fade breakpoint (empirical)
- *    terrain viewBox: "0 150 666.667 150"
- *    preserveAspectRatio: "xMidYMax" (no slice)
+ *  Current terrain SVG:
+ *    viewBox="0 180 666.667 90"
+ *    preserveAspectRatio="xMidYMax"
+ *
+ *  Do not edit the terrain SVG viewBox for layout tweaks.
+ *  Adjust .hero-terrain and .hero-terrain svg instead.
  * ───────────────────────────────────────────────────────────────────── */
 
 /* Outer scroll container — 300svh creates the scroll space for the theater */
 .hero {
-  height: calc(var(--vh, 1vh) * 300);   /* LOCKED */
+  height: calc(var(--vh, 1vh) * 300);
   background: var(--bg);
   position: relative;
 }
@@ -1756,32 +1756,16 @@ a.card-feat,
     linear-gradient(to bottom, #010308 0%, #03050F 15%, #060818 35%, #0A0720 55%, #100826 75%, #100820 100%);
 }
 
-/* Scanline overlay — z-index 6, above terrain and moon, below UFO.
- * Very subtle (opacity #000006) — felt as texture, not seen as lines. */
-.hero-pin::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    #00000006 2px,
-    #00000006 3px
-  );
-  z-index: 6;
-  pointer-events: none;
-}
-
-/* Gradient fade at bottom — blends the sticky scene into --bg.
- * Height of 65vh is empirically tested. Do not change. */
+/* Bottom fade only — no scanlines */
 .hero-pin::after {
   content: '';
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 65vh;   /* LOCKED — empirically tested */
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 42vh;
   background: linear-gradient(to bottom, transparent, var(--bg));
-  z-index: 8;
+  z-index: 7;
   pointer-events: none;
 }
 
@@ -1795,17 +1779,11 @@ a.card-feat,
   pointer-events: none;
 }
 
-/* Terrain container — div stays in HTML; SVG is fetched from GitHub.
- * NOTE: hero-terrain SVG is NOT inline — it is loaded via fetch() in
- * main.js from GitHub. The div element must remain in index.html.
- * Do not remove this CSS; it styles the dynamically-injected SVG. */
+/* Terrain container — div stays in HTML; SVG is fetched by main.js */
 .hero-terrain {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: -12vh;
-  z-index: 4;
+  inset: 0;
+  z-index: 6;
   pointer-events: none;
   overflow: hidden;
 }
@@ -1815,6 +1793,8 @@ a.card-feat,
   height: 100%;
   display: block;
   max-height: none;
+  transform-origin: center bottom;
+  transform: translateY(-6vh) scale(1.08);
 }
 
 /* Moon SVG container */
@@ -1824,23 +1804,26 @@ a.card-feat,
   z-index: 3;
   pointer-events: none;
 }
+
 .hero-moon svg {
   width: 100%;
   height: 100%;
   display: block;
 }
 
-/* UFO container — positioned absolutely; GSAP moves it via transform.
- * top: 0 / left: 0 is the transform origin; JS sets actual position. */
+/* UFO container — positioned absolutely; GSAP moves it via transform */
 .hero-ufo {
   position: absolute;
   width: 280px;
-  z-index: 5;
+  z-index: 8;
   pointer-events: none;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
 }
 
-.hero-ufo-inner { width: 100%; }
+.hero-ufo-inner {
+  width: 100%;
+}
 
 .hero-ufo svg {
   width: 100%;
@@ -1848,17 +1831,16 @@ a.card-feat,
   overflow: visible;
 }
 
-/* UFO rim lights — alternating circles blink at different phases.
- * :not(#ufoBeam) excludes the tractor beam polygon from blinking.
- * animation: ufoLights defined in § 5 */
+/* UFO rim lights — alternating circles blink at different phases */
 .hero-ufo circle:not(#ufoBeam) {
   animation: ufoLights 1.2s ease-in-out infinite alternate;
 }
-.hero-ufo circle:nth-child(odd) { animation-delay: 0.6s; }
 
-/* Hover float — JS adds .hovering when UFO reaches its hover waypoint.
- * The inner div animates independently to allow JS transform on wrapper.
- * animation: ufoHover defined in § 5 */
+.hero-ufo circle:nth-child(odd) {
+  animation-delay: 0.6s;
+}
+
+/* Hover float — JS adds .hovering when UFO reaches its hover waypoint */
 .hero-ufo.hovering .hero-ufo-inner {
   animation: ufoHover 3s ease-in-out infinite;
 }
