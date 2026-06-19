@@ -101,8 +101,8 @@
   --aurora-inset: #0AC39A0D;
 
   --display: 'Audiowide', sans-serif;
-  --serif:   'Oxanium', system-ui, sans-serif;
-  --sans:    'Orbitron', sans-serif;
+  --Ox:   'Oxanium', system-ui, sans-serif;
+  --Orb:    'Orbitron', sans-serif;
 
   --max:      1100px;
   --max-text:  640px;
@@ -127,7 +127,7 @@ body {
   background: radial-gradient(circle, #98A8D428 1px, transparent 1px) center / 28px 28px, var(--bg);
   background-attachment: fixed;
   color: var(--text);
-  font-family: var(--sans);
+  font-family: var(--Orb);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   cursor: none;
@@ -293,7 +293,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .about-intro {
-  font-family: var(--serif);
+  font-family: var(--Ox);
   font-size: 1rem;
   line-height: 1.9;
   color: var(--text-muted);
@@ -310,7 +310,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   align-items: center;
   gap: 0.5rem;
   margin-top: 1.75rem;
-  font-family: var(--serif);
+  font-family: var(--Ox);
   font-size: 0.9rem;
   color: var(--text-muted);
   opacity: 0;
@@ -397,7 +397,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .subject-card-eyebrow {
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.62rem;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -406,7 +406,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .subject-file-no {
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.6rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -549,7 +549,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .subject-row dt {
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.6rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -558,7 +558,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .subject-row dd {
-  font-family: var(--serif);
+  font-family: var(--Ox);
   font-size: 0.88rem;
   color: var(--text-muted);
 }
@@ -607,7 +607,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .story-when {
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -618,7 +618,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 
 .story-when span {
   display: block;
-  font-family: var(--serif);
+  font-family: var(--Ox);
   font-size: 0.85rem;
   font-weight: 400;
   letter-spacing: 0;
@@ -638,7 +638,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .story-entry p {
-  font-family: var(--serif);
+  font-family: var(--Ox);
   font-size: 1rem;
   line-height: 1.9;
   color: var(--text-muted);
@@ -808,7 +808,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 
 .off-label {
   display: block;
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -818,7 +818,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .off-card p {
-  font-family: var(--serif);
+  font-family: var(--Ox);
   font-size: 0.92rem;
   line-height: 1.7;
   color: var(--text-muted);
@@ -888,7 +888,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .tool-card h3 {
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -905,7 +905,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .c-tag {
-  font-family: var(--serif);
+  font-family: var(--Ox);
   font-size: 0.8rem;
   padding: 0.3rem 0.75rem;
   border-radius: 20px;
@@ -933,7 +933,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 .about-closing p {
-  font-family: var(--serif);
+  font-family: var(--Ox);
   font-size: 1.05rem;
   color: var(--text-muted);
   margin-bottom: 1.75rem;
@@ -952,7 +952,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   position: relative;
   display: inline-block;
   padding: 0.3rem;
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.68rem;
   font-weight: 500;
   letter-spacing: 0.1em;
@@ -1046,7 +1046,7 @@ footer {
   border: none;
   border-radius: 100px;
   color: var(--text);
-  font-family: var(--sans);
+  font-family: var(--Orb);
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.08em;
