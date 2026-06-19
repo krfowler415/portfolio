@@ -830,7 +830,7 @@ nav.scrolled {
   text-decoration: none;
   position: relative;
   overflow: hidden; /* clips the expanding dot to the pill shape */
-  cursor: default;
+  cursor: none;
   transition: padding 0.4s cubic-bezier(0.65,0,0.076,1);
 }
 
