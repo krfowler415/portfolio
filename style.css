@@ -263,24 +263,49 @@ a { color: inherit; text-decoration: none; }
  *  Each section has a directional light pool to imply a light source
  *  offscreen and create visual depth across the scroll journey.
  *
+ *  These glows live on a ::before pseudo-element that bleeds to full
+ *  viewport width (100vw, centered via the classic left:50%/translateX
+ *  trick), rather than painting directly on the .section box itself.
+ *  .section is max-width constrained — painting the gradient there
+ *  meant it ran out of room before fading to transparent on any screen
+ *  wider than --max, producing a visible hard edge at the content
+ *  column's boundary. The pseudo-element gives the gradient the full
+ *  width it needs to complete its own fade naturally.
+ *
  *  #work    — cosmos purple pool from top (entering deep space)
  *  #about   — aurora teal from right + cosmos from left (alien zone)
  *  #contact — aurora teal from bottom (signal origin point)
  * ──────────────────────────────────────────────────────────────────── */
-#work {
-  background-image:
-    radial-gradient(ellipse 80% 60% at 50% 0%, #5F259F38 0%, transparent 70%);
+#work, #about, #contact {
+  position: relative;
 }
 
-#about {
-  background-image:
-    radial-gradient(ellipse 55% 70% at 75% 55%, #0AC39A22 0%, transparent 65%),
-    radial-gradient(ellipse 45% 50% at 20% 45%, #5F259F28 0%, transparent 60%);
+#work::before, #about::before, #contact::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100vw;
+  height: 100%;
+  transform: translateX(-50%);
+  z-index: -1;
+  pointer-events: none;
 }
 
-#contact {
+#work::before {
   background-image:
-    radial-gradient(ellipse 70% 80% at 50% 100%, #0AC39A20 0%, transparent 65%);
+    radial-gradient(ellipse 880px 60% at 50% 0%, #5F259F38 0%, transparent 70%);
+}
+
+#about::before {
+  background-image:
+    radial-gradient(ellipse 605px 70% at calc(50% + 275px) 55%, #0AC39A22 0%, transparent 65%),
+    radial-gradient(ellipse 495px 50% at calc(50% - 330px) 45%, #5F259F28 0%, transparent 60%);
+}
+
+#contact::before {
+  background-image:
+    radial-gradient(ellipse 770px 80% at 50% 100%, #0AC39A20 0%, transparent 65%);
 }
 
 
@@ -1192,6 +1217,22 @@ a.card-feat,
   scrollbar-width: none;
   perspective: 1200px;
   transform-style: preserve-3d;
+  /* Soft edge fade instead of a hard overflow cutoff — next/previous
+   * cards stay visible but dissolve toward the boundary. */
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 4%,
+    black 96%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 4%,
+    black 96%,
+    transparent 100%
+  );
 }
 
 /* Suppress WebKit scrollbar */
