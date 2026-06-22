@@ -349,7 +349,7 @@
     await document.fonts.ready;
     await document.fonts.load('400 1em Audiowide');
 
-    const SCAN_MS = 1300; // ~1/1.2 speed * 1000 + buffer
+    const SCAN_MS = 2000;
 
     // u_t: the single animation value VFX reads every frame
     let u_t = 0;
@@ -487,7 +487,7 @@
         await animateT(0, 1, SCAN_MS);
 
         // Hold word
-        await wait(2000);
+        await wait(1200);
 
         // Exit: dissolve right→left (same shader, u_t reversed)
         await animateT(1, 0, SCAN_MS);
