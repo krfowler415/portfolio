@@ -101,8 +101,8 @@
   --aurora-inset: #0AC39A0D;
 
   --display: 'Audiowide', sans-serif;
-  --Ox:   'Oxanium', system-ui, sans-serif;
-  --Orb:    'Orbitron', sans-serif;
+  --Ox:      'Oxanium', system-ui, sans-serif;
+  --Orb:     'Orbitron', sans-serif;
 
   --max:      1100px;
   --max-text:  640px;
@@ -124,7 +124,9 @@ html { scroll-behavior: smooth; }
  * ===================================================================== */
 
 body {
-  background: radial-gradient(circle, #98A8D428 1px, transparent 1px) center / 28px 28px, var(--bg);
+  background:
+    radial-gradient(circle, #98A8D428 1px, transparent 1px) center / 28px 28px,
+    var(--bg);
   background-attachment: fixed;
   color: var(--text);
   font-family: var(--Orb);
@@ -156,14 +158,12 @@ a, button { cursor: none; }
 }
 .skip-nav:focus { top: 0; }
 
-/* Shared section rhythm — matches index.html section spacing */
 .section {
   max-width: var(--max);
   margin: 0 auto;
-  padding: 5rem var(--px);
+  padding: 3rem var(--px) 5rem;
 }
 .section + .section { border-top: 1px solid var(--border); }
-
 
 .sec-title {
   font-family: var(--display);
@@ -189,6 +189,7 @@ nav {
   height: 54px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0 var(--px);
   background: rgba(16, 8, 32, 0.6);
   backdrop-filter: blur(12px);
@@ -213,6 +214,54 @@ nav.scrolled {
   text-shadow: 0 0 25px #F4F2FF35;
 }
 .nav-logo:hover { opacity: 0.8; color: var(--aurora-200); }
+
+/* Resume pill — right side of nav */
+.nav-resume {
+  position: relative;
+  display: inline-block;
+  padding: 0.3rem;
+  font-family: var(--Orb);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--aurora-200);
+  text-decoration: underline;
+  text-decoration-color: #0AC39A40;
+  transition: color 0.2s ease;
+}
+
+.nav-resume:hover {
+  color: var(--text);
+  text-decoration: none;
+  text-shadow: 0 0 12px var(--accent-aurora);
+}
+
+.nav-resume::before,
+.nav-resume::after {
+  position: absolute;
+  content: '';
+  right: 0; top: 0;
+  background: var(--text);
+  transition: all 0.3s ease;
+}
+.nav-resume::before { height: 0%; width: 1.5px; }
+.nav-resume::after  { width: 0%; height: 1.5px; }
+.nav-resume:hover::before { height: 100%; }
+.nav-resume:hover::after  { width: 100%; }
+
+.nav-resume span::before,
+.nav-resume span::after {
+  position: absolute;
+  content: '';
+  left: 0; bottom: 0;
+  background: var(--text);
+  transition: all 0.3s ease;
+}
+.nav-resume span::before { width: 1.5px; height: 0%; }
+.nav-resume span::after  { width: 0%; height: 1.5px; }
+.nav-resume:hover span::before { height: 100%; }
+.nav-resume:hover span::after  { width: 100%; }
 
 
 /* =====================================================================
@@ -245,11 +294,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 
 /* =====================================================================
  * § 5  HEADER
- *
- *  Two-column intro: eyebrow/title/copy on the left, profile photo on
- *  the right in a framed card. The "Earthling" badge on the photo is
- *  the one payoff to the homepage's "Greetings, Earthling!" — the
- *  alien's files on the actual human, finally declassified.
  * ===================================================================== */
 
 .about-header {
@@ -274,8 +318,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   gap: 4rem;
   align-items: center;
 }
-
-/* .about-eyebrow removed — replaced by VFX title scan */
 
 .about-title {
   font-family: var(--display);
@@ -304,7 +346,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 
 .about-intro strong { color: var(--accent-cosmos); font-weight: 600; }
 
-/* ── "Here is how I got here" downward CTA ────────────────────── */
 .about-cta-down {
   display: inline-flex;
   align-items: center;
@@ -328,12 +369,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   50%       { transform: translateY(4px); }
 }
 
-/* Subject file card — replaces photo card.
- * Pays off the "Transmission Decoded" eyebrow as a classified dossier. */
-/* Gradient border: aurora→cosmos wraps the full card via padding-box/border-box
- * background-clip technique. No separate ::before stripe needed — the border
- * itself is the gradient, and it rounds correctly with the card's border-radius.
- * Wild west swap: change gradient stops to gold/brown tones. */
+/* Subject card */
 .subject-card {
   position: relative;
   border-radius: 14px;
@@ -352,7 +388,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   transition: transform 0.25s ease, box-shadow 0.3s ease;
 }
 
-/* Hover: lift + aurora glow bloom + scan beam (::after) fires simultaneously */
 .subject-card:hover {
   transform: translateY(-3px);
   box-shadow:
@@ -371,9 +406,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   border-bottom: 1px solid var(--border-subtle);
 }
 
-/* Scan beam — aurora-tinted light strip that sweeps top→bottom on hover.
- * Starts hidden above the card; overflow:hidden on .subject-card clips it.
- * Wild west swap: change rgba color to a warm gold/sepia tone. */
 .subject-card::after {
   content: '';
   position: absolute;
@@ -413,7 +445,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   color: var(--aether-400);
 }
 
-/* Body: mugshot column (fixed 110px) | fields column */
 .subject-card-body {
   display: grid;
   grid-template-columns: 180px 1fr;
@@ -421,8 +452,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   border-radius: 0 0 12.5px 12.5px;
 }
 
-/* Corner brackets — TL and BR aurora L-corners, sci-fi reticle feel.
- * Wild west swap: change color to --accent-pulsar or gold. */
 .sc-corners {
   position: absolute;
   inset: 7px;
@@ -448,9 +477,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   border-right: 1.5px solid var(--accent-aurora);
 }
 
-/* Mugshot — dossier photo. Light background so the JPEG's
- * white margin blends in; slight desaturation for classified feel.
- * Wild west theme: swap filter for sepia, overlay for WANTED frame. */
 .subject-mugshot {
   position: relative;
   background: var(--bg-dark);
@@ -459,9 +485,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  /* Hologram fade — image, scanlines, and vignette all dissolve together.
-   * The signal drops out from 60% down, fully gone by the bottom edge.
-   * Wild west swap: keep fade, change gradient stops for a dusty vignette look. */
   -webkit-mask-image: linear-gradient(to bottom, black 0%, black 58%, transparent 96%);
   mask-image: linear-gradient(to bottom, black 0%, black 58%, transparent 96%);
 }
@@ -475,7 +498,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   filter: grayscale(20%) contrast(1.02);
 }
 
-/* CRT vignette — darkens photo edges for authentic screen depth. */
 .subject-mugshot::before {
   content: '';
   position: absolute;
@@ -485,8 +507,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   z-index: 2;
 }
 
-/* CRT scanlines — 1px dark lines on 3px repeat, clearly legible.
- * Wild west swap: sepia-tinted horizontal bars. */
 .subject-mugshot::after {
   content: '';
   position: absolute;
@@ -502,7 +522,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   z-index: 1;
 }
 
-/* CRT glitch on hover — color-channel split + horizontal jitter, two bursts per cycle. */
 .subject-mugshot img {
   animation: crtGlitch 2s steps(1) infinite;
 }
@@ -511,16 +530,12 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   animation: scanlineShift 0.18s linear infinite;
 }
 
-
-/* Right column wrapper — holds name header + the dl */
 .subject-right {
   display: flex;
   flex-direction: column;
-  min-width: 0; /* prevent grid blowout */
+  min-width: 0;
 }
 
-/* Prominent name display — mirrors "DRAX" above the data in the reference.
- * Wild west swap: change text to uppercase, add serif font if desired. */
 .subject-name {
   font-family: var(--display);
   font-size: 0.9rem;
@@ -563,7 +578,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   color: var(--text-muted);
 }
 
-/* Status row — aurora color + pulsing dot matching homepage Available badge */
 .subject-status {
   display: inline-flex;
   align-items: center;
@@ -584,10 +598,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 
 /* =====================================================================
  * § 6  THE LONG VERSION
- *
- *  Career story as a short log: a fixed "when" column on the left,
- *  heading + body on the right. Order carries real information here —
- *  this is an actual timeline, not decorative numbering.
  * ===================================================================== */
 
 .story-list {
@@ -596,7 +606,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   gap: 3.5rem;
   margin-top: 3rem;
   position: relative;
-  padding-left: 2.5rem; /* space for vertical timeline */
+  padding-left: 2.5rem;
 }
 
 .story-entry {
@@ -647,18 +657,11 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 
 .story-entry p + p { margin-top: 1rem; }
 
-/* ── Vertical timeline ────────────────────────────────────────────
- * Gradient line (aurora→cosmos→pulsar) draws in on scroll via .in.
- * Each node glows in its entry's accent colour with staggered pulse.
- * Line centre: x = 8px from story-list left edge.
- * Node centre: calc(-2.5rem + 2px) from story-entry = same 8px.
- * ------------------------------------------------------------------ */
-
-/* Vertical glowing line */
+/* Vertical glowing timeline line */
 .story-list::before {
   content: '';
   position: absolute;
-  left: 7px;              /* 7px + 2px width → centre at 8px          */
+  left: 7px;
   top: 0.4rem;
   bottom: 0.4rem;
   width: 2px;
@@ -673,32 +676,27 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
     0 0 6px  var(--accent-aurora),
     0 0 18px rgba(10,195,154,0.25);
   transform-origin: top center;
-  transform: scaleY(0);
-  transition: transform 1.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+  transform: scaleY(var(--line-progress, 0));
+  transition: none;
   animation: timelineGlow 5s ease-in-out infinite;
 }
 
-.story-list.in::before {
-  transform: scaleY(1);
-}
 
-/* Subtle breathing glow on the line (fires after draw-in settles) */
 @keyframes timelineGlow {
   0%, 100% { opacity: 0.55; }
   50%       { opacity: 0.9; }
 }
 
-/* Node dot shared base */
+/* Node dots */
 .story-entry::before {
   content: '';
   position: absolute;
-  left: calc(-2.5rem + 2px); /* centres 12px dot on the line at x=8px */
+  left: calc(-2.5rem + 2px);
   top: 0.3em;
   width: 12px;
   height: 12px;
   border-radius: 50%;
   border: 2.5px solid var(--bg);
-  /* default: aurora — overridden per-entry below */
   background: var(--accent-aurora);
   box-shadow:
     0 0 0 1.5px var(--accent-aurora),
@@ -707,7 +705,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   animation: pulseAurora 3s ease-in-out infinite;
 }
 
-/* Node 2 — cosmos (ASU) */
 .story-entry:nth-child(2)::before {
   background: var(--accent-cosmos);
   box-shadow:
@@ -717,7 +714,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   animation: pulseCosmos 3s ease-in-out 1s infinite;
 }
 
-/* Node 3 — pulsar (Precision Air) */
 .story-entry:nth-child(3)::before {
   background: var(--accent-pulsar);
   box-shadow:
@@ -728,27 +724,62 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 }
 
 @keyframes pulseAurora {
-  0%, 100% { box-shadow: 0 0 0 1.5px var(--accent-aurora), 0 0 8px var(--accent-aurora), 0 0 20px rgba(10,195,154,0.3); }
-  50%       { box-shadow: 0 0 0 1.5px var(--accent-aurora), 0 0 14px var(--accent-aurora), 0 0 36px rgba(10,195,154,0.55), 0 0 52px rgba(10,195,154,0.15); }
+  0%, 100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 1.5px var(--accent-aurora),
+      0 0 8px var(--accent-aurora),
+      0 0 20px rgba(10,195,154,0.3);
+  }
+  50% {
+    transform: scale(1.4);
+    box-shadow:
+      0 0 0 3px var(--accent-aurora),
+      0 0 20px var(--accent-aurora),
+      0 0 50px rgba(10,195,154,0.8),
+      0 0 90px rgba(10,195,154,0.35);
+  }
 }
 
 @keyframes pulseCosmos {
-  0%, 100% { box-shadow: 0 0 0 1.5px var(--accent-cosmos), 0 0 8px var(--accent-cosmos), 0 0 20px rgba(95,37,159,0.35); }
-  50%       { box-shadow: 0 0 0 1.5px var(--accent-cosmos), 0 0 14px var(--accent-cosmos), 0 0 36px rgba(95,37,159,0.6), 0 0 52px rgba(95,37,159,0.2); }
+  0%, 100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 1.5px var(--accent-cosmos),
+      0 0 8px var(--accent-cosmos),
+      0 0 20px rgba(95,37,159,0.35);
+  }
+  50% {
+    transform: scale(1.4);
+    box-shadow:
+      0 0 0 3px var(--accent-cosmos),
+      0 0 20px var(--accent-cosmos),
+      0 0 50px rgba(95,37,159,0.85),
+      0 0 90px rgba(95,37,159,0.4);
+  }
 }
 
 @keyframes pulsePulsar {
-  0%, 100% { box-shadow: 0 0 0 1.5px var(--accent-pulsar), 0 0 8px var(--accent-pulsar), 0 0 20px rgba(200,24,88,0.3); }
-  50%       { box-shadow: 0 0 0 1.5px var(--accent-pulsar), 0 0 14px var(--accent-pulsar), 0 0 36px rgba(200,24,88,0.55), 0 0 52px rgba(200,24,88,0.15); }
+  0%, 100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 1.5px var(--accent-pulsar),
+      0 0 8px var(--accent-pulsar),
+      0 0 20px rgba(200,24,88,0.3);
+  }
+  50% {
+    transform: scale(1.4);
+    box-shadow:
+      0 0 0 3px var(--accent-pulsar),
+      0 0 20px var(--accent-pulsar),
+      0 0 50px rgba(200,24,88,0.8),
+      0 0 90px rgba(200,24,88,0.35);
+  }
 }
 
 
 /* =====================================================================
  * § 7  OFF THE CLOCK
- *
- *  Matches the .stat card pattern from the main portfolio page:
- *  cosmos gradient, pulsar left bar (::before), aurora corner bracket
- *  (::after), hover lift with intensified pulsar glow.
  * ===================================================================== */
 
 .off-grid {
@@ -775,7 +806,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   will-change: transform;
 }
 
-/* Left pulsar accent bar — matches .stat::before on the homepage */
 .off-card::before {
   content: '';
   position: absolute;
@@ -786,7 +816,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   box-shadow: 2px 0 12px rgba(200,24,88,0.5);
 }
 
-/* Bottom-right corner bracket */
 .off-card::after {
   content: '';
   position: absolute;
@@ -827,9 +856,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 
 /* =====================================================================
  * § 8  TOOLKIT
- *
- *  Three cards across matching the off-card aesthetic.
- *  Tags stack vertically inside each card.
  * ===================================================================== */
 
 .tool-grid {
@@ -840,7 +866,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   align-items: stretch;
 }
 
-/* Card — identical treatment to .off-card */
 .tool-card {
   background:
     linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800)) padding-box,
@@ -897,7 +922,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   margin-bottom: 1rem;
 }
 
-/* Tags in 2-column grid */
 .c-tags {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -928,68 +952,205 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 
 .about-closing {
   text-align: center;
-  padding-top: 4.5rem;
+  padding-top: 3rem;
   padding-bottom: 5rem;
 }
 
-.about-closing p {
-  margin-bottom: 2rem;
-}
-
-.closing-copy {
-  max-width: 680px;
-  margin-inline: auto;
+/* ── Above-card block: kicker + status ── */
+.closing-above {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.6rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.5rem;
 }
 
 .closing-kicker {
   font-family: var(--Orb);
-  font-size: 0.68rem;
+  font-size: 0.85rem;
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--accent-pulsar);
+  display: inline-block;
+  white-space: nowrap;
+  border-right: 2px solid transparent;
 }
 
-.closing-main {
-  font-family: var(--Ox);
-  font-size: clamp(1.2rem, 2vw, 1.55rem);
-  color: var(--text);
+.closing-kicker.cursor-active {
+  border-right-color: var(--accent-pulsar);
+  animation: eofKickerBlink 1s step-end infinite;
 }
 
-.closing-sub {
-  max-width: 580px;
-  font-family: var(--Ox);
-  font-size: clamp(0.95rem, 1.3vw, 1.05rem);
-  line-height: 1.65;
-  color: var(--text-muted);
+@keyframes eofKickerBlink {
+  0%, 100% { border-right-color: var(--accent-pulsar); }
+  50%       { border-right-color: transparent; }
 }
 
-.closing-invite {
-  margin-top: 0.15rem;
-  font-family: var(--Ox);
-  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
-  color: var(--text);
-}
-
-.closing-status {
-  margin-top: 0.55rem;
+.closing-status-line {
   font-family: var(--Orb);
   font-size: 0.62rem;
   line-height: 1.7;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent-pulsar);
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.3em;
 }
 
-.closing-status strong {
+.closing-status-line strong {
   color: var(--accent-pulsar);
   font-weight: 500;
 }
 
+/* Blinking cursor — sits at end of status text */
+.status-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.5em;
+  background: var(--accent-pulsar);
+  margin-left: 1px;
+  vertical-align: middle;
+  opacity: 0;
+}
+
+.status-cursor.active {
+  opacity: 1;
+  animation: eofCursorBlink 1s step-end infinite;
+}
+
+@keyframes eofCursorBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ── Card ── */
+.closing-card {
+  background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  position: relative;
+  box-shadow:
+    0 0 0 1px #98A8D420,
+    0 0 50px #5F259F30,
+    inset 0 1px 0 #5F259F60;
+}
+
+/* Top-left corner bracket */
+.closing-card::before {
+  content: '';
+  position: absolute;
+  top: 16px; left: 16px;
+  width: 14px; height: 14px;
+  border-top: 1.5px solid var(--accent-aurora);
+  border-left: 1.5px solid var(--accent-aurora);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Bottom-right corner bracket */
+.closing-card::after {
+  content: '';
+  position: absolute;
+  bottom: 16px; right: 16px;
+  width: 14px; height: 14px;
+  border-bottom: 1.5px solid var(--accent-aurora);
+  border-right: 1.5px solid var(--accent-aurora);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Card fade-in — triggered by JS after status finishes typing */
+.closing-card-reveal {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.closing-card-reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Invite text ── */
+.closing-invite {
+  font-family: var(--display);
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-100) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── Establish Contact CTA ── */
+.closing-cta {
+  display: flex;
+  justify-content: center;
+}
+
+.c-establish-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 1.25rem 3rem;
+  gap: 1rem;
+  background: linear-gradient(135deg, var(--aurora-400) 0%, var(--cosmos-600) 100%);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: var(--Orb);
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  position: relative;
+  z-index: 1;
+  cursor: none;
+  transition: box-shadow 0.3s ease;
+  box-shadow:
+    0 0 25px #0AC39A50,
+    0 0 60px #0AC39A25;
+}
+
+.c-establish-btn::after {
+  position: absolute;
+  content: "";
+  width: 100%; height: 0;
+  bottom: 0; left: 0;
+  z-index: -1;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--cosmos-600) 0%, var(--aurora-400) 100%);
+  transition: all 0.3s ease;
+}
+
+.c-establish-btn:hover::after { top: 0; height: 100%; }
+
+.c-establish-btn:hover {
+  box-shadow:
+    0 0 35px #0AC39A70,
+    0 0 80px #0AC39A35;
+}
+
+.c-establish-arrow {
+  font-size: 2rem;
+  transition: transform 0.2s ease;
+}
+
+.c-establish-btn:hover .c-establish-arrow { transform: translateX(4px); }
+
+/* ── Ghost links ── */
 .closing-links {
   display: flex;
   justify-content: center;
@@ -997,8 +1158,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   flex-wrap: wrap;
 }
 
-/* Matches .c-secondary-link from style.css — corner bracket animation,
- * aurora underline at rest, text glow on hover. */
 .c-secondary-link {
   position: relative;
   display: inline-block;
@@ -1020,7 +1179,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   text-shadow: 0 0 12px var(--accent-aurora);
 }
 
-/* Corner bracket — right side */
 .c-secondary-link::before,
 .c-secondary-link::after {
   position: absolute;
@@ -1034,7 +1192,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 .c-secondary-link:hover::before { height: 100%; }
 .c-secondary-link:hover::after  { width: 100%; }
 
-/* Corner bracket — left side (via <span> children) */
 .c-secondary-link span::before,
 .c-secondary-link span::after {
   position: absolute;
@@ -1076,14 +1233,7 @@ footer {
   color: #C8185870;
 }
 
-
-
-/* =====================================================================
- * § 10b  BEAM ME UP
- *  Copied verbatim from eDreams-case-study.css — same mechanism,
- *  same skin. Wild west swap: change gradient to gold/brown tones.
- * ===================================================================== */
-
+/* ── Beam Me Up ── */
 #beamUp {
   position: fixed;
   bottom: 2rem;
@@ -1176,19 +1326,7 @@ footer {
   pointer-events: none;
 }
 
-@keyframes arrowBounce {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-3px); }
-}
-
-/* =====================================================================
- * § 10c  TITLE SCAN WIPE
- *
- *  CSS clip-path left-to-right wipe used for the rotating word cycle
- *  after VFX-JS has completed the initial pixel scan entrance.
- *  The three-step timing curve gives a slightly organic feel.
- * ===================================================================== */
-
+/* ── Title scan wipe ── */
 .about-title.scan-wipe {
   animation: scanWipe 0.45s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
@@ -1202,10 +1340,6 @@ footer {
 
 /* =====================================================================
  * § 11  REVEAL & ANIMATIONS
- *
- *  .reveal / .reveal-left / .reveal-right are copied verbatim from
- *  style.css so about.js can drive them with the same IntersectionObserver
- *  pattern used on the homepage (threshold 0.07, .in trigger class).
  * ===================================================================== */
 
 .reveal {
@@ -1238,36 +1372,24 @@ footer {
   to { transform: translate(-50%, -50%) scale(8); opacity: 0; }
 }
 
-/* Scan beam sweeps from above the card to well past the bottom.
- * overflow:hidden on the card clips it invisibly at both ends. */
 @keyframes scanBeam {
   from { top: -80px; }
   to   { top: 110%; }
 }
 
-/* CRT glitch — subtle phosphor flicker + brief aurora-tinted signal interference.
- * Retro/sci-fi feel: small brightness dips, 1px drift, slight teal tint.
- * NOT horror: no white flashes, no extreme contrast, no large displacement. */
 @keyframes crtGlitch {
   0%, 100% { filter: grayscale(20%) contrast(1.02) brightness(1); transform: translateX(0); }
-
-  /* Phosphor flicker — brief brightness dip */
   8%  { filter: grayscale(20%) contrast(1.02) brightness(0.85); }
   9%  { filter: grayscale(20%) contrast(1.02) brightness(1); }
-
-  /* Signal interference — faint aurora/teal tint, 1px drift */
   38% { filter: grayscale(20%) contrast(1.02) brightness(1); transform: translateX(0); }
   39% { filter: grayscale(5%) contrast(1.06) brightness(1.04) hue-rotate(155deg) saturate(0.5); transform: translateX(1px); }
   40% { filter: grayscale(5%) contrast(1.06) brightness(1.04) hue-rotate(155deg) saturate(0.5); transform: translateX(-1px); }
   41% { filter: grayscale(20%) contrast(1.02) brightness(1); transform: translateX(0); }
-
-  /* Second phosphor dip */
   72% { filter: grayscale(20%) contrast(1.02) brightness(1); }
   73% { filter: grayscale(25%) contrast(0.98) brightness(0.9); }
   74% { filter: grayscale(20%) contrast(1.02) brightness(1); }
 }
 
-/* Scanline roll during glitch — lines appear to move */
 @keyframes scanlineShift {
   from { background-position: 0 0; }
   to   { background-position: 0 3px; }
@@ -1276,6 +1398,11 @@ footer {
 @keyframes statusPulse {
   0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--aurora-400); }
   50%       { opacity: 0.4; box-shadow: none; }
+}
+
+@keyframes arrowBounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-3px); }
 }
 
 
@@ -1303,13 +1430,15 @@ footer {
 
   .tool-grid { grid-template-columns: 1fr; }
   .c-tags    { grid-template-columns: 1fr 1fr; }
+
+  .closing-links { gap: 1.5rem 2rem; }
 }
 
 @media (max-width: 480px) {
   .c-tags { grid-template-columns: 1fr; }
   .c-tag  { width: fit-content; }
 
-  .closing-links { gap: 1.5rem 2rem; }
+  .c-establish-btn { padding: 1rem 1.5rem; font-size: 0.9rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1317,8 +1446,11 @@ footer {
     animation: none;
     opacity: 1;
   }
-  .subject-mugshot:hover img,
-  .subject-mugshot:hover::after { animation: none; }
+  .subject-mugshot img,
+  .subject-mugshot::after { animation: none; }
   .subject-card:hover::after { animation: none; }
   #beamUp { display: none; }
+  .closing-kicker       { animation: none !important; }
+  .status-cursor        { display: none !important; }
+  .closing-card-reveal  { opacity: 1 !important; transform: none !important; }
 }
