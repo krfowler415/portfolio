@@ -326,7 +326,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   letter-spacing: -0.025em;
   line-height: 1.15;
   margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-100) 100%);
+  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-200) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -1104,7 +1104,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 .closing-invite {
   font-family: var(--display);
   font-size: clamp(1.2rem, 2vw, 1.55rem);
-  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-100) 100%);
+  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-200) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
