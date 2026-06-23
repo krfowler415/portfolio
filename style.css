@@ -223,9 +223,10 @@ html { scroll-behavior: smooth; }
  *  cursor: none defers to the custom cursor (#cur) on desktop.
  * ──────────────────────────────────────────────────────────────────── */
 body {
-  :
+  background:
     radial-gradient(circle, #98A8D428 1px, transparent 1px) center / 28px 28px,
     var(--bg);
+  background-attachment: fixed;
   color: var(--text);
   font-family: var(--Orb);
   line-height: 1.6;
@@ -389,7 +390,7 @@ footer {
 
 /* ── Section Title ───────────────────────────────────────────────────
  *  Primary heading for Work and About sections (h2).
- *  Gradient fades from near-white (--text) to aurora-100 (mint),
+ *  Gradient fades from near-white (--text) to aurora-200 (teal),
  *  implying the heading is illuminated by the UFO beam above.
  * ──────────────────────────────────────────────────────────────────── */
 .sec-title {
