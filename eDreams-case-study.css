@@ -324,7 +324,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   opacity: 0;
   transform: translateY(110%);
   animation: slideUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-100) 100%);
+  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-200) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
