@@ -83,7 +83,7 @@
   --pulsar-800:  #580428;
   --pulsar-900:  #2C0114;
 
-  /* Cosmos — deep space, structural, backgrounds */
+  /* Cosmos — deep space, structural, s */
   --cosmos-50:   #F0EAF8;
   --cosmos-100:  #D4BAF0;
   --cosmos-200:  #B080E0;
@@ -121,10 +121,10 @@
   --aether-900:  #101430;
 
 
-  /* ── Semantic Background Tokens ─────────────────────────────────── */
+  /* ── Semantic  Tokens ─────────────────────────────────── */
   --bg:          #100820;   /* LOCKED — must match terrain SVG gradient */
   --bg-dark:     #100820;   /* nav glass base */
-  --bg-surface:  #1C1232;   /* card backgrounds */
+  --bg-surface:  #1C1232;   /* card s */
   --bg-raised:   #281842;   /* elevated surfaces */
   --bg-tint:     #5F259F47; /* tag / chip fill */
   --bg-marquee:  #17A487;   /* aurora-600 — marquee strip */
@@ -139,7 +139,7 @@
   --primary:        #0AC39A;
   --primary-hover:  #17A487;
   --primary-lt:     #7FF6E4;   /* light variant for gradients */
-  --primary-subtle: #0C1916;   /* very dark teal background tint */
+  --primary-subtle: #0C1916;   /* very dark teal  tint */
 
   /* ── Named Accent Aliases (semantic, component-facing) ──────────── */
   --accent-pulsar:           #C81858;
@@ -212,18 +212,18 @@ html { scroll-behavior: smooth; }
  * § 2  GLOBAL LAYOUT
  *
  *  Base document layout: body, link reset, section containers,
- *  divider treatment, section atmospheric backgrounds, footer.
+ *  divider treatment, section atmospheric s, footer.
  * ===================================================================== */
 
 
 /* ── Body ─────────────────────────────────────────────────────────────
- *  Dot grid layered over the locked base background (#100820).
+ *  Dot grid layered over the locked base  (#100820).
  *  The radial-gradient circle creates a 1px dot at each 28px tile.
  *  aether-200 at 16% opacity keeps it subtle — felt, not seen.
  *  cursor: none defers to the custom cursor (#cur) on desktop.
  * ──────────────────────────────────────────────────────────────────── */
 body {
-  background:
+  :
     radial-gradient(circle, #98A8D428 1px, transparent 1px) center / 28px 28px,
     var(--bg);
   color: var(--text);
@@ -398,20 +398,7 @@ footer {
   font-weight: 400;
   letter-spacing: -0.025em;
   line-height: 1.1;
-  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-100) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* ── Section Title — Italic Accent ──────────────────────────────────
- *  The <em> inside a section title (e.g. "Greetings, Earthling!").
- *  Cosmos gradient (cosmos-200 → cosmos-300) keeps it in the
- *  structural/world color family while adding italic emphasis.
- * ──────────────────────────────────────────────────────────────────── */
-.sec-title em {
-  font-style: italic;
-  background: linear-gradient(135deg, var(--cosmos-200) 0%, var(--cosmos-300) 100%);
+  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-200) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -819,9 +806,7 @@ nav.scrolled {
 
 /* Pulsing dot — idle "live" indicator AND the hover-fill circle.
  * Idle: small pulsing aurora dot, absolutely positioned at the left.
- * Hover: expands to fill the entire pill — same mechanic as
- * codepen.io/kathykato/pen/rZRaNe, swapped to our aurora dot instead
- * of a grey circle. Text flips dark on top for contrast.
+ * Hover: expands to fill the entire pill. Text flips dark on top for contrast.
  */
 .sdot {
   position: absolute;
