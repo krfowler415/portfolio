@@ -12,7 +12,11 @@
     <script defer src="/_vercel/speed-insights/script.js"></script>
   </head>
 
+  <!-- ── Body ─────────────────────────────────────────────────────── -->
+  
   <body>
+
+  <!-- ── Loading Screen ─────────────────────────────────────────────────────── -->
    
   <div id="intro" aria-hidden="true">
     <div id="intro-glow"></div>
@@ -71,8 +75,12 @@
   </div>
   <div id="intro-flash" aria-hidden="true"></div>
 
-    <a href="#work" class="skip-nav">Skip to main content</a>
+  <!-- ── Skip Nav + Cursor Dot ────────────────────────────────────── -->
+
+    <a href="#main" class="skip-nav">Skip to main content</a>
     <div id="cur"><div class="cur-dot"></div></div>
+
+  <!-- ── Nav ─────────────────────────────────────────────────────── -->
     
     <nav aria-label="Main navigation">
       <a href="#" class="nav-logo">Kevin Fowler</a>
@@ -88,9 +96,18 @@
       </ul>
     </nav>
 
+  <!-- ── Main ─────────────────────────────────────────────────────── -->
+
+    <main id="main">
+
+  <!-- ── Hero ─────────────────────────────────────────────────────── -->
+      
     <section class="hero" id="hero" aria-label="Hero">
       <div class="hero-pin">
         <canvas id="stars"></canvas>
+        <h1 class="visually-hidden">Kevin Fowler — UX Designer</h1>
+
+  <!-- ── Hero Moon ─────────────────────────────────────────────────────── -->
 
         <div class="hero-moon">
           <svg xmlns="http://www.w3.org/2000/svg"
@@ -112,6 +129,8 @@
               <circle cx="525" cy="300" r="80"  fill="url(#moon-glow-m)" opacity="1"/>
           </svg>
         </div>
+
+  <!-- ── Hero UFO ─────────────────────────────────────────────────────── -->
 
         <div class="hero-ufo" id="heroUfo" aria-hidden="true">
           <div class="hero-ufo-inner">
@@ -154,11 +173,15 @@
           </div>
         </div>
 
+  <!-- ── Hero Terrain ─────────────────────────────────────────────────────── -->
+        
         <div class="hero-terrain" id="heroTerrain">
         </div>
 
       </div>
     </section>
+
+  <!-- ── Marquee ─────────────────────────────────────────────────────── -->
 
     <div class="marquee">
       <div class="m-track">
@@ -191,6 +214,8 @@
       </div>
     </div>
 
+  <!-- ── Work ─────────────────────────────────────────────────────── -->
+
     <div class="section" id="work">
       <div class="sec-hd reveal" style="margin-bottom: 0.5rem">
         <h2 class="sec-title">Case Studies</h2>
@@ -212,19 +237,19 @@
             </a>
           </div>
           <div class="card-tilt-wrap cs-card">
-            <a href="https://krfowler415.github.io/fieldandfeast/" target="_blank" class="card-feat project-hover">
+            <a href="https://krfowler415.github.io/fieldandfeast/" target="_blank" rel="noopener noreferrer" class="card-feat project-hover">
               <div class="card-vis" style="background:linear-gradient(135deg,#003438 0%,#38241A 100%);"><span class="card-vis-tag">02</span><span style="font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:2rem;color:rgba(227,212,173,0.6);position:relative;z-index:1;">Field & Feast</span></div>
               <div class="card-body"><h3 class="c-title">Field & Feast</h3><p class="c-desc">Mobile-first farm-to-table restaurant site built with CSS Grid, 4 responsive breakpoints, and a responsive image gallery.</p><div class="c-tags"><span class="c-tag">HTML5</span><span class="c-tag">CSS Grid</span><span class="c-tag">Responsive Design</span><span class="c-tag">Typography</span></div><span class="c-link">View Live Site →</span></div>
             </a>
           </div>
           <div class="card-tilt-wrap cs-card">
-            <a href="https://krfowler415.github.io/vanguard/" target="_blank" class="card-feat project-hover">
+            <a href="https://krfowler415.github.io/vanguard/" target="_blank" rel="noopener noreferrer" class="card-feat project-hover">
               <div class="card-vis" style="background:linear-gradient(135deg,#2A0E50 0%,#003438 100%);"><span class="card-vis-tag">03</span><span style="font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:2rem;color:rgba(176,128,224,0.7);position:relative;z-index:1;">Vanguard</span></div>
               <div class="card-body"><h3 class="c-title">Vanguard</h3><p class="c-desc">Corporate site featuring CSS animations, SVG illustrations, a responsive mobile menu, and polished form styles.</p><div class="c-tags"><span class="c-tag">HTML5</span><span class="c-tag">CSS Animations</span><span class="c-tag">SVG</span><span class="c-tag">JavaScript</span></div><span class="c-link">View Live Site →</span></div>
             </a>
           </div>
           <div class="card-tilt-wrap cs-card">
-            <a href="https://krfowler415.github.io/path-to-success/" target="_blank" class="card-feat project-hover">
+            <<a href="https://krfowler415.github.io/path-to-success/" target="_blank" rel="noopener noreferrer" class="card-feat project-hover">
               <div class="card-vis" style="background:linear-gradient(135deg,#38241A 0%,#280408 100%);"><span class="card-vis-tag">04</span><span style="font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:2rem;color:rgba(216,176,144,0.7);position:relative;z-index:1;">Path to Success</span></div>
               <div class="card-body"><h3 class="c-title">Path to Success</h3><p class="c-desc">Mobile-only coaching site built with complex CSS selectors and a clean information hierarchy.</p><div class="c-tags"><span class="c-tag">HTML5</span><span class="c-tag">CSS Selectors</span><span class="c-tag">Mobile-First</span><span class="c-tag">Information Architecture</span></div><span class="c-link">View Live Site →</span></div>
             </a>
@@ -239,6 +264,8 @@
         <div class="cs-progress-wrap"><div class="cs-progress-bar" id="csProgress"></div></div>
       </div>
     </div>
+
+  <!-- ── About ─────────────────────────────────────────────────────── -->
 
     <div class="section s-border" id="about">
       <div class="about-layout">
@@ -260,6 +287,8 @@
       </div>
     </div>
 
+  <!-- ── Contact ─────────────────────────────────────────────────────── -->
+
     <div class="section s-border" id="contact">
       <div class="c-band reveal">
         <div class="c-header">
@@ -278,12 +307,18 @@
       </div>
     </div>
 
+  <!-- ── End of Main ─────────────────────────────────────────────────────── -->
+      
+    </main>
+
+  <!-- ── Footer ─────────────────────────────────────────────────────── -->
+    
     <footer>
       <span class="foot-l">Kevin Fowler</span>
       <span class="foot-r">© 2026 · Made in AZ · 🌵🌵</span>
     </footer>
 
-    <!-- ── BeamUp Button ─────────────────────────────────────────────────────── -->
+  <!-- ── BeamUp Button ─────────────────────────────────────────────────────── -->
 
     <button id="beamUp" aria-label="Scroll to top">
       <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true" class="beam-arrow">
@@ -294,9 +329,13 @@
     <div id="beam-streak"></div>
     <div id="beam-flash"></div>
 
+  <!-- ── Scripts ─────────────────────────────────────────────────────── -->
+    
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
     <script src="main.js"></script>
+
+  <!-- ── End of Body ─────────────────────────────────────────────────────── -->
     
   </body>
 </html>
