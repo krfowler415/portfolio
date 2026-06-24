@@ -163,7 +163,10 @@ a, button { cursor: none; }
   margin: 0 auto;
   padding: 3rem var(--px) 5rem;
 }
-.section + .section { border-top: 1px solid var(--border); }
+.section + .section,
+.s-border {
+  border-top: 1px solid var(--border);
+}
 
 .sec-title {
   font-family: var(--display);
