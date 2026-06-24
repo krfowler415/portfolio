@@ -179,5 +179,8 @@ if (cur) {
       cur.classList.add('zoom-out');
     });
     lightboxImg.addEventListener('mouseleave', () => cur.classList.remove('zoom-out'));
+    lightbox.addEventListener('mouseover', e => {
+      if (e.target !== lightboxImg) cur.classList.remove('zoom-out');
+    });
   }
 }
