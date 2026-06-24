@@ -242,7 +242,7 @@ a, button { cursor: none; }
 
 #cur {
   position: fixed;
-  z-index: 9999;
+  z-index: 10002;
   pointer-events: none;
   top: 0; left: 0;
   transform: translate(-50%, -50%);
@@ -255,12 +255,63 @@ a, button { cursor: none; }
   border-radius: 50%;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  transition: transform 0.12s ease;
-  box-shadow: 0 0 8px 2px var(--aurora-400),
+  transition: opacity 0.15s ease, transform 0.12s ease, box-shadow 0.15s ease;
+  box-shadow:
+    0 0 8px 2px var(--aurora-400),
     0 0 20px 4px #0AC39A60;
 }
 
 body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
+
+.cur-cross {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 22px; height: 22px;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  pointer-events: none;
+}
+
+.cur-cross::before,
+.cur-cross::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  background: var(--accent-aurora);
+  border-radius: 2px;
+  box-shadow: 0 0 6px var(--aurora-400);
+}
+
+.cur-cross::before {
+  width: 16px; height: 2.5px;
+  transform: translate(-50%, -50%);
+}
+
+.cur-cross::after {
+  width: 2.5px; height: 16px;
+  transform: translate(-50%, -50%);
+}
+
+/* Zoom-in: + */
+#cur.zoom-in .cur-dot   { opacity: 0; box-shadow: none; }
+#cur.zoom-in .cur-cross { opacity: 1; }
+
+/* Zoom-out: × */
+#cur.zoom-out .cur-dot   { opacity: 0; box-shadow: none; }
+#cur.zoom-out .cur-cross {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* Click feedback on cross states */
+body.clicking #cur.zoom-in .cur-cross {
+  transform: translate(-50%, -50%) scale(0.5);
+}
+
+body.clicking #cur.zoom-out .cur-cross {
+  transform: translate(-50%, -50%) rotate(45deg) scale(0.5);
+}
 
 
 /* =====================================================================
@@ -1065,7 +1116,7 @@ footer {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
-  cursor: auto;
+  cursor: none;
 }
 
 #lightbox.active {
@@ -1107,7 +1158,7 @@ footer {
   font-size: 1rem;
   line-height: 1;
   cursor: auto;
-  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  transition: background 0.1s, border-color 0.1s, color 0.1s;
   z-index: 10001;
 }
 
