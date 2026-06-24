@@ -715,7 +715,7 @@ nav {
   padding: 0 var(--px);
   background: transparent;
   border-bottom: 1px solid #FFFFFF0A;
-  transition: background 0.8s ease, backdrop-filter 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease;
+  transition: background 0.8s ease, backdrop-filter 0.8s ease;
 }
 
 /* Glass panel e — activated by JS when window.scrollY > 50 */
