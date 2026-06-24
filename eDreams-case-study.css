@@ -13,7 +13,7 @@
  *  § 7   Body Copy
  *  § 8   Stats
  *  § 9   Findings
- *  § 10  Images & Placeholders
+ *  § 10  Images
  *  § 11  Buttons
  *  § 12  CTA Section
  *  § 13  Footer
@@ -110,7 +110,6 @@
   --Orb:    'Orbitron', sans-serif;
 
   --max:       1100px;
-  --max-wide:  1100px;
   --max-text:   780px;
   --px:        clamp(1.25rem, 5vw, 3rem);
 }
@@ -614,7 +613,7 @@ body {
 
 
 /* =====================================================================
- * § 10  IMAGES & PLACEHOLDERS
+ * § 10  IMAGES
  * ===================================================================== */
 
 .img-full {
@@ -640,47 +639,6 @@ body {
 
 .img-grid-2 { grid-template-columns: 1fr 1fr; }
 .img-grid-3 { grid-template-columns: repeat(3, 1fr); }
-
-.img-placeholder {
-  border-radius: 10px;
-  overflow: hidden;
-  background: var(--bg-surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 0.75rem;
-  position: relative;
-}
-
-.img-placeholder::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 40% 50%, #5F259F20 0%, transparent 65%);
-}
-
-.img-ph-label {
-  font-family: var(--Ox);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(200, 208, 236, 0.30);
-  text-align: center;
-  padding: 0 1rem;
-  position: relative; z-index: 1;
-}
-
-.img-ph-icon {
-  font-size: 1.5rem;
-  opacity: 0.2;
-  position: relative; z-index: 1;
-}
-
-.ar-16-9 { aspect-ratio: 16/9; }
-.ar-4-3  { aspect-ratio: 4/3;  }
-.ar-3-2  { aspect-ratio: 3/2;  }
-.ar-1-1  { aspect-ratio: 1/1;  }
 
 .img-caption {
   font-family: var(--Ox);
@@ -1122,7 +1080,7 @@ footer {
   height: auto;
   border-radius: 8px;
   display: block;
-  cursor: auto;
+  cursor: zoom-out;
   box-shadow: 0 0 0 1px rgba(10, 195, 154, 0.15),
     0 40px 80px rgba(0, 0, 0, 0.8);
   transform: scale(0.96);
