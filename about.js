@@ -52,7 +52,7 @@ const revealObs = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.07 });
 
-document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .timeline-reveal')
+document.querySelectorAll('.reveal')
   .forEach(el => revealObs.observe(el));
 
   // ── Timeline scroll draw ─────────────────────────────────────────────
