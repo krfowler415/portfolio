@@ -1131,7 +1131,7 @@ footer {
   height: auto;
   border-radius: 8px;
   display: block;
-  cursor: zoom-out;
+  cursor: none;
   box-shadow: 0 0 0 1px rgba(10, 195, 154, 0.15),
     0 40px 80px rgba(0, 0, 0, 0.8);
   transform: scale(0.96);
