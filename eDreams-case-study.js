@@ -3,9 +3,16 @@
 
 // ── Nav scroll state ─────────────────────────────────────────────────
 const nav = document.querySelector('nav');
+const scrollProgress = document.getElementById('scroll-progress');
 if (nav) {
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 50);
+
+    if (scrollProgress) {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0;
+      scrollProgress.style.width = `${progress}%`;
+    }
   }, { passive: true });
 }
 
