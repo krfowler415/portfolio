@@ -440,9 +440,12 @@ function initNav() {
   const nav = document.querySelector('nav');
 
   ScrollTrigger.create({
-    start: 'top -50',
+    trigger: '#hero',
+    start: 'top top',
+    end: 'bottom bottom',
+    scrub: true,
     onUpdate: self => {
-      nav.classList.toggle('scrolled', self.scroll() > 50);
+      nav.classList.toggle('scrolled', self.progress >= 0.50);
     }
   });
 }
