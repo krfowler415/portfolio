@@ -168,19 +168,19 @@ if (lightbox && lightboxImg && lightboxClose) {
 
 // ── Cursor zoom states ────────────────────────────────────────────────
 if (cur) {
-  document.querySelectorAll('img:not(.hero-plane):not(#lightbox-img)').forEach(img => {
+  const zoomTargets = document.querySelectorAll('img:not(.hero-plane):not(#lightbox-img)');
+
+  zoomTargets.forEach(img => {
     img.addEventListener('mouseenter', () => cur.classList.add('zoom-in'));
     img.addEventListener('mouseleave', () => cur.classList.remove('zoom-in'));
   });
 
-  if (lightboxImg) {
-    lightboxImg.addEventListener('mouseenter', () => {
-      cur.classList.remove('zoom-in');
+  document.addEventListener('mousemove', e => {
+    if (!lightbox || !lightbox.classList.contains('active')) return;
+    if (e.target === lightboxImg) {
       cur.classList.add('zoom-out');
-    });
-    lightboxImg.addEventListener('mouseleave', () => cur.classList.remove('zoom-out'));
-    lightbox.addEventListener('mouseover', e => {
-      if (e.target !== lightboxImg) cur.classList.remove('zoom-out');
-    });
-  }
+    } else {
+      cur.classList.remove('zoom-out');
+    }
+  });
 }
