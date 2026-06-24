@@ -735,7 +735,7 @@ nav.scrolled {
   color: var(--text);
   text-shadow: 0 0 25px #F4F2FF35;
 }
-.nav-logo:hover { opacity: 0.8; color: var(--aurora-400); }
+.nav-logo:hover { opacity: 0.8; color: var(--aurora-200); }
 
 /* Horizontal list of WORK / ABOUT / CONTACT links */
 .nav-links {
