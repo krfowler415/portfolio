@@ -689,7 +689,7 @@ footer {
 body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 
 /* Suppress the OS cursor on all interactive and hoverable elements */
-a, button, .project-hover, .a-card, .card-feat, .nav-links a { cursor: none; }
+a, button, .project-hover, .card-feat, .nav-links a { cursor: none; }
 
 
 /* ─────────────────────────────────────────────────────────────────────
@@ -1745,11 +1745,6 @@ a.card-feat,
     linear-gradient(to bottom, #010308 0%, #03050F 15%, #060818 35%, #0A0720 55%, #100826 75%, #100820 100%);
 }
 
-/* Remove hero scanlines */
-.hero-pin::before {
-  display: none;
-}
-
 /* Bottom fade — sits above terrain */
 .hero-pin::after {
   content: '';
@@ -1891,11 +1886,6 @@ a.card-feat,
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Slide up — general utility for entrance animations */
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(110%); }
-  to   { opacity: 1; transform: translateY(0); }
-}
 
 /* Marquee horizontal scroll — track moves exactly 50% for seamless loop */
 @keyframes marquee {
