@@ -145,11 +145,12 @@ if (lightbox && lightboxImg && lightboxClose) {
     lightbox.classList.remove('active');
     lightbox.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    if (cur) cur.classList.remove('zoom-in', 'zoom-out');
   }
 
   // Attach click to every content image (skip hero plane and the lightbox img itself)
   document.querySelectorAll('img:not(.hero-plane):not(#lightbox-img)').forEach(img => {
-    img.style.cursor = 'zoom-in';
+    img.style.cursor = 'none';
     img.addEventListener('click', () => openLightbox(img.src, img.alt));
   });
 
@@ -163,4 +164,20 @@ if (lightbox && lightboxImg && lightboxClose) {
     if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
   });
 
+}
+
+// ── Cursor zoom states ────────────────────────────────────────────────
+if (cur) {
+  document.querySelectorAll('img:not(.hero-plane):not(#lightbox-img)').forEach(img => {
+    img.addEventListener('mouseenter', () => cur.classList.add('zoom-in'));
+    img.addEventListener('mouseleave', () => cur.classList.remove('zoom-in'));
+  });
+
+  if (lightboxImg) {
+    lightboxImg.addEventListener('mouseenter', () => {
+      cur.classList.remove('zoom-in');
+      cur.classList.add('zoom-out');
+    });
+    lightboxImg.addEventListener('mouseleave', () => cur.classList.remove('zoom-out'));
+  }
 }
