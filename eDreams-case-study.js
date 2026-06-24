@@ -158,6 +158,7 @@ if (lightbox && lightboxImg && lightboxClose) {
   lightbox.addEventListener('click', e => {
     if (e.target === lightbox) closeLightbox();
   });
+  lightboxImg.addEventListener('click', closeLightbox);
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
   });
