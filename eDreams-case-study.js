@@ -16,6 +16,7 @@ if (nav) {
   }, { passive: true });
 }
 
+
 // ── Cursor ───────────────────────────────────────────────────────────
 const cur = document.getElementById('cur');
 if (cur) {
@@ -26,6 +27,7 @@ if (cur) {
   document.addEventListener('mousedown', () => document.body.classList.add('clicking'));
   document.addEventListener('mouseup',   () => document.body.classList.remove('clicking'));
 }
+
 
 // ── Click ripple ─────────────────────────────────────────────────────
 // @keyframes rippleOut lives in eDreams-case-study.css
@@ -48,6 +50,7 @@ document.addEventListener('click', e => {
   setTimeout(() => r.remove(), 600);
 });
 
+
 // ── Scroll reveal ────────────────────────────────────────────────────
 const revealObs = new IntersectionObserver(entries => {
   entries.forEach((entry, i) => {
@@ -58,6 +61,7 @@ const revealObs = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.07 });
 document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
 
 // ── Beam Me Up ───────────────────────────────────────────────────────
 const beamUp     = document.getElementById('beamUp');
@@ -125,10 +129,12 @@ if (beamUp) {
   });
 }
 
+
 // ── Lightbox ─────────────────────────────────────────────────────────
 const lightbox      = document.getElementById('lightbox');
 const lightboxImg   = document.getElementById('lightbox-img');
 const lightboxClose = document.getElementById('lightbox-close');
+
 
 // Guard: only wire up if all three elements exist in the HTML
 if (lightbox && lightboxImg && lightboxClose) {
@@ -145,8 +151,9 @@ if (lightbox && lightboxImg && lightboxClose) {
     lightbox.classList.remove('active');
     lightbox.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
-    if (cur) cur.classList.remove('zoom-in', 'zoom-out');
+    if (cur) { cur.classList.remove('zoom-in', 'zoom-out'); }
   }
+
 
   // Attach click to every content image (skip hero plane and the lightbox img itself)
   document.querySelectorAll('img:not(.hero-plane):not(#lightbox-img)').forEach(img => {
@@ -154,7 +161,8 @@ if (lightbox && lightboxImg && lightboxClose) {
     img.addEventListener('click', () => openLightbox(img.src, img.alt));
   });
 
-  // Close handlers
+
+// Close handlers
   lightboxClose.addEventListener('click', closeLightbox);
   lightbox.addEventListener('click', e => {
     if (e.target === lightbox) closeLightbox();
@@ -164,23 +172,20 @@ if (lightbox && lightboxImg && lightboxClose) {
     if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
   });
 
-}
 
-// ── Cursor zoom states ────────────────────────────────────────────────
+  // ── Cursor zoom states ────────────────────────────────────────────────
 if (cur) {
-  const zoomTargets = document.querySelectorAll('img:not(.hero-plane):not(#lightbox-img)');
-
-  zoomTargets.forEach(img => {
+  document.querySelectorAll('img:not(.hero-plane):not(#lightbox-img)').forEach(img => {
     img.addEventListener('mouseenter', () => cur.classList.add('zoom-in'));
     img.addEventListener('mouseleave', () => cur.classList.remove('zoom-in'));
   });
 
-  document.addEventListener('mousemove', e => {
-    if (!lightbox || !lightbox.classList.contains('active')) return;
-    if (e.target === lightboxImg) {
+  if (lightboxImg) {
+    lightboxImg.addEventListener('mouseenter', () => {
+      cur.classList.remove('zoom-in');
       cur.classList.add('zoom-out');
-    } else {
-      cur.classList.remove('zoom-out');
-    }
-  });
+    });
+    lightboxImg.addEventListener('mouseleave', () => cur.classList.remove('zoom-out'));
+  }
+}
 }
