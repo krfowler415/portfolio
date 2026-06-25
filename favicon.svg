@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Beam -->
+  <polygon points="16,20 11,30 21,30" fill="#0AC39A" opacity="0.5"/>
+  <!-- Saucer body -->
+  <ellipse cx="16" cy="18" rx="12" ry="4" fill="#5F259F"/>
+  <!-- Dome -->
+  <ellipse cx="16" cy="16" rx="6" ry="4" fill="#7FF6E4" opacity="0.9"/>
+  <!-- Lights -->
+  <circle cx="9" cy="18" r="1.2" fill="#0AC39A"/>
+  <circle cx="16" cy="20" r="1.2" fill="#C81858"/>
+  <circle cx="23" cy="18" r="1.2" fill="#0AC39A"/>
+</svg>
