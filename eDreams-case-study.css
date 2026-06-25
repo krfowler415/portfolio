@@ -374,7 +374,7 @@ body.clicking #cur.zoom-out .cur-cross {
   opacity: 0;
   transform: translateY(110%);
   animation: slideUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-200) 100%);
+  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-100) 20%, var(--aurora-200) 40%, var(--aurora-400) 80%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -847,7 +847,7 @@ body {
   font-weight: 600;
   letter-spacing: -0.025em;
   line-height: 1.2;
-  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-200) 100%);
+  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-100) 20%, var(--aurora-200) 40%, var(--aurora-400) 80%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
