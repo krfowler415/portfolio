@@ -450,6 +450,56 @@ function initNav() {
   });
 }
 
+/* =====================================================================
+ * § 7A  THEME TOGGLE
+ * ===================================================================== */
+
+function initThemeToggle() {
+  const themeToggle = document.getElementById('theme-toggle');
+  const themeIcon = themeToggle?.querySelector('.theme-toggle__icon');
+
+  if (!themeToggle || !themeIcon) return;
+
+  const systemTheme = window.matchMedia('(prefers-color-scheme: light)');
+
+  function getSystemTheme() {
+    return systemTheme.matches ? 'light' : 'dark';
+  }
+
+  function getCurrentTheme() {
+    return document.documentElement.getAttribute('data-theme') || getSystemTheme();
+  }
+
+  function applyTheme(theme, shouldSave = true) {
+    document.documentElement.setAttribute('data-theme', theme);
+
+    if (shouldSave) {
+      localStorage.setItem('kf-theme', theme);
+    }
+
+    const isLight = theme === 'light';
+
+    themeToggle.setAttribute('aria-pressed', String(isLight));
+    themeIcon.textContent = isLight ? '☀' : '☾';
+  }
+
+  applyTheme(getCurrentTheme(), false);
+
+  themeToggle.addEventListener('click', () => {
+    const currentTheme = getCurrentTheme();
+    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+    applyTheme(nextTheme);
+  });
+
+  systemTheme.addEventListener('change', event => {
+    const savedTheme = localStorage.getItem('kf-theme');
+
+    if (!savedTheme) {
+      applyTheme(event.matches ? 'light' : 'dark', false);
+    }
+  });
+}
 
 // ── Hamburger nav toggle ─────────────────────────────────────────────
 const navToggle = document.getElementById('nav-toggle');
@@ -780,6 +830,7 @@ function initBeamUp() {
 
 gsap.registerPlugin(ScrollTrigger);
 setViewportHeight();
+initThemeToggle();
 initIntro();
 initStars();
 fetchTerrain();
