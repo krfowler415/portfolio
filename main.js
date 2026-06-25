@@ -456,9 +456,8 @@ function initNav() {
 
 function initThemeToggle() {
   const themeToggle = document.getElementById('theme-toggle');
-  const themeIcon = themeToggle?.querySelector('.theme-toggle__icon');
 
-  if (!themeToggle || !themeIcon) return;
+  if (!themeToggle) return;
 
   const systemTheme = window.matchMedia('(prefers-color-scheme: light)');
 
@@ -480,7 +479,10 @@ function initThemeToggle() {
     const isLight = theme === 'light';
 
     themeToggle.setAttribute('aria-pressed', String(isLight));
-    themeIcon.textContent = isLight ? '☀' : '☾';
+    themeToggle.setAttribute(
+      'aria-label',
+      isLight ? 'Switch to dark theme' : 'Switch to light theme'
+    );
   }
 
   applyTheme(getCurrentTheme(), false);
@@ -500,6 +502,7 @@ function initThemeToggle() {
     }
   });
 }
+
 
 // ── Hamburger nav toggle ─────────────────────────────────────────────
 const navToggle = document.getElementById('nav-toggle');
