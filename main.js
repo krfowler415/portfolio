@@ -451,6 +451,33 @@ function initNav() {
 }
 
 
+// ── Hamburger nav toggle ─────────────────────────────────────────────
+const navToggle = document.getElementById('nav-toggle');
+const navEl     = document.querySelector('nav');
+
+if (navToggle && navEl) {
+  navToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = navEl.classList.toggle('nav-open');
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      navEl.classList.remove('nav-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!navEl.contains(e.target)) {
+      navEl.classList.remove('nav-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+
+
 /* =====================================================================
  * § 8  CUSTOM CURSOR
  * ===================================================================== */
