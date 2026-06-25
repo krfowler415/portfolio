@@ -807,6 +807,37 @@ nav.scrolled {
 .nav-links a:hover span::before { height: 100%; }
 .nav-links a:hover span::after  { width:  100%; }
 
+/* ── Hamburger Toggle ──────────────────────────────────────────────── */
+#nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  padding: 6px;
+  flex-shrink: 0;
+  z-index: 101;
+}
+
+#nav-toggle span {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: var(--aether-100);
+  border-radius: 2px;
+  transform-origin: center;
+  transition: transform 0.3s ease, opacity 0.3s ease, background 0.2s ease;
+}
+
+#nav-toggle:hover span { background: var(--aurora-200); }
+
+nav.nav-open #nav-toggle span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+nav.nav-open #nav-toggle span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+nav.nav-open #nav-toggle span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
 
 /* ─────────────────────────────────────────────────────────────────────
  * 4d  US BADGE
@@ -2114,7 +2145,7 @@ a.card-feat,
 
 
 /* ── Mobile (≤ 600px) ─────────────────────────────────────────────────
- *  Nav links hidden (no mobile menu yet — planned).
+ *  Nav links hidden behind hamburger toggle.
  *  Footer stacks vertically.
  *  OS cursor restored (custom cursor hidden via #cur display: none).
  *  Hero shortens — 300 is too long on mobile; 140 is sufficient
@@ -2124,7 +2155,42 @@ a.card-feat,
  *  Stat grid always 2-column (cards are narrow enough).
  * ──────────────────────────────────────────────────────────────────── */
 @media (max-width: 600px) {
-  .nav-links { display: none; }
+  #nav-toggle { display: flex; }
+
+  .nav-links {
+    position: fixed;
+    top: 54px;
+    left: 0; right: 0;
+    background: var(--bg-dark);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid #0AC39A25;
+    box-shadow: 0 8px 24px #00000040;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: 0.75rem 0;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 99;
+  }
+
+  nav.nav-open .nav-links {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .nav-links li { width: 100%; text-align: center; }
+
+  .nav-links a {
+    display: block;
+    padding: 0.85rem var(--px);
+    font-size: 0.82rem;
+  }
+
   footer     { flex-direction: column; gap: 0.4rem; }
   body       { cursor: auto; }
   #cur       { display: none; }
