@@ -2348,7 +2348,9 @@ a.card-feat,
 /* ── Theme Toggle: Moon / Sun Switch ───────────────────────────────── */
 
 .theme-toggle {
-  position: relative;
+  position: fixed;
+  left: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
   width: 4.25rem;
   height: 2.25rem;
   display: inline-grid;
@@ -2357,7 +2359,7 @@ a.card-feat,
   border: 0;
   background: transparent;
   cursor: none;
-  z-index: 101;
+  z-index: 9996;
   flex-shrink: 0;
 }
 
