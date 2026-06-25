@@ -2205,70 +2205,39 @@ a.card-feat,
 
 
 
-/* ── Theme Toggle Test ─────────────────────────────────────────────── */
-
-.theme-toggle {
-  width: 2.4rem;
-  height: 2.4rem;
-  display: inline-grid;
-  place-items: center;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.06);
-  color: inherit;
-  cursor: pointer;
-  font: inherit;
-  line-height: 1;
-  transition:
-    background 220ms ease,
-    border-color 220ms ease,
-    transform 220ms ease;
-}
-
-.theme-toggle:hover {
-  transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.11);
-  border-color: rgba(255, 255, 255, 0.28);
-}
-
-.theme-toggle__icon {
-  display: block;
-  line-height: 1;
-}
-
-
 /* =====================================================================
- * THEME TOGGLE TEST LAYER
- * Added for theme-toggle-test branch
+ * LIGHT THEME — PHASE 1
+ * Scope: global tokens, nav, marquee, theme toggle, Beam Me Up.
+ * Do not style cards/about/contact/terrain here yet.
  * ===================================================================== */
 
 
-/* ── Light Theme Variables ─────────────────────────────────────────── */
+/* ── Light Theme Tokens ────────────────────────────────────────────── */
 
 :root[data-theme="light"] {
-  /* Wild West / Desert Base */
-  --bg: #f5d89c;
-  --bg-dark: #f5d89c;
-  --bg-surface: #fff1c9;
-  --bg-raised: #ffe5ad;
-  --bg-tint: rgba(216, 92, 31, 0.13);
+  /* Desert / Wild West base */
+  --bg: #f3d39a;
+  --bg-dark: #f3d39a;
+  --bg-surface: #fff0c7;
+  --bg-raised: #ffe3aa;
+  --bg-tint: rgba(146, 83, 38, 0.14);
   --bg-marquee: #087b7a;
 
   /* Text */
-  --text: #2d1609;
-  --text-muted: #6f4324;
+  --text: #2a160b;
+  --text-muted: #704424;
   --text-light: #087b7a;
   --text-inv: #fff7df;
 
-  /* Main Actions */
+  /* Main actions */
   --primary: #d85c1f;
-  --primary-hover: #b94816;
+  --primary-hover: #b94715;
   --primary-lt: #ffd36b;
-  --primary-subtle: #fff1c9;
+  --primary-subtle: #fff0c7;
 
-  /* Accent Aliases */
+  /* Accent aliases */
   --accent-pulsar: #d85c1f;
-  --accent-pulsar-subtle: #f7c18b;
+  --accent-pulsar-subtle: #f4c194;
   --accent-cosmos: #8b4a22;
   --accent-cosmos-subtle: #f0c786;
   --accent-aurora: #087b7a;
@@ -2278,37 +2247,40 @@ a.card-feat,
   --accent-turquoise: #087b7a;
   --accent-turquoise-subtle: #cce8df;
 
-  /* Neutrals / Borders */
+  /* Neutrals / borders */
   --aether: #8b5a36;
-  --aether-100: #6f4324;
+  --aether-100: #704424;
   --aether-200: #96683d;
   --border: rgba(112, 67, 35, 0.28);
   --border-subtle: rgba(112, 67, 35, 0.16);
 
-  /* Glow Tokens */
+  /* Glow tokens */
   --aurora-glass: rgba(8, 123, 122, 0.12);
   --aurora-glow: rgba(8, 123, 122, 0.22);
   --aurora-inset: rgba(8, 123, 122, 0.08);
 }
 
 
-/* ── Light Theme Base Overrides ────────────────────────────────────── */
+/* ── Light Theme Base ─────────────────────────────────────────────── */
 
 :root[data-theme="light"] body {
   background:
     radial-gradient(circle at 18% 12%, rgba(255, 195, 80, 0.42), transparent 28%),
     radial-gradient(circle at 78% 18%, rgba(8, 123, 122, 0.16), transparent 24%),
     radial-gradient(circle, rgba(112, 67, 35, 0.18) 1px, transparent 1px) center / 28px 28px,
-    linear-gradient(180deg, #f5d89c 0%, #f8e8c2 42%, #e9b875 100%);
+    linear-gradient(180deg, #f3d39a 0%, #f8e6bd 42%, #e5b06d 100%);
   color: var(--text);
 }
+
+
+/* ── Light Theme Nav ──────────────────────────────────────────────── */
 
 :root[data-theme="light"] nav {
   border-bottom-color: rgba(112, 67, 35, 0.16);
 }
 
 :root[data-theme="light"] nav.scrolled {
-  background: rgba(245, 216, 156, 0.86);
+  background: rgba(243, 211, 154, 0.88);
   border-bottom-color: rgba(112, 67, 35, 0.28);
   box-shadow: 0 1px 20px rgba(98, 56, 21, 0.12);
 }
@@ -2330,6 +2302,13 @@ a.card-feat,
   color: var(--text);
 }
 
+:root[data-theme="light"] .nav-links a::before,
+:root[data-theme="light"] .nav-links a::after,
+:root[data-theme="light"] .nav-links a span::before,
+:root[data-theme="light"] .nav-links a span::after {
+  background: var(--text);
+}
+
 :root[data-theme="light"] .hero-us {
   color: var(--accent-aurora);
   background: radial-gradient(
@@ -2345,7 +2324,25 @@ a.card-feat,
 }
 
 
-/* ── Theme Toggle: Moon / Sun Switch ───────────────────────────────── */
+/* ── Light Theme Marquee ──────────────────────────────────────────── */
+
+:root[data-theme="light"] .marquee {
+  background: linear-gradient(90deg, #087b7a 0%, #0f8e83 45%, #d85c1f 100%);
+}
+
+:root[data-theme="light"] .m-item {
+  color: #fff7df;
+}
+
+:root[data-theme="light"] .m-sep {
+  background: #ffd36b;
+  opacity: 0.9;
+}
+
+
+/* =====================================================================
+ * THEME TOGGLE — FIXED BOTTOM LEFT
+ * ===================================================================== */
 
 .theme-toggle {
   position: fixed;
@@ -2444,7 +2441,7 @@ a.card-feat,
 }
 
 
-/* ── Light Theme Toggle State ─────────────────────────────────────── */
+/* ── Light Toggle State ───────────────────────────────────────────── */
 
 :root[data-theme="light"] .theme-toggle__track {
   border-color: rgba(112, 67, 35, 0.3);
@@ -2480,6 +2477,32 @@ a.card-feat,
   box-shadow:
     0 12px 30px rgba(98, 56, 21, 0.24),
     inset 0 0 0 1px rgba(255, 255, 255, 0.32);
+}
+
+
+/* ── Light Theme Beam Me Up Placeholder ─────────────────────────────
+ * This changes only the button skin for now.
+ * Text/content can be renamed later.
+ * ------------------------------------------------------------------- */
+
+:root[data-theme="light"] #beamUp {
+  background: linear-gradient(135deg, #d85c1f 0%, #087b7a 100%);
+  color: #fff7df;
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,0.45),
+    inset 0 -3px 5px rgba(74, 32, 9, 0.26),
+    0 4px 14px rgba(98, 56, 21, 0.28),
+    0 0 20px rgba(216, 92, 31, 0.22),
+    0 0 50px rgba(8, 123, 122, 0.18);
+}
+
+:root[data-theme="light"] #beam-streak {
+  background: linear-gradient(to top, #d85c1f 0%, rgba(216, 92, 31, 0.5) 50%, transparent 100%);
+  box-shadow: 0 0 8px #d85c1f, 0 0 20px rgba(216, 92, 31, 0.45);
+}
+
+:root[data-theme="light"] #beam-flash {
+  background: #ffd36b;
 }
 
 
