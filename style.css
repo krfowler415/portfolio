@@ -2109,6 +2109,7 @@ a.card-feat,
   .card-vis     { min-height: 260px; }
   .about-layout { grid-template-columns: 1fr; gap: 2.5rem; }
   .c-band       { flex-direction: column; align-items: flex-start; padding: 2.5rem; }
+  .c-cta-btn    { align-self: center; }
 }
 
 
