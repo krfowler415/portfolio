@@ -390,7 +390,7 @@ footer {
 
 /* ── Section Title ───────────────────────────────────────────────────
  *  Primary heading for Work and About sections (h2).
- *  Gradient fades from near-white (--text) to aurora-200 (teal),
+ *  Gradient fades from near-white (--text) to aurora-400 (teal),
  *  implying the heading is illuminated by the UFO beam above.
  * ──────────────────────────────────────────────────────────────────── */
 .sec-title {
@@ -399,7 +399,7 @@ footer {
   font-weight: 400;
   letter-spacing: -0.025em;
   line-height: 1.1;
-  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-100) 20%, var(--aurora-200) 40%, var(--aurora-400) 80%);
+  background: linear-gradient(135deg, var(--text) 0%,  var(--aurora-100) 15%, var(--aurora-200) 30%, var(--aurora-400) 60%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -416,7 +416,7 @@ footer {
   font-weight: 400;
   line-height: 1.2;
   letter-spacing: -0.02em;
-  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-100) 20%, var(--aurora-200) 40%, var(--aurora-400) 80%);
+  background: linear-gradient(135deg, var(--text) 0%,  var(--aurora-100) 15%, var(--aurora-200) 30%, var(--aurora-400) 60%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -425,7 +425,7 @@ footer {
 
 /* ── Contact Headline ────────────────────────────────────────────────
  *  "Awaiting Your Signal" — the primary heading inside .c-band.
- *  Gradient from --text to aurora-200; heavier weight than .sec-title.
+ *  Gradient from --text to aurora-400; heavier weight than .sec-title.
  * ──────────────────────────────────────────────────────────────────── */
 .c-headline {
   font-family: var(--display);
@@ -433,7 +433,7 @@ footer {
   font-weight: 600;
   letter-spacing: -0.025em;
   line-height: 1.2;
-  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-100) 20%, var(--aurora-200) 40%, var(--aurora-400) 80%);
+  background: linear-gradient(135deg, var(--text) 0%,  var(--aurora-100) 15%, var(--aurora-200) 30%, var(--aurora-400) 60%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
