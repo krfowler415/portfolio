@@ -1107,7 +1107,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 .closing-invite {
   font-family: var(--display);
   font-size: clamp(1.2rem, 2vw, 1.55rem);
-  background: linear-gradient(135deg, var(--text) 0%,  var(--aurora-100) 15%, var(--aurora-200) 30%, var(--aurora-400) 60%);
+  background: linear-gradient(135deg, var(--text) 0%, var(--aurora-100) 30%, var(--aurora-200) 60%, var(--aurora-400) 90%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
