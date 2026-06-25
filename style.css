@@ -1655,6 +1655,8 @@ a.card-feat,
   display: flex;
   gap: 1.5rem;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 /* Secondary links — aurora-200 color signals these are live endpoints.
