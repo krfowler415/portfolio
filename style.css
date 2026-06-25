@@ -2134,6 +2134,7 @@ a.card-feat,
  *  Card grid collapses to single column.
  *  About layout stacks vertically.
  *  Contact band left-aligns.
+ *  Nav links hidden behind hamburger toggle.
  * ──────────────────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
   .card-feat    { grid-template-columns: 1fr; }
@@ -2141,20 +2142,7 @@ a.card-feat,
   .about-layout { grid-template-columns: 1fr; gap: 2.5rem; }
   .c-band       { flex-direction: column; align-items: flex-start; padding: 2.5rem; }
   .c-cta-btn    { align-self: center; }
-}
 
-
-/* ── Mobile (≤ 600px) ─────────────────────────────────────────────────
- *  Nav links hidden behind hamburger toggle.
- *  Footer stacks vertically.
- *  OS cursor restored (custom cursor hidden via #cur display: none).
- *  Hero shortens — 300 is too long on mobile; 140 is sufficient
- *  (both via the --vh custom property).
- *  UFO shrinks proportionally.
- *  CTA button reduces padding.
- *  Stat grid always 2-column (cards are narrow enough).
- * ──────────────────────────────────────────────────────────────────── */
-@media (max-width: 600px) {
   #nav-toggle { display: flex; }
 
   .nav-links {
@@ -2190,7 +2178,18 @@ a.card-feat,
     padding: 0.85rem var(--px);
     font-size: 0.82rem;
   }
+}
 
+/* ── Mobile (≤ 600px) ─────────────────────────────────────────────────
+ *  Footer stacks vertically.
+ *  OS cursor restored (custom cursor hidden via #cur display: none).
+ *  Hero shortens — 300 is too long on mobile; 140 is sufficient
+ *  (both via the --vh custom property).
+ *  UFO shrinks proportionally.
+ *  CTA button reduces padding.
+ *  Stat grid always 2-column (cards are narrow enough).
+ * ──────────────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
   footer     { flex-direction: column; gap: 0.4rem; }
   body       { cursor: auto; }
   #cur       { display: none; }
