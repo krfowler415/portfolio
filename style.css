@@ -2201,3 +2201,70 @@ a.card-feat,
   .c-cta-btn { padding: 1rem 1.25rem; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
 }
+
+
+
+
+/* ── Theme Toggle Test ─────────────────────────────────────────────── */
+
+.theme-toggle {
+  width: 2.4rem;
+  height: 2.4rem;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+  transition:
+    background 220ms ease,
+    border-color 220ms ease,
+    transform 220ms ease;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.11);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.theme-toggle__icon {
+  display: block;
+  line-height: 1;
+}
+
+
+/* ── Light Theme Test Layer ───────────────────────────────────────── */
+
+:root[data-theme="light"] {
+  --light-bg: #f5d89c;
+  --light-bg-soft: #f8e8c2;
+  --light-text: #2d1609;
+  --light-muted: #6f4324;
+  --light-card: rgba(255, 244, 216, 0.76);
+  --light-border: rgba(112, 67, 35, 0.26);
+  --light-accent: #d85c1f;
+  --light-turquoise: #087b7a;
+}
+
+:root[data-theme="light"] body {
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255, 195, 80, 0.42), transparent 28%),
+    radial-gradient(circle at 78% 18%, rgba(8, 123, 122, 0.16), transparent 24%),
+    linear-gradient(180deg, #f5d89c 0%, #f8e8c2 42%, #e9b875 100%);
+  color: var(--light-text);
+}
+
+:root[data-theme="light"] nav {
+  background: rgba(245, 216, 156, 0.72);
+  border-bottom-color: var(--light-border);
+}
+
+:root[data-theme="light"] .theme-toggle {
+  background: rgba(255, 244, 216, 0.72);
+  border-color: var(--light-border);
+  color: var(--light-text);
+}
