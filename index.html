@@ -154,56 +154,14 @@
 
   <!-- ── Hero Moon ─────────────────────────────────────────────────────── -->
 
-        <div class="hero-moon">
-          <svg xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 90 666.667 300"
-              preserveAspectRatio="xMidYMax slice"
-              aria-hidden="true">
-            <defs>
-              <radialGradient id="moon-glow-m" cx="38%" cy="35%" r="60%">
-                <stop offset="0%"   style="stop-color:#EEF2F5;stop-opacity:1"/>
-                <stop offset="40%"  style="stop-color:#CBD5DD;stop-opacity:1"/>
-                <stop offset="80%"  style="stop-color:#B0BEC8;stop-opacity:1"/>
-                <stop offset="100%" style="stop-color:#96A8B5;stop-opacity:1"/>
-              </radialGradient>
-              <filter id="moon-blur-m" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="18"/>
-              </filter>
-              <clipPath id="moon-clip-m">
-                <circle cx="525" cy="300" r="80"/>
-              </clipPath>
-            </defs>
-            <circle cx="525" cy="300" r="100" fill="#C8D4DC" opacity="0.10" filter="url(#moon-blur-m)"/>
-            <circle cx="525" cy="300" r="80"  fill="url(#moon-glow-m)"/>
-            <g clip-path="url(#moon-clip-m)" opacity="0.65">
-              <circle cx="543" cy="273" r="7"  fill="#96A8B5"/>
-              <circle cx="557" cy="316" r="8"  fill="#96A8B5"/>
-              <circle cx="507" cy="308" r="13" fill="#8EA0AE"/>
-            </g>
-          </svg>
+        <div class="hero-moon" aria-hidden="true">
+          <img src="hero-moon.svg" alt=""/>
         </div>
       
   <!-- ── Hero Sun (light theme) ───────────────────────────────────────── -->
 
         <div class="hero-sun" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 90 666.667 300"
-              preserveAspectRatio="xMidYMax slice"
-              aria-hidden="true">
-            <defs>
-              <radialGradient id="sun-body-s" cx="38%" cy="35%" r="60%">
-                <stop offset="0%"   style="stop-color:#FFF5CC;stop-opacity:1"/>
-                <stop offset="35%"  style="stop-color:#F5C427;stop-opacity:1"/>
-                <stop offset="80%"  style="stop-color:#E8A020;stop-opacity:1"/>
-                <stop offset="100%" style="stop-color:#D48810;stop-opacity:1"/>
-              </radialGradient>
-              <filter id="sun-blur-s" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="18"/>
-              </filter>
-            </defs>
-            <circle cx="525" cy="300" r="100" fill="#F5C427" opacity="0.12" filter="url(#sun-blur-s)"/>
-            <circle cx="525" cy="300" r="80"  fill="url(#sun-body-s)"/>
-          </svg>
+          <img src="hero-sun.svg" alt=""/>
         </div>
         
   <!-- ── Hero UFO ─────────────────────────────────────────────────────── -->
