@@ -2528,3 +2528,46 @@ a.card-feat,
     transform: translate(1.7rem, -50%);
   }
 }
+
+
+/* ── Light Theme Hero ─────────────────────────────────────────────── */
+
+/* Sun — hidden by default, same positioning as moon */
+.hero-sun {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  display: none;
+}
+
+.hero-sun svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Swap celestial bodies */
+:root[data-theme="light"] .hero-moon { display: none; }
+:root[data-theme="light"] .hero-sun  { display: block; }
+
+/* Hide UFO and stars — rider + sand canvas will replace them */
+:root[data-theme="light"] .hero-ufo { visibility: hidden; }
+:root[data-theme="light"] #stars    { display: none; }
+
+/* Desert sky — late afternoon, sun upper-left, heat shimmer at horizon */
+:root[data-theme="light"] .hero-pin {
+  background:
+    radial-gradient(ellipse 55% 50% at 8%  20%, rgba(255, 210, 80, 0.65) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 30% at 50% 92%, rgba(200, 100, 30, 0.40) 0%, transparent 65%),
+    radial-gradient(ellipse 30% 40% at 88% 35%, rgba(60,  140, 200, 0.22) 0%, transparent 55%),
+    linear-gradient(to bottom,
+      #1b6ca8 0%,
+      #3498db 10%,
+      #76b9d8 28%,
+      #f5d76e 55%,
+      #e89c2a 70%,
+      #c97030 84%,
+      #b87040 100%
+    );
+}
