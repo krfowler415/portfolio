@@ -45,6 +45,7 @@ const introYvh = 12;
 
 let ufoIntroComplete = false;
 let minTimeDone      = false;
+let parallaxTweens   = [];
 let assetsDone       = false;
 let introFired       = false;
 let scanTween        = null;
@@ -179,6 +180,12 @@ function playIntroOutro() {
 }
 
 function initIntro() {
+  if (document.documentElement.getAttribute('data-theme') === 'light') {
+    if (introEl) introEl.style.display = 'none';
+    ufoIntroComplete = true;
+    return;
+  }
+
   if (sessionStorage.getItem('introPlayed')) {
     introEl.style.display = 'none';
     gsap.set(heroUfo, { x: introX, y: introY, opacity: 1, force3D: false });
@@ -327,6 +334,9 @@ function initStars() {
  * ===================================================================== */
 
 function initParallax() {
+  parallaxTweens.forEach(t => { if (t.scrollTrigger) t.scrollTrigger.kill(); t.kill(); });
+  parallaxTweens = [];
+
   const layers = [
     { id: 'd-l2', speed: -0.40 },
     { id: 'd-l3', speed: -0.50 },
@@ -337,7 +347,7 @@ function initParallax() {
   layers.forEach(({ id, speed }) => {
     const el = document.getElementById(id);
     if (!el) return;
-    gsap.to(el, {
+    const t = gsap.to(el, {
       y: () => ScrollTrigger.maxScroll(window) * -speed,
       ease: 'none',
       scrollTrigger: {
@@ -347,11 +357,15 @@ function initParallax() {
         scrub: true,
       }
     });
+    parallaxTweens.push(t);
   });
 }
 
 function fetchTerrain() {
-  fetch('./terrain.svg')
+  const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+  const file  = theme === 'light' ? './terrain-light.svg' : './terrain.svg';
+
+  fetch(file)
     .then(res => res.text())
     .then(svgText => {
       document.querySelector('.hero-terrain').innerHTML = svgText;
@@ -365,6 +379,28 @@ function fetchTerrain() {
       assetsDone = true;
       tryStartOutro();
     });
+}
+
+function swapTerrain(theme) {
+  const file      = theme === 'light' ? './terrain-light.svg' : './terrain.svg';
+  const container = document.querySelector('.hero-terrain');
+  if (!container) return;
+
+  container.innerHTML = '';
+  fetch(file)
+    .then(res => res.text())
+    .then(svgText => {
+      container.innerHTML = svgText;
+      initParallax();
+      ScrollTrigger.refresh();
+    })
+    .catch(err => console.warn('Terrain swap failed:', err));
+}
+
+function swapFavicon(theme) {
+  const favicon = document.getElementById('favicon');
+  if (!favicon) return;
+  favicon.href = theme === 'light' ? 'favicon-cactus.svg' : 'favicon.svg';
 }
 
 
@@ -487,21 +523,25 @@ function initThemeToggle() {
 
   applyTheme(getCurrentTheme(), false);
 
-  themeToggle.addEventListener('click', () => {
+themeToggle.addEventListener('click', () => {
     const currentTheme = getCurrentTheme();
     const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
     applyTheme(nextTheme);
+    swapTerrain(nextTheme);
+    swapFavicon(nextTheme);
   });
 
   systemTheme.addEventListener('change', event => {
     const savedTheme = localStorage.getItem('kf-theme');
 
     if (!savedTheme) {
-      applyTheme(event.matches ? 'light' : 'dark', false);
+      const newTheme = event.matches ? 'light' : 'dark';
+      applyTheme(newTheme, false);
+      swapTerrain(newTheme);
+      swapFavicon(newTheme);
     }
   });
-}
 
 
 // ── Hamburger nav toggle ─────────────────────────────────────────────
@@ -834,6 +874,7 @@ function initBeamUp() {
 gsap.registerPlugin(ScrollTrigger);
 setViewportHeight();
 initThemeToggle();
+swapFavicon(document.documentElement.getAttribute('data-theme') || 'dark');
 initIntro();
 initStars();
 fetchTerrain();
