@@ -1931,9 +1931,9 @@ a.card-feat,
 .hero-moon,
 .hero-sun {
   position: absolute;
-  top: 14%;
-  right: 3%;
-  width: clamp(150px, 24vh, 240px);
+  top: 8%;
+  right: 6%;
+  width: clamp(200px, 28vh, 320px);
   aspect-ratio: 1;
   z-index: 3;
   pointer-events: none;
@@ -1948,7 +1948,6 @@ a.card-feat,
 
 .hero-sun {
   display: none;
-  mix-blend-mode: multiply;
 }
 
 /* UFO container — positioned absolutely; GSAP moves it via transform */
@@ -2117,13 +2116,21 @@ a.card-feat,
   to { transform: translate(-50%, -50%) scale(8); opacity: 0; }
 }
 
+/* ── Beam Me Up Arrow ──────────────────────────────────────────────────── */
+
 /* Idle bounce on the Beam Me Up arrow — pauses on hover */
 @keyframes arrowBounce {
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(-3px); }
 }
 
+/* ── Clouds ──────────────────────────────────────────────────── */
 
+/* Cloud drift — left to right following the wind direction */
+@keyframes cloudDrift {
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(100vw + 500px)); }
+}
 
 
 /* =====================================================================
@@ -2692,6 +2699,8 @@ a.card-feat,
 
 /* ── Light Theme Hero ─────────────────────────────────────────────── */
 
+
+
 /* Swap celestial bodies */
 :root[data-theme="light"] .hero-moon { display: none; }
 :root[data-theme="light"] .hero-sun  { display: block; }
@@ -2703,16 +2712,90 @@ a.card-feat,
 /* Desert sky — late afternoon, sun upper-left, heat shimmer at horizon */
 :root[data-theme="light"] .hero-pin {
   background:
-    radial-gradient(ellipse 55% 50% at 8%  20%, rgba(255, 210, 80, 0.65) 0%, transparent 60%),
-    radial-gradient(ellipse 55% 30% at 50% 92%, rgba(200, 100, 30, 0.40) 0%, transparent 65%),
-    radial-gradient(ellipse 30% 40% at 88% 35%, rgba(60,  140, 200, 0.22) 0%, transparent 55%),
+    radial-gradient(ellipse 28% 28% at 87% 11%, rgba(255, 240, 120, 0.7) 0%, rgba(255, 210, 60, 0.3) 45%, transparent 70%),
     linear-gradient(to bottom,
-      #1b6ca8 0%,
-      #3498db 10%,
-      #76b9d8 28%,
-      #f5d76e 55%,
-      #e89c2a 70%,
-      #c97030 84%,
-      #b87040 100%
+      #1565a8 0%,
+      #2288c8 18%,
+      #46aad8 40%,
+      #72c4e8 62%,
+      #98d8f4 80%,
+      #bce8f8 100%
     );
 }
+
+/* ── Clouds ────────────────────────────────────────────────────────── */
+.hero-clouds {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+:root[data-theme="light"] .hero-clouds { display: block; }
+
+.cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.82);
+  border-radius: 100px;
+  animation: cloudDrift linear infinite;
+}
+
+.cloud::before,
+.cloud::after {
+  content: '';
+  position: absolute;
+  background: inherit;
+  border-radius: 50%;
+}
+
+.cloud--1 {
+  width: 280px; height: 55px;
+  top: 12%; left: -320px;
+  animation-duration: 55s;
+  animation-delay: 0s;
+  opacity: 0.9;
+}
+.cloud--1::before { width: 130px; height: 90px; top: -50px; left: 40px; }
+.cloud--1::after  { width: 90px;  height: 70px; top: -38px; left: 130px; }
+
+.cloud--2 {
+  width: 180px; height: 40px;
+  top: 22%; left: -220px;
+  animation-duration: 70s;
+  animation-delay: -20s;
+  opacity: 0.75;
+}
+.cloud--2::before { width: 90px; height: 65px; top: -38px; left: 25px; }
+.cloud--2::after  { width: 60px; height: 50px; top: -28px; left: 90px; }
+
+.cloud--3 {
+  width: 340px; height: 65px;
+  top: 7%; left: -400px;
+  animation-duration: 80s;
+  animation-delay: -35s;
+  opacity: 0.7;
+}
+.cloud--3::before { width: 160px; height: 110px; top: -65px; left: 60px; }
+.cloud--3::after  { width: 110px; height: 85px;  top: -50px; left: 180px; }
+
+.cloud--4 {
+  width: 160px; height: 35px;
+  top: 18%; left: -200px;
+  animation-duration: 60s;
+  animation-delay: -10s;
+  opacity: 0.65;
+}
+.cloud--4::before { width: 75px; height: 55px; top: -32px; left: 20px; }
+.cloud--4::after  { width: 55px; height: 42px; top: -24px; left: 80px; }
+
+.cloud--5 {
+  width: 220px; height: 48px;
+  top: 28%; left: -260px;
+  animation-duration: 90s;
+  animation-delay: -50s;
+  opacity: 0.6;
+}
+.cloud--5::before { width: 110px; height: 75px; top: -44px; left: 35px; }
+.cloud--5::after  { width: 70px;  height: 58px; top: -32px; left: 115px; }
