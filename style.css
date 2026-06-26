@@ -1908,19 +1908,6 @@ a.card-feat,
   pointer-events: none;
 }
 
-/* Horizon for light theme */
-.hero-horizon {
-  display: none;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 50%;
-  z-index: 5;
-  pointer-events: none;
-}
-
-
 /* Terrain container — div stays in HTML; SVG is fetched by main.js */
 .hero-terrain {
   position: absolute;
@@ -2757,17 +2744,6 @@ a.card-feat,
       #72c4e8 62%,
       #98d8f4 80%,
       #bce8f8 100%
-    );
-}
-
-:root[data-theme="light"] .hero-horizon {
-  display: block;
-  background:
-    radial-gradient(ellipse 140% 70% at 50% 100%,
-      rgba(220, 140, 40, 0.60) 0%,
-      rgba(210, 160, 80, 0.35) 30%,
-      rgba(200, 180, 120, 0.15) 55%,
-      transparent 75%
     );
 }
 
