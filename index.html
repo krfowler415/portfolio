@@ -34,7 +34,20 @@
 
   <!-- ── Body ─────────────────────────────────────────────────────── -->
   
-  <div id="theme-wipe" aria-hidden="true"></div>
+ <svg class="shape-overlays" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="wipe-grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop class="wipe-stop1a" offset="0%"   stop-color="#0AC39A"/>
+        <stop class="wipe-stop1b" offset="100%" stop-color="#100820"/>
+      </linearGradient>
+      <linearGradient id="wipe-grad2" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop class="wipe-stop2a" offset="0%"   stop-color="#5F259F"/>
+        <stop class="wipe-stop2b" offset="100%" stop-color="#100820"/>
+      </linearGradient>
+    </defs>
+    <path class="shape-overlays__path" fill="url(#wipe-grad2)"></path>
+    <path class="shape-overlays__path" fill="url(#wipe-grad1)"></path>
+  </svg>
 
   <!-- ── Body ─────────────────────────────────────────────────────── -->
   
