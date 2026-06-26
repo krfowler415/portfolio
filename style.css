@@ -1975,6 +1975,22 @@ a.card-feat,
 }
 
 
+/* ─────────────────────────────────────────────────────────────────────
+ * 4m  Theme Wipe Overlay
+ * When theme toggle is selected an overlay coveres the screen to transition
+ * to the new theme
+ * ───────────────────────────────────────────────────────────────────── */
+
+/* ── Theme Wipe Overlay ───────────────────────────────────────────── */
+#theme-wipe {
+  position: fixed;
+  inset: 0;
+  z-index: 99998;
+  pointer-events: none;
+  clip-path: circle(0px at 50% 50%);
+  will-change: clip-path;
+}
+
 /* =====================================================================
  * § 5  ANIMATIONS & KEYFRAMES
  *
