@@ -2742,13 +2742,19 @@ a.card-feat,
   animation: cloudDrift linear infinite;
 }
 
-.cloud-img--1  { width: clamp(320px, 38vw, 560px); top: 4%;  left: -600px; animation-duration: 70s;  animation-delay: -12s; opacity: 0.92; }
-.cloud-img--2  { width: clamp(420px, 52vw, 740px); top: 8%;  left: -800px; animation-duration: 90s;  animation-delay: -45s; opacity: 0.78; }
-.cloud-img--3  { width: clamp(260px, 30vw, 440px); top: 14%; left: -500px; animation-duration: 65s;  animation-delay: -28s; opacity: 0.70; }
-.cloud-img--4  { width: clamp(180px, 20vw, 280px); top: 18%; left: -300px; animation-duration: 55s;  animation-delay: -8s;  opacity: 0.60; }
-.cloud-img--5  { width: clamp(360px, 42vw, 600px); top: 22%; left: -650px; animation-duration: 80s;  animation-delay: -55s; opacity: 0.65; }
-.cloud-img--6  { width: clamp(300px, 34vw, 460px); top: 40%; left: -560px; animation-duration: 77s;  animation-delay: -38s; opacity: 0.55; }
-.cloud-img--7  { width: clamp(360px, 42vw, 580px); top: 55%; left: -680px; animation-duration: 91s;  animation-delay: -18s; opacity: 0.48; }
-.cloud-img--8  { width: clamp(160px, 18vw, 240px); top: 62%; left: -280px; animation-duration: 58s;  animation-delay: -48s; opacity: 0.40; }
-.cloud-img--9  { width: clamp(300px, 34vw, 480px); top: 58%; left: -550px; animation-duration: 85s;  animation-delay: -62s; opacity: 0.34; }
-.cloud-img--10 { width: clamp(190px, 22vw, 300px); top: 66%; left: -360px; animation-duration: 68s;  animation-delay: -22s; opacity: 0.30; }
+.cloud-img--1  { width: clamp(320px, 38vw, 560px); top: 4%;  left: -600px; animation-duration: 70s; animation-delay: -12s; opacity: 0.92; }
+.cloud-img--2  { width: clamp(420px, 52vw, 740px); top: 8%;  left: -800px; animation-duration: 90s; animation-delay: -45s; opacity: 0.78; }
+.cloud-img--3  { width: clamp(260px, 30vw, 440px); top: 14%; left: -500px; animation-duration: 65s; animation-delay: -28s; opacity: 0.70; }
+.cloud-img--4  { width: clamp(180px, 20vw, 280px); top: 18%; left: -300px; animation-duration: 55s; animation-delay: -8s;  opacity: 0.60; }
+.cloud-img--5  { width: clamp(360px, 42vw, 600px); top: 22%; left: -650px; animation-duration: 80s; animation-delay: -55s; opacity: 0.65; }
+.cloud-img--6  { width: clamp(300px, 34vw, 460px); top: 40%; left: -560px; animation-duration: 77s; animation-delay: -38s; opacity: 0.55; }
+.cloud-img--7  { width: clamp(360px, 42vw, 580px); top: 55%; left: -680px; animation-duration: 91s; animation-delay: -18s; opacity: 0.48; }
+.cloud-img--8  { width: clamp(160px, 18vw, 240px); top: 62%; left: -280px; animation-duration: 58s; animation-delay: -48s; opacity: 0.40; }
+.cloud-img--9  { width: clamp(300px, 34vw, 480px); top: 58%; left: -550px; animation-duration: 85s; animation-delay: -62s; opacity: 0.34; }
+.cloud-img--10 { width: clamp(190px, 22vw, 300px); top: 66%; left: -360px; animation-duration: 68s; animation-delay: -22s; opacity: 0.30; }
+/* Paired partners — delay offset by half of each row's primary cloud duration */
+.cloud-img--12 { width: clamp(320px, 38vw, 560px); top: 5%;  left: -600px; animation-duration: 70s; animation-delay: -47s; opacity: 0.88; }
+.cloud-img--13 { width: clamp(260px, 30vw, 420px); top: 14%; left: -500px; animation-duration: 65s; animation-delay: -60s; opacity: 0.68; }
+.cloud-img--14 { width: clamp(300px, 34vw, 460px); top: 28%; left: -560px; animation-duration: 62s; animation-delay: -61s; opacity: 0.54; }
+.cloud-img--15 { width: clamp(360px, 42vw, 580px); top: 40%; left: -680px; animation-duration: 77s; animation-delay: -16s; opacity: 0.46; }
+.cloud-img--16 { width: clamp(260px, 30vw, 420px); top: 58%; left: -500px; animation-duration: 85s; animation-delay: -20s; opacity: 0.30; }
