@@ -182,6 +182,98 @@
 }
 
 
+/* ── Light Theme Tokens ────────────────────────────────────────────── */
+/*
+ *  Wild West desert palette mapped to existing token names:
+ *
+ *  --aurora-*   → Turquoise  (#00A2A2)  interactive energy
+ *  --pulsar-*   → Rust Clay  (#B54832)  tension / action
+ *  --cosmos-*   → Umber      (#5C3B26)  structure / depth
+ *  --aether-*   → Sand/Paper (#DDB783)  ambient / neutral
+ *  --bg         → Sand       (#DDB783)
+ *  --bg-surface → Paper      (#FFF4E6)
+ *  --text       → Ink Brown  (#2E1A10)
+ */
+
+:root[data-theme="light"] {
+
+  /* Raw font overrides */
+  --display: 'YourWesternHeadingFont';
+  --Ox:      'YourLabelFont';
+  --Orb:     'YourBodyFont';
+
+  /* Raw palette overrides */
+  --aurora-50:   #E0F5F5;
+  --aurora-100:  #80D4D4;
+  --aurora-200:  #40B8B8;
+  --aurora-400:  #00A2A2;
+  --aurora-600:  #007A7A;
+  --aurora-800:  #004E4E;
+  --aurora-900:  #002828;
+
+  --pulsar-50:   #F9E0DA;
+  --pulsar-100:  #EDAB9A;
+  --pulsar-200:  #D97860;
+  --pulsar-400:  #B54832;
+  --pulsar-600:  #8A3222;
+  --pulsar-800:  #5E1E12;
+  --pulsar-900:  #320E08;
+
+  --cosmos-50:   #F5E8DC;
+  --cosmos-100:  #D4B498;
+  --cosmos-200:  #A87C58;
+  --cosmos-300:  #7A5038;
+  --cosmos-400:  #5C3B26;
+  --cosmos-600:  #3E2418;
+  --cosmos-800:  #2A1810;
+  --cosmos-900:  #1C100A;
+
+  --aether-50:   #FFF4E6;
+  --aether-100:  #5C3B26;
+  --aether-200:  #8B6040;
+  --aether-400:  #B58860;
+
+  /* Semantic tokens */
+  --bg:          #DDB783;
+  --bg-dark:     #C9A06A;
+  --bg-surface:  #FFF4E6;
+  --bg-raised:   #EDD4A0;
+  --bg-tint:     rgba(181, 72, 50, 0.12);
+  --bg-marquee:  #00A2A2;
+
+  --text:        #2E1A10;
+  --text-muted:  #5C3B26;
+  --text-light:  #00A2A2;
+  --text-inv:    #FFF4E6;
+
+  --primary:        #00A2A2;
+  --primary-hover:  #007A7A;
+  --primary-lt:     #E7B75F;
+  --primary-subtle: #E0F5F5;
+
+  --accent-pulsar:           #B54832;
+  --accent-pulsar-subtle:    #F9E0DA;
+  --accent-cosmos:           #5C3B26;
+  --accent-cosmos-subtle:    #F5E8DC;
+  --accent-aurora:           #00A2A2;
+  --accent-aurora-subtle:    #E0F5F5;
+  --accent-plasma:           #C23A72;
+  --accent-plasma-subtle:    #F5D0E0;
+  --accent-turquoise:        #2C653E;
+  --accent-turquoise-subtle: #C8E0D0;
+
+  --aether:      #8B6040;
+  --dune:        #DDB783;
+
+  --border:        rgba(92, 59, 38, 0.25);
+  --border-subtle: rgba(92, 59, 38, 0.14);
+
+  --aurora-glass: rgba(0, 162, 162, 0.10);
+  --aurora-glow:  rgba(0, 162, 162, 0.20);
+  --aurora-inset: rgba(0, 162, 162, 0.06);
+}
+
+
 /* ── Box Model Reset ─────────────────────────────────────────────────
  *  Applies border-box sizing universally, removes all default
  *  margin/padding, and enforces smooth scrolling at the root.
@@ -2207,8 +2299,6 @@ a.card-feat,
 
 /* =====================================================================
  * LIGHT THEME — PHASE 1
- * Scope: global tokens, nav, marquee, theme toggle, Beam Me Up.
- * Do not style cards/about/contact/terrain here yet.
  * ===================================================================== */
 
 
@@ -2265,10 +2355,10 @@ a.card-feat,
 
 :root[data-theme="light"] body {
   background:
-    radial-gradient(circle at 18% 12%, rgba(255, 195, 80, 0.42), transparent 28%),
-    radial-gradient(circle at 78% 18%, rgba(8, 123, 122, 0.16), transparent 24%),
-    radial-gradient(circle, rgba(112, 67, 35, 0.18) 1px, transparent 1px) center / 28px 28px,
-    linear-gradient(180deg, #f3d39a 0%, #f8e6bd 42%, #e5b06d 100%);
+    radial-gradient(circle at 18% 12%, rgba(231, 183, 95, 0.42), transparent 28%),
+    radial-gradient(circle at 78% 18%, rgba(0, 162, 162, 0.12), transparent 24%),
+    radial-gradient(circle, rgba(92, 59, 38, 0.15) 1px, transparent 1px) center / 28px 28px,
+    linear-gradient(180deg, #DDB783 0%, #EDD4A0 42%, #C9A06A 100%);
   color: var(--text);
 }
 
@@ -2280,9 +2370,9 @@ a.card-feat,
 }
 
 :root[data-theme="light"] nav.scrolled {
-  background: rgba(243, 211, 154, 0.88);
-  border-bottom-color: rgba(112, 67, 35, 0.28);
-  box-shadow: 0 1px 20px rgba(98, 56, 21, 0.12);
+  background: rgba(221, 183, 131, 0.92);
+  border-bottom-color: rgba(92, 59, 38, 0.25);
+  box-shadow: 0 1px 20px rgba(46, 26, 16, 0.10);
 }
 
 :root[data-theme="light"] .nav-logo {
@@ -2313,8 +2403,8 @@ a.card-feat,
   color: var(--accent-aurora);
   background: radial-gradient(
     circle 22px at 1.1rem center,
-    rgba(8, 123, 122, 0.20) 0%,
-    rgba(8, 123, 122, 0.07) 55%,
+    rgba(0, 162, 162, 0.20) 0%,
+    rgba(0, 162, 162, 0.07) 55%,
     transparent 100%
   );
 }
