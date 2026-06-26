@@ -525,13 +525,47 @@ function initThemeToggle() {
 
 themeToggle.addEventListener('click', () => {
     const currentTheme = getCurrentTheme();
-    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    const nextTheme    = currentTheme === 'dark' ? 'light' : 'dark';
 
-    applyTheme(nextTheme);
-    swapTerrain(nextTheme);
-    swapFavicon(nextTheme);
+    const wipe    = document.getElementById('theme-wipe');
+    const rect    = themeToggle.getBoundingClientRect();
+    const originX = rect.left + rect.width  / 2;
+    const originY = rect.top  + rect.height / 2;
+
+    const maxRadius = Math.hypot(
+      Math.max(originX, window.innerWidth  - originX),
+      Math.max(originY, window.innerHeight - originY)
+    ) * 1.05;
+
+    const wipeColor = nextTheme === 'light' ? '#DDB783' : '#100820';
+
+    if (wipe) {
+      wipe.style.background = wipeColor;
+      wipe.style.clipPath    = `circle(0px at ${originX}px ${originY}px)`;
+
+      gsap.timeline()
+        .to(wipe, {
+          clipPath: `circle(${maxRadius}px at ${originX}px ${originY}px)`,
+          duration: 0.55,
+          ease: 'power2.in',
+        })
+        .add(() => {
+          applyTheme(nextTheme);
+          swapTerrain(nextTheme);
+          swapFavicon(nextTheme);
+        })
+        .to(wipe, {
+          clipPath: `circle(0px at ${originX}px ${originY}px)`,
+          duration: 0.55,
+          ease: 'power2.out',
+        });
+    } else {
+      applyTheme(nextTheme);
+      swapTerrain(nextTheme);
+      swapFavicon(nextTheme);
+    }
   });
-
+  
   systemTheme.addEventListener('change', event => {
     const savedTheme = localStorage.getItem('kf-theme');
 
