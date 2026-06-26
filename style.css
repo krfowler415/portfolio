@@ -1983,13 +1983,14 @@ a.card-feat,
  * ───────────────────────────────────────────────────────────────────── */
 
 /* ── Theme Wipe Overlay ───────────────────────────────────────────── */
-#theme-wipe {
+.shape-overlays {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: 99998;
   pointer-events: none;
-  clip-path: circle(0px at 50% 50%);
-  will-change: clip-path;
 }
 
 /* =====================================================================
