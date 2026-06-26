@@ -50,7 +50,8 @@
  *       4j  About Section
  *       4k  Contact Section
  *       4l  Hero Scroll Theater
- *       4m  Beam Me Up (appears after § 5 in the file order below)
+ *       4m  Theme Wipe Overlay
+ *       4n  Beam Me Up (appears after § 5 in the file order below)
  *  § 5  Animations & Keyframes
  *  § 6  Media Queries
  * =====================================================================
@@ -2115,7 +2116,7 @@ a.card-feat,
 
 
 /* =====================================================================
- * § 4m  BEAM ME UP
+ * § 4n  BEAM ME UP
  *
  *  Fixed back-to-top button — visibility is controlled by a
  *  ScrollTrigger in main.js keyed to #hero, currently set to fire
