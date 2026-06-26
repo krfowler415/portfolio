@@ -1933,7 +1933,7 @@ a.card-feat,
   position: absolute;
   top: 12%;
   right: 6%;
-  width: clamp(240px, 35vh, 400px);
+  width: clamp(260px, 42vh, 480px);
   aspect-ratio: 1;
   z-index: 3;
   pointer-events: none;
@@ -2716,7 +2716,7 @@ a.card-feat,
 /* Desert sky — late afternoon, sun upper-left, heat shimmer at horizon */
 :root[data-theme="light"] .hero-pin {
   background:
-    radial-gradient(ellipse 28% 28% at 87% 11%, rgba(255, 240, 120, 0.7) 0%, rgba(255, 210, 60, 0.3) 45%, transparent 70%),
+    radial-gradient(ellipse 32% 32% at 87% 28%, rgba(255, 240, 120, 0.7) 0%, rgba(255, 210, 60, 0.3) 45%, transparent 70%),
     linear-gradient(to bottom,
       #1565a8 0%,
       #2288c8 18%,
@@ -2747,13 +2747,13 @@ a.card-feat,
 }
 
 .cloud-img--1  { width: clamp(280px, 42vw, 620px); top: 4%;  left: -650px; animation-duration: 70s; animation-delay: -12s; opacity: 0.95; }
-.cloud-img--2  { width: clamp(340px, 36vw, 520px); top: 8%;  left: -580px; animation-duration: 90s; animation-delay: -45s; opacity: 0.88; }
+.cloud-img--2  { width: clamp(340px, 44vw, 640px); top: 8%;  left: -700px; animation-duration: 90s; animation-delay: -45s; opacity: 0.88; }
 .cloud-img--3  { width: clamp(160px, 18vw, 240px); top: 14%; left: -280px; animation-duration: 65s; animation-delay: -28s; opacity: 0.82; animation-name: cloudDriftMirror; }
 .cloud-img--4  { width: clamp(120px, 14vw, 180px); top: 18%; left: -220px; animation-duration: 55s; animation-delay: -8s;  opacity: 0.74; }
-.cloud-img--5  { width: clamp(280px, 32vw, 460px); top: 22%; left: -520px; animation-duration: 80s; animation-delay: -55s; opacity: 0.78; animation-name: cloudDriftMirror; }
+.cloud-img--5  { width: clamp(340px, 40vw, 580px); top: 22%; left: -640px; animation-duration: 80s; animation-delay: -55s; opacity: 0.78; animation-name: cloudDriftMirror; }
 .cloud-img--6  { width: clamp(200px, 22vw, 300px); top: 40%; left: -350px; animation-duration: 77s; animation-delay: -38s; opacity: 0.70; }
 .cloud-img--7  { width: clamp(280px, 30vw, 420px); top: 55%; left: -480px; animation-duration: 91s; animation-delay: -18s; opacity: 0.65; animation-name: cloudDriftMirror; }
 .cloud-img--8  { width: clamp(140px, 16vw, 200px); top: 62%; left: -250px; animation-duration: 58s; animation-delay: -48s; opacity: 0.58; }
 .cloud-img--9  { width: clamp(320px, 36vw, 500px); top: 58%; left: -580px; animation-duration: 85s; animation-delay: -62s; opacity: 0.52; animation-name: cloudDriftMirror; }
 .cloud-img--10 { width: clamp(180px, 20vw, 260px); top: 66%; left: -320px; animation-duration: 68s; animation-delay: -22s; opacity: 0.50; }
-.cloud-img--11 { width: clamp(260px, 28vw, 400px); top: 28%; left: -460px; animation-duration: 62s; animation-delay: -30s; opacity: 0.72; }
+.cloud-img--11 { width: clamp(340px, 38vw, 540px); top: 28%; left: -600px; animation-duration: 62s; animation-delay: -30s; opacity: 0.72; }
