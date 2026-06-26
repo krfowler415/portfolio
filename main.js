@@ -514,7 +514,7 @@ function initThemeToggle() {
 
     const isLight = theme === 'light';
 
-    themeToggle.setAttribute('aria-pressed', String(isLight));
+    themeToggle.setAttribute('aria-pressed', String(!isLight));
     themeToggle.setAttribute(
       'aria-label',
       isLight ? 'Switch to dark theme' : 'Switch to light theme'
@@ -523,9 +523,11 @@ function initThemeToggle() {
 
   applyTheme(getCurrentTheme(), false);
 
-themeToggle.addEventListener('click', () => {
+  themeToggle.addEventListener('click', () => {
     const currentTheme = getCurrentTheme();
     const nextTheme    = currentTheme === 'dark' ? 'light' : 'dark';
+
+    themeToggle.setAttribute('aria-pressed', nextTheme === 'dark' ? 'true' : 'false');
 
     playThemeWipe(nextTheme, () => {
       applyTheme(nextTheme);
