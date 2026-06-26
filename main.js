@@ -542,7 +542,7 @@ themeToggle.addEventListener('click', () => {
       swapFavicon(newTheme);
     }
   });
-
+}
 
 // ── Hamburger nav toggle ─────────────────────────────────────────────
 const navToggle = document.getElementById('nav-toggle');
