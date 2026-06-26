@@ -527,43 +527,11 @@ themeToggle.addEventListener('click', () => {
     const currentTheme = getCurrentTheme();
     const nextTheme    = currentTheme === 'dark' ? 'light' : 'dark';
 
-    const wipe    = document.getElementById('theme-wipe');
-    const rect    = themeToggle.getBoundingClientRect();
-    const originX = rect.left + rect.width  / 2;
-    const originY = rect.top  + rect.height / 2;
-
-    const maxRadius = Math.hypot(
-      Math.max(originX, window.innerWidth  - originX),
-      Math.max(originY, window.innerHeight - originY)
-    ) * 1.05;
-
-    const wipeColor = nextTheme === 'light' ? '#DDB783' : '#100820';
-
-    if (wipe) {
-      wipe.style.background = wipeColor;
-      wipe.style.clipPath    = `circle(0px at ${originX}px ${originY}px)`;
-
-      gsap.timeline()
-        .to(wipe, {
-          clipPath: `circle(${maxRadius}px at ${originX}px ${originY}px)`,
-          duration: 0.55,
-          ease: 'power2.in',
-        })
-        .add(() => {
-          applyTheme(nextTheme);
-          swapTerrain(nextTheme);
-          swapFavicon(nextTheme);
-        })
-        .to(wipe, {
-          clipPath: `circle(0px at ${originX}px ${originY}px)`,
-          duration: 0.55,
-          ease: 'power2.out',
-        });
-    } else {
+    playThemeWipe(nextTheme, () => {
       applyTheme(nextTheme);
       swapTerrain(nextTheme);
       swapFavicon(nextTheme);
-    }
+    });
   });
   
   systemTheme.addEventListener('change', event => {
@@ -577,6 +545,125 @@ themeToggle.addEventListener('click', () => {
     }
   });
 }
+
+/* =====================================================================
+ * § 7B  THEME WIPE
+ *
+ *  Wavy SVG path wipe triggered by the theme toggle button.
+ *  Two layered paths with randomised bezier control points create
+ *  the organic wave edge. Phase 1 covers the screen, theme switches
+ *  at peak coverage, phase 2 reveals the new theme.
+ *  Adapted from Blake Bowen / GreenSock codepen qBedXpg.
+ * ===================================================================== */
+
+let wipeIsActive = false;
+
+function playThemeWipe(nextTheme, onMidpoint) {
+  if (wipeIsActive) return;
+  wipeIsActive = true;
+
+  const svgEl = document.querySelector('.shape-overlays');
+  const paths = document.querySelectorAll('.shape-overlays__path');
+
+  if (!svgEl || paths.length === 0) {
+    onMidpoint();
+    wipeIsActive = false;
+    return;
+  }
+
+  /* ── Update gradient colours for incoming theme ── */
+  const stops = {
+    stop1a: document.querySelector('.wipe-stop1a'),
+    stop1b: document.querySelector('.wipe-stop1b'),
+    stop2a: document.querySelector('.wipe-stop2a'),
+    stop2b: document.querySelector('.wipe-stop2b'),
+  };
+
+  if (nextTheme === 'light') {
+    stops.stop1a.setAttribute('stop-color', '#E7B75F');
+    stops.stop1b.setAttribute('stop-color', '#DDB783');
+    stops.stop2a.setAttribute('stop-color', '#B54832');
+    stops.stop2b.setAttribute('stop-color', '#FFF4E6');
+  } else {
+    stops.stop1a.setAttribute('stop-color', '#0AC39A');
+    stops.stop1b.setAttribute('stop-color', '#100820');
+    stops.stop2a.setAttribute('stop-color', '#5F259F');
+    stops.stop2b.setAttribute('stop-color', '#100820');
+  }
+
+  /* ── Shared config ── */
+  const numPoints      = 10;
+  const numPaths       = paths.length;
+  const delayPointsMax = 0.3;
+  const delayPerPath   = 0.2;
+  const pointsDelay    = [];
+
+  /* ── Build point arrays (all start at 100 = covered) ── */
+  const allPoints = Array.from({ length: numPaths }, () =>
+    Array.from({ length: numPoints }, () => 100)
+  );
+
+  /* ── Render both paths from current point values ── */
+  function render(opened) {
+    for (let i = 0; i < numPaths; i++) {
+      const pts = allPoints[i];
+      let d = opened ? `M 0 0 V ${pts[0]} C` : `M 0 ${pts[0]} C`;
+      for (let j = 0; j < numPoints - 1; j++) {
+        const p  = (j + 1) / (numPoints - 1) * 100;
+        const cp = p - (1 / (numPoints - 1) * 100) / 2;
+        d += ` ${cp} ${pts[j]} ${cp} ${pts[j + 1]} ${p} ${pts[j + 1]}`;
+      }
+      d += opened ? ` V 100 H 0` : ` V 0 H 0`;
+      paths[i].setAttribute('d', d);
+    }
+  }
+
+  /* ── Randomise per-point delays ── */
+  function randomiseDelays() {
+    for (let i = 0; i < numPoints; i++) {
+      pointsDelay[i] = Math.random() * delayPointsMax;
+    }
+  }
+
+  /* ── Build a cover or reveal timeline ── */
+  function buildTimeline(opened, onDone) {
+    const tl = gsap.timeline({
+      onUpdate: () => render(opened),
+      defaults: { ease: 'power2.inOut', duration: 0.85 },
+      onComplete: onDone,
+    });
+    for (let i = 0; i < numPaths; i++) {
+      const pts       = allPoints[i];
+      const pathDelay = delayPerPath * (opened ? i : numPaths - i - 1);
+      for (let j = 0; j < numPoints; j++) {
+        tl.to(pts, { [j]: 0 }, pointsDelay[j] + pathDelay);
+      }
+    }
+    return tl;
+  }
+
+  /* ── Phase 1: cover ── */
+  randomiseDelays();
+  buildTimeline(true, () => {
+    /* Theme switches while fully covered */
+    onMidpoint();
+
+    /* Reset all points to 100 for the reveal phase */
+    for (let i = 0; i < numPaths; i++) {
+      for (let j = 0; j < numPoints; j++) {
+        allPoints[i][j] = 100;
+      }
+    }
+    render(false); /* snap to full-coverage in reveal orientation */
+
+    /* Phase 2: reveal */
+    randomiseDelays();
+    buildTimeline(false, () => {
+      wipeIsActive = false;
+    });
+  });
+}
+
 
 // ── Hamburger nav toggle ─────────────────────────────────────────────
 const navToggle = document.getElementById('nav-toggle');
