@@ -1928,17 +1928,27 @@ a.card-feat,
 }
 
 /* Moon SVG container */
-.hero-moon {
+.hero-moon,
+.hero-sun {
   position: absolute;
-  inset: 0;
+  top: 14%;
+  right: 3%;
+  width: clamp(150px, 24vh, 240px);
+  aspect-ratio: 1;
   z-index: 3;
   pointer-events: none;
 }
 
-.hero-moon svg {
+.hero-moon img,
+.hero-sun img {
   width: 100%;
-  height: 100%;
+  height: auto;
   display: block;
+}
+
+.hero-sun {
+  display: none;
+  mix-blend-mode: multiply;
 }
 
 /* UFO container — positioned absolutely; GSAP moves it via transform */
@@ -2316,7 +2326,7 @@ a.card-feat,
 
 
 /* =====================================================================
- * LIGHT THEME — PHASE 1
+   LIGHT THEME COMPONENT OVERRIDES
  * ===================================================================== */
 
 
@@ -2681,21 +2691,6 @@ a.card-feat,
 
 
 /* ── Light Theme Hero ─────────────────────────────────────────────── */
-
-/* Sun — hidden by default, same positioning as moon */
-.hero-sun {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-  display: none;
-}
-
-.hero-sun svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
 
 /* Swap celestial bodies */
 :root[data-theme="light"] .hero-moon { display: none; }
