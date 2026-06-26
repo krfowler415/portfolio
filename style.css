@@ -2393,11 +2393,7 @@ a.card-feat,
 /* ── Light Theme Base ─────────────────────────────────────────────── */
 
 :root[data-theme="light"] body {
-  background:
-    radial-gradient(circle at 18% 12%, rgba(231, 183, 95, 0.42), transparent 28%),
-    radial-gradient(circle at 78% 18%, rgba(0, 162, 162, 0.12), transparent 24%),
-    radial-gradient(circle, rgba(92, 59, 38, 0.15) 1px, transparent 1px) center / 28px 28px,
-    linear-gradient(180deg, #DDB783 0%, #EDD4A0 42%, #C9A06A 100%);
+  background: linear-gradient(180deg, #DDB783 0%, #EDD4A0 42%, #C9A06A 100%);
   color: var(--text);
 }
 
@@ -2452,6 +2448,23 @@ a.card-feat,
   background: var(--accent-aurora);
 }
 
+/* ── Light Theme Section Atmospheres ──────────────────────────────── */
+
+:root[data-theme="light"] #work::before {
+  background-image:
+    radial-gradient(ellipse 880px 60% at 50% 0%, rgba(181, 72, 50, 0.10) 0%, transparent 70%);
+}
+
+:root[data-theme="light"] #about::before {
+  background-image:
+    radial-gradient(ellipse 605px 70% at calc(50% + 275px) 55%, rgba(0, 162, 162, 0.10) 0%, transparent 65%),
+    radial-gradient(ellipse 495px 50% at calc(50% - 330px) 45%, rgba(92, 59, 38, 0.10) 0%, transparent 60%);
+}
+
+:root[data-theme="light"] #contact::before {
+  background-image:
+    radial-gradient(ellipse 770px 80% at 50% 100%, rgba(0, 162, 162, 0.10) 0%, transparent 65%);
+}
 
 /* ── Light Theme Marquee ──────────────────────────────────────────── */
 
@@ -2746,15 +2759,15 @@ a.card-feat,
   animation: cloudDrift linear infinite;
 }
 
-.cloud-img--1  { width: clamp(280px, 42vw, 620px); top: 4%;  left: -650px; animation-duration: 67s; animation-delay: -7s;  opacity: 0.95; }
-.cloud-img--2  { width: clamp(340px, 44vw, 640px); top: 8%;  left: -700px; animation-duration: 83s; animation-delay: -17s; opacity: 0.88; }
-.cloud-img--3  { width: clamp(160px, 18vw, 240px); top: 14%; left: -280px; animation-duration: 71s; animation-delay: -25s; opacity: 0.82; animation-name: cloudDriftMirror; }
-.cloud-img--4  { width: clamp(120px, 14vw, 180px); top: 18%; left: -220px; animation-duration: 53s; animation-delay: -29s; opacity: 0.74; }
-.cloud-img--5  { width: clamp(340px, 40vw, 580px); top: 22%; left: -640px; animation-duration: 89s; animation-delay: -67s; opacity: 0.78; animation-name: cloudDriftMirror; }
-.cloud-img--6  { width: clamp(200px, 22vw, 300px); top: 40%; left: -350px; animation-duration: 76s; animation-delay: -8s;  opacity: 0.70; }
-.cloud-img--7  { width: clamp(280px, 30vw, 420px); top: 55%; left: -480px; animation-duration: 94s; animation-delay: -38s; opacity: 0.65; animation-name: cloudDriftMirror; }
-.cloud-img--8  { width: clamp(140px, 16vw, 200px); top: 62%; left: -250px; animation-duration: 57s; animation-delay: -34s; opacity: 0.58; }
-.cloud-img--9  { width: clamp(320px, 36vw, 500px); top: 58%; left: -580px; animation-duration: 79s; animation-delay: -20s; opacity: 0.52; animation-name: cloudDriftMirror; }
-.cloud-img--10 { width: clamp(180px, 20vw, 260px); top: 66%; left: -320px; animation-duration: 63s; animation-delay: -50s; opacity: 0.50; }
-.cloud-img--11 { width: clamp(340px, 38vw, 540px); top: 28%; left: -600px; animation-duration: 59s; animation-delay: -27s; opacity: 0.72; }
-.cloud-img--12 { width: clamp(240px, 28vw, 400px); top: 47%; left: -460px; animation-duration: 73s; animation-delay: -48s; opacity: 0.62; }
+.cloud-img--1  { width: clamp(280px, 42vw, 620px); top: 4%;  left: -650px; animation-duration: 52s;  animation-delay: -10s; opacity: 0.95; }
+.cloud-img--2  { width: clamp(340px, 44vw, 640px); top: 8%;  left: -700px; animation-duration: 97s;  animation-delay: -58s; opacity: 0.88; }
+.cloud-img--3  { width: clamp(160px, 18vw, 240px); top: 14%; left: -280px; animation-duration: 45s;  animation-delay: -20s; opacity: 0.82; animation-name: cloudDriftMirror; }
+.cloud-img--4  { width: clamp(120px, 14vw, 180px); top: 18%; left: -220px; animation-duration: 83s;  animation-delay: -5s;  opacity: 0.74; }
+.cloud-img--5  { width: clamp(340px, 40vw, 580px); top: 22%; left: -640px; animation-duration: 101s; animation-delay: -80s; opacity: 0.78; animation-name: cloudDriftMirror; }
+.cloud-img--11 { width: clamp(340px, 38vw, 540px); top: 28%; left: -600px; animation-duration: 58s;  animation-delay: -15s; opacity: 0.72; }
+.cloud-img--6  { width: clamp(200px, 22vw, 300px); top: 40%; left: -350px; animation-duration: 47s;  animation-delay: -8s;  opacity: 0.70; }
+.cloud-img--12 { width: clamp(240px, 28vw, 400px); top: 47%; left: -460px; animation-duration: 88s;  animation-delay: -55s; opacity: 0.62; }
+.cloud-img--7  { width: clamp(280px, 30vw, 420px); top: 55%; left: -480px; animation-duration: 105s; animation-delay: -90s; opacity: 0.65; animation-name: cloudDriftMirror; }
+.cloud-img--9  { width: clamp(320px, 36vw, 500px); top: 58%; left: -580px; animation-duration: 61s;  animation-delay: -25s; opacity: 0.52; animation-name: cloudDriftMirror; }
+.cloud-img--8  { width: clamp(140px, 16vw, 200px); top: 62%; left: -250px; animation-duration: 49s;  animation-delay: -30s; opacity: 0.58; }
+.cloud-img--10 { width: clamp(180px, 20vw, 260px); top: 66%; left: -320px; animation-duration: 91s;  animation-delay: -10s; opacity: 0.50; }
