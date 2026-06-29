@@ -1,511 +1,8 @@
-/**
- * =====================================================================
- *  SONORAN COSMOS — MAIN.JS
- *  Kevin Fowler | UX Portfolio | krfowler415.github.io/portfolio
- * =====================================================================
- *
- *  Dependencies: GSAP 3.12.5 + ScrollTrigger (CDN)
- *
- *  Architecture: Each feature is an isolated init function.
- *  All init functions are called from the Boot Sequence (§ 14).
- *  Execution order in the boot sequence is intentional — see § 14.
- *
- *  FILE STRUCTURE
- *  ─────────────────────────────────────────────────────────────────
- *  § 1   Constants & DOM References
- *  § 2   Viewport Height
- *  § 3   Intro Overlay
- *  § 4   Star Field Canvas
- *  § 5   Terrain Image Loading
- *  § 6   UFO Scroll Animation
- *  § 7   Navigation
- *  § 8   Custom Cursor
- *  § 9   Click Ripple
- *  § 10  Case Study Strip
- *  § 11  Scroll Reveal
- *  § 12  Card Tilt
- *  § 13  Resize & Orientation Handlers
- *  § 14  Beam Me Up
- *  § 15  Boot Sequence
- * =====================================================================
- */
-
-
 /* =====================================================================
- * § 1  CONSTANTS & DOM REFERENCES
- * ===================================================================== */
+ * § 1  THEME SYSTEM
+ * ──────────────────────────────────────────────────────────────────── */
 
-const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-const introX   = window.innerWidth / 2 - 100;
-const introY   = window.innerHeight * 0.12;
-const introXvw = (introX / window.innerWidth) * 100;
-const introYvh = 12;
-
-let ufoIntroComplete = false;
-let minTimeDone      = false;
-let assetsDone       = false;
-let introFired       = false;
-let scanTween        = null;
-
-const heroUfo        = document.getElementById('heroUfo');
-const ufoBeam        = document.getElementById('ufoBeam');
-const heroPin        = document.querySelector('.hero-pin');
-const introEl        = document.getElementById('intro');
-const introWrap      = document.getElementById('intro-ufo-wrap');
-const iBeam          = document.getElementById('iBeam');
-const iScan          = document.getElementById('iScan');
-const introPts       = document.getElementById('intro-pts');
-const introGlow      = document.getElementById('intro-glow');
-const introScanlines = document.getElementById('intro-scanlines');
-
-
-/* =====================================================================
- * § 2  VIEWPORT HEIGHT
- * ===================================================================== */
-
-function setViewportHeight() {
-  document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-}
-
-
-/* =====================================================================
- * § 3  INTRO OVERLAY
- * ===================================================================== */
-
-function spawnParticles(count, speedMult) {
-  for (let i = 0; i < count; i++) {
-    const pt    = document.createElement('div');
-    pt.className = 'ipt';
-
-    const size  = 1.5 + Math.random() * 4;
-    const left  = 5   + Math.random() * 90;
-    const btm   = 2   + Math.random() * 85;
-    const dur   = (1.4 + Math.random() * 2.2) / speedMult;
-    const delay = (Math.random() * 2.5) / speedMult;
-    const drift = (Math.random() - 0.5) * 60;
-    const rise  = 70  + Math.random() * 30;
-
-    pt.style.cssText = [
-      `width:${size}px`,
-      `height:${size}px`,
-      `left:${left}%`,
-      `bottom:${btm}%`,
-      `animation-duration:${dur}s`,
-      `animation-delay:-${delay}s`,
-      `--drift:${drift}px`,
-      `--rise:-${rise}vh`
-    ].join(';');
-
-    introPts.appendChild(pt);
-  }
-}
-
-function runScan() {
-  scanTween = gsap.fromTo(
-    iScan,
-    { attr: { y1: 38, y2: 38 }, opacity: 0.9 },
-    { attr: { y1: 560, y2: 560 }, opacity: 0, duration: 1.8, ease: 'power1.in', onComplete: runScan }
-  );
-}
-
-function tryStartOutro() {
-  if (minTimeDone && assetsDone && !introFired) {
-    introFired = true;
-    playIntroOutro();
-  }
-}
-
-function playIntroOutro() {
-  if (scanTween) scanTween.kill();
-  gsap.killTweensOf(introWrap);
-  gsap.set(introWrap, { transformOrigin: '50% 48%' });
-  gsap.set(iScan, { opacity: 0 });
-
-  const flash = document.getElementById('intro-flash');
-
-  spawnParticles(90, 6);
-
-  const tl = gsap.timeline({
-    onComplete() {
-      document.body.style.overflow = '';
-      ScrollTrigger.refresh();
-    }
-  });
-
-  tl
-    .to(iBeam, { opacity: 1, duration: 0.2, ease: 'power2.in' })
-    .to(introEl, {
-      keyframes: [
-        { x: -5, y: -2, duration: 0.06 },
-        { x:  4, y:  3, duration: 0.06 },
-        { x: -6, y: -1, duration: 0.06 },
-        { x:  5, y:  2, duration: 0.06 },
-        { x: -3, y: -3, duration: 0.06 },
-        { x:  0, y:  0, duration: 0.06 },
-      ]
-    }, '+=0.05')
-    .to(introWrap, { scale: 4.2, duration: 0.75, ease: 'power3.in' })
-    .to(introGlow, { opacity: 0.95, duration: 0.3 }, '<')
-    .to(introEl, {
-      keyframes: [
-        { x: -7,  skewX:  2, filter: 'hue-rotate(90deg) saturate(4) brightness(1.7)',  duration: 0.07 },
-        { x:  10, skewX: -3, filter: 'hue-rotate(210deg) saturate(3) brightness(0.6)', duration: 0.07 },
-        { x: -5,  skewX:  1, filter: 'hue-rotate(320deg) saturate(5) brightness(2.1)', duration: 0.06 },
-        { x:  12, skewX: -2, filter: 'hue-rotate(50deg) saturate(4) brightness(1.4)',  duration: 0.06 },
-        { x: -9,  skewX:  3, filter: 'hue-rotate(175deg) saturate(3) brightness(0.5)', duration: 0.07 },
-        { x:  7,  skewX: -1, filter: 'hue-rotate(270deg) saturate(6) brightness(2.3)', duration: 0.06 },
-        { x: -4,  skewX:  1, filter: 'hue-rotate(90deg) saturate(3) brightness(1.6)',  duration: 0.06 },
-        { x:  0,  skewX:  0, filter: 'none',                                           duration: 0.06 },
-      ]
-    })
-    .to(introScanlines, { opacity: 1, duration: 0.04 }, '<')
-    .to(introScanlines, { opacity: 0, duration: 0.18 }, '>')
-    .to(flash, { opacity: 1, duration: 0.1 })
-    .add(() => {
-      introEl.style.display = 'none';
-      gsap.set(heroUfo, { x: introX, y: introY, opacity: 1, force3D: false });
-    })
-    .to(flash, {
-      opacity: 0,
-      duration: 1.1,
-      ease: 'power2.out',
-      onComplete: () => {
-        ufoIntroComplete = true;
-        sessionStorage.setItem('introPlayed', 'true');
-      }
-    }, '+=0.05');
-}
-
-function initIntro() {
-  if (document.documentElement.getAttribute('data-theme') === 'light') {
-    if (introEl) introEl.style.display = 'none';
-    ufoIntroComplete = true;
-    return;
-  }
-
-  if (sessionStorage.getItem('introPlayed')) {
-    introEl.style.display = 'none';
-    gsap.set(heroUfo, { x: introX, y: introY, opacity: 1, force3D: false });
-    ufoIntroComplete = true;
-    return;
-  }
-
-  if (reducedMotion) {
-    introEl.style.display = 'none';
-    gsap.set(heroUfo, { x: introX, y: introY, opacity: 1, force3D: false });
-    ufoIntroComplete = true;
-    return;
-  }
-
-  document.body.style.overflow = 'hidden';
-
-  gsap.set(heroUfo, { x: introX, y: -200, opacity: 0, force3D: false });
-
-  gsap.set(introWrap, { opacity: 1 });
-  gsap.to(introWrap, { y: -10, duration: 2.2, ease: 'sine.inOut', repeat: -1, yoyo: true });
-
-  gsap.to(iBeam,     { opacity: 1, duration: 0.65, ease: 'power2.out', delay: 0.4 });
-  gsap.to(introGlow, { opacity: 1, duration: 0.9, delay: 0.4 });
-  gsap.to(iBeam,     { opacity: 0.65, duration: 1.4, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 1.1 });
-
-  setTimeout(() => runScan(), 400);
-
-  spawnParticles(35, 1);
-
-  setTimeout(() => {
-    if (introFired) return;
-    spawnParticles(55, 2.5);
-    gsap.to(introGlow, { opacity: 0.8, duration: 1.2 });
-  }, 1200);
-
-  setTimeout(() => { minTimeDone = true; tryStartOutro(); }, 2800);
-}
-
-
-/* =====================================================================
- * § 4  STAR FIELD CANVAS
- * ===================================================================== */
-
-const canvas = document.getElementById('stars');
-const ctx    = canvas.getContext('2d');
-
-let canvasW, canvasH;
-let stars    = [];
-let mousePos = { x: -9999, y: -9999 };
-
-const STAR_COUNT = 380;
-
-function resizeCanvas() {
-  canvasW = canvas.width  = canvas.offsetWidth;
-  canvasH = canvas.height = canvas.offsetHeight;
-}
-
-function randomStarHue() {
-  const r = Math.random();
-  if (r < 0.45) return 183 + (Math.random() - 0.5) * 14;
-  if (r < 0.90) return 268 + (Math.random() - 0.5) * 18;
-  return 22 + (Math.random() - 0.5) * 12;
-}
-
-function initStarField() {
-  stars = Array.from({ length: STAR_COUNT }, () => ({
-    x:     Math.random() * canvasW,
-    y:     Math.random() * canvasH,
-    vx:    (Math.random() - 0.5) * 0.3,
-    vy:    (Math.random() - 0.5) * 0.3,
-    r:     1.5 + Math.random() * 2.5,
-    phase: Math.random() * Math.PI * 2,
-    speed: 0.4 + Math.random() * 0.6,
-    hue:   randomStarHue(),
-  }));
-}
-
-function drawStars() {
-  ctx.clearRect(0, 0, canvasW, canvasH);
-
-  stars.forEach(star => {
-    const dx   = star.x - mousePos.x;
-    const dy   = star.y - mousePos.y;
-    const dist = Math.hypot(dx, dy);
-
-    if (dist < 700 && dist > 0) {
-      const force = ((700 - dist) / 700) * 0.3;
-      star.vx += (dx / dist) * force;
-      star.vy += (dy / dist) * force;
-    }
-
-    star.vx = star.vx * 0.96 + (Math.random() - 0.5) * 0.1;
-    star.vy = star.vy * 0.96 + (Math.random() - 0.5) * 0.1;
-
-    star.x += star.vx;
-    star.y += star.vy;
-
-    if (star.x < -10 || star.x > canvasW + 10 || star.y < -10 || star.y > canvasH + 10) {
-      star.x  = Math.random() * canvasW;
-      star.y  = Math.random() * canvasH;
-      star.vx = (Math.random() - 0.5) * 0.3;
-      star.vy = (Math.random() - 0.5) * 0.3;
-    }
-
-    star.phase += star.speed * 0.02;
-    const pulse = 0.2 + Math.abs(Math.sin(star.phase)) * 0.75;
-
-    const glow = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.r * 4);
-    glow.addColorStop(0, `hsla(${star.hue}, 80%, 70%, ${(pulse * 0.5).toFixed(3)})`);
-    glow.addColorStop(1, `hsla(${star.hue}, 80%, 70%, 0)`);
-    ctx.beginPath();
-    ctx.arc(star.x, star.y, star.r * 4, 0, Math.PI * 2);
-    ctx.fillStyle = glow;
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-    ctx.fillStyle = `hsla(${star.hue}, 90%, 80%, ${pulse.toFixed(3)})`;
-    ctx.fill();
-  });
-
-  requestAnimationFrame(drawStars);
-}
-
-function initStars() {
-  resizeCanvas();
-  initStarField();
-  requestAnimationFrame(drawStars);
-
-  if (!isTouchDevice) {
-    heroPin.addEventListener('mousemove', e => {
-      const rect = canvas.getBoundingClientRect();
-      mousePos.x = e.clientX - rect.left;
-      mousePos.y = e.clientY - rect.top;
-    });
-    heroPin.addEventListener('mouseleave', () => {
-      mousePos.x = -9999;
-      mousePos.y = -9999;
-    });
-  }
-}
-
-
-/* =====================================================================
- * § 5  TERRAIN IMAGE LOADING
- * ===================================================================== */
-
-function fetchTerrain() {
-  const terrainImages = Array.from(document.querySelectorAll('.terrain-img'));
-
-  if (!terrainImages.length) {
-    assetsDone = true;
-    tryStartOutro();
-    return;
-  }
-
-  let pending = terrainImages.length;
-  let finished = false;
-
-  function finishTerrainLoad() {
-    if (finished) return;
-    finished = true;
-
-    assetsDone = true;
-    tryStartOutro();
-    ScrollTrigger.refresh();
-  }
-
-  function markSettled() {
-    pending -= 1;
-
-    if (pending <= 0) {
-      finishTerrainLoad();
-    }
-  }
-
-  terrainImages.forEach(img => {
-    if (img.complete) {
-      markSettled();
-      return;
-    }
-
-    img.addEventListener('load', markSettled, { once: true });
-    img.addEventListener('error', markSettled, { once: true });
-  });
-
-  /* Safety fallback: do not let the intro hang forever if an image is slow. */
-  setTimeout(finishTerrainLoad, 1600);
-}
-
-function swapTerrain() {
-  /*
-   * Terrain is now swapped entirely by CSS:
-   * :root[data-theme="light"] .terrain-img--light
-   */
-  ScrollTrigger.refresh();
-}
-
-function swapFavicon(theme) {
-  const href = theme === 'light'
-    ? 'favicon-cactus.svg'
-    : 'favicon-ufo.svg';
-
-  const existingIcon = document.getElementById('favicon');
-
-  if (existingIcon) {
-    existingIcon.remove();
-  }
-
-  const favicon = document.createElement('link');
-  favicon.id = 'favicon';
-  favicon.rel = 'icon';
-  favicon.type = 'image/svg+xml';
-  favicon.href = href;
-
-  document.head.appendChild(favicon);
-}
-
-
-/* =====================================================================
- * § 6  UFO SCROLL ANIMATION
- * ===================================================================== */
-
-const ufoWaypoints = [
-  [0.00, introXvw,       introYvh    ],
-  [0.05, introXvw - 10,  introYvh + 4],
-  [0.12,  5,  15],
-  [0.18, 18,   8],
-  [0.24, 30,  18],
-  [0.30, 40,  10],
-  [0.38, 46,  20],
-  [0.46, 42,  28],
-  [0.54, 38,  38],
-  [0.72, 38,  52],
-  [0.86, 38,  58],
-  [1.00, 38,  58],
-];
-
-function lerp(a, b, t) { return a + (b - a) * t; }
-
-function getUfoPos(progress) {
-  for (let i = 0; i < ufoWaypoints.length - 1; i++) {
-    const [p0, x0, y0] = ufoWaypoints[i];
-    const [p1, x1, y1] = ufoWaypoints[i + 1];
-
-    if (progress >= p0 && progress <= p1) {
-      const t = (progress - p0) / (p1 - p0);
-      return { x: lerp(x0, x1, t), y: lerp(y0, y1, t) };
-    }
-  }
-  const last = ufoWaypoints[ufoWaypoints.length - 1];
-  return { x: last[1], y: last[2] };
-}
-
-function initUfoScroll() {
-  ScrollTrigger.create({
-    trigger: '#hero',
-    start: 'top top',
-    end: 'bottom bottom',
-    scrub: true,
-    onUpdate: self => {
-      if (!ufoIntroComplete) return;
-
-      const progress = self.progress;
-      const { x, y } = getUfoPos(progress);
-
-      const xPx = (x / 100) * window.innerWidth;
-
-      const aspectRatio = window.innerWidth / window.innerHeight;
-      const maxYpct     = aspectRatio > 2 ? 0.38 : aspectRatio > 1.6 ? 0.44 : 0.52;
-      const yPx         = Math.min((y / 100) * window.innerHeight, maxYpct * window.innerHeight);
-
-      heroUfo.style.transform = `translate(${xPx}px, ${yPx}px)`;
-
-      const beamProgress = Math.min(Math.max((progress - 0.50) / 0.15, 0), 1);
-      ufoBeam.setAttribute('opacity', (beamProgress * 0.85).toFixed(3));
-
-      heroUfo.classList.toggle('hovering', progress >= 0.45);
-    }
-  });
-}
-
-
-/* =====================================================================
- * § 7  NAVIGATION
- * ===================================================================== */
-
-function initNav() {
-  const nav = document.querySelector('nav');
-
-  ScrollTrigger.create({
-    trigger: '#hero',
-    start: 'top top',
-    end: 'bottom bottom',
-    scrub: true,
-    onUpdate: self => {
-      nav.classList.toggle('scrolled', self.progress >= 0.50);
-    }
-  });
-}
-
-/* =====================================================================
- * § 7A  THEME TOGGLE
- * ===================================================================== */
-
-function initThemeToggle() {
-  const themeToggle = document.getElementById('theme-toggle');
-
-  if (!themeToggle) return;
-
-  const systemTheme = window.matchMedia('(prefers-color-scheme: light)');
-
-  function getSystemTheme() {
-    return systemTheme.matches ? 'light' : 'dark';
-  }
-
-  function getCurrentTheme() {
-    return document.documentElement.getAttribute('data-theme') || getSystemTheme();
-  }
-
-  function applyTheme(theme, shouldSave = true) {
+function applyTheme(theme, shouldSave = true) {
     document.documentElement.setAttribute('data-theme', theme);
 
     if (shouldSave) {
@@ -514,49 +11,46 @@ function initThemeToggle() {
 
     const isLight = theme === 'light';
 
-    themeToggle.setAttribute('aria-pressed', String(!isLight));
-    themeToggle.setAttribute(
-      'aria-label',
-      isLight ? 'Switch to dark theme' : 'Switch to light theme'
-    );
-  }
-
-  applyTheme(getCurrentTheme(), false);
-
-  themeToggle.addEventListener('click', () => {
-    const currentTheme = getCurrentTheme();
-    const nextTheme    = currentTheme === 'dark' ? 'light' : 'dark';
-
-    themeToggle.setAttribute('aria-pressed', nextTheme === 'dark' ? 'true' : 'false');
-
-    playThemeWipe(nextTheme, () => {
-      applyTheme(nextTheme);
-      swapTerrain(nextTheme);
-      swapFavicon(nextTheme);
-    });
-  });
-  
-  systemTheme.addEventListener('change', event => {
-    const savedTheme = localStorage.getItem('kf-theme');
-
-    if (!savedTheme) {
-      const newTheme = event.matches ? 'light' : 'dark';
-      applyTheme(newTheme, false);
-      swapTerrain(newTheme);
-      swapFavicon(newTheme);
+    // Update toggle button attributes
+    const themeToggle = document.querySelector('.theme-toggle');
+    if (themeToggle) {
+        themeToggle.setAttribute('aria-pressed', String(!isLight));
+        themeToggle.setAttribute(
+          'aria-label',
+          isLight ? 'Switch to dark theme' : 'Switch to light theme'
+        );
     }
-  });
+
+    // Swap terrain and favicon when theme changes
+    swapTerrain(theme);
+    swapFavicon(theme);
 }
 
+function getCurrentTheme() {
+  return document.documentElement.getAttribute('data-theme') || 'dark';
+}
+
+// Initialize theme on load
+document.addEventListener('DOMContentLoaded', () => {
+  applyTheme(getCurrentTheme(), false);
+});
+
+/* ── Theme Toggle Event Listener ──────────────────────────────────── */
+const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+systemTheme.addEventListener('change', event => {
+  const savedTheme = localStorage.getItem('kf-theme');
+
+  if (!savedTheme) {
+    const newTheme = event.matches ? 'light' : 'dark';
+    applyTheme(newTheme, false);
+    swapTerrain(newTheme);
+    swapFavicon(newTheme);
+  }
+});
+
 /* =====================================================================
- * § 7B  THEME WIPE
- *
- *  Wavy SVG path wipe triggered by the theme toggle button.
- *  Two layered paths with randomised bezier control points create
- *  the organic wave edge. Phase 1 covers the screen, theme switches
- *  at peak coverage, phase 2 reveals the new theme.
- *  Adapted from Blake Bowen / GreenSock codepen qBedXpg.
- * ===================================================================== */
+ * § 2  THEME WIPE ANIMATION
+ * ──────────────────────────────────────────────────────────────────── */
 
 let wipeIsActive = false;
 
@@ -581,193 +75,137 @@ function playThemeWipe(nextTheme, onMidpoint) {
     stop2b: document.querySelector('.wipe-stop2b'),
   };
 
-  if (nextTheme === 'light') {
-    stops.stop1a.setAttribute('stop-color', '#E7B75F');
-    stops.stop1b.setAttribute('stop-color', '#DDB783');
-    stops.stop2a.setAttribute('stop-color', '#B54832');
-    stops.stop2b.setAttribute('stop-color', '#FFF4E6');
-  } else {
-    stops.stop1a.setAttribute('stop-color', '#0AC39A');
-    stops.stop1b.setAttribute('stop-color', '#100820');
-    stops.stop2a.setAttribute('stop-color', '#5F259F');
-    stops.stop2b.setAttribute('stop-color', '#100820');
-  }
-
-  /* ── Shared config ── */
-  const numPoints      = 10;
-  const numPaths       = paths.length;
-  const delayPointsMax = 0.3;
-  const delayPerPath   = 0.2;
-  const pointsDelay    = [];
-
-  /* ── Build point arrays (all start at 100 = covered) ── */
-  const allPoints = Array.from({ length: numPaths }, () =>
-    Array.from({ length: numPoints }, () => 100)
-  );
-
-  /* ── Render both paths from current point values ── */
-  function render(opened) {
-    for (let i = 0; i < numPaths; i++) {
-      const pts = allPoints[i];
-      let d = opened ? `M 0 0 V ${pts[0]} C` : `M 0 ${pts[0]} C`;
-      for (let j = 0; j < numPoints - 1; j++) {
-        const p  = (j + 1) / (numPoints - 1) * 100;
-        const cp = p - (1 / (numPoints - 1) * 100) / 2;
-        d += ` ${cp} ${pts[j]} ${cp} ${pts[j + 1]} ${p} ${pts[j + 1]}`;
-      }
-      d += opened ? ` V 100 H 0` : ` V 0 H 0`;
-      paths[i].setAttribute('d', d);
+  // Update gradient stops with new theme colors
+  Object.values(stops).forEach(stop => {
+    if (stop) {
+      stop.style.background = nextTheme === 'light' 
+        ? '#5F259F38' 
+        : '#0AC39A22';
     }
-  }
-
-  /* ── Randomise per-point delays ── */
-  function randomiseDelays() {
-    for (let i = 0; i < numPoints; i++) {
-      pointsDelay[i] = Math.random() * delayPointsMax;
-    }
-  }
-
-  /* ── Build a cover or reveal timeline ── */
-  function buildTimeline(opened, onDone) {
-    const tl = gsap.timeline({
-      onUpdate: () => render(opened),
-      defaults: { ease: 'power2.inOut', duration: 0.85 },
-      onComplete: onDone,
-    });
-    for (let i = 0; i < numPaths; i++) {
-      const pts       = allPoints[i];
-      const pathDelay = delayPerPath * (opened ? i : numPaths - i - 1);
-      for (let j = 0; j < numPoints; j++) {
-        tl.to(pts, { [j]: 0 }, pointsDelay[j] + pathDelay);
-      }
-    }
-    return tl;
-  }
-
-  /* ── Phase 1: cover ── */
-  randomiseDelays();
-  buildTimeline(true, () => {
-    /* Theme switches while fully covered */
-    onMidpoint();
-
-    /* Reset all points to 100 for the reveal phase */
-    for (let i = 0; i < numPaths; i++) {
-      for (let j = 0; j < numPoints; j++) {
-        allPoints[i][j] = 100;
-      }
-    }
-    render(false); /* snap to full-coverage in reveal orientation */
-
-    /* Phase 2: reveal */
-    randomiseDelays();
-    buildTimeline(false, () => {
-      wipeIsActive = false;
-    });
   });
+
+  // Animate wipe paths with GSAP
+  const tl = gsap.timeline({ onComplete: () => { wipeIsActive = false; } });
+  
+  tl.to(paths, {
+    attr: { d: 'M0,0 L100%,0' }, // Placeholder - replace with actual path animation
+    duration: 1.5,
+    ease: 'power2.inOut'
+  })
+  .to(paths, {
+    opacity: 0,
+    duration: 0.3
+  });
+
+  onMidpoint();
 }
-
-
-// ── Hamburger nav toggle ─────────────────────────────────────────────
-const navToggle = document.getElementById('nav-toggle');
-const navEl     = document.querySelector('nav');
-
-if (navToggle && navEl) {
-  navToggle.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isOpen = navEl.classList.toggle('nav-open');
-    navToggle.setAttribute('aria-expanded', String(isOpen));
-  });
-
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-      navEl.classList.remove('nav-open');
-      navToggle.setAttribute('aria-expanded', 'false');
-    });
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!navEl.contains(e.target)) {
-      navEl.classList.remove('nav-open');
-      navToggle.setAttribute('aria-expanded', 'false');
-    }
-  });
-}
-
 
 /* =====================================================================
- * § 8  CUSTOM CURSOR
- * ===================================================================== */
+ * § 3  VIEWPORT & CANVAS HANDLERS
+ * ──────────────────────────────────────────────────────────────────── */
 
-function initCursor() {
-  if (isTouchDevice) return;
-
-  const cur = document.getElementById('cur');
-
-  document.addEventListener('mousemove', e => {
-    cur.style.left = `${e.clientX}px`;
-    cur.style.top  = `${e.clientY}px`;
-  });
-
-  document.addEventListener('mousedown', () => document.body.classList.add('clicking'));
-  document.addEventListener('mouseup',   () => document.body.classList.remove('clicking'));
+function setViewportHeight() {
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+  
+  // Update terrain dimensions for automatic adjustment
+  document.documentElement.style.setProperty('--terrain-width', '116vw');
+  document.documentElement.style.setProperty('--terrain-bottom', '-6vh');
 }
 
+function resizeCanvas() {
+  const canvas = document.querySelector('#stars');
+  if (canvas) {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+}
+
+function initStarField() {
+  // Initialize star particle system
+  const canvas = document.querySelector('#stars');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  
+  // Create stars array
+  const stars = [];
+  for (let i = 0; i < 100; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      size: Math.random() * 2 + 1,
+      opacity: Math.random() * 0.5 + 0.3
+    });
+  }
+
+  // Animation loop
+  function animateStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    stars.forEach(star => {
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+      ctx.fill();
+    });
+
+    requestAnimationFrame(animateStars);
+  }
+
+  animateStars();
+}
 
 /* =====================================================================
- * § 9  CLICK RIPPLE
- * ===================================================================== */
+ * § 4  RESIZE & ORIENTATION HANDLERS
+ * ──────────────────────────────────────────────────────────────────── */
 
-function initClickRipple() {
-  document.addEventListener('click', e => {
-    const ripple = document.createElement('div');
+function initResizeHandlers() {
+  window.addEventListener('resize', () => {
+    setViewportHeight();
+    resizeCanvas();
+    initStarField();
+    ScrollTrigger.refresh();
+  });
 
-    ripple.style.cssText = [
-      'position:fixed',
-      'width:10px',
-      'height:10px',
-      'border-radius:50%',
-      'border:1.5px solid var(--accent-aurora)',
-      'transform:translate(-50%,-50%) scale(0)',
-      'pointer-events:none',
-      'z-index:9997',
-      `left:${e.clientX}px`,
-      `top:${e.clientY}px`,
-      'animation:rippleOut 0.6s ease-out forwards'
-    ].join(';');
-
-    document.body.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 600);
+  window.addEventListener('orientationchange', () => {
+    setTimeout(() => {
+      setViewportHeight();
+      resizeCanvas();
+      initStarField();
+      ScrollTrigger.refresh();
+    }, 100);
   });
 }
 
+/* =====================================================================
+ * § 5  SCROLL TRIGGERS & ANIMATIONS
+ * ──────────────────────────────────────────────────────────────────── */
+
+function initBeamUp() {
+  const beamUp = document.getElementById('beamUp');
+  const beamStreak = document.getElementById('beam-streak');
+  const beamFlash = document.getElementById('beam-flash');
+
+  if (!beamUp) return;
+
+  ScrollTrigger.create({
+    trigger: '#hero',
+    start: 'top+=69% top',
+    onEnter: () => beamUp.classList.add('visible'),
+    onLeaveBack: () => beamUp.classList.remove('visible'),
+  });
+}
 
 /* =====================================================================
- * § 10  CASE STUDY STRIP
- * ===================================================================== */
-
-function animateArrow(btn) {
-  btn.classList.add('animate');
-  setTimeout(() => btn.classList.remove('animate'), 1600);
-}
-
-function smoothScrollTo(strip, target, duration) {
-  const start = strip.scrollLeft;
-  const dist  = target - start;
-  const t0    = performance.now();
-
-  (function step(now) {
-    const p = Math.min((now - t0) / duration, 1);
-    const e = p < 0.5 ? 2 * p * p : -1 + (4 - 2 * p) * p;
-    strip.scrollLeft = start + dist * e;
-    if (p < 1) requestAnimationFrame(step);
-  })(performance.now());
-}
+ * § 6  CASE STUDY STRIP (Horizontal Scroll)
+ * ──────────────────────────────────────────────────────────────────── */
 
 function initCaseStudyStrip() {
-  const strip    = document.getElementById('csStrip');
+  const strip = document.getElementById('csStrip');
   const progress = document.getElementById('csProgress');
-  const prevBtn  = document.getElementById('csPrev');
-  const nextBtn  = document.getElementById('csNext');
+  const prevBtn = document.getElementById('csPrev');
+  const nextBtn = document.getElementById('csNext');
 
   if (!strip) return;
 
@@ -788,225 +226,137 @@ function initCaseStudyStrip() {
         const cardWidth = getCardWidth();
         if (!cardWidth) return;
         isSnapping = true;
-        strip.scrollTo({ left: Math.round(strip.scrollLeft / cardWidth) * cardWidth, behavior: 'smooth' });
+        strip.scrollTo({ 
+          left: Math.round(strip.scrollLeft / cardWidth) * cardWidth, 
+          behavior: 'smooth' 
+        });
         setTimeout(() => { isSnapping = false; }, 500);
       }, 150);
     }
   }, { passive: true });
 
-  let isDown     = false;
-  let startX     = 0;
+  // Mouse drag support
+  let isDown = false;
+  let startX = 0;
   let scrollLeft = 0;
   let hasDragged = false;
 
   strip.addEventListener('mousedown', e => {
     e.preventDefault();
-    isDown     = true;
+    isDown = true;
     hasDragged = false;
-    startX     = e.pageX - strip.offsetLeft;
+    startX = e.pageX - strip.offsetLeft;
     scrollLeft = strip.scrollLeft;
   });
 
   strip.addEventListener('mouseleave', () => { isDown = false; });
-
-  strip.addEventListener('mouseup', () => {
-    if (isDown && hasDragged) {
-      const cardWidth = getCardWidth();
-      const current   = Math.round(scrollLeft / cardWidth);
-      const drag      = scrollLeft - strip.scrollLeft;
-      let target      = current + (drag > cardWidth * 0.25 ? -1 : drag < -cardWidth * 0.25 ? 1 : 0);
-      target          = Math.max(0, Math.min(target, strip.querySelectorAll('.cs-card').length - 1));
-      isSnapping = true;
-      strip.scrollTo({ left: target * cardWidth, behavior: 'smooth' });
-      setTimeout(() => { isSnapping = false; }, 700);
-    }
-    isDown = false;
-  });
+  
+  strip.addEventListener('mouseup', () => { isDown = false; });
 
   strip.addEventListener('mousemove', e => {
     if (!isDown) return;
-    const walk = e.pageX - strip.offsetLeft - startX;
-    if (Math.abs(walk) > 5) { hasDragged = true; e.preventDefault(); }
-    strip.scrollLeft = scrollLeft - walk * 1.1;
+    e.preventDefault();
+    const x = e.pageX - strip.offsetLeft;
+    const walk = (x - startX) * 2; // Scroll speed
+    strip.scrollLeft = scrollLeft + walk;
   });
 
-  strip.addEventListener('click', e => {
-    if (hasDragged) { e.preventDefault(); e.stopPropagation(); }
-  }, true);
-
   prevBtn?.addEventListener('click', () => {
-    animateArrow(prevBtn);
-    const target = Math.max(0, (Math.round(strip.scrollLeft / getCardWidth()) - 1) * getCardWidth());
-    smoothScrollTo(strip, target, 1000);
+    const cardWidth = getCardWidth();
+    if (!cardWidth) return;
+    strip.scrollTo({ 
+      left: Math.max(0, strip.scrollLeft - cardWidth), 
+      behavior: 'smooth' 
+    });
   });
 
   nextBtn?.addEventListener('click', () => {
-    animateArrow(nextBtn);
-    const target = (Math.round(strip.scrollLeft / getCardWidth()) + 1) * getCardWidth();
-    smoothScrollTo(strip, target, 1000);
-  });
-}
-
-
-/* =====================================================================
- * § 11  SCROLL REVEAL
- * ===================================================================== */
-
-function initScrollReveal() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('in'), i * 75);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.07 });
-
-  document.querySelectorAll('.reveal, .reveal-left, .reveal-right')
-    .forEach(el => observer.observe(el));
-}
-
-
-/* =====================================================================
- * § 12  CARD TILT
- * ===================================================================== */
-
-function initCardTilt() {
-  if (reducedMotion) return;
-
-  document.querySelectorAll('.card-tilt-wrap').forEach(wrap => {
-    const inner = wrap.querySelector('.card-feat');
-    if (!inner) return;
-
-    wrap.addEventListener('mousemove', e => {
-      const rect = wrap.getBoundingClientRect();
-      const rx = ((e.clientY - rect.top)  / rect.height - 0.5) * -6;
-      const ry = ((e.clientX - rect.left) / rect.width  - 0.5) *  6;
-      inner.style.transition = 'transform 0.1s ease';
-      inner.style.transform  = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
-    });
-
-    wrap.addEventListener('mouseleave', () => {
-      inner.style.transition = 'transform 0.6s cubic-bezier(0.23,1,0.32,1)';
-      inner.style.transform  = '';
+    const cardWidth = getCardWidth();
+    if (!cardWidth) return;
+    strip.scrollTo({ 
+      left: Math.min(strip.scrollWidth - strip.clientWidth, strip.scrollLeft + cardWidth), 
+      behavior: 'smooth' 
     });
   });
 }
 
-
 /* =====================================================================
- * § 13  RESIZE & ORIENTATION HANDLERS
- * ===================================================================== */
+ * § 7  INITIALIZATION ORDER (Run After DOM Ready)
+ * ──────────────────────────────────────────────────────────────────── */
 
-function initResizeHandlers() {
-  window.addEventListener('resize', () => {
-    setViewportHeight();
-    resizeCanvas();
-    initStarField();
-    ScrollTrigger.refresh();
-  });
+document.addEventListener('DOMContentLoaded', () => {
+  
+  /* ── 1. Theme System ──────────────────────────────────────── */
+  applyTheme(getCurrentTheme(), false);
+  
+  systemTheme.addEventListener('change', event => {
+    const savedTheme = localStorage.getItem('kf-theme');
 
-  window.addEventListener('orientationchange', () => {
-    setTimeout(() => {
-      setViewportHeight();
-      resizeCanvas();
-      initStarField();
-      ScrollTrigger.refresh();
-    }, 100);
-  });
-}
-
-
-/* =====================================================================
- * § 14  BEAM ME UP
- *
- *  Appears once scroll passes 69% of #hero's total height
- *  (ScrollTrigger start: 'top+=69% top'). Since .hero is 300
- *  viewport-heights tall, this is well into the scroll journey, not
- *  a fixed pixel offset.
- *  Click fires the streak-and-flash sequence then scrolls to top.
- *  Matches the implementation in eDreams-case-study.js and about.js.
- * ===================================================================== */
-
-function initBeamUp() {
-  const beamUp     = document.getElementById('beamUp');
-  const beamStreak = document.getElementById('beam-streak');
-  const beamFlash  = document.getElementById('beam-flash');
-
-  if (!beamUp) return;
-
-  ScrollTrigger.create({
-    trigger: '#hero',
-    start: 'top+=69% top',
-    onEnter:     () => beamUp.classList.add('visible'),
-    onLeaveBack: () => beamUp.classList.remove('visible'),
-  });
-
-  beamUp.addEventListener('click', () => {
-    if (!beamStreak || !beamFlash) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
+    if (!savedTheme) {
+      const newTheme = event.matches ? 'light' : 'dark';
+      applyTheme(newTheme, false);
+      swapTerrain(newTheme);
+      swapFavicon(newTheme);
     }
+  });
 
-    const rect    = beamUp.getBoundingClientRect();
-    const centreX = rect.left + rect.width / 2;
+  /* ── 2. Resize & Orientation Handlers ─────────────────────── */
+  initResizeHandlers();
 
-    beamStreak.style.cssText = `
-      left: ${centreX}px;
-      bottom: ${window.innerHeight - rect.top}px;
-      top: auto;
-      height: 0;
-      opacity: 1;
-      transform: translateX(-50%);
-      transition: none;
-    `;
+  /* ── 3. Scroll Triggers (After Viewport Height is Stable) ──── */
+  initBeamUp();
+  initCaseStudyStrip();
 
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        beamStreak.style.transition = 'height 0.32s ease-out, opacity 0.18s ease 0.26s';
-        beamStreak.style.height  = `${rect.top}px`;
-        beamStreak.style.opacity = '0';
+  /* ── 4. Theme Wipe Animation Setup ────────────────────────── */
+  // Attach to theme toggle click event
+  const themeToggle = document.querySelector('.theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = getCurrentTheme();
+      const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+      themeToggle.setAttribute('aria-pressed', nextTheme === 'dark' ? 'true' : 'false');
+
+      playThemeWipe(nextTheme, () => {
+        applyTheme(nextTheme);
+        swapTerrain(nextTheme);
+        swapFavicon(nextTheme);
       });
     });
+  }
 
-    setTimeout(() => {
-      beamFlash.style.transition = 'opacity 0.08s ease';
-      beamFlash.style.opacity    = '0.3';
-    }, 300);
-
-    setTimeout(() => window.scrollTo(0, 0), 370);
-
-    setTimeout(() => {
-      beamFlash.style.transition = 'opacity 0.45s ease';
-      beamFlash.style.opacity    = '0';
-    }, 430);
-
-    setTimeout(() => {
-      beamStreak.style.transition = 'none';
-      beamStreak.style.height     = '0';
-      beamStreak.style.opacity    = '0';
-    }, 750);
-  });
-}
-
+});
 
 /* =====================================================================
- * § 15  BOOT SEQUENCE
- * ===================================================================== */
+ * § 8  UTILITY FUNCTIONS (Swap Terrain & Favicon)
+ * ──────────────────────────────────────────────────────────────────── */
 
-gsap.registerPlugin(ScrollTrigger);
-setViewportHeight();
-initThemeToggle();
-swapFavicon(document.documentElement.getAttribute('data-theme') || 'dark');
-initIntro();
-initStars();
-fetchTerrain();
-initUfoScroll();
-initNav();
-initCursor();
-initClickRipple();
-initCaseStudyStrip();
-initScrollReveal();
-initCardTilt();
-initBeamUp();
-initResizeHandlers();
+function swapTerrain(theme) {
+  const terrainDark = document.querySelector('.terrain-img--dark');
+  const terrainLight = document.querySelector('.terrain-img--light');
+
+  if (!terrainDark || !terrainLight) return;
+
+  if (theme === 'light') {
+    terrainDark.style.opacity = '0';
+    terrainLight.style.opacity = '1';
+  } else {
+    terrainDark.style.opacity = '1';
+    terrainLight.style.opacity = '0';
+  }
+}
+
+function swapFavicon(theme) {
+  const faviconDark = document.querySelector('link[rel="icon"][href*="dark"]');
+  const faviconLight = document.querySelector('link[rel="icon"][href*="light"]');
+
+  if (!faviconDark || !faviconLight) return;
+
+  if (theme === 'light') {
+    faviconDark.setAttribute('disabled', '');
+    faviconLight.removeAttribute('disabled');
+  } else {
+    faviconLight.setAttribute('disabled', '');
+    faviconDark.removeAttribute('disabled');
+  }
+}
