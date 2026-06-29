@@ -1911,21 +1911,26 @@ a.card-feat,
   bottom: 0;
 
   /*
-   * Bigger terrain window:
-   * gives the PNG breathing room above, while only the bottom edge fades.
+   * Full-height terrain zone so the top of the PNG has room.
+   * The actual image overfills horizontally inside .terrain-stage.
    */
-  height: min(88vh, 900px);
+  height: min(96vh, 980px);
 
   z-index: 6;
   pointer-events: none;
   overflow: visible;
 
-  --terrain-width: min(98vw, 1760px);
-  --terrain-bottom: -1.5vh;
-  --terrain-fade-height: 3vh;
+  /*
+   * Overscan is intentional.
+   * The PNG has transparent side space, so the stage needs to be
+   * much wider than 100vw to make the visible terrain reach the edges.
+   */
+  --terrain-width: 156vw;
+  --terrain-bottom: -3vh;
+  --terrain-fade-height: 2.25vh;
 }
 
-/* Tiny bottom-only terrain blend */
+/* Tiny bottom-only blend into the current theme background */
 .hero-terrain::after {
   content: '';
   position: absolute;
@@ -1944,7 +1949,6 @@ a.card-feat,
   left: 50%;
   bottom: var(--terrain-bottom);
   width: var(--terrain-width);
-  min-width: 1180px;
   aspect-ratio: 1672 / 941;
   transform: translateX(-50%);
   z-index: 1;
@@ -1952,7 +1956,7 @@ a.card-feat,
   overflow: visible;
 }
 
-/* Terrain PNGs fill the expanded stage without cropping */
+/* Terrain PNGs fill the stage without cropping */
 .terrain-img {
   position: absolute;
   inset: 0;
@@ -1968,7 +1972,6 @@ a.card-feat,
   transition: opacity 0.35s ease;
 }
 
-/* Dark theme default */
 .terrain-img--dark {
   opacity: 1;
 }
@@ -1977,7 +1980,6 @@ a.card-feat,
   opacity: 0;
 }
 
-/* Light theme swap */
 :root[data-theme="light"] .terrain-img--dark {
   opacity: 0;
 }
@@ -2335,10 +2337,10 @@ a.card-feat,
   .c-band       { flex-direction: column; align-items: flex-start; padding: 2.5rem; }
   .c-cta-btn    { align-self: center; }
   .hero-terrain {
-    height: min(82vh, 720px);
-    --terrain-width: 140vw;
-    --terrain-bottom: -1vh;
-    --terrain-fade-height: 3vh;
+    height: min(88vh, 780px);
+    --terrain-width: 190vw;
+    --terrain-bottom: -1.5vh;
+    --terrain-fade-height: 2.25vh;
   }
   
   .terrain-stage { min-width: 0;}
@@ -2399,14 +2401,25 @@ a.card-feat,
   .c-cta-btn { padding: 1rem 1.25rem; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
   .hero-terrain {
-    height: min(76vh, 620px);
-    --terrain-width: 185vw;
+    height: min(82vh, 660px);
+    --terrain-width: 260vw;
     --terrain-bottom: 0vh;
-    --terrain-fade-height: 2.5vh;
+    --terrain-fade-height: 2vh;
   }
   
   .terrain-stage { min-width: 0; }
   .terrain-img { min-width: 0; }
+}
+
+
+/* ── Ultrawide ────────────────────────────────────────────────────── */
+@media (min-aspect-ratio: 21 / 9) {
+  .hero-terrain {
+    height: min(100vh, 980px);
+    --terrain-width: 145vw;
+    --terrain-bottom: -8vh;
+    --terrain-fade-height: 2.25vh;
+  }
 }
 
 /* =====================================================================
