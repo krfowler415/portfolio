@@ -1887,9 +1887,9 @@ a.card-feat,
   bottom: 0;
   left: 0;
   right: 0;
-  height: 14vh;
+  height: 4vh;
   background: linear-gradient(to bottom, transparent, var(--bg));
-  z-index: 7;
+  z-index: 5;
   pointer-events: none;
 }
 
@@ -1903,52 +1903,69 @@ a.card-feat,
   pointer-events: none;
 }
 
-/* Terrain container — full sticky viewport layer */
+/* Terrain container — expanded PNG stage */
 .hero-terrain {
-  position: absolute;
-  inset: 0;
-  z-index: 6;
-  pointer-events: none;
-  overflow: hidden;
-
-  /* Primary tuning knobs for the PNG terrain system */
-  --terrain-stage-height: clamp(360px, 58vh, 680px);
-  --terrain-width: min(122vw, 1900px);
-  --terrain-bottom: clamp(-360px, -34vh, -210px);
-}
-
-/* Bottom-only window for the tall transparent PNG artwork */
-.terrain-stage {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: var(--terrain-stage-height);
-  pointer-events: none;
-  overflow: hidden;
 
-  /* Softens the top of the terrain layer so it blends into sky */
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 100%);
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 100%);
+  /*
+   * Bigger terrain window:
+   * gives the PNG breathing room above, while only the bottom edge fades.
+   */
+  height: min(88vh, 900px);
+
+  z-index: 6;
+  pointer-events: none;
+  overflow: visible;
+
+  --terrain-width: min(98vw, 1760px);
+  --terrain-bottom: -1.5vh;
+  --terrain-fade-height: 3vh;
 }
 
-/* Terrain PNGs are illustrated cutouts, not background-cover panels */
-.terrain-img {
+/* Tiny bottom-only terrain blend */
+.hero-terrain::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: var(--terrain-fade-height);
+  background: linear-gradient(to bottom, transparent, var(--bg));
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* The actual PNG stage */
+.terrain-stage {
   position: absolute;
   left: 50%;
   bottom: var(--terrain-bottom);
   width: var(--terrain-width);
   min-width: 1180px;
-  height: auto;
-  max-width: none;
-  display: block;
+  aspect-ratio: 1672 / 941;
   transform: translateX(-50%);
+  z-index: 1;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* Terrain PNGs fill the expanded stage without cropping */
+.terrain-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  display: block;
   opacity: 0;
   user-select: none;
   pointer-events: none;
   -webkit-user-drag: none;
   transition: opacity 0.35s ease;
-  will-change: opacity;
 }
 
 /* Dark theme default */
@@ -2318,10 +2335,13 @@ a.card-feat,
   .c-band       { flex-direction: column; align-items: flex-start; padding: 2.5rem; }
   .c-cta-btn    { align-self: center; }
   .hero-terrain {
-    --terrain-stage-height: clamp(330px, 58vh, 620px);
-    --terrain-width: 165vw;
-    --terrain-bottom: clamp(-300px, -26vh, -130px);
+    height: min(82vh, 720px);
+    --terrain-width: 140vw;
+    --terrain-bottom: -1vh;
+    --terrain-fade-height: 3vh;
   }
+  
+  .terrain-stage { min-width: 0;}
   .terrain-img { min-width: 0; }
   #nav-toggle { display: flex; }
 
@@ -2379,10 +2399,13 @@ a.card-feat,
   .c-cta-btn { padding: 1rem 1.25rem; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
   .hero-terrain {
-    --terrain-stage-height: clamp(300px, 54vh, 560px);
-    --terrain-width: 225vw;
-    --terrain-bottom: clamp(-230px, -18vh, -90px);
+    height: min(76vh, 620px);
+    --terrain-width: 185vw;
+    --terrain-bottom: 0vh;
+    --terrain-fade-height: 2.5vh;
   }
+  
+  .terrain-stage { min-width: 0; }
   .terrain-img { min-width: 0; }
 }
 
@@ -2798,10 +2821,13 @@ a.card-feat,
 }
 
 :root[data-theme="light"] .hero-pin::after {
-  height: 14vh;
+  height: 4vh;
   background: linear-gradient(to bottom, transparent, var(--bg));
 }
 
+:root[data-theme="light"] .hero-terrain::after {
+  background: linear-gradient(to bottom, transparent, var(--bg));
+}
 
 /* ── Clouds ────────────────────────────────────────────────────────── */
 
