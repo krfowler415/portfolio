@@ -374,17 +374,15 @@ function fetchTerrain() {
 
   /*
    * Safety fallback:
-   * Do not let the intro hang forever if one terrain image is slow.
+   * Do not let the intro hang forever if an image is slow.
    */
   setTimeout(finishTerrainLoad, 1600);
 }
 
 function swapTerrain() {
   /*
-   * Terrain is now theme-swapped by CSS using:
+   * Terrain is now swapped entirely by CSS:
    * :root[data-theme="light"] .terrain-img--light
-   *
-   * This function stays here because initThemeToggle() already calls it.
    */
   ScrollTrigger.refresh();
 }
