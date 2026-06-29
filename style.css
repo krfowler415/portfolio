@@ -1892,7 +1892,7 @@ a.card-feat,
   bottom: 0;
   left: 0;
   right: 0;
-  height: 24vh;
+  height: 14vh;
   background: linear-gradient(to bottom, transparent, var(--bg));
   z-index: 7;
   pointer-events: none;
@@ -1908,28 +1908,30 @@ a.card-feat,
   pointer-events: none;
 }
 
-/* Terrain container — PNG/WebP image layer, not injected SVG */
+/* Terrain container — transparent PNG image layer */
 .hero-terrain {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: min(86vh, 820px);
+  inset: 0;
   z-index: 6;
   pointer-events: none;
   overflow: hidden;
-  transform: translateZ(0);
+
+  /* Tune these two values first if the terrain feels too high/low */
+  --terrain-width: 118vw;
+  --terrain-bottom: -28vh;
 }
 
-/* Both terrain images sit in the same exact position */
+/* Terrain PNGs are full illustrated cutouts, not cropped backgrounds */
 .terrain-img {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  left: 50%;
+  bottom: var(--terrain-bottom);
+  width: var(--terrain-width);
+  min-width: 1280px;
+  height: auto;
+  max-width: none;
   display: block;
-  object-fit: cover;
-  object-position: center bottom;
+  transform: translateX(-50%);
   opacity: 0;
   user-select: none;
   pointer-events: none;
@@ -1937,7 +1939,7 @@ a.card-feat,
   transition: opacity 0.35s ease;
 }
 
-/* Dark theme is default */
+/* Dark theme default */
 .terrain-img--dark {
   opacity: 1;
 }
@@ -1946,7 +1948,7 @@ a.card-feat,
   opacity: 0;
 }
 
-/* Light theme terrain swap */
+/* Light theme swap */
 :root[data-theme="light"] .terrain-img--dark {
   opacity: 0;
 }
@@ -2341,6 +2343,15 @@ a.card-feat,
   }
 }
 
+.hero-terrain {
+  --terrain-width: 155vw;
+  --terrain-bottom: -16vh;
+}
+
+.terrain-img {
+  min-width: 0;
+}
+
 /* ── Mobile (≤ 600px) ─────────────────────────────────────────────────
  *  Footer stacks vertically.
  *  OS cursor restored (custom cursor hidden via #cur display: none).
@@ -2362,11 +2373,12 @@ a.card-feat,
 }
 
 .hero-terrain {
-  height: min(78vh, 620px);
+  --terrain-width: 210vw;
+  --terrain-bottom: -8vh;
 }
 
 .terrain-img {
-  object-position: center bottom;
+  min-width: 0;
 }
 
 
@@ -2782,8 +2794,8 @@ a.card-feat,
 }
 
 :root[data-theme="light"] .hero-pin::after {
-  height: 30vh;
-  background: linear-gradient(to bottom, transparent, #DDB783);
+  height: 14vh;
+  background: linear-gradient(to bottom, transparent, var(--bg));
 }
 
 
