@@ -2305,7 +2305,8 @@ a.card-feat,
   .about-layout { grid-template-columns: 1fr; gap: 2.5rem; }
   .c-band       { flex-direction: column; align-items: flex-start; padding: 2.5rem; }
   .c-cta-btn    { align-self: center; }
-
+  .hero-terrain { --terrain-width: 155vw; --terrain-bottom: -16vh; }
+  .terrain-img { min-width: 0; }
   #nav-toggle { display: flex; }
 
   .nav-links {
@@ -2343,15 +2344,6 @@ a.card-feat,
   }
 }
 
-.hero-terrain {
-  --terrain-width: 155vw;
-  --terrain-bottom: -16vh;
-}
-
-.terrain-img {
-  min-width: 0;
-}
-
 /* ── Mobile (≤ 600px) ─────────────────────────────────────────────────
  *  Footer stacks vertically.
  *  OS cursor restored (custom cursor hidden via #cur display: none).
@@ -2370,17 +2362,9 @@ a.card-feat,
   .nav-logo { font-size: 1.1rem; white-space: nowrap; }
   .c-cta-btn { padding: 1rem 1.25rem; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
+  .hero-terrain { --terrain-width: 210vw; --terrain-bottom: -8vh; }
+  .terrain-img { min-width: 0; }
 }
-
-.hero-terrain {
-  --terrain-width: 210vw;
-  --terrain-bottom: -8vh;
-}
-
-.terrain-img {
-  min-width: 0;
-}
-
 
 /* =====================================================================
    LIGHT THEME COMPONENT OVERRIDES
