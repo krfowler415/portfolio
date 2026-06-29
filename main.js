@@ -973,6 +973,15 @@ function initBeamUp() {
   });
 }
 
+/* =====================================================================
+ * § 14B  FAVICON SWAP
+ * ===================================================================== */
+
+function swapFavicon(theme) {
+  const favicon = document.getElementById('favicon');
+  if (!favicon) return;
+  favicon.href = theme === 'light' ? 'favicon-cactus.svg' : 'favicon-ufo.svg';
+}
 
 /* =====================================================================
  * § 15  BOOT SEQUENCE
