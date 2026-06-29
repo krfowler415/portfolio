@@ -1908,23 +1908,51 @@ a.card-feat,
   pointer-events: none;
 }
 
-/* Terrain container — div stays in HTML; SVG is fetched by main.js */
+/* Terrain container — PNG/WebP image layer, not injected SVG */
 .hero-terrain {
   position: absolute;
-  inset: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: min(86vh, 820px);
   z-index: 6;
   pointer-events: none;
   overflow: hidden;
+  transform: translateZ(0);
 }
 
-/* Injected terrain SVG */
-.hero-terrain svg {
+/* Both terrain images sit in the same exact position */
+.terrain-img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   display: block;
-  max-height: none;
-  transform-origin: 50% 100%;
-  transform: scale(1.08);
+  object-fit: cover;
+  object-position: center bottom;
+  opacity: 0;
+  user-select: none;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  transition: opacity 0.35s ease;
+}
+
+/* Dark theme is default */
+.terrain-img--dark {
+  opacity: 1;
+}
+
+.terrain-img--light {
+  opacity: 0;
+}
+
+/* Light theme terrain swap */
+:root[data-theme="light"] .terrain-img--dark {
+  opacity: 0;
+}
+
+:root[data-theme="light"] .terrain-img--light {
+  opacity: 1;
 }
 
 /* Moon SVG container */
@@ -2333,7 +2361,13 @@ a.card-feat,
   .stat-grid { grid-template-columns: 1fr 1fr; }
 }
 
+.hero-terrain {
+  height: min(78vh, 620px);
+}
 
+.terrain-img {
+  object-position: center bottom;
+}
 
 
 /* =====================================================================
