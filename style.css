@@ -28,9 +28,8 @@
  *  ─────────────────────────────────────────────────────────────────
  *  --bg: #100820            flows from terrain SVG gradient
  *  .hero height: 300 × --vh   UFO journey pacing
- *  .hero-pin::after: 24vh   terrain fade breakpoint
- *  terrain viewBox: "0 160 666.667 90"   empirically tested
- *  preserveAspectRatio: "xMidYMax"        no slice — prevents zoom
+ *  .hero-pin::after controls bottom atmosphere fade
+ *  terrain uses transparent PNGs in a bottom-stage layer
  *
  *  FILE STRUCTURE
  *  ─────────────────────────────────────────────────────────────────
@@ -1844,15 +1843,12 @@ a.card-feat,
  *  Layer stack (z-index):
  *    2  #stars         canvas particle field
  *    3  .hero-moon     SVG moon
- *    6  .hero-terrain  transparent PNG terrain stage
+ *    6  .hero-terrain  transparent terrain PNG layer
  *    7  ::after        bottom fade to --bg
  *    8  .hero-ufo      SVG UFO (GSAP-controlled position)
  *
- *  Terrain implementation:
- *    transparent PNG pair: images/terrain-dark.png + images/terrain-light.png
- *    theme swap handled by opacity in CSS, not by fetch() in JS.
- *
- *  Adjust --terrain-width and --terrain-bottom on .hero-terrain for layout.
+ *  Terrain is now a transparent PNG pair controlled by .terrain-stage.
+ *  Do not fetch or inject SVG terrain from JavaScript.
  * ───────────────────────────────────────────────────────────────────── */
 
 /* Outer scroll container — 300 × --vh creates the scroll space for the theater */
@@ -1907,10 +1903,7 @@ a.card-feat,
   pointer-events: none;
 }
 
-/* Terrain container — transparent PNG terrain stage.
- * The old inline SVG/parallax terrain has been removed from main.js.
- * This layer remains full-viewport so the moon/sun can pass behind it,
- * but the actual image is positioned by .terrain-stage at the bottom. */
+/* Terrain container — full sticky viewport layer */
 .hero-terrain {
   position: absolute;
   inset: 0;
@@ -1918,47 +1911,63 @@ a.card-feat,
   pointer-events: none;
   overflow: hidden;
 
-  /* Desktop tuning knobs.
-   * More negative bottom = terrain moves down.
-   * Larger width = terrain zooms in. */
-  --terrain-width: 100vw;
-  --terrain-bottom: -30vh;
+  /* Primary tuning knobs for the PNG terrain system */
+  --terrain-stage-height: clamp(360px, 58vh, 680px);
+  --terrain-width: min(122vw, 1900px);
+  --terrain-bottom: clamp(-360px, -34vh, -210px);
 }
 
+/* Bottom-only window for the tall transparent PNG artwork */
 .terrain-stage {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--terrain-stage-height);
+  pointer-events: none;
+  overflow: hidden;
+
+  /* Softens the top of the terrain layer so it blends into sky */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 100%);
+}
+
+/* Terrain PNGs are illustrated cutouts, not background-cover panels */
+.terrain-img {
   position: absolute;
   left: 50%;
   bottom: var(--terrain-bottom);
   width: var(--terrain-width);
-  min-width: 1280px;
-  aspect-ratio: 1672 / 941;
-  transform: translateX(-50%);
-  pointer-events: none;
-}
-
-.terrain-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: contain;
-  object-position: center bottom;
+  min-width: 1180px;
+  height: auto;
   max-width: none;
+  display: block;
+  transform: translateX(-50%);
   opacity: 0;
   user-select: none;
   pointer-events: none;
   -webkit-user-drag: none;
   transition: opacity 0.35s ease;
+  will-change: opacity;
 }
 
 /* Dark theme default */
-.terrain-img--dark { opacity: 1; }
-.terrain-img--light { opacity: 0; }
+.terrain-img--dark {
+  opacity: 1;
+}
+
+.terrain-img--light {
+  opacity: 0;
+}
 
 /* Light theme swap */
-:root[data-theme="light"] .terrain-img--dark { opacity: 0; }
-:root[data-theme="light"] .terrain-img--light { opacity: 1; }
+:root[data-theme="light"] .terrain-img--dark {
+  opacity: 0;
+}
+
+:root[data-theme="light"] .terrain-img--light {
+  opacity: 1;
+}
 
 /* Moon SVG container */
 .hero-moon,
@@ -2303,21 +2312,17 @@ a.card-feat,
  *  Nav links hidden behind hamburger toggle.
  * ──────────────────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
-  .hero-terrain {
-    --terrain-width: 132vw;
-    --terrain-bottom: -18vh;
-  }
-
-  .terrain-stage {
-    min-width: 0;
-  }
-
   .card-feat    { grid-template-columns: 1fr; }
   .card-vis     { min-height: 260px; }
   .about-layout { grid-template-columns: 1fr; gap: 2.5rem; }
   .c-band       { flex-direction: column; align-items: flex-start; padding: 2.5rem; }
   .c-cta-btn    { align-self: center; }
-
+  .hero-terrain {
+    --terrain-stage-height: clamp(330px, 58vh, 620px);
+    --terrain-width: 165vw;
+    --terrain-bottom: clamp(-300px, -26vh, -130px);
+  }
+  .terrain-img { min-width: 0; }
   #nav-toggle { display: flex; }
 
   .nav-links {
@@ -2369,21 +2374,17 @@ a.card-feat,
   body       { cursor: auto; }
   #cur       { display: none; }
   .hero      { height: calc(var(--vh, 1vh) * 140); }
-  .hero-terrain {
-    --terrain-width: 180vw;
-    --terrain-bottom: -7vh;
-  }
-  .terrain-stage {
-    min-width: 0;
-  }
   .hero-ufo  { width: 160px; }
   .nav-logo { font-size: 1.1rem; white-space: nowrap; }
   .c-cta-btn { padding: 1rem 1.25rem; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
+  .hero-terrain {
+    --terrain-stage-height: clamp(300px, 54vh, 560px);
+    --terrain-width: 225vw;
+    --terrain-bottom: clamp(-230px, -18vh, -90px);
+  }
+  .terrain-img { min-width: 0; }
 }
-
-
-
 
 /* =====================================================================
    LIGHT THEME COMPONENT OVERRIDES
