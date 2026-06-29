@@ -6,7 +6,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kevin Fowler — UX Designer</title>
-    <link rel="icon" type="image/svg+xml" href="favicon-ufo.svg" id="favicon"/>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" id="favicon"/>
 
     <script>
       if (sessionStorage.getItem('introPlayed')) {
@@ -31,10 +31,10 @@
     <script defer src="/_vercel/insights/script.js"></script>
     <script defer src="/_vercel/speed-insights/script.js"></script>
   </head>
+  <body>
 
-  <!-- ── Body ─────────────────────────────────────────────────────── -->
-  
- <svg class="shape-overlays" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+  <!-- ── Theme Wipe Overlay ───────────────────────────────────────── -->
+  <svg class="shape-overlays" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
     <defs>
       <linearGradient id="wipe-grad1" x1="0%" y1="0%" x2="0%" y2="100%">
         <stop class="wipe-stop1a" offset="0%"   stop-color="#0AC39A"/>
@@ -48,10 +48,6 @@
     <path class="shape-overlays__path" fill="url(#wipe-grad2)"></path>
     <path class="shape-overlays__path" fill="url(#wipe-grad1)"></path>
   </svg>
-
-  <!-- ── Body ─────────────────────────────────────────────────────── -->
-  
-  <body>
 
   <!-- ── Loading Screen ─────────────────────────────────────────────────────── -->
    
@@ -223,32 +219,36 @@
           </svg>
           </div>
         </div>
-        
   <!-- ── Hero Terrain ─────────────────────────────────────────────────────── -->
-      
-      <div class="hero-terrain" id="heroTerrain" aria-hidden="true">
-        <img
-          class="terrain-img terrain-img--dark"
-          src="images/terrain-dark.png"
-          width="1672"
-          height="941"
-          alt=""
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-        />
-      
-        <img
-          class="terrain-img terrain-img--light"
-          src="images/terrain-light.png"
-          width="1672"
-          height="941"
-          alt=""
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-        />
+
+        <div class="hero-terrain" id="heroTerrain" aria-hidden="true">
+          <div class="terrain-stage">
+            <img
+              class="terrain-img terrain-img--dark"
+              src="images/terrain-dark.png"
+              width="1672"
+              height="941"
+              alt=""
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            />
+
+            <img
+              class="terrain-img terrain-img--light"
+              src="images/terrain-light.png"
+              width="1672"
+              height="941"
+              alt=""
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </div>
+        </div>
+
       </div>
+    </section>
 
   <!-- ── Marquee ─────────────────────────────────────────────────────── -->
 
