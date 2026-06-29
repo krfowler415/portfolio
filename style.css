@@ -1917,7 +1917,7 @@ a.card-feat,
   overflow: hidden;
 
   /* Tune these two values first if the terrain feels too high/low */
-  --terrain-width: 118vw;
+  --terrain-width: 100vw;
   --terrain-bottom: -28vh;
 }
 
