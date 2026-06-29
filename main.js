@@ -384,10 +384,23 @@ function swapTerrain() {
 }
 
 function swapFavicon(theme) {
-  const favicon = document.getElementById('favicon');
-  if (!favicon) return;
+  const href = theme === 'light'
+    ? 'favicon-cactus.svg'
+    : 'favicon-ufo.svg';
 
-  favicon.href = theme === 'light' ? 'favicon-cactus.svg' : 'favicon.svg';
+  const existingIcon = document.getElementById('favicon');
+
+  if (existingIcon) {
+    existingIcon.remove();
+  }
+
+  const favicon = document.createElement('link');
+  favicon.id = 'favicon';
+  favicon.rel = 'icon';
+  favicon.type = 'image/svg+xml';
+  favicon.href = href;
+
+  document.head.appendChild(favicon);
 }
 
 
