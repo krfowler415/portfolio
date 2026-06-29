@@ -16,7 +16,7 @@
  *  § 2   Viewport Height
  *  § 3   Intro Overlay
  *  § 4   Star Field Canvas
- *  § 5   Terrain Parallax
+ *  § 5   Terrain Image Loading
  *  § 6   UFO Scroll Animation
  *  § 7   Navigation
  *  § 8   Custom Cursor
@@ -45,7 +45,6 @@ const introYvh = 12;
 
 let ufoIntroComplete = false;
 let minTimeDone      = false;
-let parallaxTweens   = [];
 let assetsDone       = false;
 let introFired       = false;
 let scanTween        = null;
@@ -334,7 +333,7 @@ function initStars() {
  * ===================================================================== */
 
 function fetchTerrain() {
-  const terrainImages = document.querySelectorAll('.terrain-img');
+  const terrainImages = Array.from(document.querySelectorAll('.terrain-img'));
 
   if (!terrainImages.length) {
     assetsDone = true;
@@ -342,7 +341,7 @@ function fetchTerrain() {
     return;
   }
 
-  let loadedCount = 0;
+  let pending = terrainImages.length;
   let finished = false;
 
   function finishTerrainLoad() {
@@ -354,28 +353,25 @@ function fetchTerrain() {
     ScrollTrigger.refresh();
   }
 
-  function markLoaded() {
-    loadedCount += 1;
+  function markSettled() {
+    pending -= 1;
 
-    if (loadedCount >= terrainImages.length) {
+    if (pending <= 0) {
       finishTerrainLoad();
     }
   }
 
   terrainImages.forEach(img => {
     if (img.complete) {
-      markLoaded();
+      markSettled();
       return;
     }
 
-    img.addEventListener('load', markLoaded, { once: true });
-    img.addEventListener('error', markLoaded, { once: true });
+    img.addEventListener('load', markSettled, { once: true });
+    img.addEventListener('error', markSettled, { once: true });
   });
 
-  /*
-   * Safety fallback:
-   * Do not let the intro hang forever if an image is slow.
-   */
+  /* Safety fallback: do not let the intro hang forever if an image is slow. */
   setTimeout(finishTerrainLoad, 1600);
 }
 
@@ -385,6 +381,13 @@ function swapTerrain() {
    * :root[data-theme="light"] .terrain-img--light
    */
   ScrollTrigger.refresh();
+}
+
+function swapFavicon(theme) {
+  const favicon = document.getElementById('favicon');
+  if (!favicon) return;
+
+  favicon.href = theme === 'light' ? 'favicon-cactus.svg' : 'favicon.svg';
 }
 
 
@@ -973,15 +976,6 @@ function initBeamUp() {
   });
 }
 
-/* =====================================================================
- * § 14B  FAVICON SWAP
- * ===================================================================== */
-
-function swapFavicon(theme) {
-  const favicon = document.getElementById('favicon');
-  if (!favicon) return;
-  favicon.href = theme === 'light' ? 'favicon-cactus.svg' : 'favicon-ufo.svg';
-}
 
 /* =====================================================================
  * § 15  BOOT SEQUENCE
