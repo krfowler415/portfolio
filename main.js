@@ -330,77 +330,63 @@ function initStars() {
 
 
 /* =====================================================================
- * § 5  TERRAIN PARALLAX
+ * § 5  TERRAIN IMAGE LOADING
  * ===================================================================== */
 
-function initParallax() {
-  parallaxTweens.forEach(t => { if (t.scrollTrigger) t.scrollTrigger.kill(); t.kill(); });
-  parallaxTweens = [];
-
-  const layers = [
-    { id: 'd-l2', speed: -0.40 },
-    { id: 'd-l3', speed: -0.50 },
-    { id: 'd-l4', speed: -0.60 },
-    { id: 'd-l5', speed: -0.70 },
-    { id: 'd-l6', speed: -0.70 },
-  ];
-  layers.forEach(({ id, speed }) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const t = gsap.to(el, {
-      y: () => ScrollTrigger.maxScroll(window) * -speed,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '#hero',
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: true,
-      }
-    });
-    parallaxTweens.push(t);
-  });
-}
-
 function fetchTerrain() {
-  const theme = document.documentElement.getAttribute('data-theme') || 'dark';
-  const file  = theme === 'light' ? './terrain-light.svg' : './terrain.svg';
+  const terrainImages = document.querySelectorAll('.terrain-img');
 
-  fetch(file)
-    .then(res => res.text())
-    .then(svgText => {
-      document.querySelector('.hero-terrain').innerHTML = svgText;
-      initParallax();
-      ScrollTrigger.refresh();
-      assetsDone = true;
-      tryStartOutro();
-    })
-    .catch(err => {
-      console.warn('Terrain SVG failed to load:', err);
-      assetsDone = true;
-      tryStartOutro();
-    });
+  if (!terrainImages.length) {
+    assetsDone = true;
+    tryStartOutro();
+    return;
+  }
+
+  let loadedCount = 0;
+  let finished = false;
+
+  function finishTerrainLoad() {
+    if (finished) return;
+    finished = true;
+
+    assetsDone = true;
+    tryStartOutro();
+    ScrollTrigger.refresh();
+  }
+
+  function markLoaded() {
+    loadedCount += 1;
+
+    if (loadedCount >= terrainImages.length) {
+      finishTerrainLoad();
+    }
+  }
+
+  terrainImages.forEach(img => {
+    if (img.complete) {
+      markLoaded();
+      return;
+    }
+
+    img.addEventListener('load', markLoaded, { once: true });
+    img.addEventListener('error', markLoaded, { once: true });
+  });
+
+  /*
+   * Safety fallback:
+   * Do not let the intro hang forever if one terrain image is slow.
+   */
+  setTimeout(finishTerrainLoad, 1600);
 }
 
-function swapTerrain(theme) {
-  const file      = theme === 'light' ? './terrain-light.svg' : './terrain.svg';
-  const container = document.querySelector('.hero-terrain');
-  if (!container) return;
-
-  container.innerHTML = '';
-  fetch(file)
-    .then(res => res.text())
-    .then(svgText => {
-      container.innerHTML = svgText;
-      initParallax();
-      ScrollTrigger.refresh();
-    })
-    .catch(err => console.warn('Terrain swap failed:', err));
-}
-
-function swapFavicon(theme) {
-  const favicon = document.getElementById('favicon');
-  if (!favicon) return;
-  favicon.href = theme === 'light' ? 'favicon-cactus.svg' : 'favicon.svg';
+function swapTerrain() {
+  /*
+   * Terrain is now theme-swapped by CSS using:
+   * :root[data-theme="light"] .terrain-img--light
+   *
+   * This function stays here because initThemeToggle() already calls it.
+   */
+  ScrollTrigger.refresh();
 }
 
 
