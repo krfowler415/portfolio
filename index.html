@@ -181,44 +181,41 @@
 
         <div class="hero-ufo" id="heroUfo" aria-hidden="true">
           <div class="hero-ufo-inner">
-          <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
-            <!-- Tractor beam -->
-            <polygon id="ufoBeam" points="72,58 128,58 155,110 45,110"
-              fill="url(#beamGradUfo)" opacity="0"/>
-            <!-- Glow halo -->
-            <ellipse cx="100" cy="58" rx="62" ry="10"
-              fill="none" stroke="rgba(48,206,216,0.25)" stroke-width="1"/>
-            <!-- Body bottom -->
-            <ellipse cx="100" cy="58" rx="62" ry="10" fill="#1A3A40"/>
-            <!-- Body top dome base -->
-            <ellipse cx="100" cy="50" rx="42" ry="7" fill="#2A5560"/>
-            <!-- Dome -->
-            <path d="M58,50 Q60,24 100,20 Q140,24 142,50 Z"
-              fill="rgba(48,206,216,0.15)" stroke="rgba(48,206,216,0.4)" stroke-width="1"/>
-            <!-- Dome shine -->
-            <ellipse cx="85" cy="35" rx="10" ry="6"
-              fill="rgba(255,255,255,0.08)" transform="rotate(-20,85,35)"/>
-            <!-- Hull band -->
-            <ellipse cx="100" cy="54" rx="55" ry="8" fill="#243E45"/>
-            <!-- Lights -->
-            <circle cx="62"  cy="54" r="3" fill="#0AC39A" opacity="0.9"/>
-            <circle cx="76"  cy="57" r="3" fill="#A71930" opacity="0.9"/>
-            <circle cx="90"  cy="59" r="3" fill="#0AC39A" opacity="0.9"/>
-            <circle cx="104" cy="59" r="3" fill="#A71930" opacity="0.9"/>
-            <circle cx="118" cy="57" r="3" fill="#0AC39A" opacity="0.9"/>
-            <circle cx="132" cy="54" r="3" fill="#A71930" opacity="0.9"/>
-            <!-- Aerial -->
-            <line x1="100" y1="20" x2="100" y2="10" stroke="#0AC39A" stroke-width="1.5"/>
-            <circle cx="100" cy="8" r="3" fill="#A71930"/>
-            <defs>
-              <linearGradient id="beamGradUfo" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#0AC39A" stop-opacity="0.5"/>
-                <stop offset="100%" stop-color="#0AC39A" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-          </svg>
+        
+            <!-- UFO ship only -->
+            <img
+              class="hero-ufo-ship"
+              src="hero-ufo.svg"
+              alt=""
+              aria-hidden="true"
+            />
+        
+            <!-- Tractor beam built separately in code -->
+            <svg
+              class="hero-ufo-beam"
+              viewBox="0 0 200 170"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <defs>
+                <linearGradient id="beamGradUfo" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#00A2A2" stop-opacity="0.55" />
+                  <stop offset="60%" stop-color="#00A2A2" stop-opacity="0.18" />
+                  <stop offset="100%" stop-color="#00A2A2" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+        
+              <polygon
+                id="ufoBeam"
+                points="72,0 128,0 165,165 35,165"
+                fill="url(#beamGradUfo)"
+                opacity="0"
+              />
+            </svg>
+        
           </div>
         </div>
+        
   <!-- ── Hero Terrain ─────────────────────────────────────────────────────── -->
 
         <div class="hero-terrain" id="heroTerrain" aria-hidden="true">
