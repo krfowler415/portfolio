@@ -409,21 +409,59 @@ function swapFavicon(theme) {
  * ===================================================================== */
 
 const ufoWaypoints = [
+  // Intro / arrival
   [0.00, introXvw,       introYvh    ],
-  [0.05, introXvw - 10,  introYvh + 4],
-  [0.12,  5,  15],
-  [0.18, 18,   8],
-  [0.24, 30,  18],
-  [0.30, 40,  10],
-  [0.38, 46,  20],
-  [0.46, 42,  28],
-  [0.54, 38,  38],
-  [0.72, 38,  52],
-  [0.86, 38,  58],
-  [1.00, 38,  58],
+  [0.025, introXvw - 5,  introYvh + 2],
+  [0.050, introXvw - 10, introYvh + 4],
+
+  // Smooth sweep in from left
+  [0.075,  4,  13],
+  [0.100,  6,  14],
+  [0.125, 10,  15],
+  [0.150, 15,  17],
+  [0.175, 21,  18],
+  [0.200, 27,  20],
+  [0.225, 33,  21],
+  [0.250, 38,  23],
+  [0.275, 42,  24],
+  [0.300, 45,  26],
+  [0.325, 46,  28],
+
+  // Ease into beam position
+  [0.350, 45,  30],
+  [0.375, 43,  32],
+  [0.400, 41,  35],
+  [0.425, 40,  38],
+  [0.450, 39,  41],
+  [0.475, 38,  44],
+  [0.500, 38,  47],
+
+  // Beam descent — straight down
+  [0.525, 38,  49],
+  [0.550, 38,  51],
+  [0.575, 38,  53],
+  [0.600, 38,  55],
+  [0.625, 38,  57],
+  [0.650, 38,  59],
+  [0.675, 38,  61],
+  [0.700, 38,  63],
+  [0.725, 38,  65],
+  [0.750, 38,  67],
+  [0.775, 38,  68],
+  [0.800, 38,  69],
+  [0.825, 38,  70],
+  [0.850, 38,  71],
+  [0.875, 38,  72],
+  [0.900, 38,  73],
+  [0.925, 38,  74],
+  [0.950, 38,  74],
+  [0.975, 38,  74],
+  [1.000, 38,  74],
 ];
 
-function lerp(a, b, t) { return a + (b - a) * t; }
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
 
 function getUfoPos(progress) {
   for (let i = 0; i < ufoWaypoints.length - 1; i++) {
@@ -432,19 +470,26 @@ function getUfoPos(progress) {
 
     if (progress >= p0 && progress <= p1) {
       const t = (progress - p0) / (p1 - p0);
-      return { x: lerp(x0, x1, t), y: lerp(y0, y1, t) };
+
+      return {
+        x: lerp(x0, x1, t),
+        y: lerp(y0, y1, t)
+      };
     }
   }
+
   const last = ufoWaypoints[ufoWaypoints.length - 1];
   return { x: last[1], y: last[2] };
 }
 
 function initUfoScroll() {
+  if (!heroUfo || !ufoBeam) return;
+
   ScrollTrigger.create({
     trigger: '#hero',
     start: 'top top',
     end: 'bottom bottom',
-    scrub: true,
+    scrub: 0.85,
     onUpdate: self => {
       if (!ufoIntroComplete) return;
 
@@ -454,7 +499,7 @@ function initUfoScroll() {
       const xPx = (x / 100) * window.innerWidth;
 
       const aspectRatio = window.innerWidth / window.innerHeight;
-      const maxYpct     = aspectRatio > 2 ? 0.38 : aspectRatio > 1.6 ? 0.44 : 0.52;
+      const maxYpct = aspectRatio > 2 ? 0.76 : aspectRatio > 1.6 ? 0.80 : 0.84;
       const yPx         = Math.min((y / 100) * window.innerHeight, maxYpct * window.innerHeight);
 
       heroUfo.style.transform = `translate(${xPx}px, ${yPx}px)`;
