@@ -1904,31 +1904,21 @@ a.card-feat,
   pointer-events: none;
 }
 
-/* Terrain container — bottom anchored crop window */
+/* Terrain layer — pasted over the hero sky */
 .hero-terrain {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  width: 100%;
-  height: clamp(380px, 62vh, 820px);
-
+  inset: 0;
   z-index: 6;
   pointer-events: none;
   overflow: hidden;
 
-  /*
-   * Adjust these only.
-   * width = size/edge coverage
-   * y = vertical push/pull
-   */
-  --terrain-width: 118vw;
-  --terrain-y: 0px;
+  --terrain-width: 115vw;
+  --terrain-bottom: -4vh;
   --terrain-fade-height: 3vh;
 }
 
-/* Tiny bottom-only blend into the current theme background */
+
+/* Bottom blend into next section */
 .hero-terrain::after {
   content: '';
   position: absolute;
@@ -1941,11 +1931,11 @@ a.card-feat,
   pointer-events: none;
 }
 
-/* The actual PNG stage — keeps the artwork's real aspect ratio */
+/* Stage exists only to position/scale the transparent PNG */
 .terrain-stage {
   position: absolute;
   left: 50%;
-  bottom: var(--terrain-y);
+  bottom: var(--terrain-bottom);
 
   width: var(--terrain-width);
   aspect-ratio: 1672 / 941;
@@ -1956,7 +1946,7 @@ a.card-feat,
   overflow: visible;
 }
 
-/* Terrain PNGs preserve the full illustration instead of cover-cropping */
+/* PNG is pasted as-is. Transparent areas show the hero sky. */
 .terrain-img {
   position: absolute;
   inset: 0;
