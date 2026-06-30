@@ -1858,10 +1858,15 @@ a.card-feat,
    * Scene height = sky space + full terrain PNG height.
    * Extra 200vh = UFO scroll theater room.
    */
-  --hero-scene-height: calc(28vh + (100vw * 941 / 1672));
-  --hero-scroll-extra: calc(var(--vh, 1vh) * 200);
+--hero-scene-height: calc(28vh + (100vw * 941 / 1672));
+--hero-scroll-extra: calc(var(--vh, 1vh) * 120);
+--hero-exit-buffer: calc(var(--vh, 1vh) * 20);
 
-  height: calc(var(--hero-scene-height) + var(--hero-scroll-extra));
+height: calc(
+  var(--hero-scene-height) +
+  var(--hero-scroll-extra) +
+  var(--hero-exit-buffer)
+);
   background: var(--bg);
   overflow: visible;
 }
@@ -1896,8 +1901,13 @@ a.card-feat,
   left: 0;
   right: 0;
   bottom: 0;
-  height: 4vh;
-  background: linear-gradient(to bottom, transparent, var(--bg));
+  height: 14vh;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(16, 8, 32, 0.45) 55%,
+    var(--bg) 100%
+  );
   z-index: 7;
   pointer-events: none;
 }
@@ -1924,13 +1934,18 @@ a.card-feat,
   --terrain-fade-height: 3vh;
 }
 
+.hero-terrain {
+  --terrain-parallax-overscan: clamp(180px, 22vh, 320px);
+}
+
 .terrain-stage {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: calc(var(--terrain-parallax-overscan) * -1);
   z-index: 1;
   pointer-events: none;
+  will-change: transform;
 }
 
 .terrain-img {
@@ -2015,7 +2030,7 @@ a.card-feat,
 /* UFO container — positioned absolutely; GSAP moves it via transform */
 .hero-ufo {
   position: absolute;
-  width: 220px;
+  width: 250px;
   z-index: 8;
   pointer-events: none;
   top: 0;
@@ -2827,8 +2842,13 @@ a.card-feat,
 }
 
 :root[data-theme="light"] .hero-pin::after {
-  height: 4vh;
-  background: linear-gradient(to bottom, transparent, var(--bg));
+  height: 14vh;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(243, 211, 154, 0.45) 55%,
+    var(--bg) 100%
+  );
 }
 
 :root[data-theme="light"] .hero-terrain::after {
