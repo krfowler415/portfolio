@@ -404,59 +404,101 @@ function swapFavicon(theme) {
 }
 
 
+
+function initTerrainParallax() {
+  const hero = document.getElementById('hero');
+  const heroTerrain = document.getElementById('heroTerrain');
+  const terrainStage = document.querySelector('#heroTerrain .terrain-stage');
+  const celestialBodies = document.querySelectorAll('.hero-moon, .hero-sun');
+
+  if (!hero || !heroTerrain || !terrainStage || reducedMotion) return;
+
+  const getOverscan = () => {
+    const value = getComputedStyle(heroTerrain)
+      .getPropertyValue('--terrain-parallax-overscan')
+      .trim();
+
+    return parseFloat(value) || 120;
+  };
+
+  // Terrain rises as the user scrolls through the hero
+  gsap.fromTo(
+    terrainStage,
+    { y: 0 },
+    {
+      /*
+      * Move only part of the hidden overscan.
+      * This keeps the PNG's bottom edge below the hero,
+      * so the hard cut line does not appear.
+      */
+      y: () => -getOverscan() * 0.65,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: hero,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 1.2,
+        invalidateOnRefresh: true
+      }
+    }
+  );
+
+  // Moon/Sun descends behind the terrain
+  if (celestialBodies.length) {
+    gsap.fromTo(
+      celestialBodies,
+      { y: 0 },
+      {
+        y: () => window.innerHeight * 0.62,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: hero,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 1.1,
+          invalidateOnRefresh: true
+        }
+      }
+    );
+  }
+}
+
+
+
+
 /* =====================================================================
  * § 6  UFO SCROLL ANIMATION
  * ===================================================================== */
 
 const ufoWaypoints = [
-  // Intro / arrival
+  // Intro handoff
   [0.00, introXvw,       introYvh    ],
-  [0.025, introXvw - 5,  introYvh + 2],
-  [0.050, introXvw - 10, introYvh + 4],
+  [0.05, introXvw - 4,   introYvh + 2],
+  [0.10, 42, 16],
 
-  // Smooth sweep in from left
-  [0.075,  4,  13],
-  [0.100,  6,  14],
-  [0.125, 10,  15],
-  [0.150, 15,  17],
-  [0.175, 21,  18],
-  [0.200, 27,  20],
-  [0.225, 33,  21],
-  [0.250, 38,  23],
-  [0.275, 42,  24],
-  [0.300, 45,  26],
-  [0.325, 46,  28],
+  // Small left-to-right hover path, about 10% screen width total
+  [0.15, 36, 18],
+  [0.20, 33, 20],
+  [0.25, 35, 22],
+  [0.30, 39, 24],
+  [0.35, 43, 26],
+  [0.40, 41, 28],
+  [0.45, 39, 30],
 
-  // Ease into beam position
-  [0.350, 45,  30],
-  [0.375, 43,  32],
-  [0.400, 41,  35],
-  [0.425, 40,  38],
-  [0.450, 39,  41],
-  [0.475, 38,  44],
-  [0.500, 38,  47],
+  // Beam position
+  [0.50, 38, 33],
 
-  // Beam descent — straight down
-  [0.525, 38,  49],
-  [0.550, 38,  51],
-  [0.575, 38,  53],
-  [0.600, 38,  55],
-  [0.625, 38,  57],
-  [0.650, 38,  59],
-  [0.675, 38,  61],
-  [0.700, 38,  63],
-  [0.725, 38,  65],
-  [0.750, 38,  67],
-  [0.775, 38,  68],
-  [0.800, 38,  69],
-  [0.825, 38,  70],
-  [0.850, 38,  71],
-  [0.875, 38,  72],
-  [0.900, 38,  73],
-  [0.925, 38,  74],
-  [0.950, 38,  74],
-  [0.975, 38,  74],
-  [1.000, 38,  74],
+  // Beam descent — straight down, x stays locked at 38
+  [0.55, 38, 36],
+  [0.60, 38, 39],
+  [0.65, 38, 42],
+  [0.70, 38, 44],
+  [0.75, 38, 48],
+  [0.80, 38, 50],
+  [0.85, 38, 55],
+  [0.90, 38, 60],
+  [0.95, 38, 66],
+  [1.00, 38, 69],
 ];
 
 function lerp(a, b, t) {
@@ -489,7 +531,7 @@ function initUfoScroll() {
     trigger: '#hero',
     start: 'top top',
     end: 'bottom bottom',
-    scrub: 0.85,
+    scrub: 0.75,
     onUpdate: self => {
       if (!ufoIntroComplete) return;
 
@@ -502,7 +544,11 @@ function initUfoScroll() {
       const maxYpct = aspectRatio > 2 ? 0.76 : aspectRatio > 1.6 ? 0.80 : 0.84;
       const yPx         = Math.min((y / 100) * window.innerHeight, maxYpct * window.innerHeight);
 
-      heroUfo.style.transform = `translate(${xPx}px, ${yPx}px)`;
+      gsap.set(heroUfo, {
+        x: xPx,
+        y: yPx,
+        force3D: true
+      });
 
       const beamProgress = Math.min(Math.max((progress - 0.50) / 0.15, 0), 1);
       ufoBeam.setAttribute('opacity', (beamProgress * 0.85).toFixed(3));
@@ -1046,6 +1092,7 @@ swapFavicon(document.documentElement.getAttribute('data-theme') || 'dark');
 initIntro();
 initStars();
 fetchTerrain();
+initTerrainParallax();
 initUfoScroll();
 initNav();
 initCursor();
