@@ -1912,11 +1912,14 @@ a.card-feat,
   pointer-events: none;
   overflow: hidden;
 
-  --terrain-width: 115vw;
-  --terrain-bottom: -4vh;
+  /*
+   * Rendered terrain size.
+   * This caps the PNG so tall desktop screens don't make it gigantic.
+   */
+  --terrain-width: clamp(760px, 92vw, 1180px);
+  --terrain-bottom: -120px;
   --terrain-fade-height: 3vh;
 }
-
 
 /* Bottom blend into next section */
 .hero-terrain::after {
