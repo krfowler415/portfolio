@@ -404,29 +404,6 @@ function swapFavicon(theme) {
 }
 
 
-function initTerrainParallax() {
-  const hero = document.getElementById('hero');
-  const heroTerrain = document.getElementById('heroTerrain');
-
-  if (!hero || !heroTerrain || reducedMotion) return;
-
-  gsap.set(heroTerrain, {
-    '--terrain-y': '0px'
-  });
-
-  gsap.to(heroTerrain, {
-    '--terrain-y': '70px',
-    ease: 'none',
-    scrollTrigger: {
-      trigger: hero,
-      start: 'top top',
-      end: 'bottom bottom',
-      scrub: true
-    }
-  });
-}
-
-
 /* =====================================================================
  * § 6  UFO SCROLL ANIMATION
  * ===================================================================== */
@@ -1024,7 +1001,6 @@ swapFavicon(document.documentElement.getAttribute('data-theme') || 'dark');
 initIntro();
 initStars();
 fetchTerrain();
-initTerrainParallax();
 initUfoScroll();
 initNav();
 initCursor();
