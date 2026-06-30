@@ -1997,7 +1997,7 @@ height: calc(
 .hero-moon,
 .hero-sun {
   position: absolute;
-  top: 12%;
+  top: 30%;
   right: 6%;
   width: clamp(180px, 24vw, 360px);
   aspect-ratio: 1 / 1;
@@ -2009,7 +2009,7 @@ height: calc(
 .hero-moon img,
 .hero-sun img {
   display: block;
-  width: 100%;
+  width: 90%;
   height: auto;
 }
 
