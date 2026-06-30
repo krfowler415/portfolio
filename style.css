@@ -1913,11 +1913,11 @@ a.card-feat,
   overflow: hidden;
 
   /*
-   * Rendered terrain size.
-   * This caps the PNG so tall desktop screens don't make it gigantic.
+   * width = makes terrain reach beyond screen edges
+   * sink = pushes the PNG downward based on its own height
    */
-  --terrain-width: clamp(760px, 92vw, 1180px);
-  --terrain-bottom: -120px;
+  --terrain-width: 112vw;
+  --terrain-sink: 56%;
   --terrain-fade-height: 3vh;
 }
 
@@ -1934,16 +1934,17 @@ a.card-feat,
   pointer-events: none;
 }
 
+
 /* Stage exists only to position/scale the transparent PNG */
 .terrain-stage {
   position: absolute;
   left: 50%;
-  bottom: var(--terrain-bottom);
+  bottom: 0;
 
   width: var(--terrain-width);
   aspect-ratio: 1672 / 941;
 
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(var(--terrain-sink));
   z-index: 1;
   pointer-events: none;
   overflow: visible;
