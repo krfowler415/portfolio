@@ -1851,49 +1851,50 @@ a.card-feat,
  *  Do not fetch or inject SVG terrain from JavaScript.
  * ───────────────────────────────────────────────────────────────────── */
 
-/* Outer scroll container — 300 × --vh creates the scroll space for the theater */
+/* Outer scroll container — creates the scroll space for the theater */
 .hero {
+  position: relative;
   height: calc(var(--vh, 1vh) * 300);
   background: var(--bg);
-  position: relative;
+  overflow: visible;
 }
 
-/* Sticky viewport — the scene itself.
- * Composited night sky background from all five palette families:
- * pulsar pinks, cosmos purples, aurora teals, deep navy blues. */
+/* Sticky viewport — all hero art layers live inside this */
 .hero-pin {
   position: sticky;
   top: 0;
   height: calc(var(--vh, 1vh) * 100);
   min-height: 600px;
   overflow: hidden;
+  isolation: isolate;
+
   background:
-    radial-gradient(ellipse 55% 60% at 18% 55%, #C823558C  0%, transparent 100%),
-    radial-gradient(ellipse 40% 45% at 8%  30%, #1A3A9AB3  0%, transparent 100%),
-    radial-gradient(ellipse 50% 55% at 78% 38%, #0AC39A7A  0%, transparent 100%),
-    radial-gradient(ellipse 35% 40% at 94% 18%, #1E46B494  0%, transparent 100%),
-    radial-gradient(ellipse 45% 50% at 55% 68%, #5F259F85  0%, transparent 100%),
-    radial-gradient(ellipse 60% 50% at 32% 42%, #6E1EAF7A  0%, transparent 100%),
-    radial-gradient(ellipse 30% 35% at 90% 58%, #A7193057  0%, transparent 100%),
-    radial-gradient(ellipse 28% 32% at 62% 22%, #0AC39A4D  0%, transparent 100%),
-    radial-gradient(ellipse 22% 28% at 45% 18%, #B428784D  0%, transparent 100%),
+    radial-gradient(ellipse 55% 60% at 18% 55%, #C823558C 0%, transparent 100%),
+    radial-gradient(ellipse 40% 45% at 8% 30%, #1A3A9AB3 0%, transparent 100%),
+    radial-gradient(ellipse 50% 55% at 78% 38%, #0AC39A7A 0%, transparent 100%),
+    radial-gradient(ellipse 35% 40% at 94% 18%, #1E46B494 0%, transparent 100%),
+    radial-gradient(ellipse 45% 50% at 55% 68%, #5F259F85 0%, transparent 100%),
+    radial-gradient(ellipse 60% 50% at 32% 42%, #6E1EAF7A 0%, transparent 100%),
+    radial-gradient(ellipse 30% 35% at 90% 58%, #A7193057 0%, transparent 100%),
+    radial-gradient(ellipse 28% 32% at 62% 22%, #0AC39A4D 0%, transparent 100%),
+    radial-gradient(ellipse 22% 28% at 45% 18%, #B428784D 0%, transparent 100%),
     linear-gradient(to bottom, #010308 0%, #03050F 15%, #060818 35%, #0A0720 55%, #100826 75%, #100820 100%);
 }
 
-/* Bottom fade — sits above terrain */
+/* Bottom fade — sits above terrain, below UFO */
 .hero-pin::after {
   content: '';
   position: absolute;
-  bottom: 0;
   left: 0;
   right: 0;
+  bottom: 0;
   height: 4vh;
   background: linear-gradient(to bottom, transparent, var(--bg));
-  z-index: 5;
+  z-index: 7;
   pointer-events: none;
 }
 
-/* Star particle canvas — fills the full sticky viewport */
+/* Star particle canvas */
 #stars {
   position: absolute;
   inset: 0;
@@ -1903,31 +1904,28 @@ a.card-feat,
   pointer-events: none;
 }
 
-/* Terrain container — expanded PNG stage */
+/* Terrain container — bottom anchored crop window */
 .hero-terrain {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
 
-  /*
-   * Full-height terrain zone so the top of the PNG has room.
-   * The actual image overfills horizontally inside .terrain-stage.
-   */
-  height: min(74vh, 720px);
+  width: 100%;
+  height: clamp(380px, 62vh, 820px);
 
   z-index: 6;
   pointer-events: none;
-  overflow: visible;
+  overflow: hidden;
 
   /*
-   * Overscan is intentional.
-   * The PNG has transparent side space, so the stage needs to be
-   * much wider than 100vw to make the visible terrain reach the edges.
+   * Adjust these only.
+   * width = size/edge coverage
+   * y = vertical push/pull
    */
-  --terrain-width: 116vw;
-  --terrain-bottom: -6vh;
-  --terrain-fade-height: 2vh;
+  --terrain-width: 118vw;
+  --terrain-y: 0px;
+  --terrain-fade-height: 3vh;
 }
 
 /* Tiny bottom-only blend into the current theme background */
@@ -1943,32 +1941,39 @@ a.card-feat,
   pointer-events: none;
 }
 
-/* The actual PNG stage */
+/* The actual PNG stage — keeps the artwork's real aspect ratio */
 .terrain-stage {
   position: absolute;
   left: 50%;
-  bottom: var(--terrain-bottom);
+  bottom: var(--terrain-y);
+
   width: var(--terrain-width);
   aspect-ratio: 1672 / 941;
+
   transform: translateX(-50%);
   z-index: 1;
   pointer-events: none;
   overflow: visible;
 }
 
-/* Terrain PNGs fill the stage without cropping */
+/* Terrain PNGs preserve the full illustration instead of cover-cropping */
 .terrain-img {
   position: absolute;
   inset: 0;
+
   width: 100%;
   height: 100%;
+
   object-fit: contain;
   object-position: center bottom;
+
   display: block;
   opacity: 0;
+
   user-select: none;
   pointer-events: none;
   -webkit-user-drag: none;
+
   transition: opacity 0.35s ease;
 }
 
