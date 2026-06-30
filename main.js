@@ -1,6 +1,8 @@
 /* =====================================================================
- * § 1  THEME SYSTEM
+ * § 1  THEME SYSTEM & ASSET LOADING (Critical for Intro Flow)
  * ──────────────────────────────────────────────────────────────────── */
+
+let assetsDone = false; // Must be defined before fetchTerrain()
 
 function applyTheme(theme, shouldSave = true) {
     document.documentElement.setAttribute('data-theme', theme);
@@ -30,7 +32,7 @@ function getCurrentTheme() {
   return document.documentElement.getAttribute('data-theme') || 'dark';
 }
 
-// Initialize theme on load
+// Initialize theme on load (MUST be first)
 document.addEventListener('DOMContentLoaded', () => {
   applyTheme(getCurrentTheme(), false);
 });
@@ -49,56 +51,78 @@ systemTheme.addEventListener('change', event => {
 });
 
 /* =====================================================================
- * § 2  THEME WIPE ANIMATION
+ * § 2  TERRAIN & ASSET LOADING (Critical for Intro Flow)
  * ──────────────────────────────────────────────────────────────────── */
 
-let wipeIsActive = false;
+function fetchTerrain() {
+  const terrainImages = Array.from(document.querySelectorAll('.terrain-img'));
 
-function playThemeWipe(nextTheme, onMidpoint) {
-  if (wipeIsActive) return;
-  wipeIsActive = true;
-
-  const svgEl = document.querySelector('.shape-overlays');
-  const paths = document.querySelectorAll('.shape-overlays__path');
-
-  if (!svgEl || paths.length === 0) {
-    onMidpoint();
-    wipeIsActive = false;
+  if (!terrainImages.length) {
+    assetsDone = true;
+    tryStartOutro(); // Must exist before calling this
     return;
   }
 
-  /* ── Update gradient colours for incoming theme ── */
-  const stops = {
-    stop1a: document.querySelector('.wipe-stop1a'),
-    stop1b: document.querySelector('.wipe-stop1b'),
-    stop2a: document.querySelector('.wipe-stop2a'),
-    stop2b: document.querySelector('.wipe-stop2b'),
-  };
+  let pending = terrainImages.length;
+  let finished = false;
 
-  // Update gradient stops with new theme colors
-  Object.values(stops).forEach(stop => {
-    if (stop) {
-      stop.style.background = nextTheme === 'light' 
-        ? '#5F259F38' 
-        : '#0AC39A22';
+  function finishTerrainLoad() {
+    if (finished) return;
+    finished = true;
+
+    assetsDone = true;
+    tryStartOutro(); // Must exist before calling this
+    ScrollTrigger.refresh();
+  }
+
+  function markSettled() {
+    pending -= 1;
+
+    if (pending <= 0) {
+      finishTerrainLoad();
     }
+  }
+
+  terrainImages.forEach(img => {
+    if (img.complete) {
+      markSettled();
+      return;
+    }
+
+    img.addEventListener('load', markSettled, { once: true });
+    img.addEventListener('error', markSettled, { once: true });
   });
 
-  // Animate wipe paths with GSAP
-  const tl = gsap.timeline({ onComplete: () => { wipeIsActive = false; } });
-  
-  tl.to(paths, {
-    attr: { d: 'M0,0 L100%,0' }, // Placeholder - replace with actual path animation
-    duration: 1.5,
-    ease: 'power2.inOut'
-  })
-  .to(paths, {
-    opacity: 0,
-    duration: 0.3
-  });
-
-  onMidpoint();
+  /* Safety fallback: do not let the intro hang forever if an image is slow. */
+  setTimeout(finishTerrainLoad, 1600);
 }
+
+function swapTerrain() {
+  ScrollTrigger.refresh();
+}
+
+function swapFavicon(theme) {
+  const href = theme === 'light'
+    ? 'favicon-cactus.svg'
+    : 'favicon-ufo.svg';
+
+  const existingIcon = document.getElementById('favicon');
+
+  if (existingIcon) {
+    existingIcon.remove();
+  }
+
+  const favicon = document.createElement('link');
+  favicon.id = 'favicon';
+  favicon.rel = 'icon';
+  favicon.type = 'image/svg+xml';
+  favicon.href = href;
+
+  document.head.appendChild(favicon);
+}
+
+/* ── Initialize Terrain Loading (MUST be called after DOM ready) ───── */
+fetchTerrain(); // Add this line in your initialization script!
 
 /* =====================================================================
  * § 3  VIEWPORT & CANVAS HANDLERS
@@ -300,36 +324,100 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /* ── 2. Resize & Orientation Handlers ─────────────────────── */
+  /* ── 2. Terrain Loading (Critical for Intro Flow) ─────────── */
+  fetchTerrain(); // Must be called here!
+
+  /* ── 3. Resize & Orientation Handlers ─────────────────────── */
   initResizeHandlers();
 
-  /* ── 3. Scroll Triggers (After Viewport Height is Stable) ──── */
+  /* ── 4. Scroll Triggers (After Viewport Height is Stable) ──── */
   initBeamUp();
   initCaseStudyStrip();
-
-  /* ── 4. Theme Wipe Animation Setup ────────────────────────── */
-  // Attach to theme toggle click event
-  const themeToggle = document.querySelector('.theme-toggle');
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      const currentTheme = getCurrentTheme();
-      const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-      themeToggle.setAttribute('aria-pressed', nextTheme === 'dark' ? 'true' : 'false');
-
-      playThemeWipe(nextTheme, () => {
-        applyTheme(nextTheme);
-        swapTerrain(nextTheme);
-        swapFavicon(nextTheme);
-      });
-    });
-  }
 
 });
 
 /* =====================================================================
- * § 8  UTILITY FUNCTIONS (Swap Terrain & Favicon)
+ * § 8  THEME WIPE ANIMATION
  * ──────────────────────────────────────────────────────────────────── */
+
+let wipeIsActive = false;
+
+function playThemeWipe(nextTheme, onMidpoint) {
+  if (wipeIsActive) return;
+  wipeIsActive = true;
+
+  const svgEl = document.querySelector('.shape-overlays');
+  const paths = document.querySelectorAll('.shape-overlays__path');
+
+  if (!svgEl || paths.length === 0) {
+    onMidpoint();
+    wipeIsActive = false;
+    return;
+  }
+
+  /* ── Update gradient colours for incoming theme ── */
+  const stops = {
+    stop1a: document.querySelector('.wipe-stop1a'),
+    stop1b: document.querySelector('.wipe-stop1b'),
+    stop2a: document.querySelector('.wipe-stop2a'),
+    stop2b: document.querySelector('.wipe-stop2b'),
+  };
+
+  // Update gradient stops with new theme colors
+  Object.values(stops).forEach(stop => {
+    if (stop) {
+      stop.style.background = nextTheme === 'light' 
+        ? '#5F259F38' 
+        : '#0AC39A22';
+    }
+  });
+
+  // Animate wipe paths with GSAP
+  const tl = gsap.timeline({ onComplete: () => { wipeIsActive = false; } });
+  
+  tl.to(paths, {
+    attr: { d: 'M0,0 L100%,0' }, // Placeholder - replace with actual path animation
+    duration: 1.5,
+    ease: 'power2.inOut'
+  })
+  .to(paths, {
+    opacity: 0,
+    duration: 0.3
+  });
+
+  onMidpoint();
+}
+
+/* ── Attach to theme toggle click event ──────────────────────────── */
+const themeToggle = document.querySelector('.theme-toggle');
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const currentTheme = getCurrentTheme();
+    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+    themeToggle.setAttribute('aria-pressed', nextTheme === 'dark' ? 'true' : 'false');
+
+    playThemeWipe(nextTheme, () => {
+      applyTheme(nextTheme);
+      swapTerrain(nextTheme);
+      swapFavicon(nextTheme);
+    });
+  });
+}
+
+/* =====================================================================
+ * § 9  UTILITY FUNCTIONS (Swap Terrain & Favicon)
+ * ──────────────────────────────────────────────────────────────────── */
+
+function tryStartOutro() {
+  // This function must exist before fetchTerrain() calls it!
+  const intro = document.getElementById('intro');
+  if (intro) {
+    gsap.to(intro, { opacity: 0, duration: 0.5, onComplete: () => {
+      intro.setAttribute('aria-hidden', 'true');
+    }});
+  }
+}
 
 function swapTerrain(theme) {
   const terrainDark = document.querySelector('.terrain-img--dark');
@@ -343,20 +431,5 @@ function swapTerrain(theme) {
   } else {
     terrainDark.style.opacity = '1';
     terrainLight.style.opacity = '0';
-  }
-}
-
-function swapFavicon(theme) {
-  const faviconDark = document.querySelector('link[rel="icon"][href*="dark"]');
-  const faviconLight = document.querySelector('link[rel="icon"][href*="light"]');
-
-  if (!faviconDark || !faviconLight) return;
-
-  if (theme === 'light') {
-    faviconDark.setAttribute('disabled', '');
-    faviconLight.removeAttribute('disabled');
-  } else {
-    faviconLight.setAttribute('disabled', '');
-    faviconDark.removeAttribute('disabled');
   }
 }
