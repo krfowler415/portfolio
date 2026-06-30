@@ -1916,9 +1916,9 @@ a.card-feat,
    * width = makes terrain reach beyond screen edges
    * sink = pushes the PNG downward based on its own height
    */
-  --terrain-width: 112vw;
-  --terrain-sink: 56%;
-  --terrain-fade-height: 3vh;
+  --terrain-width: 100vw;
+  --terrain-sink: 50%;
+  --terrain-fade-height: 5vh;
 }
 
 /* Bottom blend into next section */
