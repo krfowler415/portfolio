@@ -443,19 +443,23 @@ function initTerrainParallax() {
     }
   );
 
-  // Moon/Sun descends behind the terrain
+// Moon/Sun: very subtle background drift downward
   if (celestialBodies.length) {
     gsap.fromTo(
       celestialBodies,
       { y: 0 },
       {
-        y: () => window.innerHeight * 0.62,
+        /*
+        * Keep this subtle. The terrain/UFO are the main actors.
+        * The moon/sun should feel like background parallax, not a full drop.
+        */
+        y: () => window.innerHeight * 0.10,
         ease: 'none',
         scrollTrigger: {
           trigger: hero,
           start: 'top top',
           end: 'bottom bottom',
-          scrub: 1.1,
+          scrub: 0.9,
           invalidateOnRefresh: true
         }
       }
