@@ -1988,27 +1988,38 @@ a.card-feat,
   opacity: 1;
 }
 
-/* Moon SVG container */
+/* Moon/Sun SVG containers */
 .hero-moon,
 .hero-sun {
   position: absolute;
   top: 12%;
   right: 6%;
-  width: clamp(260px, 42vh, 480px);
-  aspect-ratio: 1;
+  width: clamp(180px, 24vw, 360px);
+  aspect-ratio: 1 / 1;
   z-index: 3;
   pointer-events: none;
+  user-select: none;
 }
 
 .hero-moon img,
 .hero-sun img {
+  display: block;
   width: 100%;
   height: auto;
-  display: block;
 }
 
+/* Dark theme default */
 .hero-sun {
   display: none;
+}
+
+/* Light theme swap */
+[data-theme="light"] .hero-moon {
+  display: none;
+}
+
+[data-theme="light"] .hero-sun {
+  display: block;
 }
 
 /* UFO container — positioned absolutely; GSAP moves it via transform */
@@ -2019,25 +2030,43 @@ a.card-feat,
   pointer-events: none;
   top: 0;
   left: 0;
+  transform-origin: 50% 50%;
+  will-change: transform;
 }
 
 .hero-ufo-inner {
+  position: relative;
   width: 100%;
 }
 
-.hero-ufo svg {
+.hero-ufo-ship {
+  position: relative;
+  z-index: 2;
+  display: block;
   width: 100%;
   height: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Separate tractor beam SVG */
+.hero-ufo-beam {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 66%;
+  width: 62%;
+  height: 145%;
+  transform: translateX(-50%);
   overflow: visible;
+  pointer-events: none;
 }
 
-/* UFO rim lights — alternating circles blink at different phases */
-.hero-ufo circle:not(#ufoBeam) {
-  animation: ufoLights 1.2s ease-in-out infinite alternate;
-}
-
-.hero-ufo circle:nth-child(odd) {
-  animation-delay: 0.6s;
+/* Beam polygon controlled by ScrollTrigger */
+#ufoBeam {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  will-change: opacity, transform;
 }
 
 /* Hover float — JS adds .hovering when UFO reaches its hover waypoint */
