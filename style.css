@@ -1854,13 +1854,11 @@ a.card-feat,
 .hero {
   position: relative;
 
-  /*
-   * Scene height = sky space + full terrain PNG height.
-   * Extra 200vh = UFO scroll theater room.
-   */
---hero-scene-height: calc(28vh + (100vw * 941 / 1672));
---hero-scroll-extra: calc(var(--vh, 1vh) * 120);
---hero-exit-buffer: calc(var(--vh, 1vh) * 20);
+  --hero-sky-room: clamp(120px, 18vh, 240px);
+  --hero-scene-height: calc(var(--hero-sky-room) + (100vw * 941 / 1672));
+
+  --hero-scroll-extra: calc(var(--vh, 1vh) * 105);
+  --hero-exit-buffer: calc(var(--vh, 1vh) * 20);
 
 height: calc(
   var(--hero-scene-height) +
