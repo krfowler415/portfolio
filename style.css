@@ -1932,9 +1932,6 @@ height: calc(
   overflow: hidden;
 
   --terrain-fade-height: 3vh;
-}
-
-.hero-terrain {
   --terrain-parallax-overscan: clamp(180px, 22vh, 320px);
 }
 
@@ -2030,7 +2027,7 @@ height: calc(
 /* UFO container — positioned absolutely; GSAP moves it via transform */
 .hero-ufo {
   position: absolute;
-  width: 250px;
+  width: 300px;
   z-index: 8;
   pointer-events: none;
   top: 0;
