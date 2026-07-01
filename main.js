@@ -409,7 +409,6 @@ function initTerrainParallax() {
   const hero = document.getElementById('hero');
   const heroTerrain = document.getElementById('heroTerrain');
   const terrainStage = document.querySelector('#heroTerrain .terrain-stage');
-  const celestialBodies = document.querySelectorAll('.hero-moon, .hero-sun');
 
   if (!hero || !heroTerrain || !terrainStage || reducedMotion) return;
 
@@ -431,44 +430,39 @@ function initTerrainParallax() {
       * This keeps the PNG's bottom edge below the hero,
       * so the hard cut line does not appear.
       */
-      y: () => -getOverscan() * 0.65,
+      y: () => -getOverscan() * 0.75,
       ease: 'none',
       scrollTrigger: {
         trigger: hero,
         start: 'top top',
         end: 'bottom bottom',
-        scrub: 1.2,
+        scrub: 0.25,
         invalidateOnRefresh: true
       }
     }
   );
-
-// Moon/Sun: very subtle background drift downward
-  if (celestialBodies.length) {
-    gsap.fromTo(
-      celestialBodies,
-      { y: 0 },
-      {
-        /*
-        * Keep this subtle. The terrain/UFO are the main actors.
-        * The moon/sun should feel like background parallax, not a full drop.
-        */
-        y: () => window.innerHeight * 0.10,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: hero,
-          start: 'top top',
-          end: 'bottom bottom',
-          scrub: 0.9,
-          invalidateOnRefresh: true
-        }
-      }
-    );
-  }
 }
 
+function initHeroScrollCue() {
+  const cue = document.getElementById('heroScrollCue');
+  const hero = document.getElementById('hero');
 
+  if (!cue || !hero) return;
 
+  const updateCue = () => {
+    cue.classList.toggle('is-hidden', window.scrollY > 8);
+  };
+
+  cue.addEventListener('click', () => {
+    window.scrollTo({
+      top: Math.min(window.innerHeight * 0.85, hero.offsetHeight),
+      behavior: reducedMotion ? 'auto' : 'smooth'
+    });
+  });
+
+  updateCue();
+  window.addEventListener('scroll', updateCue, { passive: true });
+}
 
 /* =====================================================================
  * § 6  UFO SCROLL ANIMATION
@@ -482,15 +476,15 @@ const ufoWaypoints = [
 
   // Small left-to-right hover path, about 10% screen width total
   [0.15, 36, 18],
-  [0.20, 33, 20],
-  [0.25, 35, 22],
-  [0.30, 39, 24],
-  [0.35, 43, 26],
-  [0.40, 41, 28],
-  [0.45, 39, 30],
+  [0.20, 30, 20],
+  [0.25, 33, 22],
+  [0.30, 36, 24],
+  [0.35, 39, 26],
+  [0.40, 42, 28],
+  [0.45, 40, 30],
 
   // Beam position
-  [0.50, 38, 33],
+  [0.50, 39, 33],
 
   // Beam descent — straight down, x stays locked at 38
   [0.55, 38, 36],
@@ -1098,6 +1092,7 @@ initStars();
 fetchTerrain();
 initTerrainParallax();
 initUfoScroll();
+initHeroScrollCue();
 initNav();
 initCursor();
 initClickRipple();
