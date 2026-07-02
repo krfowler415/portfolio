@@ -67,6 +67,14 @@
  *  component rules where a token doesn't exist at that alpha level).
  * ===================================================================== */
 
+@font-face {
+  font-family: 'OldTown';
+  src: url('fonts/OldTown-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
 
   /* ── Raw Palette ────────────────────────────────────────────────────
@@ -198,9 +206,10 @@
 :root[data-theme="light"] {
 
   /* Raw font overrides */
-  --display: 'YourWesternHeadingFont';
-  --Ox:      'YourLabelFont';
-  --Orb:     'YourBodyFont';
+  --display: 'OldTown', serif;
+  --Ox:      'Arbutus', serif;
+  --Orb:     'Averia Serif Libre', serif;
+  --wanted:  'Sancreek', serif;
 
   /* Raw palette overrides */
   --aurora-50:   #E0F5F5;
