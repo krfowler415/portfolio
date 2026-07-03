@@ -210,6 +210,44 @@
   box-shadow: 0 0 8px var(--accent-aurora);
 }
 
+/* ── Cosmos Case Study Arrow Visuals ───────────────────────────────── */
+
+:root[data-theme="dark"] .cs-arrow {
+  --active: var(--aether-100);
+}
+
+:root[data-theme="dark"] .cs-arrow i::before,
+:root[data-theme="dark"] .cs-arrow i::after {
+  background: var(--active);
+}
+
+:root[data-theme="dark"] .cs-arrow::before {
+  background: var(--border-subtle);
+}
+
+:root[data-theme="dark"] .cs-arrow::after {
+  border: 1.5px solid var(--border);
+}
+
+:root[data-theme="dark"] .cs-arrow svg {
+  color: var(--active);
+}
+
+:root[data-theme="dark"] .cs-arrow:hover {
+  --active: var(--accent-aurora);
+}
+
+:root[data-theme="dark"] .cs-arrow:hover::before {
+  background: var(--aurora-glass);
+  box-shadow:
+    0 0 28px var(--aurora-glow),
+    inset 0 0 14px var(--aurora-inset);
+}
+
+:root[data-theme="dark"] .cs-arrow:hover::after {
+  border-color: var(--accent-aurora);
+}
+
 /* =====================================================================
  * § 8  COSMOS ABOUT / STATS
  * ===================================================================== */
