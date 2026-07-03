@@ -25,7 +25,31 @@
  * § 3  COSMOS NAVIGATION
  * ===================================================================== */
 
-/* Cosmos nav styles are still temporarily in style.css. */
+/* Glass panel state — activated by JS when nav.scrolled is added */
+:root[data-theme="dark"] nav.scrolled {
+  background: var(--bg-dark);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid #0AC39A25;
+  box-shadow: 0 1px 20px #0AC39A10;
+}
+
+:root[data-theme="dark"] .nav-logo:hover {
+  opacity: 0.8;
+  color: var(--aurora-200);
+}
+
+:root[data-theme="dark"] .nav-links a:hover {
+  color: var(--text);
+}
+
+:root[data-theme="dark"] #nav-toggle span {
+  background: var(--aether-100);
+}
+
+:root[data-theme="dark"] #nav-toggle:hover span {
+  background: var(--aurora-200);
+}
 
 
 /* =====================================================================
