@@ -460,51 +460,6 @@ a, button, .project-hover, .card-feat, .nav-links a { cursor: none; }
 .btn-outline:hover::after { left: 0; width: 100%; }
 .btn-outline:active { top: 2px; }
 
-/* ─────────────────────────────────────────────────────────────────────
- * 4i  NAVIGATION ARROWS — TEMPORARY VISUALS
- *
- *  Shared arrow structure has moved to:
- *  css/home-base.css → § 7 HOME CARDS + CASE STUDY CONTROLS STRUCTURE
- *
- *  This block temporarily keeps arrow colors, borders, and hover glows
- *  in style.css until cosmos/western arrow visuals are split into theme files.
- * ───────────────────────────────────────────────────────────────────── */
-
-.cs-arrow {
-  --active: var(--aether-100);
-}
-
-.cs-arrow i::before,
-.cs-arrow i::after {
-  background: var(--active);
-}
-
-.cs-arrow::before {
-  background: var(--border-subtle);
-}
-
-.cs-arrow::after {
-  border: 1.5px solid var(--border);
-}
-
-.cs-arrow svg {
-  color: var(--active);
-}
-
-.cs-arrow:hover {
-  --active: var(--accent-aurora);
-}
-
-.cs-arrow:hover::before {
-  background: var(--aurora-glass);
-  box-shadow:
-    0 0 28px var(--aurora-glow),
-    inset 0 0 14px var(--aurora-inset);
-}
-
-.cs-arrow:hover::after {
-  border-color: var(--accent-aurora);
-}
 
 /* ─────────────────────────────────────────────────────────────────────
  * 4j  ABOUT SECTION
