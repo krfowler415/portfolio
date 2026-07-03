@@ -50,3 +50,36 @@ body {
   cursor: none;
   overflow-x: hidden;
 }
+
+/* =====================================================================
+ * § 4  SHARED LAYOUT
+ * ===================================================================== */
+
+.section {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 6rem var(--px);
+}
+
+.section + .section,
+.s-border {
+  border-top: 1px solid var(--border);
+}
+
+.sec-hd {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 1.6rem var(--px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
