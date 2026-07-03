@@ -221,21 +221,6 @@ body {
  *  #about   — aurora teal from right + cosmos from left (alien zone)
  *  #contact — aurora teal from bottom (signal origin point)
  * ──────────────────────────────────────────────────────────────────── */
-#work, #about, #contact {
-  position: relative;
-}
-
-#work::before, #about::before, #contact::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 100vw;
-  height: 100%;
-  transform: translateX(-50%);
-  z-index: -1;
-  pointer-events: none;
-}
 
 #work::before {
   background-image:
