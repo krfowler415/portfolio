@@ -113,3 +113,39 @@
   color: var(--text-muted);
   line-height: 1.8;
 }
+
+/* =====================================================================
+ * § 3  HOME LINK STRUCTURE
+ * ===================================================================== */
+
+.c-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--Orb);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  position: relative;
+  transition: gap 0.2s;
+}
+
+.c-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  transition: width 0.25s ease;
+}
+
+.c-link:hover {
+  gap: 0.6rem;
+}
+
+.c-link:hover::after,
+.card-feat:hover .c-link::after {
+  width: 100%;
+}
