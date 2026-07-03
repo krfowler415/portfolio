@@ -2581,56 +2581,6 @@ height: calc(
    LIGHT THEME COMPONENT OVERRIDES
  * ===================================================================== */
 
-/* ── Light Theme Nav ──────────────────────────────────────────────── */
-
-:root[data-theme="light"] nav {
-  border-bottom-color: rgba(112, 67, 35, 0.16);
-}
-
-:root[data-theme="light"] nav.scrolled {
-  background: rgba(221, 183, 131, 0.92);
-  border-bottom-color: rgba(92, 59, 38, 0.25);
-  box-shadow: 0 1px 20px rgba(46, 26, 16, 0.10);
-}
-
-:root[data-theme="light"] .nav-logo {
-  color: var(--text);
-  text-shadow: 0 0 20px rgba(112, 67, 35, 0.18);
-}
-
-:root[data-theme="light"] .nav-logo:hover {
-  color: var(--accent-aurora);
-}
-
-:root[data-theme="light"] .nav-links a {
-  color: var(--text-muted);
-}
-
-:root[data-theme="light"] .nav-links a:hover {
-  color: var(--text);
-}
-
-:root[data-theme="light"] .nav-links a::before,
-:root[data-theme="light"] .nav-links a::after,
-:root[data-theme="light"] .nav-links a span::before,
-:root[data-theme="light"] .nav-links a span::after {
-  background: var(--text);
-}
-
-:root[data-theme="light"] .hero-us {
-  color: var(--accent-aurora);
-  background: radial-gradient(
-    circle 22px at 1.1rem center,
-    rgba(0, 162, 162, 0.20) 0%,
-    rgba(0, 162, 162, 0.07) 55%,
-    transparent 100%
-  );
-}
-
-:root[data-theme="light"] .sdot {
-  background: var(--accent-aurora);
-}
-
 /* ── Light Theme Section Atmospheres ──────────────────────────────── */
 
 :root[data-theme="light"] #work::before {
