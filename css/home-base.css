@@ -434,3 +434,42 @@ nav.nav-open #nav-toggle span:nth-child(3) {
     white-space: nowrap;
   }
 }
+
+/* =====================================================================
+ * § 5  HOME MARQUEE STRUCTURE
+ * ===================================================================== */
+
+.marquee {
+  overflow: hidden;
+  padding: 0.75rem 0;
+  white-space: nowrap;
+}
+
+.m-track {
+  display: inline-flex;
+  animation: marquee 30s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.m-track:hover {
+  animation-play-state: paused;
+}
+
+.m-item {
+  font-family: var(--Orb);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0 1.5rem;
+}
+
+.m-sep {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
