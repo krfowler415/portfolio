@@ -506,3 +506,32 @@
     drop-shadow(0 1px 0 rgba(255, 239, 196, 0.45))
     drop-shadow(0 0 10px rgba(151, 92, 45, 0.12));
 }
+
+/* =====================================================================
+ * § 11  WESTERN LINKS
+ * ===================================================================== */
+
+:root[data-theme="light"] .c-link {
+  color: var(--accent-aurora);
+}
+
+:root[data-theme="light"] .c-link::after {
+  background: var(--accent-aurora);
+}
+
+:root[data-theme="light"] .c-link:hover {
+  text-shadow: 0 0 12px var(--accent-aurora);
+}
+
+/* "More about me →" western variant */
+:root[data-theme="light"] .about-copy .c-link {
+  color: var(--accent-plasma);
+}
+
+:root[data-theme="light"] .about-copy .c-link::after {
+  background: var(--accent-plasma);
+}
+
+:root[data-theme="light"] .about-copy .c-link:hover {
+  text-shadow: 0 0 14px var(--accent-plasma);
+}
