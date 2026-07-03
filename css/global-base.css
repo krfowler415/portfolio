@@ -157,3 +157,22 @@ footer {
   opacity: 1;
   transform: none;
 }
+
+/* =====================================================================
+ * § 7  GLOBAL RESPONSIVE RULES
+ * ===================================================================== */
+
+@media (max-width: 600px) {
+  footer {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  body {
+    cursor: auto;
+  }
+
+  #cur {
+    display: none;
+  }
+}
