@@ -5,3 +5,33 @@
  * and cosmos-specific component styling.
  * =====================================================================
  */
+
+
+/* =====================================================================
+ * § 1  COSMOS LINKS
+ * ===================================================================== */
+
+:root[data-theme="dark"] .c-link {
+  color: var(--accent-aurora);
+}
+
+:root[data-theme="dark"] .c-link::after {
+  background: var(--accent-aurora);
+}
+
+:root[data-theme="dark"] .c-link:hover {
+  text-shadow: 0 0 12px var(--aurora-400);
+}
+
+/* "More about me →" — plasma variant */
+:root[data-theme="dark"] .about-copy .c-link {
+  color: var(--accent-plasma);
+}
+
+:root[data-theme="dark"] .about-copy .c-link::after {
+  background: var(--accent-plasma);
+}
+
+:root[data-theme="dark"] .about-copy .c-link:hover {
+  text-shadow: 0 0 14px var(--accent-plasma);
+}
