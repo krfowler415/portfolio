@@ -22,3 +22,18 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* =====================================================================
+ * § 2  ACCESSIBILITY + GLOBAL ELEMENT DEFAULTS
+ * ===================================================================== */
+
+:focus-visible {
+  outline: 2px solid var(--accent-aurora);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
