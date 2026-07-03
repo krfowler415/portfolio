@@ -1325,37 +1325,6 @@ height: calc(
   50%       { transform: translateY(-8px); }
 }
 
-
-/* ── Navigation Arrow Click Animations ───────────────────────────── */
-
-/* Circle stroke draws around the button then resets */
-@keyframes arrowStroke {
-  52%   { transform: rotate(-180deg); stroke-dashoffset: 0; }
-  52.1% { transform: rotate(-360deg); stroke-dashoffset: 0; }
-  100%  { transform: rotate(-180deg); stroke-dashoffset: 126; }
-}
-
-/* Chevron slides out right, teleports to left, slides back in */
-@keyframes arrowSlide {
-  0%, 100% { transform: translateX(0);     opacity: 1; }
-  23%       { transform: translateX(17px);  opacity: 1; }
-  24%, 80%  { transform: translateX(-22px); opacity: 0; }
-  81%       { opacity: 1; transform: translateX(-22px); }
-}
-
-/* Top chevron stroke collapses during slide */
-@keyframes arrowUp {
-  0%, 100% { transform: rotate(-40deg) scaleX(1); }
-  20%, 80% { transform: rotate(0deg) scaleX(0.1); }
-}
-
-/* Bottom chevron stroke collapses during slide */
-@keyframes arrowDown {
-  0%, 100% { transform: rotate(40deg) scaleX(1); }
-  20%, 80% { transform: rotate(0deg) scaleX(0.1); }
-}
-
-
 /* ── Click Ripple ──────────────────────────────────────────────────── */
 
 /* Radial ripple that expands from click position.
