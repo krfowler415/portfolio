@@ -342,6 +342,44 @@
   box-shadow: 0 0 8px var(--accent-aurora);
 }
 
+/* ── Western Case Study Arrow Visuals ──────────────────────────────── */
+
+:root[data-theme="light"] .cs-arrow {
+  --active: var(--text);
+}
+
+:root[data-theme="light"] .cs-arrow i::before,
+:root[data-theme="light"] .cs-arrow i::after {
+  background: var(--active);
+}
+
+:root[data-theme="light"] .cs-arrow::before {
+  background: rgba(255, 244, 219, 0.34);
+}
+
+:root[data-theme="light"] .cs-arrow::after {
+  border: 1.5px solid var(--border);
+}
+
+:root[data-theme="light"] .cs-arrow svg {
+  color: var(--active);
+}
+
+:root[data-theme="light"] .cs-arrow:hover {
+  --active: var(--accent-aurora);
+}
+
+:root[data-theme="light"] .cs-arrow:hover::before {
+  background: rgba(0, 162, 162, 0.13);
+  box-shadow:
+    0 0 28px rgba(0, 162, 162, 0.22),
+    inset 0 0 14px rgba(255, 244, 219, 0.35);
+}
+
+:root[data-theme="light"] .cs-arrow:hover::after {
+  border-color: var(--accent-aurora);
+}
+
 /* =====================================================================
  * § 8  WESTERN ABOUT / STATS
  * ===================================================================== */
