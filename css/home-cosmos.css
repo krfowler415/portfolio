@@ -199,6 +199,16 @@
   color: var(--text-muted);
 }
 
+/* ── Cosmos Case Study Progress Bar ───────────────────────────────── */
+
+:root[data-theme="dark"] .cs-progress-wrap {
+  background: var(--border);
+}
+
+:root[data-theme="dark"] .cs-progress-bar {
+  background: var(--accent-aurora);
+  box-shadow: 0 0 8px var(--accent-aurora);
+}
 
 /* =====================================================================
  * § 8  COSMOS ABOUT / STATS
