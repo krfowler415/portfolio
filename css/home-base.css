@@ -149,3 +149,127 @@
 .card-feat:hover .c-link::after {
   width: 100%;
 }
+
+/* =====================================================================
+ * § 4  HOME NAVIGATION STRUCTURE
+ * ===================================================================== */
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 120;
+  padding: 1rem var(--px);
+  border-bottom: 1px solid transparent;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.nav-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.nav-logo {
+  font-family: var(--display);
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  transition:
+    color 0.2s ease,
+    text-shadow 0.2s ease;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  list-style: none;
+}
+
+.nav-links a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.65rem 0.85rem;
+  font-family: var(--Orb);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.nav-links a::before,
+.nav-links a::after,
+.nav-links a span::before,
+.nav-links a span::after {
+  content: '';
+  position: absolute;
+  opacity: 0;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.nav-links a::before {
+  top: 0.35rem;
+  left: 0.35rem;
+  width: 7px;
+  height: 1px;
+  transform: translateX(-4px);
+}
+
+.nav-links a::after {
+  top: 0.35rem;
+  left: 0.35rem;
+  width: 1px;
+  height: 7px;
+  transform: translateY(-4px);
+}
+
+.nav-links a span::before {
+  right: 0.35rem;
+  bottom: 0.35rem;
+  width: 7px;
+  height: 1px;
+  transform: translateX(4px);
+}
+
+.nav-links a span::after {
+  right: 0.35rem;
+  bottom: 0.35rem;
+  width: 1px;
+  height: 7px;
+  transform: translateY(4px);
+}
+
+.nav-links a:hover::before,
+.nav-links a:hover::after,
+.nav-links a:hover span::before,
+.nav-links a:hover span::after {
+  opacity: 1;
+  transform: none;
+}
+
+.hero-us {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding-left: 0.25rem;
+}
+
+.sdot {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 999px;
+  display: inline-block;
+}
