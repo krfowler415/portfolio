@@ -475,7 +475,7 @@ nav.nav-open #nav-toggle span:nth-child(3) {
 }
 
 /* =====================================================================
- * § 7  HOME CARD STRUCTURE
+ * § 7  HOME CARDS + CASE STUDY STRIP STRUCTURE
  * ===================================================================== */
 
 .card-tilt-wrap {
@@ -555,4 +555,76 @@ a.card-feat,
   font-size: 0.7rem;
   padding: 0.25rem 0.5rem;
   border-radius: 20px;
+}
+
+/* ── Case Study Scroll Strip Structure ─────────────────────────────── */
+
+.cs-scroll-wrap {
+  margin: 0 calc(-1 * var(--px));
+  padding: 2rem 0;
+  background: transparent;
+}
+
+.cs-strip {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 2rem var(--px);
+  cursor: none;
+  user-select: none;
+  -webkit-user-select: none;
+  scrollbar-width: none;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 4%,
+    black 96%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 4%,
+    black 96%,
+    transparent 100%
+  );
+}
+
+.cs-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.cs-strip a,
+.cs-strip img {
+  -webkit-user-drag: none;
+  user-drag: none;
+  pointer-events: auto;
+}
+
+.cs-strip:active {
+  cursor: none;
+}
+
+.cs-card {
+  flex-shrink: 0;
+  width: 80vw;
+  max-width: 1000px;
+  scroll-snap-align: start;
+}
+
+.cs-progress-wrap {
+  margin: 0 var(--px);
+  height: 2px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.cs-progress-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: 2px;
+  transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
