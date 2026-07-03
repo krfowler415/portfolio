@@ -1303,13 +1303,6 @@ height: calc(
 }
 
 
-/* Marquee horizontal scroll — track moves exactly 50% for seamless loop */
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-
 /* ── Hero UFO Animations ──────────────────────────────────────────── */
 
 /* UFO rim light blink — applied to circle:not(#ufoBeam) */
