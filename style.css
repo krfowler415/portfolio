@@ -271,49 +271,6 @@ body {
  * ===================================================================== */
 
 
-/* ── Read / View Link ─────────────────────────────────────────────────
- *  Animated underline link used in cards ("Dive Deeper →") and
- *  about section ("More about me →").
- *
- *  Default color: aurora teal (card links)
- *  Plasma variant: see .about-copy .c-link override below.
- *
- *  Animation: gap widens on hover, underline slides in via ::after.
- * ──────────────────────────────────────────────────────────────────── */
-.c-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-family: var(--Orb);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--accent-aurora);
-  position: relative;
-  transition: gap 0.2s;
-}
-
-/* Underline — starts at 0 width, animates to 100% on hover */
-.c-link::after {
-  content: '';
-  position: absolute;
-  bottom: -2px; left: 0;
-  width: 0; height: 1.5px;
-  background: var(--accent-aurora);
-  transition: width 0.25s ease;
-}
-
-.c-link:hover {
-  gap: 0.6rem;
-  text-shadow: 0 0 12px var(--aurora-400);
-}
-
-/* Underline triggers on direct hover or when parent card is hovered */
-.c-link:hover::after,
-.card-feat:hover .c-link::after { width: 100%; }
-
-
 /* ── "More about me →" — Plasma Variant ─────────────────────────────
  *  The one intentional plasma moment in the design.
  *  Sits directly above the alien image — the color references the
