@@ -37,3 +37,16 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+/* =====================================================================
+ * § 3  BODY FOUNDATION
+ * ===================================================================== */
+
+body {
+  color: var(--text);
+  font-family: var(--Orb);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  cursor: none;
+  overflow-x: hidden;
+}
