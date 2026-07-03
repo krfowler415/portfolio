@@ -30,3 +30,86 @@
   z-index: -1;
   pointer-events: none;
 }
+
+/*
+ * =====================================================================
+ * HOME BASE
+ * Shared homepage layout only.
+ * No cosmos styling. No western styling.
+ * =====================================================================
+ */
+
+
+/* =====================================================================
+ * § 2  HOME TYPOGRAPHY
+ * ===================================================================== */
+
+.sec-title {
+  font-family: var(--display);
+  font-size: clamp(1.75rem, 3.8vw, 2.6rem);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  background: linear-gradient(
+    135deg,
+    var(--text) 0%,
+    var(--aurora-100) 30%,
+    var(--aurora-200) 60%,
+    var(--aurora-400) 90%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.c-title {
+  font-family: var(--display);
+  font-size: clamp(1.3rem, 2.4vw, 1.85rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  background: linear-gradient(
+    135deg,
+    var(--text) 0%,
+    var(--aurora-100) 30%,
+    var(--aurora-200) 60%,
+    var(--aurora-400) 90%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.c-headline {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  background: linear-gradient(
+    135deg,
+    var(--text) 0%,
+    var(--aurora-100) 30%,
+    var(--aurora-200) 60%,
+    var(--aurora-400) 90%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.c-desc {
+  font-size: 0.9rem;
+  font-weight: 300;
+  font-family: var(--Ox);
+  color: var(--text-muted);
+  line-height: 1.82;
+}
+
+.c-body {
+  font-size: 0.9rem;
+  font-weight: 400;
+  font-family: var(--Orb);
+  color: var(--text-muted);
+  line-height: 1.8;
+}
