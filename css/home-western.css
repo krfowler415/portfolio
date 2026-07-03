@@ -331,6 +331,16 @@
   color: var(--text-muted);
 }
 
+/* ── Western Case Study Progress Bar ──────────────────────────────── */
+
+:root[data-theme="light"] .cs-progress-wrap {
+  background: var(--border);
+}
+
+:root[data-theme="light"] .cs-progress-bar {
+  background: var(--accent-aurora);
+  box-shadow: 0 0 8px var(--accent-aurora);
+}
 
 /* =====================================================================
  * § 8  WESTERN ABOUT / STATS
