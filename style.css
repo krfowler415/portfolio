@@ -462,85 +462,22 @@ a, button, .project-hover, .card-feat, .nav-links a { cursor: none; }
 
 
 /* ─────────────────────────────────────────────────────────────────────
- * 4h  CASE STUDY SCROLL STRIP
+ * 4h  CASE STUDY SCROLL STRIP — TEMPORARY VISUALS
  *
- *  Horizontally scrollable row of .cs-card wrappers.
- *  Negative margin on .cs-scroll-wrap bleeds the scroll area edge-to-edge
- *  while inner padding keeps cards aligned to the content column.
+ *  Shared strip structure has moved to:
+ *  css/home-base.css → § 7 HOME CARDS + CASE STUDY STRIP STRUCTURE
  *
- *  Drag-to-scroll handled by JS — user-select: none prevents
- *  accidental text selection during drag.
+ *  This block temporarily keeps progress-bar visuals in style.css
+ *  until cosmos/western strip visuals are split into theme files.
  * ───────────────────────────────────────────────────────────────────── */
 
-/* Negative side margins bleed the scroll container past --px padding */
-.cs-scroll-wrap { 
-  margin: 0 calc(-1 * var(--px));
-  padding: 2rem 0;
-  background: transparent;
- }
-
-.cs-strip {
-  display: flex;
-  gap: 1.5rem;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  padding: 2rem var(--px);
-  cursor: none;
-  user-select: none;
-  -webkit-user-select: none;
-  scrollbar-width: none;
-  perspective: 1200px;
-  transform-style: preserve-3d;
-  /* Soft edge fade instead of a hard overflow cutoff — next/previous
-   * cards stay visible but dissolve toward the boundary. */
-  mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 4%,
-    black 96%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 4%,
-    black 96%,
-    transparent 100%
-  );
-}
-
-/* Suppress WebKit scrollbar */
-.cs-strip::-webkit-scrollbar { display: none; }
-
-/* Prevent drag ghost image on anchors and images inside the strip */
-.cs-strip a, .cs-strip img { -webkit-user-drag: none; user-drag: none; pointer-events: auto; }
-.cs-strip:active { cursor: none; }
-
-/* Individual card slot — 80vw with 1000px cap for legibility */
-.cs-card {
-  flex-shrink: 0;
-  width: 80vw;
-  max-width: 1000px;
-  scroll-snap-align: start;
-}
-
-/* Scroll progress track */
 .cs-progress-wrap {
-  margin: 0 var(--px);
-  height: 2px;
   background: var(--border);
-  border-radius: 2px;
-  overflow: hidden;
 }
 
-/* Filled portion — aurora teal with glow. Width set by JS on scroll. */
 .cs-progress-bar {
-  height: 100%;
-  width: 0%;
   background: var(--accent-aurora);
-  border-radius: 2px;
   box-shadow: 0 0 8px var(--accent-aurora);
-  transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 
