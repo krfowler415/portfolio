@@ -20,12 +20,96 @@
 }
 
 /* =====================================================================
- * § 2  WESTERN FONT TOKENS
+ * § 2  WESTERN THEME TOKENS
  * ===================================================================== */
 
 :root[data-theme="light"] {
+  
+  /* ── Western Font Tokens ─────────────────────────────────────────── */
   --display: 'OldTown', serif;
   --Ox:      'Arbutus', serif;
   --Orb:     'Averia Serif Libre', serif;
   --wanted:  'Sancreek', serif;
+
+  /* ── Western Raw Palette: Turquoise / Rust / Umber / Paper ───────── */
+
+  /* Turquoise — currently used as the light-theme interactive accent */
+  --aurora-50:   #E0F5F5;
+  --aurora-100:  #80D4D4;
+  --aurora-200:  #40B8B8;
+  --aurora-400:  #00A2A2;
+  --aurora-600:  #007A7A;
+  --aurora-800:  #004E4E;
+  --aurora-900:  #002828;
+
+  /* Rust clay */
+  --pulsar-50:   #F9E0DA;
+  --pulsar-100:  #EDAB9A;
+  --pulsar-200:  #D97860;
+  --pulsar-400:  #B54832;
+  --pulsar-600:  #8A3222;
+  --pulsar-800:  #5E1E12;
+  --pulsar-900:  #320E08;
+
+  /* Umber / leather */
+  --cosmos-50:   #F5E8DC;
+  --cosmos-100:  #D4B498;
+  --cosmos-200:  #A87C58;
+  --cosmos-300:  #7A5038;
+  --cosmos-400:  #5C3B26;
+  --cosmos-600:  #3E2418;
+  --cosmos-800:  #2A1810;
+  --cosmos-900:  #1C100A;
+
+  /* Paper / sand neutrals */
+  --aether-50:   #FFF4E6;
+  --aether-100:  #704424;
+  --aether-200:  #96683D;
+  --aether-400:  #B58860;
+
+  /* ── Western Semantic Tokens ─────────────────────────────────────── */
+
+  /* Base surfaces */
+  --bg:          #F3D39A;
+  --bg-dark:     #F3D39A;
+  --bg-surface:  #FFF0C7;
+  --bg-raised:   #FFE3AA;
+  --bg-tint:     rgba(146, 83, 38, 0.14);
+  --bg-marquee:  #087B7A;
+
+  /* Text */
+  --text:        #2A160B;
+  --text-muted:  #704424;
+  --text-light:  #087B7A;
+  --text-inv:    #FFF7DF;
+
+  /* Main actions */
+  --primary:        #D85C1F;
+  --primary-hover:  #B94715;
+  --primary-lt:     #FFD36B;
+  --primary-subtle: #FFF0C7;
+
+  /* Accent aliases */
+  --accent-pulsar:           #D85C1F;
+  --accent-pulsar-subtle:    #F4C194;
+  --accent-cosmos:           #8B4A22;
+  --accent-cosmos-subtle:    #F0C786;
+  --accent-aurora:           #087B7A;
+  --accent-aurora-subtle:    #D7F1E7;
+  --accent-plasma:           #C05A24;
+  --accent-plasma-subtle:    #F4C194;
+  --accent-turquoise:        #087B7A;
+  --accent-turquoise-subtle: #CCE8DF;
+
+  /* Neutrals / borders */
+  --aether:      #8B5A36;
+  --dune:        #DDB783;
+
+  --border:        rgba(112, 67, 35, 0.28);
+  --border-subtle: rgba(112, 67, 35, 0.16);
+
+  /* Glow tokens */
+  --aurora-glass: rgba(8, 123, 122, 0.12);
+  --aurora-glow:  rgba(8, 123, 122, 0.22);
+  --aurora-inset: rgba(8, 123, 122, 0.08);
 }
