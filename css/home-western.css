@@ -165,6 +165,14 @@
   background: var(--text);
 }
 
+:root[data-theme="light"] #nav-toggle span {
+  background: var(--text-muted);
+}
+
+:root[data-theme="light"] #nav-toggle:hover span {
+  background: var(--accent-aurora);
+}
+
 :root[data-theme="light"] .hero-us {
   color: var(--accent-aurora);
   background: radial-gradient(
