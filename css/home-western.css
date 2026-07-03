@@ -18,3 +18,14 @@
   font-style: normal;
   font-display: swap;
 }
+
+/* =====================================================================
+ * § 2  WESTERN FONT TOKENS
+ * ===================================================================== */
+
+:root[data-theme="light"] {
+  --display: 'OldTown', serif;
+  --Ox:      'Arbutus', serif;
+  --Orb:     'Averia Serif Libre', serif;
+  --wanted:  'Sancreek', serif;
+}
