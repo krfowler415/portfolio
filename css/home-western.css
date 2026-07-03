@@ -217,3 +217,20 @@
       transparent 65%
     );
 }
+
+/* =====================================================================
+ * § 6  WESTERN MARQUEE
+ * ===================================================================== */
+
+:root[data-theme="light"] .marquee {
+  background: linear-gradient(90deg, #087b7a 0%, #0f8e83 45%, #d85c1f 100%);
+}
+
+:root[data-theme="light"] .m-item {
+  color: #fff7df;
+}
+
+:root[data-theme="light"] .m-sep {
+  background: #ffd36b;
+  opacity: 0.9;
+}
