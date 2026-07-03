@@ -145,7 +145,59 @@
  * § 7  COSMOS CARDS
  * ===================================================================== */
 
-/* Cosmos card styles are still temporarily in style.css. */
+:root[data-theme="dark"] a.card-feat,
+:root[data-theme="dark"] .card-feat {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  box-shadow: inset 0 1px 0 #0AC39A40;
+}
+
+:root[data-theme="dark"] .card-feat:hover {
+  box-shadow:
+    inset 0 1px 0 #0AC39A40,
+    0 24px 70px #00000080,
+    0 0 35px #0AC39A25,
+    0 0 70px #5F259F30;
+}
+
+:root[data-theme="dark"] .card-vis {
+  background: var(--bg-dark);
+}
+
+:root[data-theme="dark"] .card-vis::before {
+  background: radial-gradient(
+    ellipse at 30% 50%,
+    #5F259F40 0%,
+    transparent 65%
+  );
+}
+
+:root[data-theme="dark"] .card-vis-tag {
+  color: var(--accent-pulsar);
+  opacity: 0.75;
+}
+
+:root[data-theme="dark"] .card-vis-tag::before {
+  content: '◈ ';
+  opacity: 0.8;
+}
+
+:root[data-theme="dark"] .card-body {
+  background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
+  box-shadow: inset 0 0 30px #5F259F25;
+}
+
+:root[data-theme="dark"] .card-body::after {
+  border-top: 1.5px solid var(--accent-aurora);
+  border-right: 1.5px solid var(--accent-aurora);
+  opacity: 0.25;
+}
+
+:root[data-theme="dark"] .c-tag {
+  background: var(--bg-tint);
+  border: 1px solid #C8185840;
+  color: var(--text-muted);
+}
 
 
 /* =====================================================================
