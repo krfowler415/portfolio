@@ -170,7 +170,7 @@
    *  Token names map to role, not literal type classification.
    *  --display  Audiowide  named for what it is: a display typeface
    *  --Ox       Oxanium    the non-sans secondary slot
-   *  --Orb      Orbitron   body copy and all UI chrome
+   *  --Orb      Orbitron    copy and all UI chrome
    *  ─────────────────────────────────────────────────────────────── */
   --display:  'Audiowide', sans-serif;
   --Ox:       'Oxanium', system-ui, sans-serif;
@@ -185,23 +185,9 @@
 /* =====================================================================
  * § 2  GLOBAL LAYOUT
  *
- *  Base document layout: body, link reset, section containers,
+ *  Base document layout: , link reset, section containers,
  *  divider treatment, section atmospheric s, footer.
  * ===================================================================== */
-
-
-/* ── Body ─────────────────────────────────────────────────────────────
- *  Dot grid layered over the locked base  (#100820).
- *  The radial-gradient circle creates a 1px dot at each 28px tile.
- *  aether-200 at 16% opacity keeps it subtle — felt, not seen.
- *  cursor: none defers to the custom cursor (#cur) on desktop.
- * ──────────────────────────────────────────────────────────────────── */
-body {
-  background:
-    radial-gradient(circle, #98A8D428 1px, transparent 1px) center / 28px 28px,
-    var(--bg);
-  background-attachment: fixed;
-}
 
 /* ── Footer ──────────────────────────────────────────────────────────
  *  Full-width footer constrained to --max, matching section alignment.
