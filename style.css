@@ -260,28 +260,6 @@ body {
 
 
 /* =====================================================================
- * § 3  TYPOGRAPHY & UTILITIES
- *
- *  Global type styles, gradient headings, link treatments,
- *  and scroll-reveal utility classes.
- *
- *  GRADIENT TEXT NOTE: gradient text and text-shadow are mutually
- *  exclusive. -webkit-text-fill-color: transparent removes the surface
- *  that text-shadow attaches to. Use gradient depth for visual weight.
- * ===================================================================== */
-
-
-/* ── "More about me →" — Plasma Variant ─────────────────────────────
- *  The one intentional plasma moment in the design.
- *  Sits directly above the alien image — the color references the
- *  character literally. Higher specificity overrides .c-link aurora.
- * ──────────────────────────────────────────────────────────────────── */
-.about-copy .c-link { color: var(--accent-plasma); }
-.about-copy .c-link::after { background: var(--accent-plasma); }
-.about-copy .c-link:hover { text-shadow: 0 0 14px var(--accent-plasma); }
-
-
-/* =====================================================================
  * § 4  COMPONENT STYLES
  * ===================================================================== */
 
