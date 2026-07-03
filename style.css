@@ -1876,14 +1876,6 @@ height: calc(
   opacity: 0;
 }
 
-:root[data-theme="light"] .terrain-img--dark {
-  opacity: 0;
-}
-
-:root[data-theme="light"] .terrain-img--light {
-  opacity: 1;
-}
-
 .hero-terrain::after {
   content: '';
   position: absolute;
