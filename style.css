@@ -460,27 +460,6 @@ a, button, .project-hover, .card-feat, .nav-links a { cursor: none; }
 .btn-outline:hover::after { left: 0; width: 100%; }
 .btn-outline:active { top: 2px; }
 
-
-/* ─────────────────────────────────────────────────────────────────────
- * 4h  CASE STUDY SCROLL STRIP — TEMPORARY VISUALS
- *
- *  Shared strip structure has moved to:
- *  css/home-base.css → § 7 HOME CARDS + CASE STUDY STRIP STRUCTURE
- *
- *  This block temporarily keeps progress-bar visuals in style.css
- *  until cosmos/western strip visuals are split into theme files.
- * ───────────────────────────────────────────────────────────────────── */
-
-.cs-progress-wrap {
-  background: var(--border);
-}
-
-.cs-progress-bar {
-  background: var(--accent-aurora);
-  box-shadow: 0 0 8px var(--accent-aurora);
-}
-
-
 /* ─────────────────────────────────────────────────────────────────────
  * 4i  NAVIGATION ARROWS
  *
