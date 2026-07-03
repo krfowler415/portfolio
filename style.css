@@ -461,134 +461,66 @@ a, button, .project-hover, .card-feat, .nav-links a { cursor: none; }
 .btn-outline:active { top: 2px; }
 
 /* ─────────────────────────────────────────────────────────────────────
- * 4g  CARDS
+ * 4g  CARDS — TEMPORARY VISUALS
  *
- *  Two-part structure: outer wrapper + inner card.
+ *  Shared card structure has moved to:
+ *  css/home-base.css → § 7 HOME CARD STRUCTURE
  *
- *  .card-tilt-wrap   outer — holds the outer glow; overflow: hidden
- *                    clips corner radius cleanly during 3D tilt.
- *                    box-shadow MUST live here — on .card-feat it
- *                    would be clipped by overflow: hidden.
- *
- *  .card-feat        inner — the actual card with image and text panels.
- *                    JS applies a 3D perspective tilt on mousemove.
- *
- *  .card-vis         left panel — project image / visual preview
- *  .card-body        right panel — title, description, tags, link
+ *  This block temporarily keeps the existing visual styling in style.css
+ *  until cosmos/western card visuals are split into theme files.
  * ───────────────────────────────────────────────────────────────────── */
 
-/* Outer wrapper — clips border-radius and holds outer atmosphere glow */
-.card-tilt-wrap {
-  will-change: transform;
-}
-
-/* Inner card — inset top-edge aurora creates "lit from above" panel.
- * a.card-feat handles the anchor-tag variant; both share all rules. */
 a.card-feat,
 .card-feat {
   background: var(--bg-surface);
   border: 1px solid var(--border);
-  border-radius: 14px;
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: 1.15fr 1fr;
-  transition: transform 0.4s cubic-bezier(0.03, 0.98, 0.52, 0.99), box-shadow 0.3s;
-  transform-style: preserve-3d;   /* enables JS 3D tilt effect */
-  will-change: transform;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  box-shadow: inset 0 1px 0 #0AC39A40;   /* inset top-edge aurora glow */
-  color: inherit;
-  text-decoration: none;
+  box-shadow: inset 0 1px 0 #0AC39A40;
 }
 
-/* Lift + deepen shadow on hover */
 .card-feat:hover {
-  box-shadow: 
-    inset 0 1px 0 #0AC39A40, 
+  box-shadow:
+    inset 0 1px 0 #0AC39A40,
     0 24px 70px #00000080,
     0 0 35px #0AC39A25,
     0 0 70px #5F259F30;
 }
 
-/* Visual / preview panel — dark background with cosmos radial fill */
 .card-vis {
   background: var(--bg-dark);
-  min-height: 420px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2.5rem;
-  position: relative;
-  overflow: hidden;
 }
 
-/* Cosmos atmosphere inside the visual panel */
 .card-vis::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 30% 50%, #5F259F40 0%, transparent 65%);
+  background: radial-gradient(
+    ellipse at 30% 50%,
+    #5F259F40 0%,
+    transparent 65%
+  );
 }
 
-/* Card number tag (e.g. "◈ 01") — pulsar mirrors UFO warning lights. */
 .card-vis-tag {
-  position: absolute;
-  top: 1.2rem; left: 1.2rem;
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
   color: var(--accent-pulsar);
   opacity: 0.75;
 }
 
-/* HUD marker prefix before the number */
 .card-vis-tag::before {
   content: '◈ ';
   opacity: 0.8;
 }
 
-/* Content panel — position: relative required for ::after bracket.
- * Inset cosmos glow creates depth without a visible border. */
 .card-body {
-  padding: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 1rem;
   background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
   box-shadow: inset 0 0 30px #5F259F25;
-  position: relative;
 }
 
-/* Top-right HUD corner bracket inside .card-body */
 .card-body::after {
-  content: '';
-  position: absolute;
-  top: 14px; right: 14px;
-  width: 10px; height: 10px;
   border-top: 1.5px solid var(--accent-aurora);
   border-right: 1.5px solid var(--accent-aurora);
   opacity: 0.25;
-  pointer-events: none;
 }
 
-/* Tag chip container */
-.c-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-  font-family: var(--Ox);   /* Oxanium — label/meta font */
-}
-
-/* Individual tag chip — pulsar border adds warm tension vs cosmos bg */
 .c-tag {
-  font-size: 0.7rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: 20px;
   background: var(--bg-tint);
-  border: 1px solid #C8185840;   /* pulsar at low opacity */
+  border: 1px solid #C8185840;
   color: var(--text-muted);
 }
 
