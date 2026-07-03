@@ -182,20 +182,6 @@
 }
 
 
-/* ── Box Model Reset ─────────────────────────────────────────────────
- *  Applies border-box sizing universally, removes all default
- *  margin/padding, and enforces smooth scrolling at the root.
- * ──────────────────────────────────────────────────────────────────── */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html { scroll-behavior: smooth; }
-
 
 /* ── Global Focus Style ──────────────────────────────────────────────
  *  Visible keyboard focus ring using aurora teal.
