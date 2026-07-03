@@ -5,3 +5,16 @@
  * saguaro/rust/gold/leather palette, and western-specific component styling.
  * =====================================================================
  */
+
+
+/* =====================================================================
+ * § 1  WESTERN FONTS
+ * ===================================================================== */
+
+@font-face {
+  font-family: 'OldTown';
+  src: url('../fonts/OldTown-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
