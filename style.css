@@ -462,122 +462,58 @@ a, button, .project-hover, .card-feat, .nav-links a { cursor: none; }
 
 
 /* ─────────────────────────────────────────────────────────────────────
- * 4j  ABOUT SECTION
+ * 4j  ABOUT SECTION — TEMPORARY VISUALS
  *
- *  Two-column layout: copy (left) + stat grid (right).
- *  Stat cards use pulsar accent bars — mirroring the UFO warning
- *  lights — while aurora drives the number glows and corner brackets.
+ *  Shared About structure has moved to:
+ *  css/home-base.css → § 8 HOME ABOUT STRUCTURE
  *
- *  .about-alien sits inside .stat-grid as the 5th grid item.
+ *  This block temporarily keeps About/stat colors, glows, borders,
+ *  and text effects in style.css until cosmos/western About visuals
+ *  are split into theme files.
  * ───────────────────────────────────────────────────────────────────── */
 
-/* Two-column layout — copy is slightly wider than the stat grid */
-.about-layout {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 5rem;
-  align-items: start;
-}
-
-/* About copy column — flex column with gap between paragraphs */
-.about-copy {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-/* Body paragraphs in the about section */
 .about-copy p {
-  font-size: 1rem;
-  font-weight: 400;
-  font-family: var(--Ox);
   color: var(--text-muted);
-  line-height: 1.9;
 }
 
-/* Bold inline text in about paragraphs — cosmos purple for emphasis */
-.about-copy strong { color: var(--accent-cosmos); font-weight: 600; }
-
-/* Stat grid — 2×2 card matrix. .about-alien is the 5th child */
-.stat-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
-  margin-top: 2rem;
-  width: 100%;
+.about-copy strong {
+  color: var(--accent-cosmos);
 }
 
-/* ── Stat Card ────────────────────────────────────────────────────────
- *  Each stat card has:
- *  ::before  left accent bar (pulsar — warning/data tension)
- *  ::after   bottom-right corner bracket (aurora — active panel)
- *
- *  Resting glow uses pulsar family.
- *  Hover glow intensifies the pulsar.
- * ──────────────────────────────────────────────────────────────────── */
 .stat {
   background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
   border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 1.1rem;
-  position: relative;   /* required for ::before and ::after */
-  overflow: hidden;
   box-shadow:
     0 0 0 1px #98A8D418,
-    0 0 15px #C8185820,   /* pulsar haze */
+    0 0 15px #C8185820,
     inset 0 1px 0 #C8185840;
-  transition: transform 0.25s ease, box-shadow 0.3s ease;
-  will-change: transform;
 }
 
-/* Left accent bar — pulsar crimson, mirrors UFO warning lights */
 .stat::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 3px; height: 100%;
   background: var(--accent-pulsar);
-  border-radius: 3px 0 0 3px;
   box-shadow: 2px 0 12px #C8185880;
 }
 
-/* Bottom-right corner bracket — aurora, signals a live active panel */
 .stat::after {
-  content: '';
-  position: absolute;
-  bottom: 8px; right: 8px;
-  width: 10px; height: 10px;
   border-bottom: 1.5px solid var(--accent-aurora);
   border-right: 1.5px solid var(--accent-aurora);
-  opacity: 0.45;
-  pointer-events: none;
 }
 
-/* Hover — pulsar glow intensifies */
 .stat:hover {
-  transform: translateY(-3px);
   box-shadow:
     0 0 0 1px #C8185840,
     0 0 20px #C8185825,
     inset 0 1px 0 #C8185850;
 }
 
-/* Stat number — aurora with multi-layer text glow */
 .stat-n {
-  font-family: var(--display);
-  font-size: 2.2rem;
-  font-weight: 400;
   color: var(--accent-aurora);
-  line-height: 1;
-  margin-bottom: 0.2rem;
-  transition: text-shadow 0.3s ease;
   text-shadow:
     0 0 7px var(--aurora-400),
     0 0 20px var(--aurora-400),
     0 0 45px #0AC39A80;
 }
 
-/* Hover — glow radius expands */
 .stat:hover .stat-n {
   text-shadow:
     0 0 7px var(--aurora-400),
@@ -585,23 +521,9 @@ a, button, .project-hover, .card-feat, .nav-links a { cursor: none; }
     0 0 65px #0AC39A90;
 }
 
-/* Stat label — secondary text below the number */
 .stat-l {
-  font-size: 0.75rem;
-  font-weight: 400;
-  font-family: var(--Orb);
   color: var(--text-muted);
-  line-height: 1.45;
 }
-
-/* Alien image — 5th item in .stat-grid, spans full two-column width */
-.about-alien {
-  width: 75%;
-  grid-column: 1 / -1;   /* span both columns */
-  margin: 1rem auto 0;
-  opacity: 0.9;
-}
-
 
 /* ─────────────────────────────────────────────────────────────────────
  * 4k  CONTACT SECTION
