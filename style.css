@@ -460,52 +460,6 @@ a, button, .project-hover, .card-feat, .nav-links a { cursor: none; }
 .btn-outline:hover::after { left: 0; width: 100%; }
 .btn-outline:active { top: 2px; }
 
-
-/* ─────────────────────────────────────────────────────────────────────
- * 4f  MARQUEE
- *
- *  Horizontally scrolling skills strip between hero and case studies.
- *  aurora-600 background (#17A487) — the marquee is an energy band.
- *  Pulsar-colored separator dots mirror the UFO's warning lights.
- *  Pauses on hover for readability.
- * ───────────────────────────────────────────────────────────────────── */
-
-.marquee {
-  overflow: hidden;
-  padding: 0.75rem 0;
-  white-space: nowrap;
-}
-
-/* Doubled track — animation scrolls to exactly 50% for seamless loop */
-.m-track {
-  display: inline-flex;
-  animation: marquee 30s linear infinite;   /* @keyframes marquee — § 5 */
-  will-change: transform;       /* hints GPU compositing — smooths the scroll */
-  backface-visibility: hidden;  /* avoids sub-pixel flicker on some browsers */
-}
-.m-track:hover { animation-play-state: paused; }
-
-/* Individual skill item */
-.m-item {
-  font-family: var(--Orb);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  display: inline-flex;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 0 1.5rem;
-}
-
-/* Separator dot between items — pulsar red to mirror UFO warning lights */
-.m-sep {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-}
-
-
 /* ─────────────────────────────────────────────────────────────────────
  * 4g  CARDS
  *
