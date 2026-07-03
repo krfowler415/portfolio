@@ -203,27 +203,6 @@ body {
   background-attachment: fixed;
 }
 
-/* ── Section Container ───────────────────────────────────────────────
- *  Centered max-width wrapper used for Work, About, and Contact.
- *  --px provides fluid horizontal padding across viewport sizes.
- * ──────────────────────────────────────────────────────────────────── */
-.section {
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 6rem var(--px);
-}
-
-
-/* ── Section Dividers ────────────────────────────────────────────────
- *  Border between adjacent sections and the .s-border utility.
- *  Uses var(--border) (aether at low opacity) — a quiet neutral seam
- *  between sections rather than a glowing accent.
- * ──────────────────────────────────────────────────────────────────── */
-.section + .section,
-.s-border {
-  border-top: 1px solid var(--border);
-}
-
 
 /* ── Section Atmospheric Backgrounds ────────────────────────────────
  *  Each section has a directional light pool to imply a light source
@@ -275,33 +254,11 @@ body {
 }
 
 
-/* ── Section Header Row ──────────────────────────────────────────────
- *  Flexbox row that holds the section title and optional metadata.
- *  align-items: baseline keeps title and count optically aligned.
- * ──────────────────────────────────────────────────────────────────── */
-.sec-hd {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 3rem;
-}
-
-
 /* ── Footer ──────────────────────────────────────────────────────────
  *  Full-width footer constrained to --max, matching section alignment.
  *  foot-l: aurora-200 — active identity, the site owner's name.
  *  foot-r: faint pulsar — warm tension in a quiet corner.
  * ──────────────────────────────────────────────────────────────────── */
-footer {
-  border-top: 1px solid var(--border);
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 1.6rem var(--px);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
 
 .foot-l {
   font-family: var(--display);
