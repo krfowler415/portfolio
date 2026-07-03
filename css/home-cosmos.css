@@ -8,7 +8,35 @@
 
 
 /* =====================================================================
- * § 1  COSMOS LINKS
+ * § 1  COSMOS FONTS + TOKENS
+ * ===================================================================== */
+
+/* Cosmos tokens are still temporarily in style.css during migration. */
+
+
+/* =====================================================================
+ * § 2  COSMOS BASE / BODY
+ * ===================================================================== */
+
+/* Cosmos body/background styles are still temporarily in style.css. */
+
+
+/* =====================================================================
+ * § 3  COSMOS NAVIGATION
+ * ===================================================================== */
+
+/* Cosmos nav styles are still temporarily in style.css. */
+
+
+/* =====================================================================
+ * § 4  COSMOS SECTION ATMOSPHERES
+ * ===================================================================== */
+
+/* Cosmos section atmosphere styles are still temporarily in style.css. */
+
+
+/* =====================================================================
+ * § 5  COSMOS LINKS
  * ===================================================================== */
 
 :root[data-theme="dark"] .c-link {
@@ -35,3 +63,66 @@
 :root[data-theme="dark"] .about-copy .c-link:hover {
   text-shadow: 0 0 14px var(--accent-plasma);
 }
+
+
+/* =====================================================================
+ * § 6  COSMOS MARQUEE
+ * ===================================================================== */
+
+/* Cosmos marquee styles are still temporarily in style.css. */
+
+
+/* =====================================================================
+ * § 7  COSMOS CARDS
+ * ===================================================================== */
+
+/* Cosmos card styles are still temporarily in style.css. */
+
+
+/* =====================================================================
+ * § 8  COSMOS ABOUT / STATS
+ * ===================================================================== */
+
+/* Cosmos about/stat styles are still temporarily in style.css. */
+
+
+/* =====================================================================
+ * § 9  COSMOS CONTACT
+ * ===================================================================== */
+
+/* Cosmos contact styles are still temporarily in style.css. */
+
+
+/* =====================================================================
+ * § 10  COSMOS HERO SCENE
+ * ===================================================================== */
+
+/* Cosmos hero scene styles are still temporarily in style.css. */
+
+
+/* =====================================================================
+ * § 11  COSMOS HERO ACTORS + EFFECTS
+ * ===================================================================== */
+
+/* UFO, stars, intro overlay, and beam effects are still temporarily in style.css. */
+
+
+/* =====================================================================
+ * § 12  COSMOS SCROLL CUE
+ * ===================================================================== */
+
+/* Cosmos scroll cue styles are still temporarily in style.css. */
+
+
+/* =====================================================================
+ * § 13  COSMOS BACK-TO-TOP
+ * ===================================================================== */
+
+/* Cosmos Beam Me Up styles are still temporarily in style.css. */
+
+
+/* =====================================================================
+ * § 14  COSMOS RESPONSIVE OVERRIDES
+ * ===================================================================== */
+
+/* Cosmos responsive overrides are still temporarily in style.css. */
