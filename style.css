@@ -1922,15 +1922,6 @@ height: calc(
   display: none;
 }
 
-/* Light theme swap */
-[data-theme="light"] .hero-moon {
-  display: none;
-}
-
-[data-theme="light"] .hero-sun {
-  display: block;
-}
-
 /* UFO container — positioned absolutely; GSAP moves it via transform */
 .hero-ufo {
   position: absolute;
