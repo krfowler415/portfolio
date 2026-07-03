@@ -314,3 +314,42 @@ nav.nav-open #nav-toggle span:nth-child(2) {
 nav.nav-open #nav-toggle span:nth-child(3) {
   transform: translateY(-6.5px) rotate(-45deg);
 }
+
+/* ── Availability Badge Interaction ───────────────────────────────── */
+
+.hero-us:hover {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background: transparent;
+}
+
+.hero-us:hover .sdot {
+  width: 100%;
+  height: 100%;
+  left: 0;
+  background: transparent;
+  border-color: var(--accent-aurora);
+  animation: none;
+}
+
+.us-default,
+.us-hover {
+  position: relative;
+  z-index: 1;
+  transition: opacity 0.2s ease 0.12s;
+}
+
+.us-hover {
+  position: absolute;
+  left: 2rem;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hero-us:hover .us-default {
+  opacity: 0;
+}
+
+.hero-us:hover .us-hover {
+  opacity: 1;
+}
