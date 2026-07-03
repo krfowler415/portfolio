@@ -182,18 +182,6 @@
 }
 
 
-
-/* ── Global Focus Style ──────────────────────────────────────────────
- *  Visible keyboard focus ring using aurora teal.
- *  Only shows on keyboard navigation, not on click (:focus-visible).
- * ──────────────────────────────────────────────────────────────────── */
-:focus-visible {
-  outline: 2px solid var(--accent-aurora);
-  outline-offset: 3px;
-  border-radius: 3px;
-}
-
-
 /* =====================================================================
  * § 2  GLOBAL LAYOUT
  *
@@ -220,9 +208,6 @@ body {
   cursor: none;
   overflow-x: hidden;
 }
-
-/* Removes default link styles — all anchors inherit parent color. */
-a { color: inherit; text-decoration: none; }
 
 
 /* ── Section Container ───────────────────────────────────────────────
