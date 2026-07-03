@@ -416,21 +416,6 @@ a, button, .project-hover, .card-feat, .nav-links a { cursor: none; }
  *  elements draw a box around each link as the cursor moves in.
  * ───────────────────────────────────────────────────────────────────── */
 
-/* Transparent by default — sits above the hero scroll theater */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  height: 54px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 var(--px);
-  background: transparent;
-  border-bottom: 1px solid #FFFFFF0A;
-  transition: background 0.8s ease, backdrop-filter 0.8s ease;
-}
-
 /* Glass panel e — activated by JS when window.scrollY > 50 */
 nav.scrolled {
   background: var(--bg-dark);
@@ -440,36 +425,8 @@ nav.scrolled {
   box-shadow: 0 1px 20px #0AC39A10;
 }
 
-/* "Kevin Fowler" wordmark — Audiowide italic with warm glow */
-.nav-logo {
-  font-family: var(--display);
-  font-style: italic;   /* synthesized italic — Audiowide has no italic variant */
-  font-size: 1.5rem;
-  color: var(--text);
-  text-shadow: 0 0 25px #F4F2FF35;
-}
 .nav-logo:hover { opacity: 0.8; color: var(--aurora-200); }
 
-/* Horizontal list of WORK / ABOUT / CONTACT links */
-.nav-links {
-  display: flex;
-  gap: 2rem;
-  list-style: none;
-}
-
-/* aether-100 default — moonlit, present but not emitting energy */
-.nav-links a {
-  position: relative;
-  font-family: var(--Orb);
-  font-size: 0.78rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  display: inline-block;
-  padding: 0.3rem;
-  text-transform: uppercase;
-  color: var(--aether-100);
-  transition: color 0.2s;
-}
 
 /* ── Corner Bracket Hover Animation ──────────────────────────────────
  *  Four pseudo-elements (::before/::after on both <a> and <span>)
@@ -479,34 +436,7 @@ nav.scrolled {
  *  Together they complete the full rectangular bracket on hover.
  * ──────────────────────────────────────────────────────────────────── */
 
-/* Right side: vertical line (top → down) + horizontal line (right → left) */
-.nav-links a::before, .nav-links a::after {
-  position: absolute;
-  content: "";
-  right: 0; top: 0;
-  background: var(--text);
-  transition: all 0.3s ease;
-}
-.nav-links a::before { height: 0%; width: 1.5px; }  /* right vertical */
-.nav-links a::after  { width:  0%; height: 1.5px; }  /* top horizontal */
-
 .nav-links a:hover { color: var(--text); }
-.nav-links a:hover::before { height: 100%; }
-.nav-links a:hover::after  { width:  100%; }
-
-/* Left side: vertical line (bottom → up) + horizontal line (left → right) */
-.nav-links a span::before, .nav-links a span::after {
-  position: absolute;
-  content: "";
-  left: 0; bottom: 0;
-  background: var(--text);
-  transition: all 0.3s ease;
-}
-.nav-links a span::before { width: 1.5px; height: 0%; }  /* left vertical */
-.nav-links a span::after  { width: 0%; height: 1.5px; }   /* bottom horizontal */
-
-.nav-links a:hover span::before { height: 100%; }
-.nav-links a:hover span::after  { width:  100%; }
 
 /* ── Hamburger Toggle ──────────────────────────────────────────────── */
 #nav-toggle {
@@ -548,54 +478,6 @@ nav.nav-open #nav-toggle span:nth-child(3) { transform: translateY(-6.5px) rotat
  *  On hover, badge expands to reveal "Arizona & Remote" text swap.
  *  Pulse dot uses the sdpulse keyframe (defined in § 5).
  * ───────────────────────────────────────────────────────────────────── */
-
-/* Pulsing dot — idle "live" indicator AND the hover-fill circle.
- * Idle: small pulsing aurora dot, absolutely positioned at the left.
- * Hover: expands to fill the entire pill. Text flips dark on top for contrast.
- */
-.sdot {
-  position: absolute;
-  left: 0.75rem;
-  top: 0; bottom: 0;
-  margin: auto;
-  width: 10px; height: 10px;
-  border-radius: 20px; /* fixed — CSS auto-clamps to a circle at this size */
-  background: var(--accent-aurora);
-  border: 1.5px solid transparent; /* reserved now, becomes visible on hover */
-  box-sizing: border-box;
-  animation: sdpulse 1.5s infinite;
-  z-index: 0;
-  transition: width 0.4s cubic-bezier(0.65,0,0.076,1),
-              height 0.4s cubic-bezier(0.65,0,0.076,1),
-              left 0.4s cubic-bezier(0.65,0,0.076,1),
-              background-color 0.4s cubic-bezier(0.65,0,0.076,1),
-              border-color 0.4s cubic-bezier(0.65,0,0.076,1);
-}
-
-/* Badge — aurora-200 text, transparent until hover. Fades in via JS */
-.hero-us {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--Orb);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--aurora-200);
-  padding: 0.35rem 0.75rem 0.35rem 2rem; /* extra left room for the dot */
-  border-radius: 20px;
-  background: radial-gradient(circle 22px at 1.1rem center, rgba(10,195,154,0.22) 0%, rgba(10,195,154,0.06) 55%, transparent 100%);
-  opacity: 0;
-  animation: up 0.5s ease forwards 0.1s;
-  white-space: nowrap;
-  text-decoration: none;
-  position: relative;
-  overflow: hidden; /* clips the expanding dot to the pill shape */
-  cursor: none;
-  transition: padding 0.4s cubic-bezier(0.65,0,0.076,1),
-              background 0.4s cubic-bezier(0.65,0,0.076,1);
-}
 
 .hero-us:hover {
   padding-top: 0.5rem;
