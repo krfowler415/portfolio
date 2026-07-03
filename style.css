@@ -471,7 +471,6 @@ a, button, .project-hover, .card-feat, .nav-links a { cursor: none; }
  * ───────────────────────────────────────────────────────────────────── */
 
 .marquee {
-  background: var(--bg-marquee);   /* aurora-600 */
   overflow: hidden;
   padding: 0.75rem 0;
   white-space: nowrap;
@@ -493,7 +492,6 @@ a, button, .project-hover, .card-feat, .nav-links a { cursor: none; }
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #F2E9EAE6;
   display: inline-flex;
   align-items: center;
   gap: 1.5rem;
@@ -502,10 +500,9 @@ a, button, .project-hover, .card-feat, .nav-links a { cursor: none; }
 
 /* Separator dot between items — pulsar red to mirror UFO warning lights */
 .m-sep {
-  width: 6px; height: 6px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: var(--accent-pulsar);
-  opacity: 0.7;
 }
 
 
