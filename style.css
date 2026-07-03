@@ -2377,9 +2377,6 @@ height: calc(
  *  Stat grid always 2-column (cards are narrow enough).
  * ──────────────────────────────────────────────────────────────────── */
 @media (max-width: 600px) {
-  footer     { flex-direction: column; gap: 0.4rem; }
-  body       { cursor: auto; }
-  #cur       { display: none; }
   .hero      { height: calc(var(--vh, 1vh) * 140); }
   .hero-ufo  { width: 160px; }
   .nav-logo { font-size: 1.1rem; white-space: nowrap; }
