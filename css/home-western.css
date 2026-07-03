@@ -321,3 +321,161 @@
 :root[data-theme="light"] .hero-terrain::after {
   background: linear-gradient(to bottom, transparent, var(--bg));
 }
+
+/* =====================================================================
+ * § 9  WESTERN CLOUDS
+ * ===================================================================== */
+
+.hero-clouds {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+:root[data-theme="light"] .hero-clouds {
+  display: block;
+}
+
+.cloud-img {
+  position: absolute;
+  height: auto;
+  animation: cloudDrift linear infinite;
+}
+
+.cloud-img--1 {
+  width: clamp(280px, 42vw, 620px);
+  top: 4%;
+  left: -650px;
+  animation-duration: 52s;
+  animation-delay: -10s;
+  opacity: 0.95;
+}
+
+.cloud-img--2 {
+  width: clamp(340px, 44vw, 640px);
+  top: 8%;
+  left: -700px;
+  animation-duration: 97s;
+  animation-delay: -58s;
+  opacity: 0.88;
+}
+
+.cloud-img--3 {
+  width: clamp(160px, 18vw, 240px);
+  top: 14%;
+  left: -280px;
+  animation-duration: 45s;
+  animation-delay: -20s;
+  opacity: 0.82;
+  animation-name: cloudDriftMirror;
+}
+
+.cloud-img--4 {
+  width: clamp(120px, 14vw, 180px);
+  top: 18%;
+  left: -220px;
+  animation-duration: 83s;
+  animation-delay: -5s;
+  opacity: 0.74;
+}
+
+.cloud-img--5 {
+  width: clamp(340px, 40vw, 580px);
+  top: 22%;
+  left: -640px;
+  animation-duration: 101s;
+  animation-delay: -80s;
+  opacity: 0.78;
+  animation-name: cloudDriftMirror;
+}
+
+.cloud-img--11 {
+  width: clamp(340px, 38vw, 540px);
+  top: 28%;
+  left: -600px;
+  animation-duration: 58s;
+  animation-delay: -15s;
+  opacity: 0.72;
+}
+
+.cloud-img--6 {
+  width: clamp(200px, 22vw, 300px);
+  top: 40%;
+  left: -350px;
+  animation-duration: 47s;
+  animation-delay: -8s;
+  opacity: 0.70;
+}
+
+.cloud-img--12 {
+  width: clamp(240px, 28vw, 400px);
+  top: 47%;
+  left: -460px;
+  animation-duration: 88s;
+  animation-delay: -55s;
+  opacity: 0.62;
+}
+
+.cloud-img--7 {
+  width: clamp(280px, 30vw, 420px);
+  top: 55%;
+  left: -480px;
+  animation-duration: 105s;
+  animation-delay: -90s;
+  opacity: 0.65;
+  animation-name: cloudDriftMirror;
+}
+
+.cloud-img--9 {
+  width: clamp(320px, 36vw, 500px);
+  top: 58%;
+  left: -580px;
+  animation-duration: 61s;
+  animation-delay: -25s;
+  opacity: 0.52;
+  animation-name: cloudDriftMirror;
+}
+
+.cloud-img--8 {
+  width: clamp(140px, 16vw, 200px);
+  top: 62%;
+  left: -250px;
+  animation-duration: 49s;
+  animation-delay: -30s;
+  opacity: 0.58;
+}
+
+.cloud-img--10 {
+  width: clamp(180px, 20vw, 260px);
+  top: 66%;
+  left: -320px;
+  animation-duration: 91s;
+  animation-delay: -10s;
+  opacity: 0.50;
+}
+
+
+/* ── Western Cloud Animations ─────────────────────────────────────── */
+
+@keyframes cloudDrift {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(100vw + 500px));
+  }
+}
+
+@keyframes cloudDriftMirror {
+  from {
+    transform: translateX(0) scaleX(-1);
+  }
+
+  to {
+    transform: translateX(calc(100vw + 500px)) scaleX(-1);
+  }
+}
