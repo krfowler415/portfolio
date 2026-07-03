@@ -479,3 +479,21 @@
     transform: translateX(calc(100vw + 500px)) scaleX(-1);
   }
 }
+
+/* =====================================================================
+ * § 10  WESTERN SCROLL CUE
+ * ===================================================================== */
+
+:root[data-theme="light"] .hero-scroll-cue {
+  --scroll-cue-bg: var(--bg);
+  --scroll-cue-outline: rgba(101, 58, 30, 0.72);
+  --scroll-cue-outline-fade: rgba(151, 92, 45, 0.24);
+  --scroll-cue-wheel: rgba(137, 78, 34, 0.82);
+  --scroll-cue-glow: rgba(180, 106, 45, 0.18);
+}
+
+:root[data-theme="light"] .hero-scroll-cue__mouse {
+  filter:
+    drop-shadow(0 1px 0 rgba(255, 239, 196, 0.45))
+    drop-shadow(0 0 10px rgba(151, 92, 45, 0.12));
+}
