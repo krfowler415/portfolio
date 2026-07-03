@@ -1916,7 +1916,6 @@ height: calc(
  *  Organized from preferences → large breakpoint → small breakpoint.
  * ===================================================================== */
 
-
 /* ── Reduced Motion ───────────────────────────────────────────────────
  *  Respects prefers-reduced-motion OS setting.
  *  Marquee slows dramatically (120s) instead of stopping entirely.
@@ -1930,7 +1929,6 @@ height: calc(
   #intro, #intro-flash { display: none !important; }
 }
 
-
 /* ── Tablet / Narrow Desktop (≤ 900px) ───────────────────────────────
  *  Card grid collapses to single column.
  *  About layout stacks vertically.
@@ -1943,42 +1941,6 @@ height: calc(
   .about-layout { grid-template-columns: 1fr; gap: 2.5rem; }
   .c-band       { flex-direction: column; align-items: flex-start; padding: 2.5rem; }
   .c-cta-btn    { align-self: center; }
-
-  #nav-toggle { display: flex; }
-
-  .nav-links {
-    position: fixed;
-    top: 54px;
-    left: 0; right: 0;
-    background: var(--bg-dark);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid #0AC39A25;
-    box-shadow: 0 8px 24px #00000040;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
-    padding: 0.75rem 0;
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(-8px);
-    transition: opacity 0.25s ease, transform 0.25s ease;
-    z-index: 99;
-  }
-
-  nav.nav-open .nav-links {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0);
-  }
-
-  .nav-links li { width: 100%; text-align: center; }
-
-  .nav-links a {
-    display: block;
-    padding: 0.85rem var(--px);
-    font-size: 0.82rem;
-  }
 }
 
 /* ── Mobile (≤ 600px) ─────────────────────────────────────────────────
@@ -1993,12 +1955,9 @@ height: calc(
 @media (max-width: 600px) {
   .hero      { height: calc(var(--vh, 1vh) * 140); }
   .hero-ufo  { width: 160px; }
-  .nav-logo { font-size: 1.1rem; white-space: nowrap; }
   .c-cta-btn { padding: 1rem 1.25rem; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
-
 }
-
 
 /* =====================================================================
  * THEME TOGGLE
