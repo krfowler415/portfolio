@@ -18,7 +18,12 @@
  * § 2  COSMOS BASE / BODY
  * ===================================================================== */
 
-/* Cosmos body/background styles are still temporarily in style.css. */
+:root[data-theme="dark"] body {
+  background:
+    radial-gradient(circle, #98A8D428 1px, transparent 1px) center / 28px 28px,
+    var(--bg);
+  background-attachment: fixed;
+}
 
 
 /* =====================================================================
