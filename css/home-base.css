@@ -1114,6 +1114,14 @@ a.card-feat,
 }
 
 @media (max-width: 600px) {
+  .hero {
+    height: calc(var(--vh, 1vh) * 140);
+  }
+
+  .hero-ufo {
+    width: 160px;
+  }
+
   .c-cta-btn {
     padding: 1rem 1.25rem;
   }
