@@ -460,52 +460,16 @@ a, button, .project-hover, .card-feat, .nav-links a { cursor: none; }
 .btn-outline:hover::after { left: 0; width: 100%; }
 .btn-outline:active { top: 2px; }
 
-/* ─────────────────────────────────────────────────────────────────────
- * 4l  HERO SCROLL THEATER
+/* ── Hero Scene — Temporary Visuals ──────────────────────────────────
  *
- *  The cinematic opening sequence — 300 viewport-heights tall (via
- *  the --vh custom property) so the user scrolls through three full
- *  viewport heights while the scene is sticky.
+ *  Shared hero structure has moved to:
+ *  css/home-base.css → § 10 HOME HERO SCENE STRUCTURE
  *
- *  Layer stack (z-index):
- *    2  #stars         canvas particle field
- *    3  .hero-moon     SVG moon
- *    6  .hero-terrain  transparent terrain PNG layer
- *    7  ::after        bottom fade to --bg
- *    8  .hero-ufo      SVG UFO (GSAP-controlled position)
- *
- *  Terrain is now a transparent PNG pair controlled by .terrain-stage.
- *  Do not fetch or inject SVG terrain from JavaScript.
- * ───────────────────────────────────────────────────────────────────── */
-
-.hero {
-  position: relative;
-
-  --hero-sky-room: clamp(120px, 18vh, 240px);
-  --hero-scene-height: calc(var(--hero-sky-room) + (100vw * 941 / 1672));
-
-  --hero-scroll-extra: calc(var(--vh, 1vh) * 105);
-  --hero-exit-buffer: calc(var(--vh, 1vh) * 20);
-
-height: calc(
-  var(--hero-scene-height) +
-  var(--hero-scroll-extra) +
-  var(--hero-exit-buffer)
-);
-  background: var(--bg);
-  overflow: visible;
-}
+ *  This block temporarily keeps dark/cosmos hero visuals in style.css
+ *  until hero visuals are fully split into theme files.
+ * ─────────────────────────────────────────────────────────────────── */
 
 .hero-pin {
-  position: sticky;
-  top: 0;
-
-  height: var(--hero-scene-height);
-  min-height: 100svh;
-
-  overflow: hidden;
-  isolation: isolate;
-
   background:
     radial-gradient(ellipse 55% 60% at 18% 55%, #C823558C 0%, transparent 100%),
     radial-gradient(ellipse 40% 45% at 8% 30%, #1A3A9AB3 0%, transparent 100%),
@@ -519,170 +483,25 @@ height: calc(
     linear-gradient(to bottom, #010308 0%, #03050F 15%, #060818 35%, #0A0720 55%, #100826 75%, #100820 100%);
 }
 
-/* Bottom fade — sits above terrain, below UFO */
 .hero-pin::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 14vh;
   background: linear-gradient(
     to bottom,
     transparent 0%,
     rgba(16, 8, 32, 0.45) 55%,
     var(--bg) 100%
   );
-  z-index: 7;
-  pointer-events: none;
 }
 
-/* Star particle canvas */
-#stars {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  pointer-events: none;
-}
-
-/* ── Hero Terrain: full PNG inside taller hero ─────────────────────── */
-
-.hero-terrain {
-  position: absolute;
-  inset: 0;
-  z-index: 6;
-  pointer-events: none;
-  overflow: hidden;
-
-  --terrain-fade-height: 3vh;
-  --terrain-parallax-overscan: clamp(180px, 22vh, 320px);
-}
-
-.terrain-stage {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: calc(var(--terrain-parallax-overscan) * -1);
-  z-index: 1;
-  pointer-events: none;
-  will-change: transform;
-}
-
-.terrain-img {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-width: none;
-  opacity: 0;
-
-  user-select: none;
-  pointer-events: none;
-  -webkit-user-drag: none;
-
-  transition: opacity 0.35s ease;
+.hero-terrain::after {
+  background: linear-gradient(to bottom, transparent, var(--bg));
 }
 
 .terrain-img--dark {
   opacity: 1;
 }
 
-.terrain-img--light {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  opacity: 0;
-}
-
-.hero-terrain::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -1px;
-  height: var(--terrain-fade-height);
-  background: linear-gradient(to bottom, transparent, var(--bg));
-  z-index: 3;
-  pointer-events: none;
-}
-
-/* Moon/Sun SVG containers */
-.hero-moon,
-.hero-sun {
-  position: absolute;
-  top: 30%;
-  right: 6%;
-  width: clamp(180px, 24vw, 360px);
-  aspect-ratio: 1 / 1;
-  z-index: 3;
-  pointer-events: none;
-  user-select: none;
-  transform: none;
-}
-
-.hero-moon img,
-.hero-sun img {
-  display: block;
-  width: 90%;
-  height: auto;
-}
-
-/* Dark theme default */
 .hero-sun {
   display: none;
-}
-
-/* UFO container — positioned absolutely; GSAP moves it via transform */
-.hero-ufo {
-  position: absolute;
-  width: 300px;
-  z-index: 8;
-  pointer-events: none;
-  top: 0;
-  left: 0;
-  transform-origin: 50% 50%;
-  will-change: transform;
-}
-
-.hero-ufo-inner {
-  position: relative;
-  width: 100%;
-}
-
-.hero-ufo-ship {
-  position: relative;
-  z-index: 2;
-  display: block;
-  width: 100%;
-  height: auto;
-  pointer-events: none;
-  user-select: none;
-}
-
-/* Separate tractor beam SVG */
-.hero-ufo-beam {
-  position: absolute;
-  z-index: 1;
-  left: 50%;
-  top: 66%;
-  width: 62%;
-  height: 145%;
-  transform: translateX(-50%);
-  overflow: visible;
-  pointer-events: none;
-}
-
-/* Beam polygon controlled by ScrollTrigger */
-#ufoBeam {
-  transform-box: fill-box;
-  transform-origin: 50% 0%;
-  will-change: opacity, transform;
-}
-
-/* Hover float — JS adds .hovering when UFO reaches its hover waypoint */
-.hero-ufo.hovering .hero-ufo-inner {
-  animation: ufoHover 3s ease-in-out infinite;
 }
 
 /* Hero Scroll Cue */
