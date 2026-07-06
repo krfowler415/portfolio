@@ -1134,7 +1134,6 @@ height: calc(
  *  Intro overlay hidden immediately (also handled in JS).
  * ──────────────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .m-track { animation-duration: 120s; }
   .sdot    { animation: none; transition: none; }
   .us-default, .us-hover { transition: none; }
   #intro, #intro-flash { display: none !important; }
