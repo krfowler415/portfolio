@@ -319,3 +319,39 @@ footer {
 .btn-outline:active {
   top: 2px;
 }
+
+/* =====================================================================
+ * § 10  CUSTOM CURSOR STRUCTURE
+ * ===================================================================== */
+
+#cur {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+}
+
+.cur-dot {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.12s ease;
+}
+
+body.clicking .cur-dot {
+  transform: translate(-50%, -50%) scale(0.5);
+}
+
+a,
+button,
+.project-hover,
+.card-feat,
+.nav-links a {
+  cursor: none;
+}
