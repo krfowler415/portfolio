@@ -215,79 +215,33 @@
 
 
 /* ─────────────────────────────────────────────────────────────────────
- * 4a  INTRO OVERLAY
+ * 4a  INTRO OVERLAY — TEMPORARY VISUALS
  *
- *  Full-screen takeover that plays before the portfolio loads.
- *  The UFO hovers, a tractor beam abducts particles from the screen,
- *  then a glitch-and-flash transition drops the user into the hero.
+ *  Shared intro overlay structure has moved to:
+ *  css/home-base.css → § 12 HOME INTRO OVERLAY STRUCTURE
  *
- *  DOM tree:
- *    #intro
- *      #intro-glow       aurora radial underneath the UFO
- *      #intro-ufo-wrap   the SVG UFO itself
- *      #intro-pts        particle container (populated by JS)
- *      #intro-scanlines  horizontal scan-line overlay
- *    #intro-flash        full-viewport white flash (separate from #intro)
+ *  This block temporarily keeps intro colors, gradients, particles,
+ *  scanlines, and flash visuals in style.css until intro visuals are split.
  * ───────────────────────────────────────────────────────────────────── */
 
-/* Fixed full-viewport overlay. Removed from view by JS on completion. */
 #intro {
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
   background: #0E0818;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 6vh;
-  overflow: hidden;
 }
 
-/* Radial teal glow beneath the UFO — fades in via GSAP at 0.4s delay */
 #intro-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 80% 60% at 50% 100%, #0AC39A80 0%, transparent 65%);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 1;
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 100%,
+    #0AC39A80 0%,
+    transparent 65%
+  );
 }
 
-/* UFO SVG wrapper — will-change primes GPU for GSAP transforms */
-#intro-ufo-wrap {
-  position: relative;
-  width: min(48vw, 300px);
-  overflow: visible;
-  will-change: transform, opacity;
-  z-index: 3;
-}
-
-/* Container for JS-spawned .ipt particle elements */
-#intro-pts {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* Rising particle bubble — created and positioned by spawnPts() in JS.
- * --rise and --drift are CSS custom properties set inline per-particle.
- * animation: iptRise defined in § 5 */
 .ipt {
-  position: absolute;
-  border-radius: 50%;
   background: #0AC39AD9;
   box-shadow: 0 0 6px #0AC39A99;
-  animation: iptRise linear infinite;
 }
 
-/* CRT scan-line texture — flashes on during the glitch sequence */
 #intro-scanlines {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0;
-  z-index: 4;
   background: repeating-linear-gradient(
     0deg,
     transparent,
@@ -297,25 +251,9 @@
   );
 }
 
-/* Full-viewport aurora flash — sits above #intro, triggers GSAP transition */
 #intro-flash {
-  position: fixed;
-  inset: 0;
   background: var(--aurora-400);
-  opacity: 0;
-  z-index: 10001;
-  pointer-events: none;
 }
-
-/* UFO rim light circles — alternating blink creates the alien strobe effect.
- * animation: iLightBlink defined in § 5 */
-.iLight {
-  animation: iLightBlink 1.1s ease-in-out infinite alternate;
-}
-.iLight:nth-child(even) { animation-delay: 0.55s; }
-
-.intro-skip #intro,
-.intro-skip #intro-flash { display: none !important; }
 
 
 /* =====================================================================
