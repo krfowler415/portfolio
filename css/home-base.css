@@ -915,3 +915,163 @@ a.card-feat,
   margin: 1rem auto 0;
   opacity: 0.9;
 }
+
+/* =====================================================================
+ * § 9  HOME CONTACT STRUCTURE
+ * ===================================================================== */
+
+.c-band {
+  border-radius: 14px;
+  padding: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  position: relative;
+}
+
+.c-band::before,
+.c-band::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+
+.c-band::before {
+  top: 16px;
+  left: 16px;
+}
+
+.c-band::after {
+  bottom: 16px;
+  right: 16px;
+}
+
+.c-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.c-cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 1.25rem 3rem;
+  gap: 1rem;
+  border-radius: 10px;
+  font-family: var(--Orb);
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  position: relative;
+  z-index: 1;
+  transition: opacity 0.2s ease;
+}
+
+.c-cta-btn::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.c-cta-btn:hover::after {
+  top: 0;
+  height: 100%;
+}
+
+.c-cta-arrow {
+  font-size: 2rem;
+  transition: transform 0.2s ease;
+}
+
+.c-cta-btn:hover .c-cta-arrow {
+  transform: translateX(4px);
+}
+
+.c-secondary {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.c-secondary-link {
+  position: relative;
+  display: inline-block;
+  padding: 0.3rem;
+  font-family: var(--Orb);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.c-secondary-link::before,
+.c-secondary-link::after {
+  position: absolute;
+  content: "";
+  right: 0;
+  top: 0;
+  transition: all 0.3s ease;
+}
+
+.c-secondary-link::before {
+  height: 0%;
+  width: 1.5px;
+}
+
+.c-secondary-link::after {
+  width: 0%;
+  height: 1.5px;
+}
+
+.c-secondary-link:hover::before {
+  height: 100%;
+}
+
+.c-secondary-link:hover::after {
+  width: 100%;
+}
+
+.c-secondary-link span::before,
+.c-secondary-link span::after {
+  position: absolute;
+  content: "";
+  left: 0;
+  bottom: 0;
+  transition: all 0.3s ease;
+}
+
+.c-secondary-link span::before {
+  width: 1.5px;
+  height: 0%;
+}
+
+.c-secondary-link span::after {
+  width: 0%;
+  height: 1.5px;
+}
+
+.c-secondary-link:hover span::before {
+  height: 100%;
+}
+
+.c-secondary-link:hover span::after {
+  width: 100%;
+}
