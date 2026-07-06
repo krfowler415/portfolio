@@ -1075,3 +1075,42 @@ a.card-feat,
 .c-secondary-link:hover span::after {
   width: 100%;
 }
+
+/* =====================================================================
+ * § 10  HOME RESPONSIVE STRUCTURE
+ * ===================================================================== */
+
+@media (max-width: 900px) {
+  .card-feat {
+    grid-template-columns: 1fr;
+  }
+
+  .card-vis {
+    min-height: 260px;
+  }
+
+  .about-layout {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .c-band {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2.5rem;
+  }
+
+  .c-cta-btn {
+    align-self: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .c-cta-btn {
+    padding: 1rem 1.25rem;
+  }
+
+  .stat-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
