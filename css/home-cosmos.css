@@ -373,7 +373,34 @@
  * § 10  COSMOS HERO SCENE
  * ===================================================================== */
 
-/* ── Cosmos Terrain Visibility ─────────────────────────────────────── */
+/* ── Cosmos Hero Scene Visuals ─────────────────────────────────────── */
+
+:root[data-theme="dark"] .hero-pin {
+  background:
+    radial-gradient(ellipse 55% 60% at 18% 55%, #C823558C 0%, transparent 100%),
+    radial-gradient(ellipse 40% 45% at 8% 30%, #1A3A9AB3 0%, transparent 100%),
+    radial-gradient(ellipse 50% 55% at 78% 38%, #0AC39A7A 0%, transparent 100%),
+    radial-gradient(ellipse 35% 40% at 94% 18%, #1E46B494 0%, transparent 100%),
+    radial-gradient(ellipse 45% 50% at 55% 68%, #5F259F85 0%, transparent 100%),
+    radial-gradient(ellipse 60% 50% at 32% 42%, #6E1EAF7A 0%, transparent 100%),
+    radial-gradient(ellipse 30% 35% at 90% 58%, #A7193057 0%, transparent 100%),
+    radial-gradient(ellipse 28% 32% at 62% 22%, #0AC39A4D 0%, transparent 100%),
+    radial-gradient(ellipse 22% 28% at 45% 18%, #B428784D 0%, transparent 100%),
+    linear-gradient(to bottom, #010308 0%, #03050F 15%, #060818 35%, #0A0720 55%, #100826 75%, #100820 100%);
+}
+
+:root[data-theme="dark"] .hero-pin::after {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(16, 8, 32, 0.45) 55%,
+    var(--bg) 100%
+  );
+}
+
+:root[data-theme="dark"] .hero-terrain::after {
+  background: linear-gradient(to bottom, transparent, var(--bg));
+}
 
 :root[data-theme="dark"] .terrain-img--dark {
   opacity: 1;
@@ -381,6 +408,10 @@
 
 :root[data-theme="dark"] .terrain-img--light {
   opacity: 0;
+}
+
+:root[data-theme="dark"] .hero-sun {
+  display: none;
 }
 
 
