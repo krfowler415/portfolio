@@ -1304,6 +1304,19 @@ a.card-feat,
   animation: ufoHover 3s ease-in-out infinite;
 }
 
+/* ── Hero UFO Hover Keyframe ───────────────────────────────────────── */
+
+@keyframes ufoHover {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
 /* ── Hero Scroll Cue Structure ─────────────────────────────────────── */
 
 .hero-scroll-cue {
