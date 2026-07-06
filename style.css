@@ -460,54 +460,7 @@ a, button, .project-hover, .card-feat, .nav-links a { cursor: none; }
 .btn-outline:hover::after { left: 0; width: 100%; }
 .btn-outline:active { top: 2px; }
 
-/* Hero Scroll Cue — Temporary Visuals
- *
- * Shared scroll cue structure has moved to:
- * css/home-base.css → § 10 HOME HERO SCENE STRUCTURE
- *
- * This block temporarily keeps scroll cue colors, gradients, and glows
- * in style.css until cosmos/western scroll cue visuals are split.
- */
 
-.hero-scroll-cue {
-  --scroll-cue-bg: var(--bg);
-  --scroll-cue-outline: rgba(238, 250, 255, 0.8);
-  --scroll-cue-outline-fade: rgba(120, 255, 241, 0.24);
-  --scroll-cue-wheel: rgba(120, 255, 241, 0.82);
-  --scroll-cue-glow: rgba(120, 255, 241, 0.42);
-
-  color: var(--scroll-cue-outline);
-}
-
-.hero-scroll-cue__mouse {
-  background:
-    linear-gradient(
-      to bottom,
-      var(--scroll-cue-outline-fade) 0%,
-      var(--scroll-cue-outline-fade) 50%,
-      var(--scroll-cue-outline) 50%,
-      var(--scroll-cue-outline) 100%
-    );
-
-  filter:
-    drop-shadow(0 0 8px var(--scroll-cue-glow))
-    drop-shadow(0 0 18px rgba(120, 255, 241, 0.12));
-}
-
-.hero-scroll-cue__mouse::before {
-  background: var(--scroll-cue-bg);
-}
-
-.hero-scroll-cue__mouse::after {
-  background: var(--scroll-cue-wheel);
-  box-shadow:
-    0 0 8px var(--scroll-cue-wheel),
-    0 0 18px var(--scroll-cue-glow);
-}
-
-.hero-scroll-cue__text {
-  color: var(--scroll-cue-outline);
-}
 
 @keyframes heroScrollCueColorSlide {
   0% {
