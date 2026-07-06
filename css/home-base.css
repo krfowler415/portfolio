@@ -1760,3 +1760,24 @@ a.card-feat,
     opacity: 0.2;
   }
 }
+
+/* =====================================================================
+ * § 13  HOME REDUCED MOTION
+ * ===================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .sdot {
+    animation: none;
+    transition: none;
+  }
+
+  .us-default,
+  .us-hover {
+    transition: none;
+  }
+
+  #intro,
+  #intro-flash {
+    display: none !important;
+  }
+}
