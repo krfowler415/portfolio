@@ -318,42 +318,21 @@
 .intro-skip #intro-flash { display: none !important; }
 
 /* ─────────────────────────────────────────────────────────────────────
- * 4b  CURSOR
+ * 4b  CURSOR — TEMPORARY VISUALS
  *
- *  Custom aurora-teal dot that replaces the default cursor on desktop.
- *  body.clicking shrinks the dot on mousedown for press feedback.
- *  Hidden at 600px and below via § 6 media query.
+ *  Shared cursor structure has moved to:
+ *  css/global-base.css → § 10 CUSTOM CURSOR STRUCTURE
+ *
+ *  This block temporarily keeps cursor dot color and glow in style.css
+ *  until cursor visuals are split into theme files.
  * ───────────────────────────────────────────────────────────────────── */
 
-/* Fixed element that tracks mouse position via JS (mousemove event) */
-#cur {
-  position: fixed;
-  z-index: 9999;
-  pointer-events: none;
-  top: 0; left: 0;
-  transform: translate(-50%, -50%);
-}
-
-/* The visible dot — aurora teal with multi-layer glow */
 .cur-dot {
-  position: absolute;
-  width: 11px; height: 11px;
   background: var(--accent-aurora);
-  border-radius: 50%;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  transition: transform 0.12s ease;
   box-shadow:
     0 0 8px 2px var(--aurora-400),
     0 0 20px 4px #0AC39A60;
 }
-
-/* Scales the dot to 50% on mousedown — tactile press feedback */
-body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
-
-/* Suppress the OS cursor on all interactive and hoverable elements */
-a, button, .project-hover, .card-feat, .nav-links a { cursor: none; }
-
 
 /* =====================================================================
  * § 5  ANIMATIONS & KEYFRAMES
