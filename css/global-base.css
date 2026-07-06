@@ -355,3 +355,14 @@ button,
 .nav-links a {
   cursor: none;
 }
+
+/* =====================================================================
+ * § 11  GLOBAL INTERACTION KEYFRAMES
+ * ===================================================================== */
+
+@keyframes rippleOut {
+  to {
+    transform: translate(-50%, -50%) scale(8);
+    opacity: 0;
+  }
+}
