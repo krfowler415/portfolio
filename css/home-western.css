@@ -864,3 +864,14 @@
   color: var(--text);
   border-color: var(--bg-raised);
 }
+
+/* =====================================================================
+ * § 16  WESTERN CURSOR VISUALS
+ * ===================================================================== */
+
+:root[data-theme="light"] .cur-dot {
+  background: var(--accent-aurora);
+  box-shadow:
+    0 0 8px 2px var(--aurora-400),
+    0 0 20px 4px #0AC39A60;
+}
