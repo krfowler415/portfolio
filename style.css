@@ -461,181 +461,73 @@ a, button, .project-hover, .card-feat, .nav-links a { cursor: none; }
 .btn-outline:active { top: 2px; }
 
 /* ─────────────────────────────────────────────────────────────────────
- * 4k  CONTACT SECTION
+ * 4k  CONTACT SECTION — TEMPORARY VISUALS
  *
- *  Single centered card (.c-band) with headline, body text,
- *  a large CTA button, and three secondary social links.
+ *  Shared Contact structure has moved to:
+ *  css/home-base.css → § 9 HOME CONTACT STRUCTURE
  *
- *  HUD corner brackets:
- *    .c-band::before  top-left bracket
- *    .c-band::after   bottom-right bracket
- *
- *  CTA button uses the aurora-to-cosmos gradient with reversed-gradient
- *  overlay that fades in on hover (same technique as .btn-primary).
- *
- *  .c-secondary-link uses the same corner-bracket animation as .nav-links.
+ *  This block temporarily keeps Contact colors, gradients, borders,
+ *  glows, and text effects in style.css until cosmos/western Contact
+ *  visuals are split into theme files.
  * ───────────────────────────────────────────────────────────────────── */
 
-/* Contact card — position: relative required for corner brackets */
 .c-band {
   background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
   border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 3.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  align-items: center;
-  text-align: center;
-  width: 100%;
-  position: relative;
   box-shadow:
     0 0 0 1px #98A8D420,
     0 0 50px #5F259F30,
     inset 0 1px 0 #5F259F60;
 }
 
-/* Top-left corner bracket */
 .c-band::before {
-  content: '';
-  position: absolute;
-  top: 16px; left: 16px;
-  width: 14px; height: 14px;
   border-top: 1.5px solid var(--accent-aurora);
   border-left: 1.5px solid var(--accent-aurora);
   opacity: 0.5;
-  pointer-events: none;
 }
 
-/* Bottom-right corner bracket */
 .c-band::after {
-  content: '';
-  position: absolute;
-  bottom: 16px; right: 16px;
-  width: 14px; height: 14px;
   border-bottom: 1.5px solid var(--accent-aurora);
   border-right: 1.5px solid var(--accent-aurora);
   opacity: 0.5;
-  pointer-events: none;
 }
 
-/* Flex column holding the headline and body text */
-.c-header {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-/* "Establish Contact" CTA button — largest interactive element on page.
- * Aurora-to-cosmos gradient reverses on hover via ::after overlay. */
 .c-cta-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: fit-content;
-  padding: 1.25rem 3rem;
-  gap: 1rem;
   background: linear-gradient(135deg, var(--aurora-400) 0%, var(--cosmos-600) 100%);
-  border-radius: 10px;
   color: var(--text);
-  font-family: var(--Orb);
-  font-size: clamp(1rem, 2vw, 1.4rem);
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  text-decoration: none;
-  position: relative;
-  z-index: 1;
-  transition: opacity 0.2s ease;
   box-shadow:
     0 0 25px #0AC39A50,
-    0 0 60px #0AC39A25;   /* outer aurora bloom */
+    0 0 60px #0AC39A25;
 }
 
-/* Reversed-gradient overlay — fades in on hover */
 .c-cta-btn::after {
-  position: absolute;
-  content: "";
-  width: 100%; height: 0;
-  bottom: 0; left: 0;
-  z-index: -1;
-  border-radius: 10px;
   background: linear-gradient(135deg, var(--cosmos-600) 0%, var(--aurora-400) 100%);
-  transition: all 0.3s ease;
 }
-.c-cta-btn:hover::after { top: 0; height: 100%; }
 
-/* Bloom intensifies on hover */
 .c-cta-btn:hover {
   box-shadow:
     0 0 35px #0AC39A70,
     0 0 80px #0AC39A35;
 }
 
-/* Arrow character inside the CTA button — nudges right on hover */
-.c-cta-arrow {
-  font-size: 2rem;
-  transition: transform 0.2s ease;
-}
-.c-cta-btn:hover .c-cta-arrow { transform: translateX(4px); }
-
-/* Secondary link row — GitHub / Handshake / LinkedIn */
-.c-secondary {
-  display: flex;
-  gap: 1.5rem;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-/* Secondary links — aurora-200 color signals these are live endpoints.
- * Uses same corner-bracket animation as .nav-links a. */
 .c-secondary-link {
-  position: relative;
-  display: inline-block;
-  padding: 0.3rem;
-  font-family: var(--Orb);
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
   color: var(--aurora-200);
   text-decoration: underline;
   text-decoration-color: #0AC39A40;
-  transition: color 0.2s ease;
 }
+
 .c-secondary-link:hover {
   color: var(--text);
   text-decoration: none;
   text-shadow: 0 0 12px var(--accent-aurora);
 }
 
-/* Corner bracket animation — right side */
-.c-secondary-link::before, .c-secondary-link::after {
-  position: absolute;
-  content: "";
-  right: 0; top: 0;
+.c-secondary-link::before,
+.c-secondary-link::after,
+.c-secondary-link span::before,
+.c-secondary-link span::after {
   background: var(--text);
-  transition: all 0.3s ease;
 }
-.c-secondary-link::before { height: 0%; width: 1.5px; }
-.c-secondary-link::after  { width: 0%; height: 1.5px; }
-.c-secondary-link:hover::before { height: 100%; }
-.c-secondary-link:hover::after  { width: 100%; }
-
-/* Corner bracket animation — left side (via <span> children) */
-.c-secondary-link span::before, .c-secondary-link span::after {
-  position: absolute;
-  content: "";
-  left: 0; bottom: 0;
-  background: var(--text);
-  transition: all 0.3s ease;
-}
-.c-secondary-link span::before { width: 1.5px; height: 0%; }
-.c-secondary-link span::after  { width: 0%; height: 1.5px; }
-.c-secondary-link:hover span::before { height: 100%; }
-.c-secondary-link:hover span::after  { width: 100%; }
-
 
 /* ─────────────────────────────────────────────────────────────────────
  * 4l  HERO SCROLL THEATER
