@@ -486,6 +486,14 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   }
 }
 
+/* ── Marquee Reduced Motion ────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .m-track {
+    animation-duration: 120s;
+  }
+}
+
 /* =====================================================================
  * § 7  HOME CARDS + CASE STUDY CONTROLS STRUCTURE
  * ===================================================================== */
