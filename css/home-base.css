@@ -1697,3 +1697,35 @@ a.card-feat,
 .intro-skip #intro-flash {
   display: none !important;
 }
+
+/* ── Intro Overlay Keyframes ───────────────────────────────────────── */
+
+@keyframes iptRise {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 0.85;
+  }
+
+  75% {
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: translateY(var(--rise, -100vh)) translateX(var(--drift, 0px)) scale(0.1);
+    opacity: 0;
+  }
+}
+
+@keyframes iLightBlink {
+  0% {
+    opacity: 0.95;
+  }
+
+  100% {
+    opacity: 0.2;
+  }
+}
