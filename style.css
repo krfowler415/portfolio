@@ -355,68 +355,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 a, button, .project-hover, .card-feat, .nav-links a { cursor: none; }
 
 
-/* ─────────────────────────────────────────────────────────────────────
- * 4e  BUTTONS — TEMPORARY VISUALS
- *
- *  Shared button structure has moved to:
- *  css/global-base.css → § 9 BUTTON STRUCTURE
- *
- *  This block temporarily keeps button colors, gradients, borders,
- *  and hover visual states in style.css until button visuals are split.
- * ───────────────────────────────────────────────────────────────────── */
-
-.btn-primary {
-  background: linear-gradient(180deg, var(--primary-lt) 0%, var(--primary) 74%);
-  color: var(--text);
-  border: none;
-  font-weight: 600;
-}
-
-.btn-primary::after {
-  background: linear-gradient(180deg, var(--primary) 0%, var(--primary-lt) 74%);
-}
-
-.btn-primary:hover {
-  color: var(--text);
-}
-
-.btn-ghost {
-  background: transparent;
-  color: #F2E9EA80;
-  border: none;
-}
-
-.btn-ghost::before,
-.btn-ghost::after {
-  background: var(--text);
-}
-
-.btn-ghost:hover {
-  background: transparent;
-  color: var(--text);
-  box-shadow: none;
-}
-
-.btn-ghost span::before,
-.btn-ghost span::after {
-  background: var(--text);
-}
-
-.btn-outline {
-  background: transparent;
-  color: var(--text-muted);
-  border: 1.5px solid var(--border);
-}
-
-.btn-outline::after {
-  background: var(--bg-raised);
-}
-
-.btn-outline:hover {
-  color: var(--text);
-  border-color: var(--bg-raised);
-}
-
 /* =====================================================================
  * § 5  ANIMATIONS & KEYFRAMES
  *
