@@ -479,3 +479,60 @@
  * ===================================================================== */
 
 /* Cosmos responsive overrides are still temporarily in style.css. */
+
+
+/* =====================================================================
+ * § 15  COSMOS BUTTON VISUALS
+ * ===================================================================== */
+
+:root[data-theme="dark"] .btn-primary {
+  background: linear-gradient(180deg, var(--primary-lt) 0%, var(--primary) 74%);
+  color: var(--text);
+  border: none;
+  font-weight: 600;
+}
+
+:root[data-theme="dark"] .btn-primary::after {
+  background: linear-gradient(180deg, var(--primary) 0%, var(--primary-lt) 74%);
+}
+
+:root[data-theme="dark"] .btn-primary:hover {
+  color: var(--text);
+}
+
+:root[data-theme="dark"] .btn-ghost {
+  background: transparent;
+  color: #F2E9EA80;
+  border: none;
+}
+
+:root[data-theme="dark"] .btn-ghost::before,
+:root[data-theme="dark"] .btn-ghost::after {
+  background: var(--text);
+}
+
+:root[data-theme="dark"] .btn-ghost:hover {
+  background: transparent;
+  color: var(--text);
+  box-shadow: none;
+}
+
+:root[data-theme="dark"] .btn-ghost span::before,
+:root[data-theme="dark"] .btn-ghost span::after {
+  background: var(--text);
+}
+
+:root[data-theme="dark"] .btn-outline {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1.5px solid var(--border);
+}
+
+:root[data-theme="dark"] .btn-outline::after {
+  background: var(--bg-raised);
+}
+
+:root[data-theme="dark"] .btn-outline:hover {
+  color: var(--text);
+  border-color: var(--bg-raised);
+}
