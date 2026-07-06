@@ -356,109 +356,66 @@ a, button, .project-hover, .card-feat, .nav-links a { cursor: none; }
 
 
 /* ─────────────────────────────────────────────────────────────────────
- * 4e  BUTTONS
+ * 4e  BUTTONS — TEMPORARY VISUALS
  *
- *  Design system button variants. Not currently in index.html but
- *  defined for the design system and future pages (about.html, etc).
+ *  Shared button structure has moved to:
+ *  css/global-base.css → § 9 BUTTON STRUCTURE
  *
- *  .btn          base — shared layout and font properties
- *  .btn-primary  aurora teal gradient, reverses on hover
- *  .btn-ghost    borderless with corner bracket animation
- *  .btn-outline  bordered, bg-raised fill on hover
+ *  This block temporarily keeps button colors, gradients, borders,
+ *  and hover visual states in style.css until button visuals are split.
  * ───────────────────────────────────────────────────────────────────── */
 
-/* Shared base — all variants extend from here */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.5rem 0.5rem;
-  font-family: var(--Orb);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.03em;
-  border-radius: 7px;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-
-/* Primary — aurora gradient fills from top (light) to bottom (dark).
- * ::after holds the reversed gradient, fades in on hover via height. */
 .btn-primary {
   background: linear-gradient(180deg, var(--primary-lt) 0%, var(--primary) 74%);
   color: var(--text);
   border: none;
   font-weight: 600;
-  position: relative;
-  z-index: 1;
 }
-.btn-primary::after {
-  position: absolute;
-  content: "";
-  width: 100%; height: 0;
-  bottom: 0; left: 0;
-  z-index: -1;
-  border-radius: 7px;
-  background: linear-gradient(180deg, var(--primary) 0%, var(--primary-lt) 74%);
-  transition: all 0.3s ease;
-}
-.btn-primary:hover { color: var(--text); }
-.btn-primary:hover::after { top: 0; height: 100%; }
-.btn-primary:active { top: 2px; }
 
-/* Ghost — transparent with same corner bracket as nav links */
+.btn-primary::after {
+  background: linear-gradient(180deg, var(--primary) 0%, var(--primary-lt) 74%);
+}
+
+.btn-primary:hover {
+  color: var(--text);
+}
+
 .btn-ghost {
   background: transparent;
   color: #F2E9EA80;
   border: none;
-  line-height: normal;
-  position: relative;
 }
-.btn-ghost::before, .btn-ghost::after {
-  position: absolute;
-  content: "";
-  right: 0; top: 0;
-  background: var(--text);
-  transition: all 0.3s ease;
-}
-.btn-ghost::before { height: 0%; width: 1.5px; }
-.btn-ghost::after  { width:  0%; height: 1.5px; }
-.btn-ghost:hover   { background: transparent; color: var(--text); box-shadow: none; }
-.btn-ghost:hover::before { height: 100%; }
-.btn-ghost:hover::after  { width:  100%; }
-.btn-ghost span::before, .btn-ghost span::after {
-  position: absolute;
-  content: "";
-  left: 0; bottom: 0;
-  background: var(--text);
-  transition: all 0.3s ease;
-}
-.btn-ghost span::before { width: 1.5px; height: 0%; }
-.btn-ghost span::after  { width: 0%;   height: 1.5px; }
-.btn-ghost:hover span::before { height: 100%; }
-.btn-ghost:hover span::after  { width:  100%; }
 
-/* Outline — bg-raised fill slides in from the right on hover */
+.btn-ghost::before,
+.btn-ghost::after {
+  background: var(--text);
+}
+
+.btn-ghost:hover {
+  background: transparent;
+  color: var(--text);
+  box-shadow: none;
+}
+
+.btn-ghost span::before,
+.btn-ghost span::after {
+  background: var(--text);
+}
+
 .btn-outline {
   background: transparent;
   color: var(--text-muted);
   border: 1.5px solid var(--border);
-  position: relative;
-  z-index: 1;
 }
+
 .btn-outline::after {
-  position: absolute;
-  content: "";
-  width: 0; height: 100%;
-  top: 0; right: 0;
-  z-index: -1;
   background: var(--bg-raised);
-  border-radius: 7px;
-  transition: all 0.3s ease;
 }
-.btn-outline:hover { color: var(--text); border-color: var(--bg-raised); }
-.btn-outline:hover::after { left: 0; width: 100%; }
-.btn-outline:active { top: 2px; }
+
+.btn-outline:hover {
+  color: var(--text);
+  border-color: var(--bg-raised);
+}
 
 /* =====================================================================
  * § 5  ANIMATIONS & KEYFRAMES
