@@ -902,3 +902,38 @@
     0 0 8px 2px var(--aurora-400),
     0 0 20px 4px #0AC39A60;
 }
+
+/* =====================================================================
+ * § 17  WESTERN INTRO OVERLAY VISUALS
+ * ===================================================================== */
+
+:root[data-theme="light"] #intro {
+  background: #0E0818;
+}
+
+:root[data-theme="light"] #intro-glow {
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 100%,
+    #0AC39A80 0%,
+    transparent 65%
+  );
+}
+
+:root[data-theme="light"] .ipt {
+  background: #0AC39AD9;
+  box-shadow: 0 0 6px #0AC39A99;
+}
+
+:root[data-theme="light"] #intro-scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    #00000033 3px,
+    #00000033 4px
+  );
+}
+
+:root[data-theme="light"] #intro-flash {
+  background: var(--aurora-400);
+}
