@@ -235,26 +235,6 @@
   to { transform: translate(-50%, -50%) scale(8); opacity: 0; }
 }
 
-
-/* =====================================================================
- * § 6  MEDIA QUERIES
- *
- *  Responsive overrides and accessibility preferences.
- *  Organized from preferences → large breakpoint → small breakpoint.
- * ===================================================================== */
-
-/* ── Reduced Motion ───────────────────────────────────────────────────
- *  Respects prefers-reduced-motion OS setting.
- *  Marquee slows dramatically (120s) instead of stopping entirely.
- *  Status dot animation disabled.
- *  Intro overlay hidden immediately (also handled in JS).
- * ──────────────────────────────────────────────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
-  .sdot    { animation: none; transition: none; }
-  .us-default, .us-hover { transition: none; }
-  #intro, #intro-flash { display: none !important; }
-}
-
 /* =====================================================================
  * THEME TOGGLE
  * ===================================================================== */
