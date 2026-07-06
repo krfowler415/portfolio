@@ -1384,3 +1384,130 @@ a.card-feat,
 
   animation: heroScrollCueText 4.8s ease-out infinite;
 }
+
+/* ── Hero Scroll Cue Keyframes ─────────────────────────────────────── */
+
+@keyframes heroScrollCueColorSlide {
+  0% {
+    background-position: 0% 100%;
+  }
+
+  20% {
+    background-position: 0% 0%;
+  }
+
+  30% {
+    background-position: 0% 100%;
+  }
+
+  50% {
+    background-position: 0% 0%;
+  }
+
+  60% {
+    background-position: 0% 100%;
+  }
+
+  80% {
+    background-position: 0% 0%;
+  }
+
+  90%,
+  100% {
+    background-position: 0% 100%;
+  }
+}
+
+@keyframes heroScrollCueWheel {
+  0% {
+    opacity: 1;
+    transform: translateY(-12px) scale(1);
+  }
+
+  12% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.45);
+  }
+
+  13%,
+  27% {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.45);
+  }
+
+  30% {
+    opacity: 1;
+    transform: translateY(-12px) scale(1);
+  }
+
+  42% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.45);
+  }
+
+  43%,
+  57% {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.45);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translateY(-12px) scale(1);
+  }
+
+  72% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.45);
+  }
+
+  73%,
+  100% {
+    opacity: 1;
+    transform: translateY(-12px) scale(1);
+  }
+}
+
+@keyframes heroScrollCueNudge {
+  0%,
+  30%,
+  60%,
+  90%,
+  100% {
+    transform: translateY(0);
+  }
+
+  20%,
+  50%,
+  80% {
+    transform: translateY(6px);
+  }
+}
+
+@keyframes heroScrollCueText {
+  0%,
+  30%,
+  60%,
+  90%,
+  100% {
+    opacity: 0.72;
+    transform: translateY(0);
+  }
+
+  20%,
+  50%,
+  80% {
+    opacity: 1;
+    transform: translateY(2px);
+  }
+}
+
+/* ── Hero Scroll Cue Reduced Motion ───────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll-cue__mouse,
+  .hero-scroll-cue__mouse::after,
+  .hero-scroll-cue__text {
+    animation: none;
+  }
+}
