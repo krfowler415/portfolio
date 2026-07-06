@@ -217,31 +217,6 @@
  * ===================================================================== */
 
 
-/* ── Status Dot Animation ─────────────────────────────────────────── */
-
-/* Pulsing glow for the "Available for Work" dot.
- * Multi-layer box-shadow scales with opacity for a breathing effect. */
-@keyframes sdpulse {
-  0%, 100% {
-    opacity: 1;
-    box-shadow: 0 0 8px var(--accent-aurora), 0 0 20px var(--accent-aurora);
-  }
-  50% {
-    opacity: 0.4;
-    box-shadow: 0 0 3px var(--accent-aurora), 0 0 8px var(--accent-aurora);
-  }
-}
-
-
-/* ── General UI Animations ────────────────────────────────────────── */
-
-/* Fade up — used for hero-status badge entrance (animation: up) */
-@keyframes up {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-
 /* ── Hero UFO Animations ──────────────────────────────────────────── */
 
 /* UFO rim light blink — applied to circle:not(#ufoBeam) */
