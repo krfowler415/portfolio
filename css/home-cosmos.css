@@ -373,7 +373,15 @@
  * § 10  COSMOS HERO SCENE
  * ===================================================================== */
 
-/* Cosmos hero scene styles are still temporarily in style.css. */
+/* ── Cosmos Terrain Visibility ─────────────────────────────────────── */
+
+:root[data-theme="dark"] .terrain-img--dark {
+  opacity: 1;
+}
+
+:root[data-theme="dark"] .terrain-img--light {
+  opacity: 0;
+}
 
 
 /* =====================================================================
