@@ -1532,3 +1532,82 @@ a.card-feat,
     animation: none;
   }
 }
+
+/* =====================================================================
+ * § 11  HOME BACK-TO-TOP STRUCTURE
+ * ===================================================================== */
+
+#beamUp {
+  position: fixed;
+  bottom: 2rem;
+  right: var(--px);
+  z-index: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: 100px;
+  font-family: var(--Orb);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease,
+    filter 0.25s ease,
+    box-shadow 0.3s ease;
+  cursor: none;
+}
+
+#beamUp::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  pointer-events: none;
+}
+
+#beamUp.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+#beamUp:hover {
+  transform: translateY(-2px);
+}
+
+#beamUp:active {
+  transform: translateY(1px);
+}
+
+#beamUp.visible .beam-arrow {
+  animation: arrowBounce 1.8s ease-in-out infinite;
+}
+
+#beamUp:hover .beam-arrow {
+  animation-play-state: paused;
+}
+
+#beam-streak {
+  position: fixed;
+  width: 3px;
+  height: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0;
+  border-radius: 3px;
+}
+
+#beam-flash {
+  position: fixed;
+  inset: 0;
+  opacity: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
