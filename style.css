@@ -317,22 +317,6 @@
 .intro-skip #intro,
 .intro-skip #intro-flash { display: none !important; }
 
-/* ─────────────────────────────────────────────────────────────────────
- * 4b  CURSOR — TEMPORARY VISUALS
- *
- *  Shared cursor structure has moved to:
- *  css/global-base.css → § 10 CUSTOM CURSOR STRUCTURE
- *
- *  This block temporarily keeps cursor dot color and glow in style.css
- *  until cursor visuals are split into theme files.
- * ───────────────────────────────────────────────────────────────────── */
-
-.cur-dot {
-  background: var(--accent-aurora);
-  box-shadow:
-    0 0 8px 2px var(--aurora-400),
-    0 0 20px 4px #0AC39A60;
-}
 
 /* =====================================================================
  * § 5  ANIMATIONS & KEYFRAMES
