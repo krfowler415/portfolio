@@ -807,3 +807,60 @@
  * ===================================================================== */
 
 /* Western responsive overrides will move here later. */
+
+
+/* =====================================================================
+ * § 15  WESTERN BUTTON VISUALS
+ * ===================================================================== */
+
+:root[data-theme="light"] .btn-primary {
+  background: linear-gradient(180deg, var(--primary-lt) 0%, var(--primary) 74%);
+  color: var(--text);
+  border: none;
+  font-weight: 600;
+}
+
+:root[data-theme="light"] .btn-primary::after {
+  background: linear-gradient(180deg, var(--primary) 0%, var(--primary-lt) 74%);
+}
+
+:root[data-theme="light"] .btn-primary:hover {
+  color: var(--text);
+}
+
+:root[data-theme="light"] .btn-ghost {
+  background: transparent;
+  color: #F2E9EA80;
+  border: none;
+}
+
+:root[data-theme="light"] .btn-ghost::before,
+:root[data-theme="light"] .btn-ghost::after {
+  background: var(--text);
+}
+
+:root[data-theme="light"] .btn-ghost:hover {
+  background: transparent;
+  color: var(--text);
+  box-shadow: none;
+}
+
+:root[data-theme="light"] .btn-ghost span::before,
+:root[data-theme="light"] .btn-ghost span::after {
+  background: var(--text);
+}
+
+:root[data-theme="light"] .btn-outline {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1.5px solid var(--border);
+}
+
+:root[data-theme="light"] .btn-outline::after {
+  background: var(--bg-raised);
+}
+
+:root[data-theme="light"] .btn-outline:hover {
+  color: var(--text);
+  border-color: var(--bg-raised);
+}
