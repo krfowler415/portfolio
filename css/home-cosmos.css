@@ -252,7 +252,58 @@
  * § 8  COSMOS ABOUT / STATS
  * ===================================================================== */
 
-/* Cosmos about/stat styles are still temporarily in style.css. */
+:root[data-theme="dark"] .about-copy p {
+  color: var(--text-muted);
+}
+
+:root[data-theme="dark"] .about-copy strong {
+  color: var(--accent-cosmos);
+}
+
+:root[data-theme="dark"] .stat {
+  background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
+  border: 1px solid var(--border);
+  box-shadow:
+    0 0 0 1px #98A8D418,
+    0 0 15px #C8185820,
+    inset 0 1px 0 #C8185840;
+}
+
+:root[data-theme="dark"] .stat::before {
+  background: var(--accent-pulsar);
+  box-shadow: 2px 0 12px #C8185880;
+}
+
+:root[data-theme="dark"] .stat::after {
+  border-bottom: 1.5px solid var(--accent-aurora);
+  border-right: 1.5px solid var(--accent-aurora);
+}
+
+:root[data-theme="dark"] .stat:hover {
+  box-shadow:
+    0 0 0 1px #C8185840,
+    0 0 20px #C8185825,
+    inset 0 1px 0 #C8185850;
+}
+
+:root[data-theme="dark"] .stat-n {
+  color: var(--accent-aurora);
+  text-shadow:
+    0 0 7px var(--aurora-400),
+    0 0 20px var(--aurora-400),
+    0 0 45px #0AC39A80;
+}
+
+:root[data-theme="dark"] .stat:hover .stat-n {
+  text-shadow:
+    0 0 7px var(--aurora-400),
+    0 0 30px var(--aurora-400),
+    0 0 65px #0AC39A90;
+}
+
+:root[data-theme="dark"] .stat-l {
+  color: var(--text-muted);
+}
 
 
 /* =====================================================================
