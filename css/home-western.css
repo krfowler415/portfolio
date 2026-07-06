@@ -732,18 +732,43 @@
 
 :root[data-theme="light"] .hero-scroll-cue {
   --scroll-cue-bg: var(--bg);
-  --scroll-cue-outline: rgba(101, 58, 30, 0.72);
-  --scroll-cue-outline-fade: rgba(151, 92, 45, 0.24);
-  --scroll-cue-wheel: rgba(137, 78, 34, 0.82);
-  --scroll-cue-glow: rgba(180, 106, 45, 0.18);
+  --scroll-cue-outline: rgba(92, 59, 38, 0.72);
+  --scroll-cue-outline-fade: rgba(0, 162, 162, 0.24);
+  --scroll-cue-wheel: rgba(0, 162, 162, 0.82);
+  --scroll-cue-glow: rgba(0, 162, 162, 0.34);
+
+  color: var(--scroll-cue-outline);
 }
 
 :root[data-theme="light"] .hero-scroll-cue__mouse {
+  background:
+    linear-gradient(
+      to bottom,
+      var(--scroll-cue-outline-fade) 0%,
+      var(--scroll-cue-outline-fade) 50%,
+      var(--scroll-cue-outline) 50%,
+      var(--scroll-cue-outline) 100%
+    );
+
   filter:
-    drop-shadow(0 1px 0 rgba(255, 239, 196, 0.45))
-    drop-shadow(0 0 10px rgba(151, 92, 45, 0.12));
+    drop-shadow(0 0 8px var(--scroll-cue-glow))
+    drop-shadow(0 0 18px rgba(0, 162, 162, 0.12));
 }
 
+:root[data-theme="light"] .hero-scroll-cue__mouse::before {
+  background: var(--scroll-cue-bg);
+}
+
+:root[data-theme="light"] .hero-scroll-cue__mouse::after {
+  background: var(--scroll-cue-wheel);
+  box-shadow:
+    0 0 8px var(--scroll-cue-wheel),
+    0 0 18px var(--scroll-cue-glow);
+}
+
+:root[data-theme="light"] .hero-scroll-cue__text {
+  color: var(--scroll-cue-outline);
+}
 
 /* =====================================================================
  * § 13  WESTERN BACK-TO-TOP
