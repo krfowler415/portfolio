@@ -210,53 +210,6 @@
 
 
 /* =====================================================================
- * § 4  COMPONENT STYLES
- * ===================================================================== */
-
-
-/* ─────────────────────────────────────────────────────────────────────
- * 4a  INTRO OVERLAY — TEMPORARY VISUALS
- *
- *  Shared intro overlay structure has moved to:
- *  css/home-base.css → § 12 HOME INTRO OVERLAY STRUCTURE
- *
- *  This block temporarily keeps intro colors, gradients, particles,
- *  scanlines, and flash visuals in style.css until intro visuals are split.
- * ───────────────────────────────────────────────────────────────────── */
-
-#intro {
-  background: #0E0818;
-}
-
-#intro-glow {
-  background: radial-gradient(
-    ellipse 80% 60% at 50% 100%,
-    #0AC39A80 0%,
-    transparent 65%
-  );
-}
-
-.ipt {
-  background: #0AC39AD9;
-  box-shadow: 0 0 6px #0AC39A99;
-}
-
-#intro-scanlines {
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 3px,
-    #00000033 3px,
-    #00000033 4px
-  );
-}
-
-#intro-flash {
-  background: var(--aurora-400);
-}
-
-
-/* =====================================================================
  * § 5  ANIMATIONS & KEYFRAMES
  *
  *  All @keyframes definitions in one block.
