@@ -537,13 +537,6 @@ a, button, .project-hover, .card-feat, .nav-links a { cursor: none; }
   50%       { opacity: 0.3; }
 }
 
-/* UFO hover float — gentle 8px bob. Applied to .hero-ufo-inner
- * when .hero-ufo.hovering is active (JS waypoint-based class toggle). */
-@keyframes ufoHover {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-8px); }
-}
-
 /* ── Click Ripple ──────────────────────────────────────────────────── */
 
 /* Radial ripple that expands from click position.
