@@ -210,23 +210,6 @@
 
 
 /* =====================================================================
- * § 5  ANIMATIONS & KEYFRAMES
- *
- *  All @keyframes definitions in one block.
- *  Component rules that reference these animations live in § 4.
- * ===================================================================== */
-
-
-/* ── Hero UFO Animations ──────────────────────────────────────────── */
-
-/* UFO rim light blink — applied to circle:not(#ufoBeam) */
-@keyframes ufoLights {
-  0%, 100% { opacity: 0.9; }
-  50%       { opacity: 0.3; }
-}
-
-
-/* =====================================================================
  * THEME TOGGLE
  * ===================================================================== */
 
