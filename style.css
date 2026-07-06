@@ -225,15 +225,6 @@
   50%       { opacity: 0.3; }
 }
 
-/* ── Click Ripple ──────────────────────────────────────────────────── */
-
-/* Radial ripple that expands from click position.
- * Triggered by the click handler in main.js (initClickRipple), which
- * creates a div with inline styles and references this keyframe by
- * name plus var(--accent-aurora) for its border color. */
-@keyframes rippleOut {
-  to { transform: translate(-50%, -50%) scale(8); opacity: 0; }
-}
 
 /* =====================================================================
  * THEME TOGGLE
