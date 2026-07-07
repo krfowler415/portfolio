@@ -937,3 +937,15 @@
 :root[data-theme="light"] #intro-flash {
   background: var(--aurora-400);
 }
+
+/* =====================================================================
+ * § 18  WESTERN FOOTER VISUALS
+ * ===================================================================== */
+
+:root[data-theme="light"] .foot-l {
+  color: var(--aurora-200);
+}
+
+:root[data-theme="light"] .foot-r {
+  color: #C8185870;
+}
