@@ -774,6 +774,14 @@
  * § 13  WESTERN BACK-TO-TOP
  * ===================================================================== */
 
+:root[data-theme="light"] .beam-label--cosmos {
+  display: none;
+}
+
+:root[data-theme="light"] .beam-label--western {
+  display: inline-block;
+}
+
 :root[data-theme="light"] #beamUp {
   background: linear-gradient(135deg, #B54832 0%, #00A2A2 100%);
   border: none;
