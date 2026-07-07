@@ -1625,6 +1625,16 @@ a.card-feat,
   animation-play-state: paused;
 }
 
+.beam-label {
+  display: inline-block;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.beam-label--western {
+  display: none;
+}
+
 #beam-streak {
   position: fixed;
   width: 3px;
