@@ -84,6 +84,17 @@ footer {
   justify-content: space-between;
 }
 
+.foot-l {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 0.92rem;
+}
+
+.foot-r {
+  font-family: var(--display);
+  font-size: 0.72rem;
+}
+
 /* =====================================================================
  * § 5  ACCESSIBILITY UTILITIES
  * ===================================================================== */
