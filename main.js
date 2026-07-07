@@ -779,17 +779,13 @@ function initCardTilt() {
 function initResizeHandlers() {
   window.addEventListener('resize', () => {
     setViewportHeight();
-    resizeCanvas();
-    initStarField();
-    ScrollTrigger.refresh();
+    window.KFCosmos.refresh();
   });
 
   window.addEventListener('orientationchange', () => {
     setTimeout(() => {
       setViewportHeight();
-      resizeCanvas();
-      initStarField();
-      ScrollTrigger.refresh();
+      window.KFCosmos.refresh();
     }, 100);
   });
 }
