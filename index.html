@@ -6,14 +6,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kevin Fowler — UX Designer</title>
+    
+    <!-- Favicon -->
     <link id="favicon" rel="icon" type="image/svg+xml" href="favicon-ufo.svg" />
 
+    <!-- Intro Skip if Played -->
     <script>
       if (sessionStorage.getItem('introPlayed')) {
         document.documentElement.classList.add('intro-skip');
       }
     </script>
 
+    <!-- System Theme Check Script -->
     <script>
       (() => {
         const savedTheme = localStorage.getItem('kf-theme');
@@ -24,17 +28,18 @@
       })();
     </script>
 
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Arbutus&family=Averia+Serif+Libre:wght@300;400;700&family=Audiowide&family=Orbitron:wght@400;500;600;700;900&family=Oxanium:wght@200..800&family=Sancreek&display=swap" rel="stylesheet"/>
     
     <!-- Split CSS architecture -->
     <link rel="stylesheet" href="css/global-base.css" />
-    <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="css/home-base.css" />
     <link rel="stylesheet" href="css/home-cosmos.css" />
     <link rel="stylesheet" href="css/home-western.css" />
     
+    <!-- Vercel Analytics -->
     <script defer src="/_vercel/insights/script.js"></script>
     <script defer src="/_vercel/speed-insights/script.js"></script>
   </head>
@@ -247,6 +252,7 @@
           </div>
         </div>
 
+        <!-- Hero Scroll Cue -->
         <button class="hero-scroll-cue" id="heroScrollCue" type="button" aria-label="Scroll down">
           <span class="hero-scroll-cue__mouse" aria-hidden="true"></span>
           <span class="hero-scroll-cue__text">Scroll</span>
