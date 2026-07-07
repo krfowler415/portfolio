@@ -1085,8 +1085,8 @@ function initBeamUp() {
 
 gsap.registerPlugin(ScrollTrigger);
 setViewportHeight();
-initThemeToggle();
-swapFavicon(document.documentElement.getAttribute('data-theme') || 'dark');
+window.KFTheme.initThemeToggle();
+window.KFTheme.swapFavicon(document.documentElement.getAttribute('data-theme') || 'dark');
 initIntro();
 initStars();
 fetchTerrain();
