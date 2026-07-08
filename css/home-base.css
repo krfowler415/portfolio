@@ -1616,10 +1616,6 @@ a.card-feat,
   white-space: nowrap;
 }
 
-.beam-label--western {
-  display: none;
-}
-
 #beamUp::before {
   content: '';
   position: absolute;
