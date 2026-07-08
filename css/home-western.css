@@ -775,11 +775,13 @@
  * ===================================================================== */
 
 :root[data-theme="light"] .beam-label--cosmos {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
 }
 
 :root[data-theme="light"] .beam-label--western {
-  display: inline-block;
+  visibility: visible;
+  opacity: 1;
 }
 
 :root[data-theme="light"] #beamUp {
