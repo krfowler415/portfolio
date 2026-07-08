@@ -775,21 +775,17 @@
  * ===================================================================== */
 
 :root[data-theme="light"] .beam-label--cosmos {
-  visibility: hidden;
-  opacity: 0;
+  display: none;
 }
 
 :root[data-theme="light"] .beam-label--western {
-  visibility: visible;
-  opacity: 1;
+  display: inline-block;
 }
 
 :root[data-theme="light"] #beamUp {
   background: linear-gradient(135deg, #B54832 0%, #00A2A2 100%);
   border: none;
   color: #FFF4E6;
-  font-size: 0.54rem;
-  letter-spacing: -0.015em;
   box-shadow:
     inset 0 1.5px 0 rgba(255, 255, 255, 0.45),
     inset 0 -3px 5px rgba(74, 32, 9, 0.26),
