@@ -1574,14 +1574,14 @@ a.card-feat,
   right: var(--px);
   z-index: 500;
 
-  width: 120px;
+  width: 160px;
   height: 40px;
   box-sizing: border-box;
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
 
   padding: 0 0.4rem;
   border-radius: 100px;
