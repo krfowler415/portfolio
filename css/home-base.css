@@ -1574,8 +1574,8 @@ a.card-feat,
   right: var(--px);
   z-index: 500;
 
-  width: 115px;
-  height: 43px;
+  width: 120px;
+  height: 40px;
   box-sizing: border-box;
 
   display: inline-flex;
@@ -1587,7 +1587,7 @@ a.card-feat,
   border-radius: 100px;
 
   font-family: var(--Orb);
-  font-size: 0.68rem;
+  font-size: 0.69rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1606,8 +1606,8 @@ a.card-feat,
 
 .beam-arrow {
   flex: 0 0 auto;
-  width: 11px;
-  height: 11px;
+  width: 12px;
+  height: 12px;
 }
 
 .beam-label {
