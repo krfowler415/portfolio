@@ -1574,20 +1574,20 @@ a.card-feat,
   right: var(--px);
   z-index: 500;
 
-  width: 115px;
-  height: 43px;
-  box-sizing: border-box;
-
-  display: inline-flex;
+  display: inline-grid;
+  grid-template-columns: auto auto;
   align-items: center;
   justify-content: center;
-  gap: 0.35rem;
+  column-gap: 0.42rem;
 
-  padding: 0 0.5rem;
+  height: 38px;
+  width: max-content;
+  box-sizing: border-box;
+  padding: 0 0.85rem;
+
   border-radius: 100px;
-
   font-family: var(--Orb);
-  font-size: 0.58rem;
+  font-size: 0.56rem;
   font-weight: 700;
   letter-spacing: 0.035em;
   text-transform: uppercase;
@@ -1605,19 +1605,25 @@ a.card-feat,
 }
 
 .beam-arrow {
-  flex: 0 0 auto;
+  grid-column: 1;
+  grid-row: 1;
   width: 11px;
   height: 11px;
+  flex: 0 0 auto;
 }
 
 .beam-label {
-  display: inline-block;
+  grid-column: 2;
+  grid-row: 1;
   line-height: 1;
   white-space: nowrap;
+  visibility: hidden;
+  opacity: 0;
 }
 
-.beam-label--western {
-  display: none;
+.beam-label--cosmos {
+  visibility: visible;
+  opacity: 1;
 }
 
 #beamUp::before {
