@@ -1583,7 +1583,7 @@ a.card-feat,
   justify-content: center;
   gap: 0.5rem;
 
-  padding: 0;
+  padding: 0 0.4rem;
   border-radius: 100px;
 
   font-family: var(--Orb);
