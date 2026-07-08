@@ -822,19 +822,144 @@
 }
 
 :root[data-theme="light"] #beam-streak {
+  width: 2px;
   background: linear-gradient(
     to top,
-    #B54832 0%,
-    rgba(181, 72, 50, 0.5) 50%,
+    #FFF4E6 0%,
+    #E7B75F 18%,
+    rgba(181, 72, 50, 0.72) 46%,
     transparent 100%
   );
   box-shadow:
-    0 0 8px #B54832,
-    0 0 20px rgba(181, 72, 50, 0.45);
+    0 0 5px rgba(255, 244, 230, 0.9),
+    0 0 12px rgba(231, 183, 95, 0.7),
+    0 0 22px rgba(181, 72, 50, 0.35);
 }
 
 :root[data-theme="light"] #beam-flash {
   background: #E7B75F;
+}
+
+/* ── Western Return-to-Top Shot Effect ─────────────────────────────── */
+
+:root[data-theme="light"] .western-shot-dust,
+:root[data-theme="light"] .western-shot-flash,
+:root[data-theme="light"] .western-ricochet {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+:root[data-theme="light"] .western-shot-dust {
+  left: var(--shot-x);
+  top: var(--shot-y);
+  width: 42px;
+  height: 22px;
+  border-radius: 999px;
+  transform: translate(-50%, -50%) scale(0.45);
+  background:
+    radial-gradient(circle at 35% 55%, rgba(139, 82, 42, 0.42) 0 18%, transparent 42%),
+    radial-gradient(circle at 58% 48%, rgba(221, 183, 131, 0.55) 0 22%, transparent 48%),
+    radial-gradient(circle at 72% 62%, rgba(231, 183, 95, 0.34) 0 16%, transparent 44%);
+  filter: blur(0.4px);
+  animation: westernDustPuff 0.46s ease-out forwards;
+}
+
+:root[data-theme="light"] .western-shot-flash {
+  left: var(--shot-x);
+  top: var(--shot-y);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0.25);
+  background:
+    radial-gradient(circle, #FFF4E6 0 12%, #E7B75F 20%, rgba(181, 72, 50, 0.72) 38%, transparent 68%);
+  box-shadow:
+    0 0 10px rgba(255, 244, 230, 0.9),
+    0 0 22px rgba(231, 183, 95, 0.72);
+  animation: westernMuzzleFlash 0.22s ease-out forwards;
+}
+
+:root[data-theme="light"] .western-ricochet {
+  left: var(--shot-x);
+  top: 18px;
+  width: 24px;
+  height: 24px;
+  transform: translate(-50%, -50%) scale(0.4) rotate(18deg);
+  animation: westernRicochet 0.42s ease-out forwards;
+}
+
+:root[data-theme="light"] .western-ricochet::before,
+:root[data-theme="light"] .western-ricochet::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 22px;
+  height: 2px;
+  border-radius: 999px;
+  background: #FFF4E6;
+  box-shadow:
+    0 0 8px rgba(255, 244, 230, 0.9),
+    0 0 16px rgba(231, 183, 95, 0.65);
+  transform-origin: center;
+}
+
+:root[data-theme="light"] .western-ricochet::before {
+  transform: translate(-50%, -50%) rotate(28deg);
+}
+
+:root[data-theme="light"] .western-ricochet::after {
+  transform: translate(-50%, -50%) rotate(-38deg);
+}
+
+@keyframes westernDustPuff {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.35);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -58%) scale(1.55);
+  }
+}
+
+@keyframes westernMuzzleFlash {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.25);
+  }
+
+  35% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.45);
+  }
+}
+
+@keyframes westernRicochet {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.35) rotate(18deg);
+  }
+
+  32% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.25) rotate(42deg);
+  }
 }
 
 /* =====================================================================
