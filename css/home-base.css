@@ -1573,17 +1573,26 @@ a.card-feat,
   bottom: 2rem;
   right: var(--px);
   z-index: 500;
+
+  width: 115px;
+  height: 43px;
+  box-sizing: border-box;
+
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1.1rem;
+  justify-content: center;
+  gap: 0.35rem;
+
+  padding: 0 0.45rem;
   border-radius: 100px;
+
   font-family: var(--Orb);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.035em;
   text-transform: uppercase;
   white-space: nowrap;
+
   opacity: 0;
   transform: translateY(10px);
   pointer-events: none;
@@ -1593,6 +1602,22 @@ a.card-feat,
     filter 0.25s ease,
     box-shadow 0.3s ease;
   cursor: none;
+}
+
+.beam-arrow {
+  flex: 0 0 auto;
+  width: 11px;
+  height: 11px;
+}
+
+.beam-label {
+  display: inline-block;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.beam-label--western {
+  display: none;
 }
 
 #beamUp::before {
@@ -1623,16 +1648,6 @@ a.card-feat,
 
 #beamUp:hover .beam-arrow {
   animation-play-state: paused;
-}
-
-.beam-label {
-  display: inline-block;
-  line-height: 1;
-  white-space: nowrap;
-}
-
-.beam-label--western {
-  display: none;
 }
 
 #beam-streak {
