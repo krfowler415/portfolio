@@ -1574,8 +1574,8 @@ a.card-feat,
   right: var(--px);
   z-index: 500;
 
-  width: 160px;
-  height: 40px;
+  width: 144px;
+  height: 36px;
   box-sizing: border-box;
 
   display: inline-flex;
