@@ -1027,7 +1027,15 @@ function initBeamUp() {
     onLeaveBack: () => beamUp.classList.remove('visible'),
   });
 
-  function playCosmosBeamEffect(rect, centreX) {
+  beamUp.addEventListener('click', () => {
+    if (!beamStreak || !beamFlash) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    const rect    = beamUp.getBoundingClientRect();
+    const centreX = rect.left + rect.width / 2;
+
     beamStreak.style.cssText = `
       left: ${centreX}px;
       bottom: ${window.innerHeight - rect.top}px;
@@ -1063,89 +1071,6 @@ function initBeamUp() {
       beamStreak.style.height     = '0';
       beamStreak.style.opacity    = '0';
     }, 750);
-  }
-
-  function playWesternShotEffect(rect, centreX) {
-    const shotX = `${centreX}px`;
-    const shotY = `${rect.top + rect.height / 2}px`;
-
-    const dust = document.createElement('div');
-    dust.className = 'western-shot-dust';
-    dust.style.setProperty('--shot-x', shotX);
-    dust.style.setProperty('--shot-y', shotY);
-
-    const flash = document.createElement('div');
-    flash.className = 'western-shot-flash';
-    flash.style.setProperty('--shot-x', shotX);
-    flash.style.setProperty('--shot-y', shotY);
-
-    const ricochet = document.createElement('div');
-    ricochet.className = 'western-ricochet';
-    ricochet.style.setProperty('--shot-x', shotX);
-
-    document.body.append(dust, flash);
-
-    beamStreak.style.cssText = `
-      left: ${centreX}px;
-      bottom: ${window.innerHeight - rect.top}px;
-      top: auto;
-      height: 0;
-      opacity: 1;
-      transform: translateX(-50%);
-      transition: none;
-    `;
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        beamStreak.style.transition = 'height 0.24s ease-out, opacity 0.18s ease 0.2s';
-        beamStreak.style.height = `${rect.top}px`;
-        beamStreak.style.opacity = '0';
-      });
-    });
-
-    setTimeout(() => {
-      document.body.appendChild(ricochet);
-    }, 190);
-
-    setTimeout(() => {
-      beamFlash.style.transition = 'opacity 0.06s ease';
-      beamFlash.style.opacity = '0.08';
-    }, 210);
-
-    setTimeout(() => window.scrollTo(0, 0), 300);
-
-    setTimeout(() => {
-      beamFlash.style.transition = 'opacity 0.32s ease';
-      beamFlash.style.opacity = '0';
-    }, 340);
-
-    setTimeout(() => {
-      beamStreak.style.transition = 'none';
-      beamStreak.style.height = '0';
-      beamStreak.style.opacity = '0';
-
-      dust.remove();
-      flash.remove();
-      ricochet.remove();
-    }, 760);
-  }
-
-  beamUp.addEventListener('click', () => {
-    if (!beamStreak || !beamFlash) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-
-    const rect    = beamUp.getBoundingClientRect();
-    const centreX = rect.left + rect.width / 2;
-    const isWesternTheme = document.documentElement.getAttribute('data-theme') === 'light';
-
-    if (isWesternTheme) {
-      playWesternShotEffect(rect, centreX);
-      return;
-    }
-
-    playCosmosBeamEffect(rect, centreX);
   });
 }
 
