@@ -105,8 +105,10 @@ function spawnParticles(count, speedMult) {
 function runScan() {
   scanTween = gsap.fromTo(
     iScan,
-    { attr: { y1: 38, y2: 38 }, opacity: 0.9 },
-    { attr: { y1: 560, y2: 560 }, opacity: 0, duration: 1.8, ease: 'power1.in', onComplete: runScan }
+    {attr: {y1: 123, y2: 123},
+      opacity: 0.9},
+    {attr: {y1: 560, y2: 560},
+      opacity: 0, duration: 1.8, ease: 'power1.in', onComplete: runScan}
   );
 }
 
@@ -333,7 +335,7 @@ function initStars() {
  * ===================================================================== */
 
 function fetchTerrain() {
-  const terrainImages = Array.from(document.querySelectorAll('.terrain-img'));
+  const terrainImages = Array.from(document.querySelectorAll('.terrain-img, #intro-ufo'));
 
   if (!terrainImages.length) {
     assetsDone = true;
