@@ -1,12 +1,51 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Beam -->
-  <polygon points="16,20 11,30 21,30" fill="#0AC39A" opacity="0.5"/>
-  <!-- Saucer body -->
-  <ellipse cx="16" cy="18" rx="12" ry="4" fill="#5F259F"/>
-  <!-- Dome -->
-  <ellipse cx="16" cy="16" rx="6" ry="4" fill="#7FF6E4" opacity="0.9"/>
-  <!-- Lights -->
-  <circle cx="9" cy="18" r="1.2" fill="#0AC39A"/>
-  <circle cx="16" cy="20" r="1.2" fill="#C81858"/>
-  <circle cx="23" cy="18" r="1.2" fill="#0AC39A"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="beamGrad" x1="0" y1="32" x2="0" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1CCFC8" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#0C9D95" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#0C9D95" stop-opacity="0"/>
+    </linearGradient>
+
+    <radialGradient id="bellyGlow" cx="50%" cy="52%" r="54%">
+      <stop offset="0%" stop-color="#1CCFC8" stop-opacity="0.34"/>
+      <stop offset="100%" stop-color="#0B454C" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Tractor beam -->
+  <polygon points="25,36 39,36 54,64 10,64" fill="url(#beamGrad)"/>
+
+  <!-- Outer rim glow -->
+  <ellipse cx="32" cy="27" rx="29" ry="8" fill="none" stroke="#1CCFC8" stroke-opacity="0.35" stroke-width="2"/>
+
+  <!-- Main saucer rim -->
+  <ellipse cx="32" cy="27" rx="27" ry="7" fill="#352839"/>
+
+  <!-- Underside belly -->
+  <path d="M5 27 Q32 55 59 27 Z" fill="#543B4F"/>
+
+  <!-- Lower shadow -->
+  <path d="M10 29 Q32 49 54 29 Q44 43 32 46 Q20 43 10 29 Z" fill="#312637"/>
+
+  <!-- Panel rings -->
+  <ellipse cx="32" cy="31" rx="20" ry="5" fill="#271C2D"/>
+  <ellipse cx="32" cy="35" rx="13" ry="4" fill="#1E2D3C"/>
+  <ellipse cx="32" cy="38" rx="8" ry="2.8" fill="#0B454C"/>
+
+  <!-- Belly glow -->
+  <path d="M15 29 Q32 48 49 29 Z" fill="url(#bellyGlow)"/>
+
+  <!-- Beam emitter -->
+  <ellipse cx="32" cy="40" rx="7" ry="2.8" fill="#252130"/>
+  <ellipse cx="32" cy="40" rx="4.4" ry="1.8" fill="#1CCFC8" opacity="0.8"/>
+
+  <!-- Rim lights -->
+  <circle cx="12" cy="28" r="2.1" fill="#1CCFC8"/>
+  <circle cx="22" cy="24" r="2" fill="#7A0F0F"/>
+  <circle cx="32" cy="22.5" r="2" fill="#1CCFC8"/>
+  <circle cx="42" cy="24" r="2" fill="#7A0F0F"/>
+  <circle cx="52" cy="28" r="2.1" fill="#1CCFC8"/>
+
+  <!-- Tiny highlights -->
+  <ellipse cx="32" cy="25" rx="19" ry="3" fill="#8C5C72" opacity="0.55"/>
 </svg>
