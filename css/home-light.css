@@ -12,94 +12,106 @@
  * ===================================================================== */
 
 :root[data-theme="light"] {
-  /* ── Light Font Tokens ─────────────────────────────────────────── */
-  --display: 'Audiowide', sans-serif;
-  --Ox:      'Oxanium', system-ui, sans-serif;
-  --Orb:     'Orbitron', sans-serif;
+  /* ==================================================================
+   * RAW COLOR FAMILIES
+   * ================================================================== */
 
-  /* ── Light Raw Palette: Turquoise / Rust / Umber / Paper ───────── */
+  /* Aurora */
+  --aurora-50:   #E7F8F7;
+  --aurora-100:  #C5EEEC;
+  --aurora-200:  #7DDBD7;
+  --aurora-400:  #0C8E8B;
+  --aurora-600:  #0A6E6C;
+  --aurora-800:  #074A49;
+  --aurora-900:  #032B2A;
 
-  /* Turquoise — currently used as the light-theme interactive accent */
-  --aurora-50:   #E0F5F5;
-  --aurora-100:  #80D4D4;
-  --aurora-200:  #40B8B8;
-  --aurora-400:  #00A2A2;
-  --aurora-600:  #007A7A;
-  --aurora-800:  #004E4E;
-  --aurora-900:  #002828;
+  /* Pulsar */
+  --pulsar-50:   #FCECF3;
+  --pulsar-100:  #F6C4D7;
+  --pulsar-200:  #E58CAD;
+  --pulsar-400:  #C63B77;
+  --pulsar-600:  #972B59;
+  --pulsar-800:  #61193A;
+  --pulsar-900:  #320B1D;
 
-  /* Rust clay */
-  --pulsar-50:   #F9E0DA;
-  --pulsar-100:  #EDAB9A;
-  --pulsar-200:  #D97860;
-  --pulsar-400:  #B54832;
-  --pulsar-600:  #8A3222;
-  --pulsar-800:  #5E1E12;
-  --pulsar-900:  #320E08;
+  /* Cosmos */
+  --cosmos-50:   #F2EEFA;
+  --cosmos-100:  #DDD3F2;
+  --cosmos-200:  #B8A7E0;
+  --cosmos-300:  #9278CB;
+  --cosmos-400:  #6B4FA7;
+  --cosmos-600:  #503A82;
+  --cosmos-800:  #34255A;
+  --cosmos-900:  #1D1435;
 
-  /* Umber / leather */
-  --cosmos-50:   #F5E8DC;
-  --cosmos-100:  #D4B498;
-  --cosmos-200:  #A87C58;
-  --cosmos-300:  #7A5038;
-  --cosmos-400:  #5C3B26;
-  --cosmos-600:  #3E2418;
-  --cosmos-800:  #2A1810;
-  --cosmos-900:  #1C100A;
+  /* Aether */
+  --aether-50:   #FFF9EF;
+  --aether-100:  #F8EAD0;
+  --aether-200:  #EBCB97;
+  --aether-400:  #C79E68;
 
-  /* Paper / sand neutrals */
-  --aether-50:   #FFF4E6;
-  --aether-100:  #704424;
-  --aether-200:  #96683D;
-  --aether-400:  #B58860;
+  /* ==================================================================
+   * SEMANTIC SURFACES
+   * ================================================================== */
 
-  /* ── Western Semantic Tokens ─────────────────────────────────────── */
+  --bg:          #EBCB97;
+  --bg-dark:     #DDB983;
+  --bg-surface:  #FFF8EE;
+  --bg-raised:   #F7EBDD;
+  --bg-tint:     rgba(107, 79, 167, 0.10);
+  --bg-marquee:  #0A7E7B;
 
-  /* Base surfaces */
-  --bg:          #F3D39A;
-  --bg-dark:     #F3D39A;
-  --bg-surface:  #FFF0C7;
-  --bg-raised:   #FFE3AA;
-  --bg-tint:     rgba(146, 83, 38, 0.14);
-  --bg-marquee:  #087B7A;
+  /* ==================================================================
+   * TEXT
+   * ================================================================== */
 
-  /* Text */
-  --text:        #2A160B;
-  --text-muted:  #704424;
-  --text-light:  #087B7A;
-  --text-inv:    #FFF7DF;
+  --text:        #2B2433;
+  --text-muted:  #62556F;
+  --text-light:  #0A6E6C;
+  --text-inv:    #FFF9F0;
 
-  /* Main actions */
-  --primary:        #D85C1F;
-  --primary-hover:  #B94715;
-  --primary-lt:     #FFD36B;
-  --primary-subtle: #FFF0C7;
+  /* ==================================================================
+   * PRIMARY
+   * ================================================================== */
 
-  /* Accent aliases */
-  --accent-pulsar:           #D85C1F;
-  --accent-pulsar-subtle:    #F4C194;
-  --accent-cosmos:           #8B4A22;
-  --accent-cosmos-subtle:    #F0C786;
-  --accent-aurora:           #087B7A;
-  --accent-aurora-subtle:    #D7F1E7;
-  --accent-plasma:           #C05A24;
-  --accent-plasma-subtle:    #F4C194;
-  --accent-turquoise:        #087B7A;
-  --accent-turquoise-subtle: #CCE8DF;
+  --primary:         #0C8E8B;
+  --primary-hover:   #0A6E6C;
+  --primary-lt:      #7DDBD7;
+  --primary-subtle:  #DDF5F3;
 
-  /* Neutrals / borders */
-  --aether:      #8B5A36;
-  --dune:        #DDB783;
+  /* ==================================================================
+   * ACCENTS
+   * ================================================================== */
 
-  --border:        rgba(112, 67, 35, 0.28);
-  --border-subtle: rgba(112, 67, 35, 0.16);
+  --accent-pulsar:            #C63B77;
+  --accent-pulsar-subtle:     #F8DCE7;
 
-  /* Glow tokens */
-  --aurora-glass: rgba(8, 123, 122, 0.12);
-  --aurora-glow:  rgba(8, 123, 122, 0.22);
-  --aurora-inset: rgba(8, 123, 122, 0.08);
+  --accent-cosmos:            #6B4FA7;
+  --accent-cosmos-subtle:     #E8E1F6;
+
+  --accent-aurora:            #0C8E8B;
+  --accent-aurora-subtle:     #DDF5F3;
+
+  --accent-plasma:            #C96E2B;
+  --accent-plasma-subtle:     #F7DEC5;
+
+  --accent-turquoise:         #1CA6A4;
+  --accent-turquoise-subtle:  #D8F2EF;
+
+  /* ==================================================================
+   * UTILITY / BORDERS / EFFECTS
+   * ================================================================== */
+
+  --aether: #6A5C58;
+  --dune:   #DDB983;
+
+  --border:        rgba(43, 36, 51, 0.20);
+  --border-subtle: rgba(43, 36, 51, 0.10);
+
+  --aurora-glass: rgba(12, 142, 139, 0.10);
+  --aurora-glow:  rgba(12, 142, 139, 0.22);
+  --aurora-inset: rgba(12, 142, 139, 0.08);
 }
-
 
 /* =====================================================================
  * § 2  WESTERN BASE / BODY
