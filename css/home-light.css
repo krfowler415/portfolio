@@ -1,32 +1,23 @@
 /*
  * =====================================================================
- * HOME WESTERN THEME
- * Light theme homepage visuals, colors, textures, western hero elements,
- * saguaro/rust/gold/leather palette, and western-specific component styling.
+ * HOME LIGHT THEME
+ * Light theme homepage visuals, colors, textures, hero elements,
+ * palette, and light-specific component styling.
  * =====================================================================
  */
 
 
 /* =====================================================================
- * § 1  WESTERN FONTS + TOKENS
+ * § 1  LIGHT FONTS + TOKENS
  * ===================================================================== */
 
-@font-face {
-  font-family: 'OldTown';
-  src: url('../fonts/OldTown-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
 :root[data-theme="light"] {
-  /* ── Western Font Tokens ─────────────────────────────────────────── */
-  --display: 'OldTown', serif;
-  --Ox:      'Arbutus', serif;
-  --Orb:     'Averia Serif Libre', serif;
-  --wanted:  'Sancreek', serif;
+  /* ── Light Font Tokens ─────────────────────────────────────────── */
+  --display: 'Audiowide', sans-serif;
+  --Ox:      'Oxanium', system-ui, sans-serif;
+  --Orb:     'Orbitron', sans-serif;
 
-  /* ── Western Raw Palette: Turquoise / Rust / Umber / Paper ───────── */
+  /* ── Light Raw Palette: Turquoise / Rust / Umber / Paper ───────── */
 
   /* Turquoise — currently used as the light-theme interactive accent */
   --aurora-50:   #E0F5F5;
