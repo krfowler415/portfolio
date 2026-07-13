@@ -1,51 +1,197 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 64 64"
+  role="img"
+  aria-label="UFO"
+>
   <defs>
-    <linearGradient id="beamGrad" x1="0" y1="32" x2="0" y2="64" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#1CCFC8" stop-opacity="0.55"/>
-      <stop offset="55%" stop-color="#0C9D95" stop-opacity="0.22"/>
-      <stop offset="100%" stop-color="#0C9D95" stop-opacity="0"/>
+    <linearGradient
+      id="dome"
+      x1="32"
+      y1="14"
+      x2="32"
+      y2="34"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop offset="0" stop-color="#4DE7E4"/>
+      <stop offset="0.52" stop-color="#1CCFC8"/>
+      <stop offset="1" stop-color="#0C7E78"/>
     </linearGradient>
 
-    <radialGradient id="bellyGlow" cx="50%" cy="52%" r="54%">
-      <stop offset="0%" stop-color="#1CCFC8" stop-opacity="0.34"/>
-      <stop offset="100%" stop-color="#0B454C" stop-opacity="0"/>
-    </radialGradient>
+    <linearGradient
+      id="body"
+      x1="32"
+      y1="29"
+      x2="32"
+      y2="51"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop offset="0" stop-color="#5B4057"/>
+      <stop offset="0.58" stop-color="#3B2B40"/>
+      <stop offset="1" stop-color="#271C2D"/>
+    </linearGradient>
   </defs>
 
-  <!-- Tractor beam -->
-  <polygon points="25,36 39,36 54,64 10,64" fill="url(#beamGrad)"/>
+  <!-- Glass dome -->
+  <path
+    d="M19.5 32.5C20.2 20.2 24.8 14 32 14s11.8 6.2 12.5 18.5Z"
+    fill="url(#dome)"
+    stroke="#0C0B10"
+    stroke-width="2.5"
+    stroke-linejoin="round"
+  />
 
-  <!-- Outer rim glow -->
-  <ellipse cx="32" cy="27" rx="29" ry="8" fill="none" stroke="#1CCFC8" stroke-opacity="0.35" stroke-width="2"/>
+  <!-- Dome shadow -->
+  <path
+    d="M23 30.5C23.8 21.9 27.1 17.7 32 17.7c-4.1 2.7-6.1 7.1-6.4 12.8Z"
+    fill="#0B5F63"
+    opacity="0.55"
+  />
 
-  <!-- Main saucer rim -->
-  <ellipse cx="32" cy="27" rx="27" ry="7" fill="#352839"/>
+  <!-- Dome highlight -->
+  <path
+    d="M36.5 18.4c3.7 1.5 5.1 4.4 5.6 7.4-2.9-2.4-5.2-4.8-5.6-7.4Z"
+    fill="#ABF8F4"
+    opacity="0.72"
+  />
 
-  <!-- Underside belly -->
-  <path d="M5 27 Q32 55 59 27 Z" fill="#543B4F"/>
+  <ellipse
+    cx="40.4"
+    cy="20.7"
+    rx="2.2"
+    ry="1.25"
+    transform="rotate(32 40.4 20.7)"
+    fill="#FFFFFF"
+  />
 
-  <!-- Lower shadow -->
-  <path d="M10 29 Q32 49 54 29 Q44 43 32 46 Q20 43 10 29 Z" fill="#312637"/>
+  <!-- Upper collar -->
+  <path
+    d="M14.5 31.5C19.4 28.8 25.2 28 32 28s12.6.8 17.5 3.5l-2.2 7.4H16.7Z"
+    fill="#4A3349"
+    stroke="#0C0B10"
+    stroke-width="2.5"
+    stroke-linejoin="round"
+  />
 
-  <!-- Panel rings -->
-  <ellipse cx="32" cy="31" rx="20" ry="5" fill="#271C2D"/>
-  <ellipse cx="32" cy="35" rx="13" ry="4" fill="#1E2D3C"/>
-  <ellipse cx="32" cy="38" rx="8" ry="2.8" fill="#0B454C"/>
+  <path
+    d="M18.8 32.4C22.7 30.7 27.1 30.1 32 30.1s9.3.6 13.2 2.3"
+    fill="none"
+    stroke="#8C5C72"
+    stroke-width="1.8"
+    stroke-linecap="round"
+  />
 
-  <!-- Belly glow -->
-  <path d="M15 29 Q32 48 49 29 Z" fill="url(#bellyGlow)"/>
+  <!-- Main saucer body -->
+  <path
+    d="
+      M3.5 39.3
+      C8.1 34.5 16.9 31.7 32 31.7
+      S55.9 34.5 60.5 39.3
+      C61.7 40.6 61.8 42.3 60.7 43.7
+      C56.8 48.8 45.8 51.2 32 51.2
+      S7.2 48.8 3.3 43.7
+      C2.2 42.3 2.3 40.6 3.5 39.3
+      Z
+    "
+    fill="url(#body)"
+    stroke="#0C0B10"
+    stroke-width="2.7"
+    stroke-linejoin="round"
+  />
 
-  <!-- Beam emitter -->
-  <ellipse cx="32" cy="40" rx="7" ry="2.8" fill="#252130"/>
-  <ellipse cx="32" cy="40" rx="4.4" ry="1.8" fill="#1CCFC8" opacity="0.8"/>
+  <!-- Teal rim -->
+  <path
+    d="M4.7 43.4C12.2 47.3 21.5 48.7 32 48.7s19.8-1.4 27.3-5.3"
+    fill="none"
+    stroke="#1CCFC8"
+    stroke-width="2.8"
+    stroke-linecap="round"
+  />
 
-  <!-- Rim lights -->
-  <circle cx="12" cy="28" r="2.1" fill="#1CCFC8"/>
-  <circle cx="22" cy="24" r="2" fill="#7A0F0F"/>
-  <circle cx="32" cy="22.5" r="2" fill="#1CCFC8"/>
-  <circle cx="42" cy="24" r="2" fill="#7A0F0F"/>
-  <circle cx="52" cy="28" r="2.1" fill="#1CCFC8"/>
+  <path
+    d="M7.7 46.1C15.3 49.5 23.4 50.6 32 50.6s16.7-1.1 24.3-4.5"
+    fill="none"
+    stroke="#0C7E78"
+    stroke-width="1"
+    stroke-linecap="round"
+    opacity="0.9"
+  />
 
-  <!-- Tiny highlights -->
-  <ellipse cx="32" cy="25" rx="19" ry="3" fill="#8C5C72" opacity="0.55"/>
+  <!-- Upper teal lights -->
+  <circle
+    cx="20.5"
+    cy="34.7"
+    r="1.65"
+    fill="#1CCFC8"
+    stroke="#0C0B10"
+    stroke-width="1.15"
+  />
+
+  <circle
+    cx="32"
+    cy="34"
+    r="1.65"
+    fill="#1CCFC8"
+    stroke="#0C0B10"
+    stroke-width="1.15"
+  />
+
+  <circle
+    cx="43.5"
+    cy="34.7"
+    r="1.65"
+    fill="#1CCFC8"
+    stroke="#0C0B10"
+    stroke-width="1.15"
+  />
+
+  <!-- Amber portholes -->
+  <g stroke="#120505" stroke-width="1.7">
+    <circle cx="15" cy="40.3" r="3.55" fill="#FDC062"/>
+    <circle cx="32" cy="41.4" r="3.8" fill="#FDC062"/>
+    <circle cx="49" cy="40.3" r="3.55" fill="#FDC062"/>
+  </g>
+
+  <!-- Porthole highlights -->
+  <g fill="#FFFFFF" opacity="0.9">
+    <circle cx="16" cy="39.2" r="1"/>
+    <circle cx="33.1" cy="40.1" r="1.05"/>
+    <circle cx="50" cy="39.2" r="1"/>
+  </g>
+
+  <!-- Underside -->
+  <path
+    d="
+      M13.2 49.4
+      C18.4 54.4 25.1 56.8 32 56.8
+      S45.6 54.4 50.8 49.4
+      C45.2 50.7 38.9 51.3 32 51.3
+      S18.8 50.7 13.2 49.4
+      Z
+    "
+    fill="#1E2D3C"
+    stroke="#0C0B10"
+    stroke-width="2.1"
+    stroke-linejoin="round"
+  />
+
+  <!-- Bottom emitter -->
+  <ellipse
+    cx="32"
+    cy="55.7"
+    rx="8.5"
+    ry="2.1"
+    fill="#1CCFC8"
+    stroke="#0C0B10"
+    stroke-width="1.6"
+  />
+
+  <ellipse
+    cx="32"
+    cy="55.1"
+    rx="4.3"
+    ry="0.8"
+    fill="#ABF8F4"
+    opacity="0.85"
+  />
 </svg>
