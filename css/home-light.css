@@ -25,24 +25,24 @@
   --aurora-800:  #074A49;
   --aurora-900:  #032B2A;
 
-  /* Pulsar */
-  --pulsar-50:   #FCECF3;
-  --pulsar-100:  #F6C4D7;
-  --pulsar-200:  #E58CAD;
-  --pulsar-400:  #C63B77;
-  --pulsar-600:  #972B59;
-  --pulsar-800:  #61193A;
-  --pulsar-900:  #320B1D;
+  /* Pulsar — mesa orange and canyon shadow */
+  --pulsar-50:  #FFF1E6;
+  --pulsar-100: #F8D2B8;
+  --pulsar-200: #E99A67;
+  --pulsar-400: #C96E2B;
+  --pulsar-600: #8F3F16;
+  --pulsar-800: #5F290F;
+  --pulsar-900: #321307;
 
-  /* Cosmos */
-  --cosmos-50:   #F2EEFA;
-  --cosmos-100:  #DDD3F2;
-  --cosmos-200:  #B8A7E0;
-  --cosmos-300:  #9278CB;
-  --cosmos-400:  #6B4FA7;
-  --cosmos-600:  #503A82;
-  --cosmos-800:  #34255A;
-  --cosmos-900:  #1D1435;
+  /* Cosmos — sky blue through atmospheric navy */
+  --cosmos-50:  #EFF8FC;
+  --cosmos-100: #D3EBF5;
+  --cosmos-200: #9FD3E7;
+  --cosmos-300: #61B0D0;
+  --cosmos-400: #2B8CBA;
+  --cosmos-600: #1A6387;
+  --cosmos-800: #173A52;
+  --cosmos-900: #102A3B;
 
   /* Aether */
   --aether-50:   #FFF9EF;
@@ -65,19 +65,19 @@
    * TEXT
    * ================================================================== */
 
-  --text:        #2B2433;
-  --text-muted:  #62556F;
-  --text-light:  #0A6E6C;
-  --text-inv:    #FFF9F0;
+  --text:       #24313D;
+  --text-muted: #4A5158;
+  --text-light: #005B59;
+  --text-inv:   #F7FBF8;
 
   /* ==================================================================
    * PRIMARY
    * ================================================================== */
 
-  --primary:         #0C8E8B;
-  --primary-hover:   #0A6E6C;
-  --primary-lt:      #7DDBD7;
-  --primary-subtle:  #DDF5F3;
+  --primary:        #006866;
+  --primary-hover:  #004E4D;
+  --primary-lt:     #6ED3CC;
+  --primary-subtle: #DDF5F2;
 
   /* ==================================================================
    * ACCENTS
