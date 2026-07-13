@@ -65,59 +65,103 @@
    
   <div id="intro" aria-hidden="true">
     <div id="intro-glow"></div>
+  
     <div id="intro-ufo-wrap">
-      <svg id="intro-svg" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;width:100%;height:auto;display:block;">
+      <svg
+        id="intro-svg"
+        viewBox="0 0 200 130"
+        xmlns="http://www.w3.org/2000/svg"
+        style="overflow: visible; width: 100%; height: auto; display: block;"
+        aria-hidden="true"
+      >
         <defs>
-          <linearGradient id="iBeamGrad" x1="0" y1="65" x2="0" y2="1700" gradientUnits="userSpaceOnUse">
-            <stop offset="0%"   stop-color="#0AC39A" stop-opacity="0"/>
-            <stop offset="15%"  stop-color="#0AC39A" stop-opacity="0.3"/>
-            <stop offset="100%" stop-color="#0AC39A" stop-opacity="0.9"/>
+          <linearGradient
+            id="iBeamGrad"
+            x1="100"
+            y1="91"
+            x2="100"
+            y2="1700"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0%" stop-color="#1CCFC8" stop-opacity="0"/>
+            <stop offset="12%" stop-color="#1CCFC8" stop-opacity="0.32"/>
+            <stop offset="100%" stop-color="#0C9D95" stop-opacity="0.9"/>
           </linearGradient>
-          <radialGradient id="iBellyGrad" cx="50%" cy="50%" r="50%">
-            <stop offset="0%"   stop-color="#0AC39A" stop-opacity="0.15"/>
-            <stop offset="100%" stop-color="#1A3A40" stop-opacity="0"/>
-          </radialGradient>
+  
           <clipPath id="beamClip">
-            <polygon points="80,65 120,65 1780,1700 -1580,1700"/>
+            <polygon points="91,91 109,91 1780,1700 -1580,1700"/>
           </clipPath>
+  
+          <radialGradient id="iShipGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#1CCFC8" stop-opacity="0.28"/>
+            <stop offset="55%" stop-color="#1CCFC8" stop-opacity="0.08"/>
+            <stop offset="100%" stop-color="#1CCFC8" stop-opacity="0"/>
+          </radialGradient>
         </defs>
-
-        <!-- BEAM FIRST — behind hull -->
-        <polygon id="iBeam" points="80,65 120,65 1780,1700 -1580,1700" fill="url(#iBeamGrad)" opacity="0"/>
-        <line id="iScan" x1="-1580" y1="70" x2="1780" y2="70"
-          stroke="rgba(48,206,216,0.85)" stroke-width="2" opacity="0"
-          stroke-linecap="round" clip-path="url(#beamClip)"/>
-
-        <!-- Outer rim halo -->
-        <ellipse cx="100" cy="42" rx="93" ry="21" fill="none" stroke="rgba(48,206,216,0.25)" stroke-width="2"/>
-        <!-- Outer rim -->
-        <ellipse cx="100" cy="42" rx="88" ry="18" fill="#1A3A40"/>
-        <!-- Underside belly dome -->
-        <path d="M 12,42 Q 100,122 188,42 Z" fill="#2A5560"/>
-        <!-- Panel ring 1 -->
-        <ellipse cx="100" cy="46" rx="68" ry="14" fill="#243E45"/>
-        <!-- Panel ring 2 -->
-        <ellipse cx="100" cy="52" rx="48" ry="10" fill="#1F3A46"/>
-        <!-- Panel ring 3 -->
-        <ellipse cx="100" cy="57" rx="30" ry="7" fill="#1A3A40"/>
-        <!-- Belly glow -->
-        <path d="M 32,42 Q 100,108 168,42 Z" fill="url(#iBellyGrad)"/>
-        <!-- Central beam emitter -->
-        <ellipse cx="100" cy="63" rx="18" ry="6" fill="#243E45"/>
-        <ellipse cx="100" cy="63" rx="12" ry="4" fill="#0AC39A" opacity="0.2" class="iLight"/>
-
-        <!-- Rim lights -->
-        <circle cx="28"  cy="44" r="3.5" fill="#0AC39A" class="iLight"/>
-        <circle cx="53"  cy="35" r="3.5" fill="#A71930" class="iLight"/>
-        <circle cx="80"  cy="30" r="3.5" fill="#0AC39A" class="iLight"/>
-        <circle cx="120" cy="30" r="3.5" fill="#A71930" class="iLight"/>
-        <circle cx="147" cy="35" r="3.5" fill="#0AC39A" class="iLight"/>
-        <circle cx="172" cy="44" r="3.5" fill="#A71930" class="iLight"/>
+  
+        <polygon
+          id="iBeam"
+          points="91,91 109,91 1780,1700 -1580,1700"
+          fill="url(#iBeamGrad)"
+          opacity="0"
+        />
+  
+        <line
+          id="iScan"
+          x1="-1580"
+          y1="94"
+          x2="1780"
+          y2="94"
+          stroke="rgba(126, 239, 240, 0.9)"
+          stroke-width="2"
+          stroke-linecap="round"
+          clip-path="url(#beamClip)"
+          opacity="0"
+        />
+  
+        <ellipse
+          cx="100"
+          cy="57"
+          rx="94"
+          ry="50"
+          fill="url(#iShipGlow)"
+        />
+  
+        <image
+          href="hero-ufo.svg"
+          x="6"
+          y="3"
+          width="188"
+          height="103"
+          preserveAspectRatio="xMidYMid meet"
+        />
+  
+        <ellipse
+          cx="100"
+          cy="91"
+          rx="16"
+          ry="4.5"
+          fill="#1CCFC8"
+          opacity="0.24"
+          class="iLight"
+        />
+  
+        <ellipse
+          cx="100"
+          cy="90"
+          rx="9"
+          ry="2.5"
+          fill="#ABF8F4"
+          opacity="0.75"
+          class="iLight"
+        />
       </svg>
     </div>
+  
     <div id="intro-pts"></div>
     <div id="intro-scanlines"></div>
   </div>
+  
   <div id="intro-flash" aria-hidden="true"></div>
 
   <!-- ── Skip Nav + Cursor Dot ────────────────────────────────────── -->
