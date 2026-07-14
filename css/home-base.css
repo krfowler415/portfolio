@@ -1356,7 +1356,7 @@ a.card-feat,
 
 .hero-scroll-cue {
   position: fixed;
-  left: calc(50% + clamp(28px, 2.8vw, 50px));
+  left: calc(50% + clamp(24px, 2.4vw, 42px));
   bottom: clamp(1.25rem, 4vh, 2.4rem);
   z-index: 30;
   display: inline-flex;
