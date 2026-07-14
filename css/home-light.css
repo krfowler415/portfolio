@@ -649,8 +649,12 @@
   display: block;
 }
 
-/* Hide cosmos-only hero elements */
+/* Shared UFO appears in both themes */
+:root[data-theme="light"] .hero-ufo {
+  visibility: visible;
+}
 
+/* Hide cosmos-only hero elements */
 :root[data-theme="light"] #stars {
   display: none;
 }
