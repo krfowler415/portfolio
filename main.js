@@ -337,6 +337,21 @@ function initStars() {
   }
 }
 
+function refreshStarsForTheme(theme) {
+  if (theme !== 'dark' || !canvas) return;
+
+  /*
+   * Wait until the data-theme change has been painted.
+   * The canvas was display:none in light mode, so it must be
+   * measured again after becoming visible.
+   */
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      resizeCanvas();
+      initStarField();
+    });
+  });
+}
 
 /* =====================================================================
  * § 5  TERRAIN IMAGE LOADING
@@ -388,10 +403,16 @@ function fetchTerrain() {
 
 function swapTerrain() {
   /*
-   * Terrain is now swapped entirely by CSS:
-   * :root[data-theme="light"] .terrain-img--light
+   * Terrain swapping is handled by CSS.
+   * Wait for the new theme styles to paint, refresh all measurements,
+   * and then place the UFO according to the current page scroll.
    */
-  ScrollTrigger.refresh();
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+      syncUfoToScroll();
+    });
+  });
 }
 
 function swapFavicon(theme) {
@@ -533,15 +554,61 @@ function getUfoPos(progress) {
   return { x: last[1], y: last[2] };
 }
 
-function renderUfoAtProgress(trigger) {
-  if (!heroUfo || !ufoBeam || !ufoIntroComplete || !trigger) return;
+function getCurrentUfoProgress() {
+  const hero = document.getElementById('hero');
 
-  const progress = gsap.utils.clamp(0, 1, trigger.progress);
-  const { x, y } = getUfoPos(progress);
+  if (!hero) return 0;
 
-  const xPx = (x / 100) * window.innerWidth;
+  /*
+   * These values match:
+   *
+   * start: 'top top'
+   * end:   'bottom bottom'
+   *
+   * Progress is calculated directly from the current page scroll,
+   * so a theme-triggered ScrollTrigger refresh cannot leave the UFO
+   * stuck at a cached progress value of 1.
+   */
+  const heroTop =
+    window.scrollY + hero.getBoundingClientRect().top;
 
-  const aspectRatio = window.innerWidth / window.innerHeight;
+  const heroEnd =
+    heroTop + hero.offsetHeight - window.innerHeight;
+
+  const scrollRange = heroEnd - heroTop;
+
+  if (scrollRange <= 0) return 0;
+
+  return gsap.utils.clamp(
+    0,
+    1,
+    (window.scrollY - heroTop) / scrollRange
+  );
+}
+
+
+function renderUfoAtProgress(progress) {
+  if (
+    !heroUfo ||
+    !ufoBeam ||
+    !ufoIntroComplete ||
+    !Number.isFinite(progress)
+  ) {
+    return;
+  }
+
+  const clampedProgress =
+    gsap.utils.clamp(0, 1, progress);
+
+  const { x, y } =
+    getUfoPos(clampedProgress);
+
+  const xPx =
+    (x / 100) * window.innerWidth;
+
+  const aspectRatio =
+    window.innerWidth / window.innerHeight;
+
   const maxYpct =
     aspectRatio > 2
       ? 0.76
@@ -555,9 +622,8 @@ function renderUfoAtProgress(trigger) {
   );
 
   /*
-   * Always restore visibility here.
-   * The UFO naturally leaves with its hero container.
-   * It should not be manually hidden at progress 1.
+   * The UFO remains visible within the hero.
+   * The hero itself controls when it leaves the viewport.
    */
   gsap.set(heroUfo, {
     x: xPx,
@@ -566,11 +632,12 @@ function renderUfoAtProgress(trigger) {
     force3D: true
   });
 
-  const beamProgress = gsap.utils.clamp(
-    0,
-    1,
-    (progress - 0.50) / 0.15
-  );
+  const beamProgress =
+    gsap.utils.clamp(
+      0,
+      1,
+      (clampedProgress - 0.50) / 0.15
+    );
 
   ufoBeam.setAttribute(
     'opacity',
@@ -579,7 +646,7 @@ function renderUfoAtProgress(trigger) {
 
   heroUfo.classList.toggle(
     'hovering',
-    progress >= 0.45
+    clampedProgress >= 0.45
   );
 }
 
@@ -587,13 +654,18 @@ function renderUfoAtProgress(trigger) {
 function syncUfoToScroll() {
   if (!ufoScrollTrigger || !ufoIntroComplete) return;
 
-  ufoScrollTrigger.update();
-  renderUfoAtProgress(ufoScrollTrigger);
+  renderUfoAtProgress(
+    getCurrentUfoProgress()
+  );
 }
 
 
 function initUfoScroll() {
   if (!heroUfo || !ufoBeam) return;
+
+  const updateUfo = () => {
+    syncUfoToScroll();
+  };
 
   ufoScrollTrigger = ScrollTrigger.create({
     trigger: '#hero',
@@ -601,33 +673,33 @@ function initUfoScroll() {
     end: 'bottom bottom',
     invalidateOnRefresh: true,
 
-    onUpdate: self => {
-      renderUfoAtProgress(self);
-    },
-
-    onRefresh: self => {
-      renderUfoAtProgress(self);
-    },
-
-    onEnter: self => {
-      renderUfoAtProgress(self);
-    },
-
-    onEnterBack: self => {
-      renderUfoAtProgress(self);
-    },
-
-    /*
-     * Keep the final waypoint instead of setting autoAlpha to 0.
-     */
-    onLeave: self => {
-      renderUfoAtProgress(self);
-    },
-
-    onLeaveBack: self => {
-      renderUfoAtProgress(self);
-    }
+    onUpdate: updateUfo,
+    onRefresh: updateUfo,
+    onEnter: updateUfo,
+    onEnterBack: updateUfo,
+    onLeave: updateUfo,
+    onLeaveBack: updateUfo
   });
+
+  /*
+   * ScrollTrigger should normally handle every scroll update.
+   * This requestAnimationFrame-throttled listener is an additional
+   * safeguard after a live theme swap and layout refresh.
+   */
+  let ufoScrollFrame = null;
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (ufoScrollFrame !== null) return;
+
+      ufoScrollFrame = requestAnimationFrame(() => {
+        ufoScrollFrame = null;
+        syncUfoToScroll();
+      });
+    },
+    { passive: true }
+  );
 
   const resyncUfo = () => {
     requestAnimationFrame(() => {
@@ -640,11 +712,16 @@ function initUfoScroll() {
 
   resyncUfo();
 
-  window.addEventListener('load', resyncUfo, {
-    once: true
-  });
+  window.addEventListener(
+    'load',
+    resyncUfo,
+    { once: true }
+  );
 
-  window.addEventListener('pageshow', resyncUfo);
+  window.addEventListener(
+    'pageshow',
+    resyncUfo
+  );
 }
 
 
@@ -713,6 +790,8 @@ function initThemeToggle() {
 
   function applyTheme(theme, shouldSave = true) {
     document.documentElement.setAttribute('data-theme', theme);
+
+    refreshStarsForTheme(theme);
 
     if (shouldSave) {
       localStorage.setItem('kf-theme', theme);
