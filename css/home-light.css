@@ -709,24 +709,18 @@
 
 .hero-clouds {
   display: none;
-  position: fixed;
-  inset: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100svh;
   z-index: 4;
   pointer-events: none;
   overflow: hidden;
-  opacity: 0;
-  visibility: hidden;
 }
 
 :root[data-theme="light"] .hero-clouds {
   display: block;
-}
-
-:root[data-theme="light"] .hero-clouds.clouds-active {
-  opacity: 1;
-  visibility: visible;
 }
 
 .cloud-img {
