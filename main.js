@@ -53,6 +53,7 @@ let ufoScrollTrigger = null;
 const heroUfo        = document.getElementById('heroUfo');
 const ufoBeam        = document.getElementById('ufoBeam');
 const heroPin        = document.querySelector('.hero-pin');
+const heroClouds     = document.querySelector('.hero-clouds');
 const introEl        = document.getElementById('intro');
 const introWrap      = document.getElementById('intro-ufo-wrap');
 const iBeam          = document.getElementById('iBeam');
@@ -472,6 +473,62 @@ function initHeroScrollCue() {
 
   updateCue();
   window.addEventListener('scroll', updateCue, { passive: true });
+}
+
+function initLightCloudLock() {
+  const hero = document.getElementById('hero');
+
+  if (!heroClouds || !hero) return;
+
+  const updateCloudVisibility = trigger => {
+    const isLightTheme =
+      document.documentElement.getAttribute('data-theme') === 'light';
+
+    /*
+     * Keep the fixed cloud layer visible only while the user is
+     * inside the hero's ScrollTrigger range.
+     */
+    const isInsideHero =
+      window.scrollY >= trigger.start - 1 &&
+      window.scrollY < trigger.end - 1;
+
+    heroClouds.classList.toggle(
+      'clouds-active',
+      isLightTheme && isInsideHero
+    );
+  };
+
+  const cloudTrigger = ScrollTrigger.create({
+    trigger: hero,
+    start: 'top top',
+    end: 'bottom bottom',
+
+    onUpdate: self => {
+      updateCloudVisibility(self);
+    },
+
+    onRefresh: self => {
+      updateCloudVisibility(self);
+    },
+
+    onEnter: self => {
+      updateCloudVisibility(self);
+    },
+
+    onEnterBack: self => {
+      updateCloudVisibility(self);
+    },
+
+    onLeave: () => {
+      heroClouds.classList.remove('clouds-active');
+    },
+
+    onLeaveBack: () => {
+      heroClouds.classList.remove('clouds-active');
+    }
+  });
+
+  updateCloudVisibility(cloudTrigger);
 }
 
 /* =====================================================================
@@ -1193,6 +1250,7 @@ fetchTerrain();
 initTerrainParallax();
 initUfoScroll();
 initHeroScrollCue();
+initLightCloudLock();
 initNav();
 initCursor();
 initClickRipple();
