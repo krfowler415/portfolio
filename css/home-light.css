@@ -12,109 +12,141 @@
  * ===================================================================== */
 
 :root[data-theme="light"] {
-  /* ==================================================================
+  /* ================================================================
    * RAW COLOR FAMILIES
-   * ================================================================== */
+   * ================================================================ */
 
-  /* Aurora */
-  --aurora-50:   #E7F8F7;
-  --aurora-100:  #C5EEEC;
-  --aurora-200:  #7DDBD7;
-  --aurora-400:  #0C8E8B;
-  --aurora-600:  #0A6E6C;
-  --aurora-800:  #074A49;
-  --aurora-900:  #032B2A;
+  /* Aurora — agave teal / alien energy */
+  --aurora-50:  #EAF8F5;
+  --aurora-100: #C8EEE7;
+  --aurora-200: #7DE0D1;
+  --aurora-400: #48B7A3;
+  --aurora-600: #098A7D;
+  --aurora-800: #09564E;
+  --aurora-900: #001C1B;
 
-  /* Pulsar — mesa orange and canyon shadow */
-  --pulsar-50:  #FFF1E6;
-  --pulsar-100: #F8D2B8;
-  --pulsar-200: #E99A67;
-  --pulsar-400: #C96E2B;
-  --pulsar-600: #8F3F16;
-  --pulsar-800: #5F290F;
-  --pulsar-900: #321307;
+  /* Pulsar — mesa orange / canyon rock */
+  --pulsar-50:  #FFF2E5;
+  --pulsar-100: #FACE91;
+  --pulsar-200: #F29345;
+  --pulsar-400: #E17A33;
+  --pulsar-600: #9A4216;
+  --pulsar-800: #7B3715;
+  --pulsar-900: #532912;
 
-  /* Cosmos — sky blue through atmospheric navy */
-  --cosmos-50:  #EFF8FC;
-  --cosmos-100: #D3EBF5;
-  --cosmos-200: #9FD3E7;
-  --cosmos-300: #61B0D0;
-  --cosmos-400: #2B8CBA;
-  --cosmos-600: #1A6387;
-  --cosmos-800: #173A52;
-  --cosmos-900: #102A3B;
+  /* Cosmos — cactus green / structural surfaces */
+  --cosmos-50:  #ECF7EA;
+  --cosmos-100: #CFE8C9;
+  --cosmos-200: #7CBC74;
+  --cosmos-300: #54A94F;
+  --cosmos-400: #2C8E35;
+  --cosmos-600: #255E3F;
+  --cosmos-800: #1A6124;
+  --cosmos-900: #102C1B;
 
-  /* Aether */
-  --aether-50:   #FFF9EF;
-  --aether-100:  #F8EAD0;
-  --aether-200:  #EBCB97;
-  --aether-400:  #C79E68;
+  /* Plasma — sunlight / solar gold */
+  --plasma-50:  #FFFBE8;
+  --plasma-100: #FFF3B0;
+  --plasma-200: #FFE476;
+  --plasma-400: #FFD02A;
+  --plasma-600: #C58A12;
+  --plasma-800: #6F4708;
+  --plasma-900: #432804;
 
-  /* ==================================================================
+  /* Aether — cloud, sand, and neutral UI chrome */
+  --aether-50:  #FFF8EE;
+  --aether-100: #F4E5CC;
+  --aether-200: #E6CC9D;
+  --aether-400: #B89A6D;
+  --aether-600: #7D6A50;
+  --aether-800: #4A4033;
+  --aether-900: #261F18;
+
+
+  /* ================================================================
    * SEMANTIC SURFACES
-   * ================================================================== */
+   * ================================================================ */
 
-  --bg:          #EBCB97;
-  --bg-dark:     #DDB983;
+  /* Keep this matched to the existing terrain/page transition */
+  --bg:          #F3D39A;
+  --bg-dark:     #E4C28D;
   --bg-surface:  #FFF8EE;
-  --bg-raised:   #F7EBDD;
-  --bg-tint:     rgba(107, 79, 167, 0.10);
-  --bg-marquee:  #0A7E7B;
+  --bg-raised:   #F4E5CC;
+  --bg-tint:     rgba(44, 142, 53, 0.11);
+  --bg-marquee:  #255E3F;
 
-  /* ==================================================================
+
+  /* ================================================================
    * TEXT
-   * ================================================================== */
+   * ================================================================ */
 
-  --text:       #24313D;
-  --text-muted: #4A5158;
-  --text-light: #005B59;
-  --text-inv:   #F7FBF8;
+  /* Text over sand and other light surfaces */
+  --text:        #1B241C;
+  --text-muted:  #4F5142;
+  --text-light:  #255E3F;
+  --text-inv:    #FFF8EE;
 
-  /* ==================================================================
-   * PRIMARY
-   * ================================================================== */
+  /* Text over deep cactus-green surfaces */
+  --text-on-dark:       #FFF8EE;
+  --text-on-dark-muted: #D8E8D8;
 
-  --primary:        #006866;
-  --primary-hover:  #004E4D;
-  --primary-lt:     #6ED3CC;
-  --primary-subtle: #DDF5F2;
 
-  /* ==================================================================
-   * ACCENTS
-   * ================================================================== */
+  /* ================================================================
+   * PRIMARY ACTION
+   * ================================================================ */
 
-  --accent-pulsar:            #C63B77;
-  --accent-pulsar-subtle:     #F8DCE7;
+  /*
+   * Deep green is intentional here.
+   * The brighter cactus green does not have sufficient contrast
+   * when used as small text over the sand.
+   */
+  --primary:        #255E3F;
+  --primary-hover:  #1A6124;
+  --primary-lt:     #7CBC74;
+  --primary-subtle: #ECF7EA;
 
-  --accent-cosmos:            #6B4FA7;
-  --accent-cosmos-subtle:     #E8E1F6;
 
-  --accent-aurora:            #0C8E8B;
-  --accent-aurora-subtle:     #DDF5F3;
+  /* ================================================================
+   * COMPONENT-FACING ACCENTS
+   * ================================================================ */
 
-  --accent-plasma:            #C96E2B;
-  --accent-plasma-subtle:     #F7DEC5;
+  /* Mesa orange for secondary emphasis */
+  --accent-pulsar:        #9A4216;
+  --accent-pulsar-subtle: #FFF2E5;
 
-  --accent-turquoise:         #1CA6A4;
-  --accent-turquoise-subtle:  #D8F2EF;
+  /* Cactus green for structural emphasis */
+  --accent-cosmos:        #255E3F;
+  --accent-cosmos-subtle: #ECF7EA;
 
-  /* ==================================================================
-   * UTILITY / BORDERS / EFFECTS
-   * ================================================================== */
+  /* Deep agave teal for text; brighter teal remains available for glow */
+  --accent-aurora:        #09564E;
+  --accent-aurora-subtle: #EAF8F5;
 
-  --aether: #6A5C58;
-  --dune:   #DDB983;
+  /* Deep solar gold for small text over sand */
+  --accent-plasma:        #6F4708;
+  --accent-plasma-subtle: #FFFBE8;
 
-  --border:        rgba(43, 36, 51, 0.20);
-  --border-subtle: rgba(43, 36, 51, 0.10);
+  --accent-turquoise:        #098A7D;
+  --accent-turquoise-subtle: #EAF8F5;
 
-  --aurora-glass: rgba(12, 142, 139, 0.10);
-  --aurora-glow:  rgba(12, 142, 139, 0.22);
-  --aurora-inset: rgba(12, 142, 139, 0.08);
+
+  /* ================================================================
+   * NEUTRALS / BORDERS / EFFECTS
+   * ================================================================ */
+
+  --aether: #7D6A50;
+  --dune:   #DDB783;
+
+  --border:        rgba(27, 36, 28, 0.26);
+  --border-subtle: rgba(27, 36, 28, 0.13);
+
+  --aurora-glass: rgba(9, 138, 125, 0.11);
+  --aurora-glow:  rgba(9, 138, 125, 0.24);
+  --aurora-inset: rgba(9, 138, 125, 0.08);
 }
 
 /* =====================================================================
- * § 2  WESTERN BASE / BODY
+ * § 2  LIGHT BASE / BODY
  * ===================================================================== */
 
 :root[data-theme="light"] body {
@@ -131,7 +163,7 @@
 
 
 /* =====================================================================
- * § 3  WESTERN NAVIGATION
+ * § 3  LIGHT NAVIGATION
  * ===================================================================== */
 
 :root[data-theme="light"] nav {
@@ -192,7 +224,7 @@
 
 
 /* =====================================================================
- * § 4  WESTERN SECTION ATMOSPHERES
+ * § 4  LIGHT SECTION ATMOSPHERES
  * ===================================================================== */
 
 :root[data-theme="light"] #work::before {
@@ -229,7 +261,7 @@
 
 
 /* =====================================================================
- * § 5  WESTERN LINKS
+ * § 5  LIGHT LINKS
  * ===================================================================== */
 
 :root[data-theme="light"] .c-link {
@@ -259,7 +291,7 @@
 
 
 /* =====================================================================
- * § 6  WESTERN MARQUEE
+ * § 6  LIGHT MARQUEE
  * ===================================================================== */
 
 :root[data-theme="light"] .marquee {
@@ -277,7 +309,7 @@
 
 
 /* =====================================================================
- * § 7  WESTERN CARDS
+ * § 7  LIGHT CARDS
  * ===================================================================== */
 
 :root[data-theme="light"] a.card-feat,
@@ -289,10 +321,10 @@
 
 :root[data-theme="light"] .card-feat:hover {
   box-shadow:
-    inset 0 1px 0 #0AC39A40,
-    0 24px 70px #00000080,
-    0 0 35px #0AC39A25,
-    0 0 70px #5F259F30;
+    inset 0 1px 0 rgba(125, 224, 209, 0.28),
+    0 24px 70px rgba(83, 41, 18, 0.20),
+    0 0 35px rgba(44, 142, 53, 0.18),
+    0 0 70px rgba(9, 138, 125, 0.14);
 }
 
 :root[data-theme="light"] .card-vis {
@@ -302,7 +334,7 @@
 :root[data-theme="light"] .card-vis::before {
   background: radial-gradient(
     ellipse at 30% 50%,
-    #5F259F40 0%,
+    rgba(44, 142, 53, 0.20) 0%,
     transparent 65%
   );
 }
@@ -319,7 +351,8 @@
 
 :root[data-theme="light"] .card-body {
   background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
-  box-shadow: inset 0 0 30px #5F259F25;
+  box-shadow:
+    inset 0 0 30px rgba(9, 138, 125, 0.14);
 }
 
 :root[data-theme="light"] .card-body::after {
@@ -330,11 +363,30 @@
 
 :root[data-theme="light"] .c-tag {
   background: var(--bg-tint);
-  border: 1px solid #C8185840;
-  color: var(--text-muted);
+  border: 1px solid rgba(125, 224, 209, 0.28);
+  color: var(--text-on-dark-muted);
 }
 
-/* ── Western Case Study Progress Bar ──────────────────────────────── */
+:root[data-theme="light"] .card-body .c-desc,
+:root[data-theme="light"] .stat-l,
+:root[data-theme="light"] .c-band .c-body {
+  color: var(--text-on-dark-muted);
+}
+
+:root[data-theme="light"] .card-body .c-link,
+:root[data-theme="light"] .c-secondary-link {
+  color: var(--aurora-200);
+}
+
+:root[data-theme="light"] .card-body .c-link::after {
+  background: var(--aurora-200);
+}
+
+:root[data-theme="light"] .stat-n {
+  color: var(--aurora-200);
+}
+
+/* ── Light Case Study Progress Bar ──────────────────────────────── */
 
 :root[data-theme="light"] .cs-progress-wrap {
   background: var(--border);
@@ -345,7 +397,7 @@
   box-shadow: 0 0 8px var(--accent-aurora);
 }
 
-/* ── Western Case Study Arrow Visuals ──────────────────────────────── */
+/* ── Light Case Study Arrow Visuals ──────────────────────────────── */
 
 :root[data-theme="light"] .cs-arrow {
   --active: var(--text);
@@ -384,7 +436,7 @@
 }
 
 /* =====================================================================
- * § 8  WESTERN ABOUT / STATS
+ * § 8  LIGHT ABOUT / STATS
  * ===================================================================== */
 
 :root[data-theme="light"] .about-copy p {
@@ -442,7 +494,7 @@
 
 
 /* =====================================================================
- * § 9  WESTERN CONTACT
+ * § 9  LIGHT CONTACT
  * ===================================================================== */
 
 :root[data-theme="light"] .c-band {
@@ -505,7 +557,7 @@
 
 
 /* =====================================================================
- * § 10  WESTERN HERO SCENE
+ * § 10  LIGHT HERO SCENE
  * ===================================================================== */
 
 /* Swap celestial bodies */
@@ -518,9 +570,6 @@
 }
 
 /* Hide cosmos-only hero elements */
-:root[data-theme="light"] .hero-ufo {
-  visibility: hidden;
-}
 
 :root[data-theme="light"] #stars {
   display: none;
@@ -556,7 +605,7 @@
   );
 }
 
-/* Western terrain image swap */
+/* Light terrain image swap */
 :root[data-theme="light"] .terrain-img--dark {
   opacity: 0;
 }
@@ -571,7 +620,7 @@
 
 
 /* =====================================================================
- * § 11  WESTERN HERO ACTORS + EFFECTS
+ * § 11  LIGHT HERO ACTORS + EFFECTS
  * ===================================================================== */
 
 .hero-clouds {
@@ -706,7 +755,7 @@
 }
 
 
-/* ── Western Cloud Animations ─────────────────────────────────────── */
+/* ── Light Cloud Animations ─────────────────────────────────────── */
 
 @keyframes cloudDrift {
   from {
@@ -730,7 +779,7 @@
 
 
 /* =====================================================================
- * § 12  WESTERN SCROLL CUE
+ * § 12  LIGHT SCROLL CUE
  * ===================================================================== */
 
 :root[data-theme="light"] .hero-scroll-cue {
@@ -833,14 +882,14 @@
 }
 
 /* =====================================================================
- * § 14  WESTERN RESPONSIVE OVERRIDES
+ * § 14  LIGHT RESPONSIVE OVERRIDES
  * ===================================================================== */
 
-/* Western responsive overrides will move here later. */
+/* Light responsive overrides will move here later. */
 
 
 /* =====================================================================
- * § 15  WESTERN BUTTON VISUALS
+ * § 15  LIGHT BUTTON VISUALS
  * ===================================================================== */
 
 :root[data-theme="light"] .btn-primary {
@@ -896,7 +945,7 @@
 }
 
 /* =====================================================================
- * § 16  WESTERN CURSOR VISUALS
+ * § 16  LIGHT CURSOR VISUALS
  * ===================================================================== */
 
 :root[data-theme="light"] .cur-dot {
@@ -907,7 +956,7 @@
 }
 
 /* =====================================================================
- * § 17  WESTERN INTRO OVERLAY VISUALS
+ * § 17  LIGHT INTRO OVERLAY VISUALS
  * ===================================================================== */
 
 :root[data-theme="light"] #intro {
@@ -942,7 +991,7 @@
 }
 
 /* =====================================================================
- * § 18  WESTERN FOOTER VISUALS
+ * § 18  LIGHT FOOTER VISUALS
  * ===================================================================== */
 
 :root[data-theme="light"] .foot-l {
