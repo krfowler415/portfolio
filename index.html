@@ -17,6 +17,13 @@
       }
     </script>
 
+    <style>
+      html.intro-skip #intro,
+      html.intro-skip #intro-flash {
+        display: none !important;
+      }
+    </style>
+
     <!-- System Theme Check Script -->
     <script>
       (() => {
@@ -25,6 +32,9 @@
         const theme = savedTheme || (systemPrefersLight ? 'light' : 'dark');
 
         document.documentElement.setAttribute('data-theme', theme);
+
+        document.documentElement.style.backgroundColor =
+          theme === 'light' ? '#F3D39A' : '#100820';
       })();
     </script>
 
