@@ -651,6 +651,7 @@
 
 /* Shared UFO appears in both themes */
 :root[data-theme="light"] .hero-ufo {
+  display: block;
   visibility: visible;
 }
 
