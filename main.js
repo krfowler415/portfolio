@@ -48,6 +48,7 @@ let minTimeDone      = false;
 let assetsDone       = false;
 let introFired       = false;
 let scanTween        = null;
+let ufoScrollTrigger = null;
 
 const heroUfo        = document.getElementById('heroUfo');
 const ufoBeam        = document.getElementById('ufoBeam');
@@ -176,17 +177,24 @@ function playIntroOutro() {
       onComplete: () => {
         ufoIntroComplete = true;
         sessionStorage.setItem('introPlayed', 'true');
+        syncUfoToScroll();
       }
     }, '+=0.05');
 }
 
 function initIntro() {
   if (document.documentElement.getAttribute('data-theme') === 'light') {
-    if (introEl) introEl.style.display = 'none';
+    if (introEl) {introEl.style.display = 'none';
+    }
+  
+    if (heroUfo) {
+      gsap.set(heroUfo, {x: introX, y: introY, opacity: 1, visibility: 'visible', force3D: false});
+    }
+  
     ufoIntroComplete = true;
     return;
   }
-
+  
   if (sessionStorage.getItem('introPlayed')) {
     introEl.style.display = 'none';
     gsap.set(heroUfo, { x: introX, y: introY, opacity: 1, force3D: false });
@@ -524,38 +532,133 @@ function getUfoPos(progress) {
   return { x: last[1], y: last[2] };
 }
 
+function renderUfoAtProgress(trigger) {
+  if (!heroUfo || !ufoBeam || !ufoIntroComplete || !trigger) return;
+
+  const progress = gsap.utils.clamp(0, 1, trigger.progress);
+
+  /*
+   * When the browser reloads below the hero, ScrollTrigger's progress
+   * is already 1. Hide the UFO so it cannot remain stuck in the viewport.
+   */
+  const isPastHero = window.scrollY > trigger.end + 1;
+
+  if (isPastHero) {
+    gsap.set(heroUfo, {
+      autoAlpha: 0
+    });
+
+    ufoBeam.setAttribute('opacity', '0');
+    heroUfo.classList.remove('hovering');
+    return;
+  }
+
+  const { x, y } = getUfoPos(progress);
+
+  const xPx = (x / 100) * window.innerWidth;
+
+  const aspectRatio = window.innerWidth / window.innerHeight;
+  const maxYpct =
+    aspectRatio > 2
+      ? 0.76
+      : aspectRatio > 1.6
+        ? 0.80
+        : 0.84;
+
+  const yPx = Math.min(
+    (y / 100) * window.innerHeight,
+    maxYpct * window.innerHeight
+  );
+
+  gsap.set(heroUfo, {
+    x: xPx,
+    y: yPx,
+    autoAlpha: 1,
+    force3D: true
+  });
+
+  const beamProgress = gsap.utils.clamp(
+    0,
+    1,
+    (progress - 0.50) / 0.15
+  );
+
+  ufoBeam.setAttribute(
+    'opacity',
+    (beamProgress * 0.85).toFixed(3)
+  );
+
+  heroUfo.classList.toggle(
+    'hovering',
+    progress >= 0.45
+  );
+}
+
+
+function syncUfoToScroll() {
+  if (!ufoScrollTrigger || !ufoIntroComplete) return;
+
+  ufoScrollTrigger.update();
+  renderUfoAtProgress(ufoScrollTrigger);
+}
+
+
 function initUfoScroll() {
   if (!heroUfo || !ufoBeam) return;
 
-  ScrollTrigger.create({
+  ufoScrollTrigger = ScrollTrigger.create({
     trigger: '#hero',
     start: 'top top',
     end: 'bottom bottom',
-    scrub: 0.75,
+    invalidateOnRefresh: true,
+
     onUpdate: self => {
-      if (!ufoIntroComplete) return;
+      renderUfoAtProgress(self);
+    },
 
-      const progress = self.progress;
-      const { x, y } = getUfoPos(progress);
+    onRefresh: self => {
+      renderUfoAtProgress(self);
+    },
 
-      const xPx = (x / 100) * window.innerWidth;
+    onEnter: self => {
+      renderUfoAtProgress(self);
+    },
 
-      const aspectRatio = window.innerWidth / window.innerHeight;
-      const maxYpct = aspectRatio > 2 ? 0.76 : aspectRatio > 1.6 ? 0.80 : 0.84;
-      const yPx         = Math.min((y / 100) * window.innerHeight, maxYpct * window.innerHeight);
+    onEnterBack: self => {
+      renderUfoAtProgress(self);
+    },
 
+    onLeave: () => {
       gsap.set(heroUfo, {
-        x: xPx,
-        y: yPx,
-        force3D: true
+        autoAlpha: 0
       });
 
-      const beamProgress = Math.min(Math.max((progress - 0.50) / 0.15, 0), 1);
-      ufoBeam.setAttribute('opacity', (beamProgress * 0.85).toFixed(3));
-
-      heroUfo.classList.toggle('hovering', progress >= 0.45);
+      ufoBeam.setAttribute('opacity', '0');
+      heroUfo.classList.remove('hovering');
     }
   });
+
+  /*
+   * A normal reload may restore scroll after the script initially runs.
+   * Waiting two animation frames allows the browser's restored position
+   * and the sticky hero layout to settle before recalculating.
+   */
+  const resyncUfo = () => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+        syncUfoToScroll();
+      });
+    });
+  };
+
+  resyncUfo();
+
+  window.addEventListener('load', resyncUfo, {
+    once: true
+  });
+
+  window.addEventListener('pageshow', resyncUfo);
 }
 
 
