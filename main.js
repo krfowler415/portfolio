@@ -53,7 +53,6 @@ let ufoScrollTrigger = null;
 const heroUfo        = document.getElementById('heroUfo');
 const ufoBeam        = document.getElementById('ufoBeam');
 const heroPin        = document.querySelector('.hero-pin');
-const heroClouds     = document.querySelector('.hero-clouds');
 const introEl        = document.getElementById('intro');
 const introWrap      = document.getElementById('intro-ufo-wrap');
 const iBeam          = document.getElementById('iBeam');
@@ -475,61 +474,6 @@ function initHeroScrollCue() {
   window.addEventListener('scroll', updateCue, { passive: true });
 }
 
-function initLightCloudLock() {
-  const hero = document.getElementById('hero');
-
-  if (!heroClouds || !hero) return;
-
-  const updateCloudVisibility = trigger => {
-    const isLightTheme =
-      document.documentElement.getAttribute('data-theme') === 'light';
-
-    /*
-     * Keep the fixed cloud layer visible only while the user is
-     * inside the hero's ScrollTrigger range.
-     */
-    const isInsideHero =
-      window.scrollY >= trigger.start - 1 &&
-      window.scrollY < trigger.end - 1;
-
-    heroClouds.classList.toggle(
-      'clouds-active',
-      isLightTheme && isInsideHero
-    );
-  };
-
-  const cloudTrigger = ScrollTrigger.create({
-    trigger: hero,
-    start: 'top top',
-    end: 'bottom bottom',
-
-    onUpdate: self => {
-      updateCloudVisibility(self);
-    },
-
-    onRefresh: self => {
-      updateCloudVisibility(self);
-    },
-
-    onEnter: self => {
-      updateCloudVisibility(self);
-    },
-
-    onEnterBack: self => {
-      updateCloudVisibility(self);
-    },
-
-    onLeave: () => {
-      heroClouds.classList.remove('clouds-active');
-    },
-
-    onLeaveBack: () => {
-      heroClouds.classList.remove('clouds-active');
-    }
-  });
-
-  updateCloudVisibility(cloudTrigger);
-}
 
 /* =====================================================================
  * § 6  UFO SCROLL ANIMATION
@@ -593,23 +537,6 @@ function renderUfoAtProgress(trigger) {
   if (!heroUfo || !ufoBeam || !ufoIntroComplete || !trigger) return;
 
   const progress = gsap.utils.clamp(0, 1, trigger.progress);
-
-  /*
-   * When the browser reloads below the hero, ScrollTrigger's progress
-   * is already 1. Hide the UFO so it cannot remain stuck in the viewport.
-   */
-  const isPastHero = window.scrollY > trigger.end + 1;
-
-  if (isPastHero) {
-    gsap.set(heroUfo, {
-      autoAlpha: 0
-    });
-
-    ufoBeam.setAttribute('opacity', '0');
-    heroUfo.classList.remove('hovering');
-    return;
-  }
-
   const { x, y } = getUfoPos(progress);
 
   const xPx = (x / 100) * window.innerWidth;
@@ -627,6 +554,11 @@ function renderUfoAtProgress(trigger) {
     maxYpct * window.innerHeight
   );
 
+  /*
+   * Always restore visibility here.
+   * The UFO naturally leaves with its hero container.
+   * It should not be manually hidden at progress 1.
+   */
   gsap.set(heroUfo, {
     x: xPx,
     y: yPx,
@@ -685,21 +617,18 @@ function initUfoScroll() {
       renderUfoAtProgress(self);
     },
 
-    onLeave: () => {
-      gsap.set(heroUfo, {
-        autoAlpha: 0
-      });
+    /*
+     * Keep the final waypoint instead of setting autoAlpha to 0.
+     */
+    onLeave: self => {
+      renderUfoAtProgress(self);
+    },
 
-      ufoBeam.setAttribute('opacity', '0');
-      heroUfo.classList.remove('hovering');
+    onLeaveBack: self => {
+      renderUfoAtProgress(self);
     }
   });
 
-  /*
-   * A normal reload may restore scroll after the script initially runs.
-   * Waiting two animation frames allows the browser's restored position
-   * and the sticky hero layout to settle before recalculating.
-   */
   const resyncUfo = () => {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
@@ -1250,7 +1179,6 @@ fetchTerrain();
 initTerrainParallax();
 initUfoScroll();
 initHeroScrollCue();
-initLightCloudLock();
 initNav();
 initCursor();
 initClickRipple();
