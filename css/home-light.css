@@ -146,6 +146,27 @@
 }
 
 /* =====================================================================
+ * § 1A  LIGHT TYPOGRAPHY + ACCESSIBILITY OVERRIDES
+ * ===================================================================== */
+
+:root[data-theme="light"] .sec-title {
+  background: linear-gradient(
+    135deg,
+    var(--text) 0%,
+    var(--cosmos-600) 45%,
+    var(--aurora-800) 100%
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+:root[data-theme="light"] .skip-nav {
+  color: var(--text-inv);
+}
+
+/* =====================================================================
  * § 2  LIGHT BASE / BODY
  * ===================================================================== */
 
@@ -166,60 +187,96 @@
  * § 3  LIGHT NAVIGATION
  * ===================================================================== */
 
+/* Default transparent nav over the blue hero sky */
 :root[data-theme="light"] nav {
-  border-bottom-color: rgba(112, 67, 35, 0.16);
-}
-
-:root[data-theme="light"] nav.scrolled {
-  background: rgba(221, 183, 131, 0.92);
-  border-bottom-color: rgba(92, 59, 38, 0.25);
-  box-shadow: 0 1px 20px rgba(46, 26, 16, 0.10);
+  border-bottom-color: rgba(7, 16, 10, 0.18);
 }
 
 :root[data-theme="light"] .nav-logo {
-  color: var(--text);
-  text-shadow: 0 0 20px rgba(112, 67, 35, 0.18);
+  color: #07100A;
+  text-shadow:
+    0 1px 1px rgba(255, 255, 255, 0.30),
+    0 0 10px rgba(255, 255, 255, 0.18);
 }
 
 :root[data-theme="light"] .nav-logo:hover {
-  color: var(--accent-aurora);
+  color: var(--cosmos-800);
 }
 
 :root[data-theme="light"] .nav-links a {
-  color: var(--text-muted);
+  color: #07100A;
+  text-shadow:
+    0 1px 1px rgba(255, 255, 255, 0.25),
+    0 0 8px rgba(255, 255, 255, 0.14);
 }
 
 :root[data-theme="light"] .nav-links a:hover {
-  color: var(--text);
+  color: var(--cosmos-800);
 }
 
 :root[data-theme="light"] .nav-links a::before,
 :root[data-theme="light"] .nav-links a::after,
 :root[data-theme="light"] .nav-links a span::before,
 :root[data-theme="light"] .nav-links a span::after {
-  background: var(--text);
+  background: #07100A;
 }
 
 :root[data-theme="light"] #nav-toggle span {
-  background: var(--text-muted);
+  background: #07100A;
 }
 
 :root[data-theme="light"] #nav-toggle:hover span {
-  background: var(--accent-aurora);
+  background: var(--cosmos-800);
 }
 
 :root[data-theme="light"] .hero-us {
-  color: var(--accent-aurora);
+  color: #07100A;
+  text-shadow:
+    0 1px 1px rgba(255, 255, 255, 0.30),
+    0 0 8px rgba(255, 255, 255, 0.16);
+
   background: radial-gradient(
     circle 22px at 1.1rem center,
-    rgba(0, 162, 162, 0.20) 0%,
-    rgba(0, 162, 162, 0.07) 55%,
+    rgba(255, 248, 238, 0.38) 0%,
+    rgba(255, 248, 238, 0.13) 55%,
     transparent 100%
   );
 }
 
 :root[data-theme="light"] .sdot {
-  background: var(--accent-aurora);
+  background: var(--cosmos-600);
+}
+
+
+/* Scrolled nav over the sand page */
+:root[data-theme="light"] nav.scrolled {
+  background: rgba(243, 211, 154, 0.94);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-bottom-color: var(--border);
+  box-shadow: 0 1px 20px rgba(27, 36, 28, 0.14);
+}
+
+:root[data-theme="light"] nav.scrolled .nav-logo {
+  color: var(--text);
+  text-shadow: none;
+}
+
+:root[data-theme="light"] nav.scrolled .nav-links a {
+  color: var(--text-muted);
+  text-shadow: none;
+}
+
+:root[data-theme="light"] nav.scrolled .hero-us {
+  color: var(--primary);
+  text-shadow: none;
+}
+
+:root[data-theme="light"] nav.scrolled .nav-links a::before,
+:root[data-theme="light"] nav.scrolled .nav-links a::after,
+:root[data-theme="light"] nav.scrolled .nav-links a span::before,
+:root[data-theme="light"] nav.scrolled .nav-links a span::after {
+  background: var(--text);
 }
 
 
@@ -355,6 +412,19 @@
     inset 0 0 30px rgba(9, 138, 125, 0.14);
 }
 
+:root[data-theme="light"] .card-body .c-title {
+  background: linear-gradient(
+    135deg,
+    var(--text-on-dark) 0%,
+    var(--aurora-200) 60%,
+    var(--pulsar-100) 100%
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 :root[data-theme="light"] .card-body::after {
   border-top: 1.5px solid var(--accent-aurora);
   border-right: 1.5px solid var(--accent-aurora);
@@ -367,23 +437,17 @@
   color: var(--text-on-dark-muted);
 }
 
-:root[data-theme="light"] .card-body .c-desc,
-:root[data-theme="light"] .stat-l,
-:root[data-theme="light"] .c-band .c-body {
+/* Text inside the dark green card body */
+:root[data-theme="light"] .card-body .c-desc {
   color: var(--text-on-dark-muted);
 }
 
-:root[data-theme="light"] .card-body .c-link,
-:root[data-theme="light"] .c-secondary-link {
+:root[data-theme="light"] .card-body .c-link {
   color: var(--aurora-200);
 }
 
 :root[data-theme="light"] .card-body .c-link::after {
   background: var(--aurora-200);
-}
-
-:root[data-theme="light"] .stat-n {
-  color: var(--aurora-200);
 }
 
 /* ── Light Case Study Progress Bar ──────────────────────────────── */
@@ -435,6 +499,7 @@
   border-color: var(--accent-aurora);
 }
 
+
 /* =====================================================================
  * § 8  LIGHT ABOUT / STATS
  * ===================================================================== */
@@ -474,22 +539,20 @@
 }
 
 :root[data-theme="light"] .stat-n {
-  color: var(--accent-aurora);
+  color: var(--aurora-200);
   text-shadow:
-    0 0 7px var(--aurora-400),
-    0 0 20px var(--aurora-400),
-    0 0 45px #0AC39A80;
+    0 0 7px rgba(125, 224, 209, 0.42),
+    0 0 20px rgba(125, 224, 209, 0.22);
 }
 
 :root[data-theme="light"] .stat:hover .stat-n {
   text-shadow:
-    0 0 7px var(--aurora-400),
-    0 0 30px var(--aurora-400),
-    0 0 65px #0AC39A90;
+    0 0 9px rgba(125, 224, 209, 0.55),
+    0 0 28px rgba(125, 224, 209, 0.30);
 }
 
 :root[data-theme="light"] .stat-l {
-  color: var(--text-muted);
+  color: var(--text-on-dark-muted);
 }
 
 
@@ -506,6 +569,23 @@
     inset 0 1px 0 #5F259F60;
 }
 
+:root[data-theme="light"] .c-band .c-headline {
+  background: linear-gradient(
+    135deg,
+    var(--text-on-dark) 0%,
+    var(--aurora-200) 60%,
+    var(--pulsar-100) 100%
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+:root[data-theme="light"] .c-band .c-body {
+  color: var(--text-on-dark-muted);
+}
+
 :root[data-theme="light"] .c-band::before {
   border-top: 1.5px solid var(--accent-aurora);
   border-left: 1.5px solid var(--accent-aurora);
@@ -520,7 +600,7 @@
 
 :root[data-theme="light"] .c-cta-btn {
   background: linear-gradient(135deg, var(--aurora-400) 0%, var(--cosmos-600) 100%);
-  color: var(--text);
+  color: var(--text-on-dark);
   box-shadow:
     0 0 25px #0AC39A50,
     0 0 60px #0AC39A25;
@@ -539,20 +619,20 @@
 :root[data-theme="light"] .c-secondary-link {
   color: var(--aurora-200);
   text-decoration: underline;
-  text-decoration-color: #0AC39A40;
+  text-decoration-color: rgba(125, 224, 209, 0.36);
 }
 
 :root[data-theme="light"] .c-secondary-link:hover {
-  color: var(--text);
+  color: var(--text-on-dark);
   text-decoration: none;
-  text-shadow: 0 0 12px var(--accent-aurora);
+  text-shadow: 0 0 12px rgba(125, 224, 209, 0.50);
 }
 
 :root[data-theme="light"] .c-secondary-link::before,
 :root[data-theme="light"] .c-secondary-link::after,
 :root[data-theme="light"] .c-secondary-link span::before,
 :root[data-theme="light"] .c-secondary-link span::after {
-  background: var(--text);
+  background: var(--text-on-dark);
 }
 
 
