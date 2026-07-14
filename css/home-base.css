@@ -1180,7 +1180,6 @@ a.card-feat,
     var(--hero-scroll-extra) +
     var(--hero-exit-buffer)
   );
-
   background: var(--bg);
   overflow: visible;
 }
@@ -1188,7 +1187,6 @@ a.card-feat,
 .hero-pin {
   position: sticky;
   top: 0;
-
   height: var(--hero-scene-height);
   min-height: 100svh;
 
@@ -1224,7 +1222,7 @@ a.card-feat,
   z-index: 6;
   pointer-events: none;
   overflow: hidden;
-
+  
   --terrain-fade-height: 3vh;
   --terrain-parallax-overscan: clamp(180px, 22vh, 320px);
 }
@@ -1245,11 +1243,9 @@ a.card-feat,
   height: auto;
   max-width: none;
   opacity: 0;
-
   user-select: none;
   pointer-events: none;
   -webkit-user-drag: none;
-
   transition: opacity 0.35s ease;
 }
 
@@ -1360,19 +1356,16 @@ a.card-feat,
 
 .hero-scroll-cue {
   position: fixed;
-  left: 50%;
+  left: calc(50% + clamp(28px, 2.8vw, 50px));
   bottom: clamp(1.25rem, 4vh, 2.4rem);
   z-index: 30;
-
   display: inline-flex;
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
-
   padding: 0;
   border: 0;
   background: transparent;
-
   cursor: none;
   opacity: 1;
   visibility: visible;
@@ -1393,13 +1386,10 @@ a.card-feat,
 .hero-scroll-cue__mouse {
   position: relative;
   display: block;
-
   width: clamp(26px, 3vw, 42px);
   height: clamp(44px, 5vw, 68px);
-
   border-radius: 999px;
   background-size: 100% 200%;
-
   animation:
     heroScrollCueColorSlide 4.8s linear infinite,
     heroScrollCueNudge 4.8s ease-out infinite;
@@ -1423,7 +1413,6 @@ a.card-feat,
   width: clamp(5px, 0.65vw, 9px);
   height: clamp(5px, 0.65vw, 9px);
   border-radius: 999px;
-
   animation: heroScrollCueWheel 4.8s linear infinite;
 }
 
@@ -1433,7 +1422,6 @@ a.card-feat,
   letter-spacing: 0.16em;
   text-transform: uppercase;
   opacity: 0.72;
-
   animation: heroScrollCueText 4.8s ease-out infinite;
 }
 
@@ -1573,26 +1561,21 @@ a.card-feat,
   bottom: 2rem;
   right: var(--px);
   z-index: 500;
-
   width: 144px;
   height: 36px;
   box-sizing: border-box;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-
   padding: 0 0.4rem;
   border-radius: 100px;
-
   font-family: var(--Orb);
   font-size: 0.69rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: nowrap;
-
   opacity: 0;
   transform: translateY(10px);
   pointer-events: none;
