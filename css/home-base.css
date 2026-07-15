@@ -566,6 +566,30 @@ a.card-feat,
   inset: 0;
 }
 
+/* ── Project Visual Content ───────────────────────────────────────── */
+
+.project-vis-image {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 20px 65px rgba(0, 0, 0, 0.70);
+}
+
+.project-vis-title {
+  position: relative;
+  z-index: 1;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 2rem;
+  font-style: italic;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--project-vis-color, currentColor);
+}
+
 .card-vis-tag {
   position: absolute;
   top: 1.2rem;
