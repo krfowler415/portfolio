@@ -14,144 +14,153 @@
 :root[data-theme="light"] {
   /* ================================================================
    * RAW COLOR FAMILIES
+   * Derived from the light hero:
+   * sky, clouds, sun, terrain, sand, and vegetation.
    * ================================================================ */
 
-  /* Aurora — agave teal / alien energy */
-  --aurora-50:  #EAF8F5;
-  --aurora-100: #C8EEE7;
-  --aurora-200: #7DE0D1;
-  --aurora-400: #48B7A3;
-  --aurora-600: #098A7D;
-  --aurora-800: #09564E;
-  --aurora-900: #001C1B;
+  /* Aurora — blue sky / daylight atmosphere */
+  --aurora-50:  #F4FBFE;
+  --aurora-100: #DDF3FC;
+  --aurora-200: #BCE8F8;
+  --aurora-400: #72C4E8;
+  --aurora-600: #2288C8;
+  --aurora-800: #1565A8;
+  --aurora-900: #0F5795;
 
   /* Pulsar — mesa orange / canyon rock */
-  --pulsar-50:  #FFF2E5;
-  --pulsar-100: #FACE91;
-  --pulsar-200: #F29345;
-  --pulsar-400: #E17A33;
-  --pulsar-600: #9A4216;
-  --pulsar-800: #7B3715;
-  --pulsar-900: #532912;
+  --pulsar-50:  #FFF4E9;
+  --pulsar-100: #FFD7AF;
+  --pulsar-200: #F7A35C;
+  --pulsar-400: #E98435;
+  --pulsar-600: #B75417;
+  --pulsar-800: #7F390F;
+  --pulsar-900: #4A210A;
 
-  /* Cosmos — cactus green / structural surfaces */
-  --cosmos-50:  #ECF7EA;
-  --cosmos-100: #CFE8C9;
-  --cosmos-200: #7CBC74;
-  --cosmos-300: #54A94F;
-  --cosmos-400: #2C8E35;
-  --cosmos-600: #255E3F;
-  --cosmos-800: #1A6124;
-  --cosmos-900: #102C1B;
+  /* Cosmos — cactus and agave greens */
+  --cosmos-50:  #F0F7EA;
+  --cosmos-100: #DCECCF;
+  --cosmos-200: #A7CF83;
+  --cosmos-300: #70B551;
+  --cosmos-400: #3A962D;
+  --cosmos-600: #276A24;
+  --cosmos-800: #23542B;
+  --cosmos-900: #1E4223;
 
   /* Plasma — sunlight / solar gold */
-  --plasma-50:  #FFFBE8;
-  --plasma-100: #FFF3B0;
-  --plasma-200: #FFE476;
-  --plasma-400: #FFD02A;
-  --plasma-600: #C58A12;
-  --plasma-800: #6F4708;
-  --plasma-900: #432804;
+  --plasma-50:  #FFFDF0;
+  --plasma-100: #FFF7C6;
+  --plasma-200: #FFF078;
+  --plasma-400: #FFD23C;
+  --plasma-600: #C98E14;
+  --plasma-800: #75510A;
+  --plasma-900: #472E05;
 
-  /* Aether — cloud, sand, and neutral UI chrome */
-  --aether-50:  #FFF8EE;
-  --aether-100: #F4E5CC;
-  --aether-200: #E6CC9D;
-  --aether-400: #B89A6D;
-  --aether-600: #7D6A50;
-  --aether-800: #4A4033;
-  --aether-900: #261F18;
+  /* Aether — clouds, sand, and mineral neutrals */
+  --aether-50:  #FFFDF7;
+  --aether-100: #F4F2DE;
+  --aether-200: #F3D39A;
+  --aether-400: #D6B77C;
+  --aether-600: #8E744F;
+  --aether-800: #4E4030;
+  --aether-900: #292117;
+
+
+  /* ================================================================
+   * RESTRICTED ALIEN / UFO COLOR
+   * Use only for the tractor beam, alien skin, and deliberate
+   * spacecraft or signal details.
+   * ================================================================ */
+
+  --signal-teal:        #0DC7BD;
+  --signal-teal-subtle: rgba(13, 199, 189, 0.14);
 
 
   /* ================================================================
    * SEMANTIC SURFACES
    * ================================================================ */
 
-  /* Keep this matched to the existing terrain/page transition */
+  /*
+   * Keep --bg tied to the terrain fade.
+   * We are preserving the current mineral-sand base during this pass.
+   */
   --bg:          #E6D8C2;
-  --bg-dark:     #E4C28D;
-  --bg-surface:  #FFF8EE;
-  --bg-raised:   #F4E5CC;
-  --bg-tint:     rgba(44, 142, 53, 0.11);
-  --bg-marquee:  #255E3F;
+  --bg-dark:     var(--aether-400);
+  --bg-surface:  var(--aether-50);
+  --bg-raised:   var(--aether-100);
+  --bg-tint:     rgba(39, 106, 36, 0.11);
+  --bg-marquee:  var(--aurora-800);
 
 
   /* ================================================================
    * TEXT
    * ================================================================ */
 
-  /* Text over sand and other light surfaces */
   --text:        #1B241C;
   --text-muted:  #4F5142;
-  --text-light:  #255E3F;
-  --text-inv:    #FFF8EE;
+  --text-light:  var(--cosmos-800);
+  --text-inv:    var(--aether-50);
 
-  /* Text over deep cactus-green surfaces */
-  --text-on-dark:       #FFF8EE;
-  --text-on-dark-muted: #D8E8D8;
+  /* Text over deep cactus and agave surfaces */
+  --text-on-dark:       var(--aether-50);
+  --text-on-dark-muted: #DCE9D4;
+
 
   /* ================================================================
    * FOOTER
-   * Temporary values preserve the current light appearance.
-   * Final values will be chosen after the light palette rebuild.
+   * PROVISIONAL:
+   * These are now readable and hero-aligned, but we will verify them
+   * again after the final body background is approved.
    * ================================================================ */
-  
-  --footer-brand: var(--aurora-200);
-  --footer-meta:  var(--pulsar-200);
+
+  --footer-brand: var(--aurora-900);
+  --footer-meta:  var(--pulsar-800);
 
 
   /* ================================================================
    * PRIMARY ACTION
    * ================================================================ */
 
-  /*
-   * Deep green is intentional here.
-   * The brighter cactus green does not have sufficient contrast
-   * when used as small text over the sand.
-   */
-  --primary:        #255E3F;
-  --primary-hover:  #1A6124;
-  --primary-lt:     #7CBC74;
-  --primary-subtle: #ECF7EA;
+  --primary:        var(--cosmos-800);
+  --primary-hover:  var(--cosmos-900);
+  --primary-lt:     var(--cosmos-200);
+  --primary-subtle: var(--cosmos-50);
 
 
   /* ================================================================
    * COMPONENT-FACING ACCENTS
    * ================================================================ */
 
-  /* Mesa orange for secondary emphasis */
-  --accent-pulsar:        #9A4216;
-  --accent-pulsar-subtle: #FFF2E5;
+  /* Mesa orange */
+  --accent-pulsar:        var(--pulsar-800);
+  --accent-pulsar-subtle: var(--pulsar-50);
 
-  /* Cactus green for structural emphasis */
-  --accent-cosmos:        #255E3F;
-  --accent-cosmos-subtle: #ECF7EA;
+  /* Cactus and agave green */
+  --accent-cosmos:        var(--cosmos-800);
+  --accent-cosmos-subtle: var(--cosmos-50);
 
-  /* Deep agave teal for text; brighter teal remains available for glow */
-  --accent-aurora:        #09564E;
-  --accent-aurora-subtle: #EAF8F5;
+  /* Sky blue */
+  --accent-aurora:        var(--aurora-900);
+  --accent-aurora-subtle: var(--aurora-50);
 
-  /* Deep solar gold for small text over sand */
-  --accent-plasma:        #6F4708;
-  --accent-plasma-subtle: #FFFBE8;
-
-  --accent-turquoise:        #098A7D;
-  --accent-turquoise-subtle: #EAF8F5;
+  /* Sun gold */
+  --accent-plasma:        var(--plasma-800);
+  --accent-plasma-subtle: var(--plasma-50);
 
 
   /* ================================================================
    * NEUTRALS / BORDERS / EFFECTS
    * ================================================================ */
 
-  --aether: #7D6A50;
-  --dune:   #DDB783;
+  --aether: var(--aether-600);
+  --dune:   var(--aether-400);
 
   --border:        rgba(27, 36, 28, 0.26);
   --border-subtle: rgba(27, 36, 28, 0.13);
 
-  --aurora-glass: rgba(9, 138, 125, 0.11);
-  --aurora-glow:  rgba(9, 138, 125, 0.24);
-  --aurora-inset: rgba(9, 138, 125, 0.08);
+  /* Aurora now means sky atmosphere in the light theme */
+  --aurora-glass: rgba(34, 136, 200, 0.11);
+  --aurora-glow:  rgba(34, 136, 200, 0.24);
+  --aurora-inset: rgba(34, 136, 200, 0.08);
 }
 
 /* =====================================================================
@@ -181,42 +190,59 @@
  * warm desert base + subtle alien signal contours
  * ===================================================================== */
 
+/* =====================================================================
+ * § 2  LIGHT BASE / BODY
+ * Palette preview:
+ * warm mineral base + subtle sky and sunlight particle field
+ * ===================================================================== */
+
 :root[data-theme="light"] body {
   background:
-    /* Teal signal rings, upper-left */
-    repeating-radial-gradient(
-      ellipse at 18% 24%,
-      transparent 0 52px,
-      rgba(9, 138, 125, 0.06) 53px 54px,
-      transparent 55px 106px
-    ),
-
-    /* Warm secondary rings, lower-right */
-    repeating-radial-gradient(
-      ellipse at 82% 76%,
-      transparent 0 72px,
-      rgba(225, 122, 51, 0.04) 73px 74px,
-      transparent 75px 146px
-    ),
-
-    /* Soft alien atmosphere */
+    /* Sparse sky-blue particles */
     radial-gradient(
-      ellipse 60% 35% at 76% 18%,
-      rgba(72, 183, 163, 0.08) 0%,
+      circle at center,
+      rgba(21, 101, 168, 0.10) 0 1px,
+      transparent 1.5px
+    ) 0 0 / 48px 48px,
+
+    /* Less frequent sunlight particles */
+    radial-gradient(
+      circle at center,
+      rgba(255, 210, 60, 0.13) 0 1px,
+      transparent 1.5px
+    ) 22px 18px / 86px 86px,
+
+    /* Soft daylight atmosphere */
+    radial-gradient(
+      ellipse 70% 42% at 80% 20%,
+      rgba(114, 196, 232, 0.08) 0%,
       transparent 65%
     ),
 
-    /* Restrained desert warmth */
+    /* Restrained mesa warmth */
     radial-gradient(
-      ellipse 55% 30% at 18% 82%,
-      rgba(242, 147, 69, 0.05) 0%,
+      ellipse 58% 34% at 18% 82%,
+      rgba(233, 132, 53, 0.045) 0%,
       transparent 68%
     ),
 
     /* Matches the hero transition */
     var(--bg);
 
-  background-attachment: fixed;
+  background-attachment:
+    fixed,
+    fixed,
+    fixed,
+    fixed,
+    fixed;
+
+  background-repeat:
+    repeat,
+    repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat;
+
   color: var(--text);
 }
 
