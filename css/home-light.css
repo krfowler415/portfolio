@@ -90,6 +90,15 @@
   --text-on-dark:       #FFF8EE;
   --text-on-dark-muted: #D8E8D8;
 
+  /* ================================================================
+   * FOOTER
+   * Temporary values preserve the current light appearance.
+   * Final values will be chosen after the light palette rebuild.
+   * ================================================================ */
+  
+  --footer-brand: var(--aurora-200);
+  --footer-meta:  #C8185870;
+
 
   /* ================================================================
    * PRIMARY ACTION
