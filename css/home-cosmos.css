@@ -79,6 +79,10 @@
   --text-light:  #7FF6E4;   /* tertiary — aurora-200, footer / meta */
   --text-inv:    #1C1210;   /* dark text on light surfaces (light mode) */
 
+  /* ── Footer ─────────────────────────────────────────────────────── */
+  --footer-brand: var(--aurora-200);
+  --footer-meta:  var(--pulsar-200);
+
   /* ── Primary Action — Aurora Teal ───────────────────────────────── */
   --primary:        #0AC39A;
   --primary-hover:  #17A487;
