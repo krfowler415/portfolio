@@ -68,7 +68,7 @@
    * ================================================================ */
 
   /* Keep this matched to the existing terrain/page transition */
-  --bg:          #E8D8BE;
+  --bg:          #E6D8C2;
   --bg-dark:     #E4C28D;
   --bg-surface:  #FFF8EE;
   --bg-raised:   #F4E5CC;
@@ -181,25 +181,25 @@
 
 :root[data-theme="light"] body {
   background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='dust'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23dust)' opacity='0.14'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='dust'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23dust)' opacity='0.10'/%3E%3C/svg%3E"),
 
     radial-gradient(
-      ellipse 70% 38% at 78% 28%,
-      rgba(9, 138, 125, 0.07) 0%,
-      transparent 62%
+      ellipse 75% 45% at 80% 25%,
+      rgba(9, 138, 125, 0.13) 0%,
+      transparent 65%
     ),
 
     radial-gradient(
-      ellipse 65% 35% at 20% 78%,
-      rgba(225, 122, 51, 0.04) 0%,
-      transparent 68%
+      ellipse 65% 38% at 18% 78%,
+      rgba(225, 122, 51, 0.035) 0%,
+      transparent 70%
     ),
 
     linear-gradient(
       180deg,
-      #E8D8BE 0%,
-      #E8E6DC 45%,
-      #DDE6E1 100%
+      #E6D8C2 0%,
+      #E4E2D9 46%,
+      #D6E3DF 100%
     );
 
   background-attachment: fixed, fixed, fixed, fixed;
@@ -208,7 +208,6 @@
 
   color: var(--text);
 }
-
 
 /* =====================================================================
  * § 3  LIGHT NAVIGATION
