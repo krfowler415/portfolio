@@ -181,9 +181,9 @@
 
 :root[data-theme="light"] body {
   background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='dust'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23dust)' opacity='0.10'/%3E%3C/svg%3E"),
-    radial-gradient(ellipse 80% 40% at 25% 75%, rgba(181, 72, 50, 0.07) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 30% at 78% 28%, rgba(231, 183, 95, 0.09) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='dust'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23dust)' opacity='0.80'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 80% 40% at 25% 75%, rgba(181, 72, 50, 0.07) 0%, transparent 80%),
+    radial-gradient(ellipse 60% 30% at 78% 28%, rgba(231, 183, 95, 0.09) 0%, transparent 60%),
     linear-gradient(180deg, #DDB783 0%, #EDD4A0 42%, #C9A06A 100%);
   background-attachment: fixed, fixed, fixed, fixed;
   background-size: 300px 300px, cover, cover, cover;
