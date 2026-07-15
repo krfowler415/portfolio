@@ -177,35 +177,46 @@
 
 /* =====================================================================
  * § 2  LIGHT BASE / BODY
+ * Temporary texture test:
+ * warm desert base + subtle alien signal contours
  * ===================================================================== */
 
 :root[data-theme="light"] body {
   background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='dust'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23dust)' opacity='0.10'/%3E%3C/svg%3E"),
+    /* Teal signal rings, upper-left */
+    repeating-radial-gradient(
+      ellipse at 18% 24%,
+      transparent 0 52px,
+      rgba(9, 138, 125, 0.06) 53px 54px,
+      transparent 55px 106px
+    ),
 
+    /* Warm secondary rings, lower-right */
+    repeating-radial-gradient(
+      ellipse at 82% 76%,
+      transparent 0 72px,
+      rgba(225, 122, 51, 0.04) 73px 74px,
+      transparent 75px 146px
+    ),
+
+    /* Soft alien atmosphere */
     radial-gradient(
-      ellipse 75% 45% at 80% 25%,
-      rgba(9, 138, 125, 0.13) 0%,
+      ellipse 60% 35% at 76% 18%,
+      rgba(72, 183, 163, 0.08) 0%,
       transparent 65%
     ),
 
+    /* Restrained desert warmth */
     radial-gradient(
-      ellipse 65% 38% at 18% 78%,
-      rgba(225, 122, 51, 0.035) 0%,
-      transparent 70%
+      ellipse 55% 30% at 18% 82%,
+      rgba(242, 147, 69, 0.05) 0%,
+      transparent 68%
     ),
 
-    linear-gradient(
-      180deg,
-      #E6D8C2 0%,
-      #E4E2D9 46%,
-      #D6E3DF 100%
-    );
+    /* Matches the hero transition */
+    var(--bg);
 
-  background-attachment: fixed, fixed, fixed, fixed;
-  background-size: 300px 300px, cover, cover, cover;
-  background-repeat: repeat, no-repeat, no-repeat, no-repeat;
-
+  background-attachment: fixed;
   color: var(--text);
 }
 
