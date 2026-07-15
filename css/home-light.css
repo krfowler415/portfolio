@@ -385,7 +385,51 @@
 }
 
 :root[data-theme="light"] .card-vis {
-  background: var(--bg-dark);
+  background: var(--project-vis-bg, var(--bg-dark));
+}
+
+/* ── Light Project Visual Identities ──────────────────────────────── */
+
+:root[data-theme="light"] .project--edreams {
+  --project-vis-bg:
+    linear-gradient(
+      135deg,
+      #160828 0%,
+      #280408 100%
+    );
+}
+
+:root[data-theme="light"] .project--field-feast {
+  --project-vis-bg:
+    linear-gradient(
+      135deg,
+      #003438 0%,
+      #38241A 100%
+    );
+
+  --project-vis-color: rgba(227, 212, 173, 0.60);
+}
+
+:root[data-theme="light"] .project--vanguard {
+  --project-vis-bg:
+    linear-gradient(
+      135deg,
+      #2A0E50 0%,
+      #003438 100%
+    );
+
+  --project-vis-color: rgba(176, 128, 224, 0.70);
+}
+
+:root[data-theme="light"] .project--path-success {
+  --project-vis-bg:
+    linear-gradient(
+      135deg,
+      #38241A 0%,
+      #280408 100%
+    );
+
+  --project-vis-color: rgba(216, 176, 144, 0.70);
 }
 
 :root[data-theme="light"] .card-vis::before {
