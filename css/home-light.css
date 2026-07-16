@@ -80,24 +80,37 @@
    * ================================================================ */
 
   /*
-   * Keep --bg tied to the terrain fade.
-   * We are preserving the current mineral-sand base during this pass.
+   * The page foundation matches the sand color used by the hero fade.
+   * This keeps the hero and body visually continuous.
    */
-  --bg:          #E6D8C2;
+  --bg:          var(--aether-200);
   --bg-dark:     var(--aether-400);
+  
+  /* Clean component surfaces */
   --bg-surface:  var(--aether-50);
-  --bg-raised:   var(--aether-100);
-  --bg-tint:     rgba(39, 106, 36, 0.11);
-  --bg-marquee:  var(--aurora-800);
+  --bg-raised:   var(--cosmos-50);
+  
+  /* Restrained structural tint */
+  --bg-tint:     rgba(35, 84, 43, 0.10);
+  
+  /* Strong bridge between the hero and portfolio content */
+  --bg-marquee:  var(--cosmos-900);
 
 
   /* ================================================================
    * TEXT
    * ================================================================ */
 
-  --text:        #1B241C;
-  --text-muted:  #4F5142;
+  /* Dark cactus ink */
+  --text:        #0B2412;
+  
+  /* Weathered desert-brown secondary text */
+  --text-muted:  #795548;
+  
+  /* Structural green for tertiary emphasis */
   --text-light:  var(--cosmos-800);
+  
+  /* Cloud-white text over strong surfaces */
   --text-inv:    var(--aether-50);
 
   /* Text over deep cactus and agave surfaces */
@@ -112,7 +125,7 @@
    * again after the final body background is approved.
    * ================================================================ */
 
-  --footer-brand: var(--aurora-900);
+  --footer-brand: var(--cosmos-800);
   --footer-meta:  var(--pulsar-800);
 
 
@@ -122,7 +135,7 @@
 
   --primary:        var(--cosmos-800);
   --primary-hover:  var(--cosmos-900);
-  --primary-lt:     var(--cosmos-200);
+  --primary-lt:     var(--cosmos-400);
   --primary-subtle: var(--cosmos-50);
 
 
@@ -161,10 +174,14 @@
   --border:        rgba(27, 36, 28, 0.26);
   --border-subtle: rgba(27, 36, 28, 0.13);
 
-  /* Light-mode structural effects */
-  --aurora-glass: rgba(35, 84, 43, 0.10);
-  --aurora-glow:  rgba(35, 84, 43, 0.20);
-  --aurora-inset: rgba(35, 84, 43, 0.08);
+  /*
+   * Compatibility values used by shared component effects.
+   * In light mode, generic UI effects use structural green rather
+   * than sky blue.
+   */
+  --aurora-glass: rgba(35, 84, 43, 0.08);
+  --aurora-glow:  rgba(35, 84, 43, 0.18);
+  --aurora-inset: rgba(35, 84, 43, 0.07);
 }
 
 /* =====================================================================
@@ -175,7 +192,7 @@
   background: linear-gradient(
     135deg,
     var(--text) 0%,
-    var(--cosmos-800) 62%,
+    var(--cosmos-800) 68%,
     var(--cosmos-400) 100%
   );
 
@@ -190,44 +207,70 @@
 
 /* =====================================================================
  * § 2  LIGHT BASE / BODY
- * Stable mineral foundation with nonrepeating environmental light.
+ * Continuous desert atmosphere:
+ * hero-matched sand, broad environmental color fields, and fine grain.
  * ===================================================================== */
 
 :root[data-theme="light"] body {
   background:
-    /* Broad cloud-like light */
-    radial-gradient(
-      ellipse 78% 36% at 18% 10%,
-      rgba(255, 253, 247, 0.50) 0%,
-      transparent 72%
-    ),
+    /*
+     * Fine atmospheric grain.
+     * This adds material depth without creating visible dots,
+     * stars, contour rings, or a repeating decorative pattern.
+     */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23grain)' opacity='0.07'/%3E%3C/svg%3E"),
 
-    /* Restrained sunlight atmosphere */
+    /* Cloud-like illumination */
     radial-gradient(
-      ellipse 48% 28% at 82% 22%,
-      rgba(255, 210, 60, 0.07) 0%,
+      ellipse 95% 58% at 4% 4%,
+      rgba(255, 253, 247, 0.42) 0%,
       transparent 70%
     ),
 
-    /* Continuous terrain-to-page foundation */
-    linear-gradient(
-      180deg,
-      var(--bg) 0%,
-      #E9DDC8 52%,
-      #E4D5BE 100%
-    );
+    /* Broad sunlight field */
+    radial-gradient(
+      ellipse 78% 54% at 100% 14%,
+      rgba(255, 210, 60, 0.11) 0%,
+      transparent 70%
+    ),
+
+    /* Mesa atmosphere lower in the page */
+    radial-gradient(
+      ellipse 92% 66% at 8% 88%,
+      rgba(233, 132, 53, 0.09) 0%,
+      transparent 74%
+    ),
+
+    /* Extremely restrained cactus atmosphere */
+    radial-gradient(
+      ellipse 72% 54% at 94% 88%,
+      rgba(35, 84, 43, 0.055) 0%,
+      transparent 76%
+    ),
+
+    /* Same foundation used by the hero and terrain fade */
+    var(--bg);
 
   background-attachment:
+    fixed,
+    fixed,
+    fixed,
     fixed,
     fixed,
     fixed;
 
   background-size:
+    240px 240px,
+    cover,
+    cover,
     cover,
     cover,
     cover;
 
   background-repeat:
+    repeat,
+    no-repeat,
+    no-repeat,
     no-repeat,
     no-repeat,
     no-repeat;
@@ -334,37 +377,39 @@
 
 /* =====================================================================
  * § 4  LIGHT SECTION ATMOSPHERES
+ * Large nonrepeating environmental fields create section depth.
  * ===================================================================== */
 
 :root[data-theme="light"] #work::before {
   background-image:
     radial-gradient(
       ellipse 880px 60% at 50% 0%,
-      rgba(181, 72, 50, 0.10) 0%,
-      transparent 70%
+      rgba(183, 84, 23, 0.075) 0%,
+      transparent 72%
     );
 }
 
 :root[data-theme="light"] #about::before {
   background-image:
     radial-gradient(
-      ellipse 605px 70% at calc(50% + 275px) 55%,
-      rgba(0, 162, 162, 0.10) 0%,
-      transparent 65%
+      ellipse 640px 70% at calc(50% + 290px) 56%,
+      rgba(35, 84, 43, 0.065) 0%,
+      transparent 68%
     ),
+
     radial-gradient(
-      ellipse 495px 50% at calc(50% - 330px) 45%,
-      rgba(92, 59, 38, 0.10) 0%,
-      transparent 60%
+      ellipse 540px 54% at calc(50% - 330px) 42%,
+      rgba(255, 253, 247, 0.22) 0%,
+      transparent 66%
     );
 }
 
 :root[data-theme="light"] #contact::before {
   background-image:
     radial-gradient(
-      ellipse 770px 80% at 50% 100%,
-      rgba(0, 162, 162, 0.10) 0%,
-      transparent 65%
+      ellipse 820px 82% at 50% 100%,
+      rgba(35, 84, 43, 0.085) 0%,
+      transparent 68%
     );
 }
 
@@ -374,18 +419,18 @@
  * ===================================================================== */
 
 :root[data-theme="light"] .c-link {
-  color: var(--accent-aurora);
+  color: var(--accent-cosmos);
 }
 
 :root[data-theme="light"] .c-link::after {
-  background: var(--accent-aurora);
+  background: var(--accent-cosmos);
 }
 
 :root[data-theme="light"] .c-link:hover {
-  text-shadow: 0 0 12px var(--accent-aurora);
+  text-shadow: 0 0 12px rgba(35, 84, 43, 0.24);
 }
 
-/* "More about me →" western variant */
+/* Warm solar accent for “More about me →” */
 :root[data-theme="light"] .about-copy .c-link {
   color: var(--accent-plasma);
 }
@@ -401,19 +446,25 @@
 
 /* =====================================================================
  * § 6  LIGHT MARQUEE
+ * Deep cactus bridge between the illustrated hero and portfolio body.
  * ===================================================================== */
 
 :root[data-theme="light"] .marquee {
-  background: linear-gradient(90deg, #087b7a 0%, #0f8e83 45%, #d85c1f 100%);
+  background: linear-gradient(
+    90deg,
+    var(--cosmos-900) 0%,
+    var(--cosmos-800) 52%,
+    var(--cosmos-900) 100%
+  );
 }
 
 :root[data-theme="light"] .m-item {
-  color: #fff7df;
+  color: var(--aether-50);
 }
 
 :root[data-theme="light"] .m-sep {
-  background: #ffd36b;
-  opacity: 0.9;
+  background: var(--plasma-400);
+  opacity: 0.92;
 }
 
 
@@ -553,8 +604,8 @@
 }
 
 :root[data-theme="light"] .cs-progress-bar {
-  background: var(--accent-aurora);
-  box-shadow: 0 0 8px var(--accent-aurora);
+  background: var(--accent-cosmos);
+  box-shadow: 0 0 8px rgba(35, 84, 43, 0.22);
 }
 
 /* ── Light Case Study Arrow Visuals ──────────────────────────────── */
@@ -581,18 +632,18 @@
 }
 
 :root[data-theme="light"] .cs-arrow:hover {
-  --active: var(--accent-aurora);
+  --active: var(--accent-cosmos);
 }
 
 :root[data-theme="light"] .cs-arrow:hover::before {
-  background: rgba(0, 162, 162, 0.13);
+  background: rgba(35, 84, 43, 0.08);
   box-shadow:
-    0 0 28px rgba(0, 162, 162, 0.22),
-    inset 0 0 14px rgba(255, 244, 219, 0.35);
+    0 0 22px rgba(35, 84, 43, 0.16),
+    inset 0 0 14px rgba(255, 253, 247, 0.32);
 }
 
 :root[data-theme="light"] .cs-arrow:hover::after {
-  border-color: var(--accent-aurora);
+  border-color: var(--accent-cosmos);
 }
 
 
@@ -1136,7 +1187,7 @@
   background: var(--pulsar-600);
   box-shadow:
     0 0 0 1px rgba(255, 253, 247, 0.48),
-    0 0 8px rgba(255, 210, 60, 0.30),
+    0 0 8px rgba(255, 210, 60, 0.28),
     0 0 18px rgba(233, 132, 53, 0.20);
 }
 
