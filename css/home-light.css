@@ -284,12 +284,10 @@
  * ===================================================================== */
 
 :root[data-theme="light"] nav:not(.scrolled) {
-  background: rgba(255, 253, 247, 0.07);
+  background: transparent;
   border-bottom-color: transparent;
-
-  -webkit-backdrop-filter: blur(5px);
-  backdrop-filter: blur(5px);
-
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
   box-shadow: none;
 }
 
@@ -331,21 +329,22 @@
 }
 
 :root[data-theme="light"] .hero-us {
-  color: #07100A;
+  /*
+   * Scoped token override:
+   * lets the shared dark-style pulse/outline animation use cactus green
+   * without changing Aurora elsewhere in the light theme.
+   */
+  --accent-aurora: var(--cosmos-800);
+
+  color: var(--cosmos-900);
+  background: transparent;
   text-shadow:
     0 1px 1px rgba(255, 255, 255, 0.30),
     0 0 8px rgba(255, 255, 255, 0.16);
-
-  background: radial-gradient(
-    circle 22px at 1.1rem center,
-    rgba(255, 248, 238, 0.38) 0%,
-    rgba(255, 248, 238, 0.13) 55%,
-    transparent 100%
-  );
 }
 
 :root[data-theme="light"] .sdot {
-  background: var(--cosmos-600);
+  background: var(--cosmos-800);
 }
 
 
@@ -356,6 +355,14 @@
   backdrop-filter: blur(16px);
   border-bottom-color: var(--border);
   box-shadow: 0 1px 20px rgba(27, 36, 28, 0.14);
+}
+
+:root[data-theme="light"] nav.scrolled .hero-us {
+  --accent-aurora: var(--cosmos-800);
+
+  color: var(--cosmos-900);
+  background: transparent;
+  text-shadow: none;
 }
 
 :root[data-theme="light"] nav.scrolled .nav-logo {
@@ -387,16 +394,6 @@
 :root[data-theme="light"] nav.scrolled .nav-links a span::before,
 :root[data-theme="light"] nav.scrolled .nav-links a span::after {
   background: var(--text);
-}
-
-/* Light-only availability badge hover */
-:root[data-theme="light"] .hero-us:hover,
-:root[data-theme="light"] nav.scrolled .hero-us:hover {
-  padding: 0.35rem 0.75rem 0.35rem 2rem;
-
-  background: var(--cosmos-800);
-  color: var(--aether-50);
-  text-shadow: none;
 }
 
 :root[data-theme="light"] .hero-us:hover .sdot {
@@ -471,16 +468,21 @@
   text-shadow: 0 0 12px rgba(35, 84, 43, 0.24);
 }
 
+/* Featured About link — deep sky blue */
 :root[data-theme="light"] .about-copy .c-link {
-  color: var(--accent-cosmos);
+  color: var(--aurora-900);
+  font-weight: 700;
 }
 
 :root[data-theme="light"] .about-copy .c-link::after {
-  background: var(--accent-cosmos);
+  background: var(--aurora-900);
 }
 
 :root[data-theme="light"] .about-copy .c-link:hover {
-  text-shadow: 0 0 12px rgba(35, 84, 43, 0.22);
+  color: var(--aurora-900);
+
+  text-shadow:
+    0 0 10px rgba(15, 87, 149, 0.24);
 }
 
 
@@ -605,16 +607,18 @@
     inset 0 0 30px rgba(9, 138, 125, 0.14);
 }
 
-:root[data-theme="light"] .card-body .c-title {
+:root[data-theme="light"] .card-body .c-title,{
   background: linear-gradient(
     135deg,
     var(--text-on-dark) 0%,
-    var(--cosmos-100) 58%,
+    var(--plasma-100) 55%,
     var(--pulsar-100) 100%
   );
+
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+
   text-shadow: none;
 }
 
@@ -1251,11 +1255,11 @@
  * ===================================================================== */
 
 :root[data-theme="light"] .cur-dot {
-  background: var(--pulsar-600);
+  background: var(--cosmos-800);
   box-shadow:
-    0 0 0 1px rgba(255, 253, 247, 0.48),
-    0 0 8px rgba(255, 210, 60, 0.28),
-    0 0 18px rgba(233, 132, 53, 0.20);
+    0 0 0 1px rgba(255, 253, 247, 0.46),
+    0 0 8px rgba(35, 84, 43, 0.32),
+    0 0 18px rgba(58, 150, 45, 0.18);
 }
 
 /* =====================================================================
