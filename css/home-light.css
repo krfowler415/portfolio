@@ -138,9 +138,13 @@
   --accent-cosmos:        var(--cosmos-800);
   --accent-cosmos-subtle: var(--cosmos-50);
 
-  /* Sky blue */
-  --accent-aurora:        var(--aurora-900);
-  --accent-aurora-subtle: var(--aurora-50);
+  /*
+   * Generic light-theme interface accent.
+   * The Aurora variable name remains because shared components already
+   * reference it, but light-mode UI should use structural green.
+   */
+  --accent-aurora:        var(--cosmos-800);
+  --accent-aurora-subtle: var(--cosmos-50);
 
   /* Sun gold */
   --accent-plasma:        var(--plasma-800);
@@ -157,10 +161,10 @@
   --border:        rgba(27, 36, 28, 0.26);
   --border-subtle: rgba(27, 36, 28, 0.13);
 
-  /* Aurora now means sky atmosphere in the light theme */
-  --aurora-glass: rgba(34, 136, 200, 0.11);
-  --aurora-glow:  rgba(34, 136, 200, 0.24);
-  --aurora-inset: rgba(34, 136, 200, 0.08);
+  /* Light-mode structural effects */
+  --aurora-glass: rgba(35, 84, 43, 0.10);
+  --aurora-glow:  rgba(35, 84, 43, 0.20);
+  --aurora-inset: rgba(35, 84, 43, 0.08);
 }
 
 /* =====================================================================
@@ -171,8 +175,8 @@
   background: linear-gradient(
     135deg,
     var(--text) 0%,
-    var(--cosmos-600) 45%,
-    var(--aurora-800) 100%
+    var(--cosmos-800) 62%,
+    var(--cosmos-400) 100%
   );
 
   -webkit-background-clip: text;
@@ -186,75 +190,51 @@
 
 /* =====================================================================
  * § 2  LIGHT BASE / BODY
+ * Stable mineral foundation with nonrepeating environmental light.
  * ===================================================================== */
 
 :root[data-theme="light"] body {
   background:
-    /* subtle grain */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23noise)' opacity='0.16'/%3E%3C/svg%3E"),
-
-    /* warm mesa wash */
+    /* Broad cloud-like light */
     radial-gradient(
-      ellipse 85% 55% at 18% 22%,
-      rgba(233, 132, 53, 0.24) 0%,
-      transparent 68%
-    ),
-
-    /* sunlit gold */
-    radial-gradient(
-      ellipse 70% 45% at 82% 16%,
-      rgba(255, 210, 60, 0.18) 0%,
-      transparent 64%
-    ),
-
-    /* restrained agave/cactus atmosphere */
-    radial-gradient(
-      ellipse 65% 50% at 72% 78%,
-      rgba(39, 106, 36, 0.10) 0%,
+      ellipse 78% 36% at 18% 10%,
+      rgba(255, 253, 247, 0.50) 0%,
       transparent 72%
     ),
 
-    /* faint sky influence */
+    /* Restrained sunlight atmosphere */
     radial-gradient(
-      ellipse 75% 50% at 16% 88%,
-      rgba(114, 196, 232, 0.10) 0%,
-      transparent 74%
+      ellipse 48% 28% at 82% 22%,
+      rgba(255, 210, 60, 0.07) 0%,
+      transparent 70%
     ),
 
-    /* mineral base */
+    /* Continuous terrain-to-page foundation */
     linear-gradient(
       180deg,
-      #E8D5B9 0%,
-      #E7CFAF 42%,
-      #DDBF98 100%
+      var(--bg) 0%,
+      #E9DDC8 52%,
+      #E4D5BE 100%
     );
 
   background-attachment:
     fixed,
     fixed,
-    fixed,
-    fixed,
-    fixed,
     fixed;
 
   background-size:
-    220px 220px,
-    cover,
-    cover,
     cover,
     cover,
     cover;
 
   background-repeat:
-    repeat,
-    no-repeat,
-    no-repeat,
     no-repeat,
     no-repeat,
     no-repeat;
 
   color: var(--text);
 }
+
 /* =====================================================================
  * § 3  LIGHT NAVIGATION
  * ===================================================================== */
@@ -1153,10 +1133,11 @@
  * ===================================================================== */
 
 :root[data-theme="light"] .cur-dot {
-  background: var(--accent-aurora);
+  background: var(--pulsar-600);
   box-shadow:
-    0 0 8px 2px var(--aurora-400),
-    0 0 20px 4px #0AC39A60;
+    0 0 0 1px rgba(255, 253, 247, 0.48),
+    0 0 8px rgba(255, 210, 60, 0.30),
+    0 0 18px rgba(233, 132, 53, 0.20);
 }
 
 /* =====================================================================
