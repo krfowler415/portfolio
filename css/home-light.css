@@ -71,8 +71,9 @@
    * spacecraft or signal details.
    * ================================================================ */
 
-  --signal-teal:        #0DC7BD;
-  --signal-teal-subtle: rgba(13, 199, 189, 0.14);
+  /* Alien energy only — deliberately darker than the former cyan */
+  --signal-teal:        #168F83;
+  --signal-teal-subtle: rgba(22, 143, 131, 0.14);
 
 
   /* ================================================================
@@ -104,8 +105,8 @@
   /* Dark cactus ink */
   --text:        #0B2412;
   
-  /* Weathered desert-brown secondary text */
-  --text-muted:  #795548;
+  /* Secondary text over the warm page background */
+  --text-muted: #3F4C3E;
   
   /* Structural green for tertiary emphasis */
   --text-light:  var(--cosmos-800);
@@ -282,9 +283,14 @@
  * § 3  LIGHT NAVIGATION
  * ===================================================================== */
 
-/* Default transparent nav over the blue hero sky */
-:root[data-theme="light"] nav {
-  border-bottom-color: rgba(7, 16, 10, 0.18);
+:root[data-theme="light"] nav:not(.scrolled) {
+  background: rgba(255, 253, 247, 0.07);
+  border-bottom-color: transparent;
+
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+
+  box-shadow: none;
 }
 
 :root[data-theme="light"] .nav-logo {
@@ -362,6 +368,15 @@
   text-shadow: none;
 }
 
+/* Explicit hover states for the solid/scrolled nav */
+:root[data-theme="light"] nav.scrolled .nav-logo:hover {
+  color: var(--pulsar-800);
+}
+
+:root[data-theme="light"] nav.scrolled .nav-links a:hover {
+  color: var(--text);
+}
+
 :root[data-theme="light"] nav.scrolled .hero-us {
   color: var(--primary);
   text-shadow: none;
@@ -374,6 +389,32 @@
   background: var(--text);
 }
 
+/* Light-only availability badge hover */
+:root[data-theme="light"] .hero-us:hover,
+:root[data-theme="light"] nav.scrolled .hero-us:hover {
+  padding: 0.35rem 0.75rem 0.35rem 2rem;
+
+  background: var(--cosmos-800);
+  color: var(--aether-50);
+  text-shadow: none;
+}
+
+:root[data-theme="light"] .hero-us:hover .sdot {
+  left: 0.75rem;
+  width: 10px;
+  height: 10px;
+
+  background: var(--plasma-400);
+  border-color: transparent;
+  border-radius: 50%;
+
+  animation: none;
+}
+
+:root[data-theme="light"] .hero-us:hover .us-hover {
+  color: var(--aether-50);
+  text-shadow: none;
+}
 
 /* =====================================================================
  * § 4  LIGHT SECTION ATMOSPHERES
@@ -430,17 +471,16 @@
   text-shadow: 0 0 12px rgba(35, 84, 43, 0.24);
 }
 
-/* Warm solar accent for “More about me →” */
 :root[data-theme="light"] .about-copy .c-link {
-  color: var(--accent-plasma);
+  color: var(--accent-cosmos);
 }
 
 :root[data-theme="light"] .about-copy .c-link::after {
-  background: var(--accent-plasma);
+  background: var(--accent-cosmos);
 }
 
 :root[data-theme="light"] .about-copy .c-link:hover {
-  text-shadow: 0 0 14px var(--accent-plasma);
+  text-shadow: 0 0 12px rgba(35, 84, 43, 0.22);
 }
 
 
@@ -481,10 +521,16 @@
 
 :root[data-theme="light"] .card-feat:hover {
   box-shadow:
-    inset 0 1px 0 rgba(125, 224, 209, 0.28),
-    0 24px 70px rgba(83, 41, 18, 0.20),
-    0 0 35px rgba(44, 142, 53, 0.18),
-    0 0 70px rgba(9, 138, 125, 0.14);
+    inset 0 1px 0 rgba(255, 253, 247, 0.20),
+    0 18px 42px rgba(30, 66, 35, 0.22),
+    0 0 0 1px rgba(167, 207, 131, 0.14);
+}
+
+:root[data-theme="light"] .cs-strip {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  mask-image: none;
+  -webkit-mask-image: none;
 }
 
 :root[data-theme="light"] .card-vis {
@@ -563,13 +609,13 @@
   background: linear-gradient(
     135deg,
     var(--text-on-dark) 0%,
-    var(--aurora-200) 60%,
+    var(--cosmos-100) 58%,
     var(--pulsar-100) 100%
   );
-
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-shadow: none;
 }
 
 :root[data-theme="light"] .card-body::after {
@@ -590,11 +636,11 @@
 }
 
 :root[data-theme="light"] .card-body .c-link {
-  color: var(--aurora-200);
+  color: var(--plasma-200);
 }
 
 :root[data-theme="light"] .card-body .c-link::after {
-  background: var(--aurora-200);
+  background: var(--plasma-200);
 }
 
 /* ── Light Case Study Progress Bar ──────────────────────────────── */
@@ -653,6 +699,7 @@
 
 :root[data-theme="light"] .about-copy p {
   color: var(--text-muted);
+  font-weight: 400;
 }
 
 :root[data-theme="light"] .about-copy strong {
@@ -686,16 +733,14 @@
 }
 
 :root[data-theme="light"] .stat-n {
-  color: var(--aurora-200);
+  color: var(--cosmos-100);
   text-shadow:
-    0 0 7px rgba(125, 224, 209, 0.42),
-    0 0 20px rgba(125, 224, 209, 0.22);
+    0 0 8px rgba(22, 143, 131, 0.18);
 }
 
 :root[data-theme="light"] .stat:hover .stat-n {
   text-shadow:
-    0 0 9px rgba(125, 224, 209, 0.55),
-    0 0 28px rgba(125, 224, 209, 0.30);
+    0 0 10px rgba(22, 143, 131, 0.24);
 }
 
 :root[data-theme="light"] .stat-l {
@@ -720,13 +765,14 @@
   background: linear-gradient(
     135deg,
     var(--text-on-dark) 0%,
-    var(--aurora-200) 60%,
+    var(--plasma-100) 55%,
     var(--pulsar-100) 100%
   );
 
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-shadow: none;
 }
 
 :root[data-theme="light"] .c-band .c-body {
@@ -746,33 +792,45 @@
 }
 
 :root[data-theme="light"] .c-cta-btn {
-  background: linear-gradient(135deg, var(--aurora-400) 0%, var(--cosmos-600) 100%);
-  color: var(--text-on-dark);
+  background:
+    linear-gradient(
+      135deg,
+      var(--pulsar-800) 0%,
+      var(--pulsar-600) 100%
+    );
+
+  color: var(--aether-50);
   box-shadow:
-    0 0 25px #0AC39A50,
-    0 0 60px #0AC39A25;
+    0 12px 28px rgba(74, 33, 10, 0.26),
+    0 0 22px rgba(255, 210, 60, 0.12);
 }
 
 :root[data-theme="light"] .c-cta-btn::after {
-  background: linear-gradient(135deg, var(--cosmos-600) 0%, var(--aurora-400) 100%);
+  background:
+    linear-gradient(
+      135deg,
+      var(--pulsar-600) 0%,
+      var(--pulsar-800) 100%
+    );
 }
 
 :root[data-theme="light"] .c-cta-btn:hover {
   box-shadow:
-    0 0 35px #0AC39A70,
-    0 0 80px #0AC39A35;
+    0 15px 34px rgba(74, 33, 10, 0.32),
+    0 0 28px rgba(255, 210, 60, 0.18);
 }
 
 :root[data-theme="light"] .c-secondary-link {
-  color: var(--aurora-200);
+  color: var(--plasma-200);
   text-decoration: underline;
-  text-decoration-color: rgba(125, 224, 209, 0.36);
+  text-decoration-color: rgba(255, 240, 120, 0.38);
 }
 
 :root[data-theme="light"] .c-secondary-link:hover {
   color: var(--text-on-dark);
   text-decoration: none;
-  text-shadow: 0 0 12px rgba(125, 224, 209, 0.50);
+  text-shadow:
+    0 0 10px rgba(255, 210, 60, 0.24);
 }
 
 :root[data-theme="light"] .c-secondary-link::before,
@@ -793,7 +851,8 @@
 }
 
 :root[data-theme="light"] .hero-sun {
-  display: block;
+  left: 6%;
+  right: auto;
 }
 
 /* Shared UFO appears in both themes */
@@ -807,23 +866,17 @@
   display: none;
 }
 
-/* Desert sky — late afternoon, sun upper-right, heat shimmer at horizon */
+/* Desert sky — late afternoon, sun upper-left, heat shimmer at horizon */
 :root[data-theme="light"] .hero-pin {
   background:
-    radial-gradient(
-      ellipse 32% 32% at 87% 28%,
-      rgba(255, 240, 120, 0.7) 0%,
-      rgba(255, 210, 60, 0.3) 45%,
-      transparent 70%
-    ),
     linear-gradient(
       to bottom,
-      #1565a8 0%,
-      #2288c8 18%,
-      #46aad8 40%,
-      #72c4e8 62%,
-      #98d8f4 80%,
-      #bce8f8 100%
+      #1565A8 0%,
+      #2288C8 18%,
+      #46AAD8 40%,
+      #72C4E8 62%,
+      #98D8F4 80%,
+      #BCE8F8 100%
     );
 }
 
@@ -1015,14 +1068,15 @@
 
 /* =====================================================================
  * § 12  LIGHT SCROLL CUE
+ * High-contrast cactus treatment over sky, terrain, and vegetation.
  * ===================================================================== */
 
 :root[data-theme="light"] .hero-scroll-cue {
-  --scroll-cue-bg: var(--bg);
-  --scroll-cue-outline: rgba(92, 59, 38, 0.72);
-  --scroll-cue-outline-fade: rgba(0, 162, 162, 0.24);
-  --scroll-cue-wheel: rgba(0, 162, 162, 0.82);
-  --scroll-cue-glow: rgba(0, 162, 162, 0.34);
+  --scroll-cue-bg: rgba(255, 253, 247, 0.92);
+  --scroll-cue-outline: var(--cosmos-900);
+  --scroll-cue-outline-fade: rgba(30, 66, 35, 0.56);
+  --scroll-cue-wheel: var(--cosmos-800);
+  --scroll-cue-glow: rgba(255, 253, 247, 0.96);
 
   color: var(--scroll-cue-outline);
 }
@@ -1038,8 +1092,8 @@
     );
 
   filter:
-    drop-shadow(0 0 8px var(--scroll-cue-glow))
-    drop-shadow(0 0 18px rgba(0, 162, 162, 0.12));
+    drop-shadow(0 0 2px rgba(255, 253, 247, 0.98))
+    drop-shadow(0 2px 6px rgba(11, 36, 18, 0.38));
 }
 
 :root[data-theme="light"] .hero-scroll-cue__mouse::before {
@@ -1048,72 +1102,85 @@
 
 :root[data-theme="light"] .hero-scroll-cue__mouse::after {
   background: var(--scroll-cue-wheel);
+
   box-shadow:
-    0 0 8px var(--scroll-cue-wheel),
-    0 0 18px var(--scroll-cue-glow);
+    0 0 0 1px rgba(255, 253, 247, 0.82),
+    0 0 8px rgba(30, 66, 35, 0.30);
 }
 
 :root[data-theme="light"] .hero-scroll-cue__text {
   color: var(--scroll-cue-outline);
+  font-weight: 700;
+
+  text-shadow:
+    0 1px 0 rgba(255, 253, 247, 0.98),
+    0 0 4px rgba(255, 253, 247, 0.98),
+    0 2px 7px rgba(11, 36, 18, 0.34);
 }
 
 /* =====================================================================
  * § 13  LIGHT BACK-TO-TOP
+ * Structural cactus button with restricted alien-energy beam.
  * ===================================================================== */
 
 :root[data-theme="light"] #beamUp {
-  background: linear-gradient(135deg, #00A2A2 0%, #5F259F 100%);
-  border: none;
-  color: #FFF4E6;
+  background:
+    linear-gradient(
+      135deg,
+      var(--cosmos-900) 0%,
+      var(--cosmos-600) 100%
+    );
+
+  border: 1px solid rgba(255, 253, 247, 0.24);
+  color: var(--aether-50);
+
   box-shadow:
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.45),
-    inset 0 -3px 5px rgba(40, 24, 66, 0.24),
-    0 4px 14px rgba(92, 59, 38, 0.22),
-    0 0 20px rgba(0, 162, 162, 0.24),
-    0 0 50px rgba(95, 37, 159, 0.18);
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    0 5px 14px rgba(11, 36, 18, 0.28),
+    0 0 18px rgba(255, 210, 60, 0.12);
 }
 
 :root[data-theme="light"] #beamUp::before {
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.38) 0%,
-    rgba(255, 255, 255, 0) 55%
-  );
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.24) 0%,
+      rgba(255, 255, 255, 0) 55%
+    );
 }
 
 :root[data-theme="light"] #beamUp:hover {
-  filter: brightness(1.08);
+  filter: none;
+
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.35),
-    inset 0 -2px 4px rgba(40, 24, 66, 0.18),
-    0 6px 18px rgba(92, 59, 38, 0.26),
-    0 0 30px rgba(0, 162, 162, 0.34),
-    0 0 70px rgba(95, 37, 159, 0.22);
+    inset 0 1px 0 rgba(255, 255, 255, 0.30),
+    0 7px 18px rgba(11, 36, 18, 0.34),
+    0 0 24px rgba(255, 210, 60, 0.18);
 }
 
 :root[data-theme="light"] #beamUp:active {
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.16),
-    inset 0 2px 4px rgba(40, 24, 66, 0.26),
-    0 1px 4px rgba(92, 59, 38, 0.2),
-    0 0 20px rgba(0, 162, 162, 0.24),
-    0 0 50px rgba(95, 37, 159, 0.16);
+    inset 0 2px 4px rgba(11, 36, 18, 0.28),
+    0 2px 6px rgba(11, 36, 18, 0.24),
+    0 0 15px rgba(255, 210, 60, 0.12);
 }
 
 :root[data-theme="light"] #beam-streak {
-  background: linear-gradient(
-    to top,
-    #00A2A2 0%,
-    rgba(0, 162, 162, 0.52) 50%,
-    transparent 100%
-  );
+  background:
+    linear-gradient(
+      to top,
+      var(--signal-teal) 0%,
+      rgba(22, 143, 131, 0.48) 50%,
+      transparent 100%
+    );
+
   box-shadow:
-    0 0 8px rgba(0, 162, 162, 0.75),
-    0 0 20px rgba(95, 37, 159, 0.32);
+    0 0 8px rgba(22, 143, 131, 0.58),
+    0 0 18px rgba(22, 143, 131, 0.24);
 }
 
 :root[data-theme="light"] #beam-flash {
-  background: #00A2A2;
+  background: var(--signal-teal);
 }
 
 /* =====================================================================
