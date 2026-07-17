@@ -11,6 +11,58 @@
  * § 1  HOME SECTION ATMOSPHERE STRUCTURE
  * ===================================================================== */
 
+/* ── Interactive Body Background Field ────────────────────────────── */
+
+/*
+ * This canvas is created by main.js.
+ * It sits behind the page content but above the theme's body background.
+ */
+#body-field {
+  position: fixed;
+  inset: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  z-index: 0;
+  pointer-events: none;
+
+  opacity: 0;
+  transition: opacity 0.55s ease;
+
+  will-change: opacity;
+}
+
+/*
+ * The field fades in only when the page reaches the body content.
+ * Theme-specific opacity is supplied by the theme stylesheets.
+ */
+#body-field.is-visible {
+  opacity: var(--body-field-opacity, 0.5);
+}
+
+/*
+ * Keep all homepage content above the fixed field.
+ * Isolation keeps the existing negative-z section atmospheres inside
+ * the main content layer instead of falling behind the canvas.
+ */
+main {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+}
+
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  #body-field {
+    display: none;
+  }
+}
+
 #work,
 #about,
 #contact {
