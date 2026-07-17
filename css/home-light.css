@@ -216,45 +216,49 @@
 
 :root[data-theme="light"] body {
   background:
-    /*
-     * Fine atmospheric grain.
-     * This adds material depth without creating visible dots,
-     * stars, contour rings, or a repeating decorative pattern.
-     */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23grain)' opacity='0.07'/%3E%3C/svg%3E"),
+    /* Fine mineral atmosphere */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23grain)' opacity='0.09'/%3E%3C/svg%3E"),
 
-    /* Cloud-like illumination */
+    /* Large cloud-light field */
     radial-gradient(
-      ellipse 95% 58% at 4% 4%,
-      rgba(255, 253, 247, 0.42) 0%,
-      transparent 70%
+      ellipse 115% 72% at -8% 0%,
+      rgba(255, 253, 247, 0.54) 0%,
+      transparent 66%
     ),
 
-    /* Broad sunlight field */
+    /* Solar atmosphere */
     radial-gradient(
-      ellipse 78% 54% at 100% 14%,
-      rgba(255, 210, 60, 0.11) 0%,
-      transparent 70%
+      ellipse 82% 56% at 105% 14%,
+      rgba(255, 240, 120, 0.16) 0%,
+      transparent 68%
     ),
 
-    /* Mesa atmosphere lower in the page */
+    /* Mesa warmth */
     radial-gradient(
-      ellipse 92% 66% at 8% 88%,
-      rgba(233, 132, 53, 0.09) 0%,
+      ellipse 105% 72% at -6% 92%,
+      rgba(233, 132, 53, 0.12) 0%,
+      transparent 72%
+    ),
+
+    /* Cactus-field depth */
+    radial-gradient(
+      ellipse 86% 66% at 104% 90%,
+      rgba(30, 66, 35, 0.10) 0%,
       transparent 74%
     ),
 
-    /* Extremely restrained cactus atmosphere */
+    /* Subtle environmental falloff */
     radial-gradient(
-      ellipse 72% 54% at 94% 88%,
-      rgba(35, 84, 43, 0.055) 0%,
-      transparent 76%
+      ellipse 110% 90% at 50% 42%,
+      transparent 42%,
+      rgba(78, 64, 48, 0.055) 100%
     ),
 
-    /* Same foundation used by the hero and terrain fade */
+    /* Exact hero-transition foundation */
     var(--bg);
 
   background-attachment:
+    fixed,
     fixed,
     fixed,
     fixed,
@@ -268,10 +272,12 @@
     cover,
     cover,
     cover,
+    cover,
     cover;
 
   background-repeat:
     repeat,
+    no-repeat,
     no-repeat,
     no-repeat,
     no-repeat,
@@ -599,9 +605,9 @@
 }
 
 :root[data-theme="light"] .card-body::after {
-  border-top: 1.5px solid var(--accent-aurora);
-  border-right: 1.5px solid var(--accent-aurora);
-  opacity: 0.25;
+  border-top: 1.5px solid var(--plasma-200);
+  border-right: 1.5px solid var(--plasma-200);
+  opacity: 0.65;
 }
 
 :root[data-theme="light"] .c-tag {
@@ -701,8 +707,9 @@
 }
 
 :root[data-theme="light"] .stat::after {
-  border-bottom: 1.5px solid var(--accent-aurora);
-  border-right: 1.5px solid var(--accent-aurora);
+  border-bottom: 1.5px solid var(--plasma-200);
+  border-right: 1.5px solid var(--plasma-200);
+  opacity: 0.65;
 }
 
 :root[data-theme="light"] .stat:hover {
@@ -762,15 +769,15 @@
 }
 
 :root[data-theme="light"] .c-band::before {
-  border-top: 1.5px solid var(--accent-aurora);
-  border-left: 1.5px solid var(--accent-aurora);
-  opacity: 0.5;
+  border-top: 1.5px solid var(--plasma-200);
+  border-left: 1.5px solid var(--plasma-200);
+  opacity: 0.65;
 }
 
 :root[data-theme="light"] .c-band::after {
-  border-bottom: 1.5px solid var(--accent-aurora);
-  border-right: 1.5px solid var(--accent-aurora);
-  opacity: 0.5;
+  border-bottom: 1.5px solid var(--plasma-200);
+  border-right: 1.5px solid var(--plasma-200);
+  opacity: 0.65;
 }
 
 :root[data-theme="light"] .c-cta-btn {
@@ -1047,6 +1054,33 @@
   }
 }
 
+/* ── Light Hero Tractor Beam ─────────────────────────────────────── */
+
+/*
+ * Recolors the inline SVG beam gradient in light mode only.
+ * The original dark-theme beam colors remain untouched.
+ */
+:root[data-theme="light"] #beamGradUfo stop {
+  stop-color: var(--plasma-200);
+}
+
+:root[data-theme="light"] #beamGradUfo stop:nth-child(1) {
+  stop-opacity: 0.62;
+}
+
+:root[data-theme="light"] #beamGradUfo stop:nth-child(2) {
+  stop-opacity: 0.24;
+}
+
+:root[data-theme="light"] #beamGradUfo stop:nth-child(3) {
+  stop-opacity: 0;
+}
+
+:root[data-theme="light"] #ufoBeam {
+  filter:
+    drop-shadow(0 0 8px rgba(255, 240, 120, 0.46))
+    drop-shadow(0 0 18px rgba(255, 240, 120, 0.22));
+}
 
 /* =====================================================================
  * § 12  LIGHT SCROLL CUE
@@ -1072,7 +1106,6 @@
       var(--scroll-cue-outline) 50%,
       var(--scroll-cue-outline) 100%
     );
-
   filter:
     drop-shadow(0 0 2px rgba(255, 253, 247, 0.98))
     drop-shadow(0 2px 6px rgba(11, 36, 18, 0.38));
@@ -1093,7 +1126,6 @@
 :root[data-theme="light"] .hero-scroll-cue__text {
   color: var(--scroll-cue-outline);
   font-weight: 700;
-
   text-shadow:
     0 1px 0 rgba(255, 253, 247, 0.98),
     0 0 4px rgba(255, 253, 247, 0.98),
@@ -1102,7 +1134,8 @@
 
 /* =====================================================================
  * § 13  LIGHT BACK-TO-TOP
- * Structural cactus button with restricted alien-energy beam.
+ * Cactus structure with solar-plasma illumination.
+ * Interaction mechanics remain shared with home-base.css.
  * ===================================================================== */
 
 :root[data-theme="light"] #beamUp {
@@ -1113,57 +1146,46 @@
       var(--cosmos-600) 100%
     );
 
-  border: 1px solid rgba(255, 253, 247, 0.24);
+  border: 1px solid rgba(255, 240, 120, 0.42);
   color: var(--aether-50);
 
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.24),
-    0 5px 14px rgba(11, 36, 18, 0.28),
-    0 0 18px rgba(255, 210, 60, 0.12);
+    inset 0 1px 0 rgba(255, 255, 255, 0.30),
+    inset 0 -2px 4px rgba(11, 36, 18, 0.22),
+    0 5px 16px rgba(11, 36, 18, 0.30),
+    0 0 24px rgba(255, 240, 120, 0.34),
+    0 0 56px rgba(255, 210, 60, 0.18);
 }
 
 :root[data-theme="light"] #beamUp::before {
   background:
     linear-gradient(
       to bottom,
-      rgba(255, 255, 255, 0.24) 0%,
-      rgba(255, 255, 255, 0) 55%
+      rgba(255, 255, 255, 0.30) 0%,
+      rgba(255, 255, 255, 0) 58%
     );
 }
 
 :root[data-theme="light"] #beamUp:hover {
-  filter: none;
+  filter: brightness(1.08);
 
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.30),
-    0 7px 18px rgba(11, 36, 18, 0.34),
-    0 0 24px rgba(255, 210, 60, 0.18);
+    inset 0 1px 0 rgba(255, 255, 255, 0.38),
+    inset 0 -2px 4px rgba(11, 36, 18, 0.18),
+    0 7px 20px rgba(11, 36, 18, 0.34),
+    0 0 32px rgba(255, 240, 120, 0.52),
+    0 0 76px rgba(255, 210, 60, 0.26);
 }
 
 :root[data-theme="light"] #beamUp:active {
   box-shadow:
-    inset 0 2px 4px rgba(11, 36, 18, 0.28),
-    0 2px 6px rgba(11, 36, 18, 0.24),
-    0 0 15px rgba(255, 210, 60, 0.12);
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 2px 4px rgba(11, 36, 18, 0.30),
+    0 2px 7px rgba(11, 36, 18, 0.26),
+    0 0 22px rgba(255, 240, 120, 0.34),
+    0 0 50px rgba(255, 210, 60, 0.16);
 }
 
-:root[data-theme="light"] #beam-streak {
-  background:
-    linear-gradient(
-      to top,
-      var(--signal-teal) 0%,
-      rgba(22, 143, 131, 0.48) 50%,
-      transparent 100%
-    );
-
-  box-shadow:
-    0 0 8px rgba(22, 143, 131, 0.58),
-    0 0 18px rgba(22, 143, 131, 0.24);
-}
-
-:root[data-theme="light"] #beam-flash {
-  background: var(--signal-teal);
-}
 
 /* =====================================================================
  * § 14  LIGHT RESPONSIVE OVERRIDES
