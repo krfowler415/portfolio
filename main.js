@@ -49,6 +49,7 @@ let assetsDone       = false;
 let introFired       = false;
 let scanTween        = null;
 let ufoScrollTrigger = null;
+let navScrollTrigger = null;
 
 const heroUfo        = document.getElementById('heroUfo');
 const ufoBeam        = document.getElementById('ufoBeam');
@@ -403,14 +404,59 @@ function fetchTerrain() {
 
 function swapTerrain() {
   /*
-   * Terrain swapping is handled by CSS.
-   * Wait for the new theme styles to paint, refresh all measurements,
-   * and then place the UFO according to the current page scroll.
+   * Capture the real document position before the theme changes
+   * affect CSS rendering and ScrollTrigger measurements.
    */
+  const savedScrollY = window.scrollY;
+
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
+      /*
+       * Theme-dependent assets are now painted, so ScrollTrigger
+       * can safely recalculate its measurements.
+       */
       ScrollTrigger.refresh();
-      syncUfoToScroll();
+
+      /*
+       * Prevent the refresh from shifting the page's real scroll
+       * position. Temporarily disable smooth scrolling so restoring
+       * the position is immediate and hidden beneath the theme wipe.
+       */
+      const root = document.documentElement;
+      const previousScrollBehavior = root.style.scrollBehavior;
+
+      root.style.scrollBehavior = 'auto';
+      window.scrollTo(0, savedScrollY);
+      root.style.scrollBehavior = previousScrollBehavior;
+
+      ScrollTrigger.update();
+
+      /*
+       * Explicitly resynchronize components whose state depends on
+       * the refreshed hero progress.
+       */
+      syncNavState();
+
+      const isBelowHero =
+        ufoScrollTrigger &&
+        savedScrollY > ufoScrollTrigger.end + 1;
+
+      if (isBelowHero && heroUfo) {
+        gsap.set(heroUfo, {
+          autoAlpha: 0
+        });
+
+        if (ufoBeam) {
+          ufoBeam.setAttribute('opacity', '0');
+        }
+
+        heroUfo.classList.remove('hovering');
+        return;
+      }
+
+      if (typeof syncUfoToScroll === 'function') {
+        syncUfoToScroll();
+      }
     });
   });
 }
@@ -729,18 +775,52 @@ function initUfoScroll() {
  * § 7  NAVIGATION
  * ===================================================================== */
 
-function initNav() {
+function syncNavState() {
   const nav = document.querySelector('nav');
 
-  ScrollTrigger.create({
-    trigger: '#hero',
+  if (!nav) return;
+
+  /*
+   * The top of the document must always use the transparent nav,
+   * even if a theme-triggered ScrollTrigger refresh temporarily
+   * leaves the hero trigger with stale progress.
+   */
+  if (window.scrollY <= 2) {
+    nav.classList.remove('scrolled');
+    return;
+  }
+
+  nav.classList.toggle(
+    'scrolled',
+    Boolean(navScrollTrigger && navScrollTrigger.progress >= 0.50)
+  );
+}
+
+function initNav() {
+  const nav  = document.querySelector('nav');
+  const hero = document.getElementById('hero');
+
+  if (!nav || !hero) return;
+
+  navScrollTrigger = ScrollTrigger.create({
+    trigger: hero,
     start: 'top top',
     end: 'bottom bottom',
     scrub: true,
-    onUpdate: self => {
-      nav.classList.toggle('scrolled', self.progress >= 0.50);
-    }
+
+    onUpdate: syncNavState,
+    onRefresh: syncNavState
   });
+
+  /*
+   * This provides an independent top-of-page check instead of
+   * relying exclusively on ScrollTrigger's cached progress.
+   */
+  window.addEventListener('scroll', syncNavState, {
+    passive: true
+  });
+
+  syncNavState();
 }
 
 // ── Hamburger nav toggle ─────────────────────────────────────────────
