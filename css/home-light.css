@@ -196,8 +196,8 @@
   background: linear-gradient(
     135deg,
     var(--text) 0%,
-    var(--cosmos-800) 68%,
-    var(--cosmos-400) 100%
+    var(--cosmos-800) 40%,
+    var(--cosmos-400) 80%
   );
 
   -webkit-background-clip: text;
@@ -331,25 +331,28 @@
   background: var(--cosmos-800);
 }
 
+/* Availability badge — colors only.
+ * All sizing, pulse, expansion, and text-swap animation
+ * remain controlled by home-base.css.
+ */
 :root[data-theme="light"] .hero-us {
-  /*
-   * Scoped token override:
-   * lets the shared dark-style pulse/outline animation use cactus green
-   * without changing Aurora elsewhere in the light theme.
-   */
   --accent-aurora: var(--cosmos-800);
 
   color: var(--cosmos-900);
   background: transparent;
+
   text-shadow:
     0 1px 1px rgba(255, 255, 255, 0.30),
     0 0 8px rgba(255, 255, 255, 0.16);
 }
 
-:root[data-theme="light"] .sdot {
-  background: var(--cosmos-800);
-}
+:root[data-theme="light"] nav.scrolled .hero-us {
+  --accent-aurora: var(--cosmos-800);
 
+  color: var(--cosmos-800);
+  background: transparent;
+  text-shadow: none;
+}
 
 /* Scrolled nav over the sand page */
 :root[data-theme="light"] nav.scrolled {
@@ -358,14 +361,6 @@
   backdrop-filter: blur(16px);
   border-bottom-color: var(--border);
   box-shadow: 0 1px 20px rgba(27, 36, 28, 0.14);
-}
-
-:root[data-theme="light"] nav.scrolled .hero-us {
-  --accent-aurora: var(--cosmos-800);
-
-  color: var(--cosmos-900);
-  background: transparent;
-  text-shadow: none;
 }
 
 :root[data-theme="light"] nav.scrolled .nav-logo {
@@ -387,11 +382,6 @@
   color: var(--text);
 }
 
-:root[data-theme="light"] nav.scrolled .hero-us {
-  color: var(--primary);
-  text-shadow: none;
-}
-
 :root[data-theme="light"] nav.scrolled .nav-links a::before,
 :root[data-theme="light"] nav.scrolled .nav-links a::after,
 :root[data-theme="light"] nav.scrolled .nav-links a span::before,
@@ -399,22 +389,6 @@
   background: var(--text);
 }
 
-:root[data-theme="light"] .hero-us:hover .sdot {
-  left: 0.75rem;
-  width: 10px;
-  height: 10px;
-
-  background: var(--plasma-400);
-  border-color: transparent;
-  border-radius: 50%;
-
-  animation: none;
-}
-
-:root[data-theme="light"] .hero-us:hover .us-hover {
-  color: var(--aether-50);
-  text-shadow: none;
-}
 
 /* =====================================================================
  * § 4  LIGHT SECTION ATMOSPHERES
@@ -595,8 +569,8 @@
 }
 
 :root[data-theme="light"] .card-vis-tag {
-  color: var(--accent-pulsar);
-  opacity: 0.75;
+  color: var(--plasma-200);
+  opacity: 1;
 }
 
 :root[data-theme="light"] .card-vis-tag::before {
