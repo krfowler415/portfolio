@@ -191,15 +191,14 @@
 /* =====================================================================
  * § 1A  LIGHT TYPOGRAPHY + ACCESSIBILITY OVERRIDES
  * ===================================================================== */
-
 :root[data-theme="light"] .sec-title {
   background: linear-gradient(
     135deg,
     var(--text) 0%,
-    var(--cosmos-800) 40%,
-    var(--cosmos-400) 80%
+    var(--cosmos-100) 30%,
+    var(--cosmos-200) 60%,
+    var(--cosmos-400) 90%
   );
-
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
