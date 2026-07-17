@@ -753,6 +753,9 @@
     0 0 22px rgba(40, 193, 155, 0.17);
 }
 
+:root[data-theme="light"] .stat-l {
+  color: var(--text-on-dark-muted);
+}
 
 /* =====================================================================
  * § 9  LIGHT CONTACT
