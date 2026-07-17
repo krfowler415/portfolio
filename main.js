@@ -1938,6 +1938,7 @@ initThemeToggle();
 swapFavicon(document.documentElement.getAttribute('data-theme') || 'dark');
 initIntro();
 initStars();
+initBodyField();
 fetchTerrain();
 initTerrainParallax();
 initUfoScroll();
