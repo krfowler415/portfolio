@@ -114,6 +114,15 @@
   --aurora-glow:  #0AC39A40;   /* arrow hover outer shadow */
   --aurora-inset: #0AC39A0D;   /* arrow hover inner shadow */
 
+  /* ── Interactive Body Field ───────────────────────────────────────── */
+  
+  /* Static CSS dots remain the distant layer. */
+  --body-field-primary:   #98A8D4; /* moonlit foreground stars */
+  --body-field-secondary: #0AC39A; /* occasional alien-energy star */
+  --body-field-accent:    #B080E0; /* occasional cosmic-purple star */
+  
+  --body-field-opacity: 0.58;
+
   /* ── Typography ──────────────────────────────────────────────────────
    *  Token names map to role, not literal type classification.
    *  --display  Audiowide  named for what it is: a display typeface
