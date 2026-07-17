@@ -355,6 +355,610 @@ function refreshStarsForTheme(theme) {
 }
 
 /* =====================================================================
+ * § 4A  INTERACTIVE BODY BACKGROUND FIELD
+ *
+ * Dark theme:
+ * - sparse foreground stars
+ * - subtle gravitational / space-time distortion
+ *
+ * Light theme:
+ * - flowing atmospheric / topographic lines
+ * - subtle cursor-driven bending
+ *
+ * The field appears only after the hero and does not modify #stars.
+ * ===================================================================== */
+
+function initBodyField() {
+  if (isTouchDevice || reducedMotion) return;
+
+  const hero     = document.getElementById('hero');
+  const marquee  = document.querySelector('.marquee');
+
+  if (!hero || !marquee) return;
+
+  const fieldCanvas = document.createElement('canvas');
+  fieldCanvas.id = 'body-field';
+  fieldCanvas.setAttribute('aria-hidden', 'true');
+
+  document.body.appendChild(fieldCanvas);
+
+  const fieldCtx = fieldCanvas.getContext('2d', {
+    alpha: true
+  });
+
+  if (!fieldCtx) {
+    fieldCanvas.remove();
+    return;
+  }
+
+
+  /* ── Canvas state ──────────────────────────────────────────────── */
+
+  let fieldWidth  = 0;
+  let fieldHeight = 0;
+  let fieldDpr    = 1;
+
+  let currentTheme =
+    document.documentElement.getAttribute('data-theme') === 'light'
+      ? 'light'
+      : 'dark';
+
+  let fieldColors = {
+    primary:   '#98A8D4',
+    secondary: '#0AC39A',
+    accent:    '#B080E0'
+  };
+
+  let darkStars = [];
+  let lightLines = [];
+
+  let fieldIsVisible = false;
+  let pointerIsInside = false;
+
+  let interactionStrength = 0;
+  let lastFrameTime = 0;
+
+  const pointer = {
+    x:       window.innerWidth / 2,
+    y:       window.innerHeight / 2,
+    targetX: window.innerWidth / 2,
+    targetY: window.innerHeight / 2
+  };
+
+
+  /* ── Interaction tuning ────────────────────────────────────────── */
+
+  const DARK_FIELD_RADIUS = 180;
+  const DARK_FIELD_WARP   = 11;
+  const DARK_FIELD_SWIRL  = 5;
+
+  const LIGHT_FIELD_RADIUS = 190;
+  const LIGHT_FIELD_WARP   = 14;
+
+  /*
+   * About 45 FPS is enough for this background effect and reduces
+   * unnecessary work compared with forcing a full 60 FPS.
+   */
+  const FRAME_INTERVAL = 1000 / 45;
+
+
+  /* ── Theme helpers ─────────────────────────────────────────────── */
+
+  function readBodyFieldColors() {
+    const styles = getComputedStyle(document.documentElement);
+
+    fieldColors = {
+      primary:
+        styles.getPropertyValue('--body-field-primary').trim() ||
+        '#98A8D4',
+
+      secondary:
+        styles.getPropertyValue('--body-field-secondary').trim() ||
+        '#0AC39A',
+
+      accent:
+        styles.getPropertyValue('--body-field-accent').trim() ||
+        '#B080E0'
+    };
+  }
+
+
+  /* ── Dark star field generation ────────────────────────────────── */
+
+  function buildDarkStars() {
+    const area = fieldWidth * fieldHeight;
+
+    const starCount = Math.max(
+      48,
+      Math.min(92, Math.round(area / 18000))
+    );
+
+    darkStars = Array.from({ length: starCount }, (_, index) => ({
+      /*
+       * Normalized positions remain stable at different viewport sizes.
+       */
+      u: Math.random(),
+      v: Math.random(),
+
+      radius:
+        index % 9 === 0
+          ? 1.35 + Math.random() * 0.65
+          : 0.65 + Math.random() * 0.75,
+
+      alpha: 0.28 + Math.random() * 0.34,
+
+      phase: Math.random() * Math.PI * 2,
+      speed: 0.35 + Math.random() * 0.55,
+
+      /*
+       * Mostly moonlit blue, with occasional teal and purple stars.
+       */
+      tone:
+        index % 11 === 0
+          ? 'secondary'
+          : index % 7 === 0
+            ? 'accent'
+            : 'primary',
+
+      glow: index % 8 === 0
+    }));
+  }
+
+
+  /* ── Light flow-line generation ────────────────────────────────── */
+
+  function buildLightLines() {
+    const lineCount = Math.max(
+      9,
+      Math.min(14, Math.round(fieldHeight / 72))
+    );
+
+    lightLines = Array.from({ length: lineCount }, (_, index) => ({
+      yRatio: (index + 0.5) / lineCount,
+
+      amplitude: 9 + Math.random() * 11,
+      frequency: 0.004 + Math.random() * 0.0022,
+      phase: Math.random() * Math.PI * 2,
+
+      /*
+       * A few lines receive a light solar or cloud edge.
+       */
+      highlight:
+        index % 4 === 0
+          ? 'secondary'
+          : index % 5 === 0
+            ? 'accent'
+            : null
+    }));
+  }
+
+
+  /* ── Canvas sizing ─────────────────────────────────────────────── */
+
+  function resizeBodyField() {
+    fieldWidth  = window.innerWidth;
+    fieldHeight = window.innerHeight;
+
+    /*
+     * Cap DPR to prevent very high-density screens from making this
+     * decorative effect unnecessarily expensive.
+     */
+    fieldDpr = Math.min(window.devicePixelRatio || 1, 1.75);
+
+    fieldCanvas.width  = Math.round(fieldWidth * fieldDpr);
+    fieldCanvas.height = Math.round(fieldHeight * fieldDpr);
+
+    fieldCanvas.style.width  = `${fieldWidth}px`;
+    fieldCanvas.style.height = `${fieldHeight}px`;
+
+    fieldCtx.setTransform(
+      fieldDpr,
+      0,
+      0,
+      fieldDpr,
+      0,
+      0
+    );
+
+    buildDarkStars();
+    buildLightLines();
+  }
+
+
+  /* ── Body-only visibility ──────────────────────────────────────── */
+
+  function updateBodyFieldVisibility() {
+    /*
+     * The field starts fading in as the marquee reaches the viewport.
+     * It disappears again when scrolling back into the hero.
+     */
+    const marqueeTop = marquee.getBoundingClientRect().top;
+
+    fieldIsVisible = marqueeTop <= window.innerHeight;
+
+    fieldCanvas.classList.toggle(
+      'is-visible',
+      fieldIsVisible
+    );
+  }
+
+
+  /* ── Dark mode drawing ─────────────────────────────────────────── */
+
+  function drawDarkField(time) {
+    darkStars.forEach(star => {
+      const baseX = star.u * fieldWidth;
+      const baseY = star.v * fieldHeight;
+
+      let drawX = baseX;
+      let drawY = baseY;
+
+      const dx   = baseX - pointer.x;
+      const dy   = baseY - pointer.y;
+      const dist = Math.hypot(dx, dy);
+
+      let localInfluence = 0;
+
+      if (
+        interactionStrength > 0.001 &&
+        dist < DARK_FIELD_RADIUS &&
+        dist > 0.001
+      ) {
+        const normalized =
+          1 - dist / DARK_FIELD_RADIUS;
+
+        /*
+         * Radial displacement creates the gravity-well shape.
+         * Tangential movement adds a slight space-time lensing curve
+         * rather than simple cursor repulsion.
+         */
+        const radialWarp =
+          normalized *
+          normalized *
+          DARK_FIELD_WARP *
+          interactionStrength;
+
+        const swirlWarp =
+          Math.sin(normalized * Math.PI) *
+          DARK_FIELD_SWIRL *
+          interactionStrength;
+
+        const normalX = dx / dist;
+        const normalY = dy / dist;
+
+        drawX +=
+          normalX * radialWarp -
+          normalY * swirlWarp;
+
+        drawY +=
+          normalY * radialWarp +
+          normalX * swirlWarp;
+
+        localInfluence = normalized;
+      }
+
+      const pulse =
+        0.86 +
+        Math.sin(time * star.speed + star.phase) * 0.14;
+
+      const alpha =
+        star.alpha *
+        pulse *
+        (1 + localInfluence * 0.36 * interactionStrength);
+
+      const color = fieldColors[star.tone];
+
+      if (star.glow) {
+        fieldCtx.beginPath();
+        fieldCtx.arc(
+          drawX,
+          drawY,
+          star.radius * 3.5,
+          0,
+          Math.PI * 2
+        );
+
+        fieldCtx.fillStyle = color;
+        fieldCtx.globalAlpha = alpha * 0.14;
+        fieldCtx.fill();
+      }
+
+      fieldCtx.beginPath();
+      fieldCtx.arc(
+        drawX,
+        drawY,
+        star.radius,
+        0,
+        Math.PI * 2
+      );
+
+      fieldCtx.fillStyle = color;
+      fieldCtx.globalAlpha = alpha;
+      fieldCtx.fill();
+    });
+  }
+
+
+  /* ── Light mode drawing ────────────────────────────────────────── */
+
+  function getLightLinePoints(line, time) {
+    const points = [];
+
+    const baseY = line.yRatio * fieldHeight;
+    const drift = time * 0.08;
+
+    for (
+      let x = -40;
+      x <= fieldWidth + 40;
+      x += 14
+    ) {
+      let drawX = x;
+
+      let drawY =
+        baseY +
+        Math.sin(
+          x * line.frequency +
+          line.phase +
+          drift
+        ) * line.amplitude;
+
+      const dx   = drawX - pointer.x;
+      const dy   = drawY - pointer.y;
+      const dist = Math.hypot(dx, dy);
+
+      if (
+        interactionStrength > 0.001 &&
+        dist < LIGHT_FIELD_RADIUS &&
+        dist > 0.001
+      ) {
+        const normalized =
+          1 - dist / LIGHT_FIELD_RADIUS;
+
+        /*
+         * Lines bow around the pointer like heat currents or a
+         * topographic field being gently disturbed.
+         */
+        const warp =
+          normalized *
+          normalized *
+          LIGHT_FIELD_WARP *
+          interactionStrength;
+
+        drawY += (dy / dist) * warp;
+        drawX += (dx / dist) * warp * 0.16;
+      }
+
+      points.push({
+        x: drawX,
+        y: drawY
+      });
+    }
+
+    return points;
+  }
+
+  function strokeFieldLine(points, color, alpha, yOffset = 0) {
+    if (!points.length) return;
+
+    fieldCtx.beginPath();
+    fieldCtx.moveTo(
+      points[0].x,
+      points[0].y + yOffset
+    );
+
+    for (let i = 1; i < points.length; i += 1) {
+      fieldCtx.lineTo(
+        points[i].x,
+        points[i].y + yOffset
+      );
+    }
+
+    fieldCtx.strokeStyle = color;
+    fieldCtx.globalAlpha = alpha;
+    fieldCtx.stroke();
+  }
+
+  function drawLightField(time) {
+    fieldCtx.lineCap  = 'round';
+    fieldCtx.lineJoin = 'round';
+
+    lightLines.forEach((line, index) => {
+      const points = getLightLinePoints(line, time);
+
+      fieldCtx.lineWidth = index % 3 === 0 ? 1.35 : 1.05;
+
+      strokeFieldLine(
+        points,
+        fieldColors.primary,
+        index % 3 === 0 ? 0.18 : 0.115
+      );
+
+      if (line.highlight) {
+        fieldCtx.lineWidth = 0.75;
+
+        strokeFieldLine(
+          points,
+          fieldColors[line.highlight],
+          line.highlight === 'secondary'
+            ? 0.13
+            : 0.17,
+          -1.35
+        );
+      }
+    });
+  }
+
+
+  /* ── Animation loop ─────────────────────────────────────────────── */
+
+  function renderBodyField(now) {
+    requestAnimationFrame(renderBodyField);
+
+    if (
+      document.hidden ||
+      now - lastFrameTime < FRAME_INTERVAL
+    ) {
+      return;
+    }
+
+    lastFrameTime = now;
+
+    const targetStrength =
+      fieldIsVisible && pointerIsInside
+        ? 1
+        : 0;
+
+    interactionStrength +=
+      (targetStrength - interactionStrength) * 0.085;
+
+    pointer.x +=
+      (pointer.targetX - pointer.x) * 0.13;
+
+    pointer.y +=
+      (pointer.targetY - pointer.y) * 0.13;
+
+    fieldCtx.clearRect(
+      0,
+      0,
+      fieldWidth,
+      fieldHeight
+    );
+
+    if (
+      !fieldIsVisible &&
+      interactionStrength < 0.005
+    ) {
+      return;
+    }
+
+    fieldCtx.globalAlpha = 1;
+
+    const time = now * 0.001;
+
+    if (currentTheme === 'light') {
+      drawLightField(time);
+    } else {
+      drawDarkField(time);
+    }
+
+    fieldCtx.globalAlpha = 1;
+  }
+
+
+  /* ── Pointer tracking ───────────────────────────────────────────── */
+
+  document.addEventListener(
+    'mousemove',
+    event => {
+      pointer.targetX = event.clientX;
+      pointer.targetY = event.clientY;
+      pointerIsInside = true;
+    },
+    {
+      passive: true
+    }
+  );
+
+  document.documentElement.addEventListener(
+    'mouseleave',
+    () => {
+      pointerIsInside = false;
+    }
+  );
+
+  window.addEventListener(
+    'blur',
+    () => {
+      pointerIsInside = false;
+    }
+  );
+
+
+  /* ── Scroll visibility tracking ─────────────────────────────────── */
+
+  let scrollFramePending = false;
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (scrollFramePending) return;
+
+      scrollFramePending = true;
+
+      requestAnimationFrame(() => {
+        updateBodyFieldVisibility();
+        scrollFramePending = false;
+      });
+    },
+    {
+      passive: true
+    }
+  );
+
+
+  /* ── Resize tracking ────────────────────────────────────────────── */
+
+  let resizeTimer = null;
+
+  window.addEventListener(
+    'resize',
+    () => {
+      clearTimeout(resizeTimer);
+
+      resizeTimer = setTimeout(() => {
+        resizeBodyField();
+        updateBodyFieldVisibility();
+      }, 120);
+    }
+  );
+
+
+  /* ── Theme-change tracking ──────────────────────────────────────── */
+
+  const themeObserver = new MutationObserver(mutations => {
+    const themeChanged = mutations.some(
+      mutation =>
+        mutation.type === 'attributes' &&
+        mutation.attributeName === 'data-theme'
+    );
+
+    if (!themeChanged) return;
+
+    currentTheme =
+      document.documentElement.getAttribute('data-theme') === 'light'
+        ? 'light'
+        : 'dark';
+
+    readBodyFieldColors();
+
+    /*
+     * Rebuild so the incoming theme begins with a clean,
+     * correctly sized field.
+     */
+    buildDarkStars();
+    buildLightLines();
+  });
+
+  themeObserver.observe(
+    document.documentElement,
+    {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    }
+  );
+
+
+  /* ── Initial setup ──────────────────────────────────────────────── */
+
+  readBodyFieldColors();
+  resizeBodyField();
+  updateBodyFieldVisibility();
+
+  requestAnimationFrame(renderBodyField);
+}
+
+
+/* =====================================================================
  * § 5  TERRAIN IMAGE LOADING
  * ===================================================================== */
 
