@@ -186,7 +186,7 @@
   --aurora-glass: rgba(35, 84, 43, 0.08);
   --aurora-glow:  rgba(35, 84, 43, 0.18);
   --aurora-inset: rgba(35, 84, 43, 0.07);
-}
+
 
   /* ================================================================
    * INTERACTIVE BODY TOPOGRAPHY
@@ -194,6 +194,8 @@
   --body-topo-line: rgba(35, 84, 43, 0.12);
   --body-topo-index: rgba(35, 84, 43, 0.19);
   --body-topo-highlight: rgba(255, 253, 247, 0.22);
+
+}
 
 /* =====================================================================
  * § 1A  LIGHT TYPOGRAPHY + ACCESSIBILITY OVERRIDES
@@ -597,18 +599,16 @@
     inset 0 0 30px rgba(9, 138, 125, 0.14);
 }
 
-:root[data-theme="light"] .card-body .c-title{
+:root[data-theme="light"] .card-body .c-title {
   background: linear-gradient(
     135deg,
     var(--text-on-dark) 0%,
     var(--plasma-100) 55%,
     var(--pulsar-100) 100%
   );
-
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-
   text-shadow: none;
 }
 
