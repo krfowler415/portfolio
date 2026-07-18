@@ -11,6 +11,40 @@
  * § 1  HOME SECTION ATMOSPHERE STRUCTURE
  * ===================================================================== */
 
+/* ── Shared Interactive Body Environment ─────────────────────────── */
+
+main {
+  position: relative;
+  isolation: isolate;
+}
+
+#body-environment {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+
+  display: block;
+  width: 100vw;
+  height: 100vh;
+
+  pointer-events: none;
+
+  /*
+   * main.js moves this clipping boundary along the bottom edge
+   * of the hero, so the canvas never appears over the hero.
+   */
+  clip-path: inset(
+    var(--body-environment-clip-top, 100vh)
+    0
+    0
+    0
+  );
+
+  will-change: clip-path;
+}
+
+/* ── Section Layout ─────────────────────────── */
+
 #work,
 #about,
 #contact {
