@@ -114,6 +114,9 @@
   --aurora-glow:  #0AC39A40;   /* arrow hover outer shadow */
   --aurora-inset: #0AC39A0D;   /* arrow hover inner shadow */
 
+  /* ── Shared Interactive Body Environment ─────────────────────────── */
+  --body-grid-dot: #98A8D428;
+
   /* ── Typography ──────────────────────────────────────────────────────
    *  Token names map to role, not literal type classification.
    *  --display  Audiowide  named for what it is: a display typeface
@@ -135,9 +138,7 @@
  * ===================================================================== */
 
 :root[data-theme="dark"] body {
-  background:
-    radial-gradient(circle, #98A8D428 1px, transparent 1px) center / 28px 28px,
-    var(--bg);
+  background: var(--bg);
   background-attachment: fixed;
 }
 
