@@ -354,6 +354,1037 @@ function refreshStarsForTheme(theme) {
   });
 }
 
+
+/* =====================================================================
+ * § 4A  INTERACTIVE BODY ENVIRONMENT
+ *
+ * Dark:
+ * - redraws the existing regular dot grid
+ * - bends the grid toward the cursor like a shallow gravity well
+ *
+ * Light:
+ * - generates a coherent elevation field
+ * - extracts real contour lines from that field
+ * - cursor temporarily changes the elevation, reshaping the contours
+ *
+ * Hero:
+ * - remains completely untouched
+ * ===================================================================== */
+
+function initBodyEnvironment() {
+  const fieldCanvas = document.getElementById('body-environment');
+  const hero = document.getElementById('hero');
+
+  if (!fieldCanvas || !hero) return;
+
+  const fieldCtx = fieldCanvas.getContext('2d', {
+    alpha: true
+  });
+
+  if (!fieldCtx) return;
+
+  const root = document.documentElement;
+  const canInteract = !isTouchDevice && !reducedMotion;
+
+
+  /* ── Dark grid settings ────────────────────────────────────────── */
+
+  const DOT_SPACING = 28;
+  const DOT_RADIUS = 1;
+
+  const DOT_FIELD_RADIUS = 180;
+  const DOT_PULL = 0.17;
+
+
+  /* ── Light topography settings ─────────────────────────────────── */
+
+  /*
+   * Five contour levels keeps this intentionally sparse.
+   * This is much less dense than the generated reference image.
+   */
+  const TOPO_CELL = 18;
+
+  const TOPO_LEVELS = [
+    0.34,
+    0.44,
+    0.54,
+    0.64,
+    0.74
+  ];
+
+  const TOPO_FIELD_RADIUS = 190;
+  const TOPO_FIELD_DEPTH = 0.16;
+
+
+  /* ── Rendering settings ────────────────────────────────────────── */
+
+  const FRAME_INTERVAL = 1000 / 45;
+
+  let width = 0;
+  let height = 0;
+  let dpr = 1;
+  let clipTop = 0;
+
+  let fieldCols = 0;
+  let fieldRows = 0;
+
+  let baseField = new Float32Array(0);
+  let liveField = new Float32Array(0);
+
+  let currentTheme = 'dark';
+  let dirty = true;
+  let lastFrameTime = 0;
+
+  let resizeTimer = null;
+  let clipFramePending = false;
+
+  let palette = {
+    gridDot: '#98A8D428',
+
+    topoLine: 'rgba(35, 84, 43, 0.12)',
+    topoIndex: 'rgba(35, 84, 43, 0.19)',
+    topoHighlight: 'rgba(255, 253, 247, 0.22)'
+  };
+
+  const pointer = {
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2,
+
+    targetX: window.innerWidth / 2,
+    targetY: window.innerHeight / 2,
+
+    inside: false,
+    strength: 0
+  };
+
+
+  /* ── Theme and palette ─────────────────────────────────────────── */
+
+  function readThemeAndPalette() {
+    currentTheme =
+      root.getAttribute('data-theme') === 'light'
+        ? 'light'
+        : 'dark';
+
+    const styles = getComputedStyle(root);
+
+    palette = {
+      gridDot:
+        styles
+          .getPropertyValue('--body-grid-dot')
+          .trim() ||
+        '#98A8D428',
+
+      topoLine:
+        styles
+          .getPropertyValue('--body-topo-line')
+          .trim() ||
+        'rgba(35, 84, 43, 0.12)',
+
+      topoIndex:
+        styles
+          .getPropertyValue('--body-topo-index')
+          .trim() ||
+        'rgba(35, 84, 43, 0.19)',
+
+      topoHighlight:
+        styles
+          .getPropertyValue('--body-topo-highlight')
+          .trim() ||
+        'rgba(255, 253, 247, 0.22)'
+    };
+  }
+
+
+  /* ── Coherent terrain generation ───────────────────────────────── */
+
+  function fract(value) {
+    return value - Math.floor(value);
+  }
+
+  function hash2(x, y) {
+    return fract(
+      Math.sin(
+        x * 127.1 +
+        y * 311.7
+      ) * 43758.5453123
+    );
+  }
+
+  function smoothStep(value) {
+    return value * value * (3 - 2 * value);
+  }
+
+  function valueNoise(x, y) {
+    const integerX = Math.floor(x);
+    const integerY = Math.floor(y);
+
+    const fractionalX = x - integerX;
+    const fractionalY = y - integerY;
+
+    const smoothX = smoothStep(fractionalX);
+    const smoothY = smoothStep(fractionalY);
+
+    const topLeft = hash2(
+      integerX,
+      integerY
+    );
+
+    const topRight = hash2(
+      integerX + 1,
+      integerY
+    );
+
+    const bottomLeft = hash2(
+      integerX,
+      integerY + 1
+    );
+
+    const bottomRight = hash2(
+      integerX + 1,
+      integerY + 1
+    );
+
+    const top =
+      topLeft +
+      (topRight - topLeft) * smoothX;
+
+    const bottom =
+      bottomLeft +
+      (bottomRight - bottomLeft) * smoothX;
+
+    return (
+      top +
+      (bottom - top) * smoothY
+    );
+  }
+
+  function fbm(x, y) {
+    let value = 0;
+    let amplitude = 0.58;
+    let totalAmplitude = 0;
+
+    /*
+     * Only three octaves:
+     * broad, readable terrain rather than excessive tiny contours.
+     */
+    for (
+      let octave = 0;
+      octave < 3;
+      octave += 1
+    ) {
+      value +=
+        valueNoise(x, y) *
+        amplitude;
+
+      totalAmplitude += amplitude;
+
+      x = x * 1.93 + 11.7;
+      y = y * 1.93 - 7.4;
+
+      amplitude *= 0.5;
+    }
+
+    return value / totalAmplitude;
+  }
+
+  function buildTopographicField() {
+    fieldCols =
+      Math.ceil(width / TOPO_CELL) + 2;
+
+    fieldRows =
+      Math.ceil(height / TOPO_CELL) + 2;
+
+    baseField = new Float32Array(
+      fieldCols * fieldRows
+    );
+
+    liveField = new Float32Array(
+      fieldCols * fieldRows
+    );
+
+    for (
+      let row = 0;
+      row < fieldRows;
+      row += 1
+    ) {
+      for (
+        let col = 0;
+        col < fieldCols;
+        col += 1
+      ) {
+        /*
+         * Larger coordinate scale creates broader geographic forms
+         * and fewer tiny elevation islands.
+         */
+        const x =
+          (col * TOPO_CELL) / 300;
+
+        const y =
+          (row * TOPO_CELL) / 300;
+
+        /*
+         * Domain warping stops the field from looking like horizontal
+         * or vertical noise bands.
+         */
+        const warpX = (
+          valueNoise(
+            x * 0.72 + 19.2,
+            y * 0.72 - 4.8
+          ) - 0.5
+        ) * 1.15;
+
+        const warpY = (
+          valueNoise(
+            x * 0.72 - 8.1,
+            y * 0.72 + 13.6
+          ) - 0.5
+        ) * 1.15;
+
+        const terrain = fbm(
+          x + warpX,
+          y + warpY
+        );
+
+        baseField[
+          row * fieldCols + col
+        ] = terrain;
+      }
+    }
+  }
+
+
+  /* ── Canvas sizing and hero clipping ───────────────────────────── */
+
+  function updateBodyClip() {
+    const heroBottom =
+      hero.getBoundingClientRect().bottom;
+
+    clipTop = Math.min(
+      height,
+      Math.max(0, heroBottom)
+    );
+
+    fieldCanvas.style.setProperty(
+      '--body-environment-clip-top',
+      `${clipTop}px`
+    );
+  }
+
+  function resizeBodyEnvironment() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+
+    dpr = Math.min(
+      window.devicePixelRatio || 1,
+      1.75
+    );
+
+    fieldCanvas.width =
+      Math.round(width * dpr);
+
+    fieldCanvas.height =
+      Math.round(height * dpr);
+
+    fieldCanvas.style.width =
+      `${width}px`;
+
+    fieldCanvas.style.height =
+      `${height}px`;
+
+    fieldCtx.setTransform(
+      dpr,
+      0,
+      0,
+      dpr,
+      0,
+      0
+    );
+
+    buildTopographicField();
+    updateBodyClip();
+
+    dirty = true;
+  }
+
+
+  /* ── Dark theme: deform the dot grid itself ────────────────────── */
+
+  function drawDarkGrid() {
+    const originX =
+      (width * 0.5) % DOT_SPACING;
+
+    const originY =
+      (height * 0.5) % DOT_SPACING;
+
+    fieldCtx.fillStyle =
+      palette.gridDot;
+
+    for (
+      let y = originY - DOT_SPACING;
+      y < height + DOT_SPACING;
+      y += DOT_SPACING
+    ) {
+      for (
+        let x = originX - DOT_SPACING;
+        x < width + DOT_SPACING;
+        x += DOT_SPACING
+      ) {
+        let drawX = x;
+        let drawY = y;
+
+        let scale = 1;
+        let opacity = 1;
+
+        if (pointer.strength > 0.001) {
+          const differenceX =
+            pointer.x - x;
+
+          const differenceY =
+            pointer.y - y;
+
+          const distance = Math.hypot(
+            differenceX,
+            differenceY
+          );
+
+          if (
+            distance < DOT_FIELD_RADIUS &&
+            distance > 0.001
+          ) {
+            const normalized =
+              1 -
+              distance / DOT_FIELD_RADIUS;
+
+            const influence = (
+              normalized *
+              normalized *
+              (3 - 2 * normalized) *
+              pointer.strength
+            );
+
+            /*
+             * This moves the existing regular grid toward the cursor.
+             * No extra particles are generated.
+             */
+            drawX +=
+              differenceX *
+              DOT_PULL *
+              influence;
+
+            drawY +=
+              differenceY *
+              DOT_PULL *
+              influence;
+
+            scale +=
+              0.35 * influence;
+
+            opacity +=
+              0.45 * influence;
+          }
+        }
+
+        fieldCtx.globalAlpha =
+          Math.min(1, opacity);
+
+        fieldCtx.beginPath();
+
+        fieldCtx.arc(
+          drawX,
+          drawY,
+          DOT_RADIUS * scale,
+          0,
+          Math.PI * 2
+        );
+
+        fieldCtx.fill();
+      }
+    }
+
+    fieldCtx.globalAlpha = 1;
+  }
+
+
+  /* ── Light theme: alter the elevation field ────────────────────── */
+
+  function updateLiveTopographicField() {
+    const radiusSquared =
+      TOPO_FIELD_RADIUS *
+      TOPO_FIELD_RADIUS;
+
+    for (
+      let row = 0;
+      row < fieldRows;
+      row += 1
+    ) {
+      for (
+        let col = 0;
+        col < fieldCols;
+        col += 1
+      ) {
+        const index =
+          row * fieldCols + col;
+
+        let value =
+          baseField[index];
+
+        if (pointer.strength > 0.001) {
+          const pointX =
+            col * TOPO_CELL;
+
+          const pointY =
+            row * TOPO_CELL;
+
+          const differenceX =
+            pointX - pointer.x;
+
+          const differenceY =
+            pointY - pointer.y;
+
+          const distanceSquared = (
+            differenceX * differenceX +
+            differenceY * differenceY
+          );
+
+          if (
+            distanceSquared <
+            radiusSquared
+          ) {
+            const distance =
+              Math.sqrt(distanceSquared);
+
+            const normalized =
+              1 -
+              distance / TOPO_FIELD_RADIUS;
+
+            const influence = (
+              normalized *
+              normalized *
+              (3 - 2 * normalized) *
+              pointer.strength
+            );
+
+            /*
+             * The cursor creates a temporary basin in the virtual
+             * terrain. Contour lines are then regenerated from it.
+             */
+            value -=
+              TOPO_FIELD_DEPTH *
+              influence;
+          }
+        }
+
+        liveField[index] = value;
+      }
+    }
+  }
+
+
+  /* ── Marching-squares contour extraction ───────────────────────── */
+
+  function interpolateEdge(
+    x1,
+    y1,
+    value1,
+    x2,
+    y2,
+    value2,
+    level
+  ) {
+    const difference =
+      value2 - value1;
+
+    const amount =
+      Math.abs(difference) < 0.000001
+        ? 0.5
+        : (level - value1) / difference;
+
+    return {
+      x:
+        x1 +
+        (x2 - x1) * amount,
+
+      y:
+        y1 +
+        (y2 - y1) * amount
+    };
+  }
+
+  function addContourSegment(
+    path,
+    start,
+    end
+  ) {
+    path.moveTo(
+      start.x,
+      start.y
+    );
+
+    path.lineTo(
+      end.x,
+      end.y
+    );
+  }
+
+  function createContourPath(level) {
+    const path = new Path2D();
+
+    for (
+      let row = 0;
+      row < fieldRows - 1;
+      row += 1
+    ) {
+      for (
+        let col = 0;
+        col < fieldCols - 1;
+        col += 1
+      ) {
+        const x0 =
+          col * TOPO_CELL;
+
+        const y0 =
+          row * TOPO_CELL;
+
+        const x1 =
+          x0 + TOPO_CELL;
+
+        const y1 =
+          y0 + TOPO_CELL;
+
+        const topLeft =
+          liveField[
+            row * fieldCols + col
+          ];
+
+        const topRight =
+          liveField[
+            row * fieldCols + col + 1
+          ];
+
+        const bottomRight =
+          liveField[
+            (row + 1) * fieldCols +
+            col +
+            1
+          ];
+
+        const bottomLeft =
+          liveField[
+            (row + 1) * fieldCols +
+            col
+          ];
+
+        const intersections = [];
+
+        if (
+          (topLeft < level) !==
+          (topRight < level)
+        ) {
+          intersections.push(
+            interpolateEdge(
+              x0,
+              y0,
+              topLeft,
+              x1,
+              y0,
+              topRight,
+              level
+            )
+          );
+        }
+
+        if (
+          (topRight < level) !==
+          (bottomRight < level)
+        ) {
+          intersections.push(
+            interpolateEdge(
+              x1,
+              y0,
+              topRight,
+              x1,
+              y1,
+              bottomRight,
+              level
+            )
+          );
+        }
+
+        if (
+          (bottomRight < level) !==
+          (bottomLeft < level)
+        ) {
+          intersections.push(
+            interpolateEdge(
+              x1,
+              y1,
+              bottomRight,
+              x0,
+              y1,
+              bottomLeft,
+              level
+            )
+          );
+        }
+
+        if (
+          (bottomLeft < level) !==
+          (topLeft < level)
+        ) {
+          intersections.push(
+            interpolateEdge(
+              x0,
+              y1,
+              bottomLeft,
+              x0,
+              y0,
+              topLeft,
+              level
+            )
+          );
+        }
+
+        if (intersections.length === 2) {
+          addContourSegment(
+            path,
+            intersections[0],
+            intersections[1]
+          );
+        }
+
+        /*
+         * Ambiguous marching-squares cells can contain four
+         * intersections. The average field value decides how the
+         * segments connect.
+         */
+        if (intersections.length === 4) {
+          const centerValue = (
+            topLeft +
+            topRight +
+            bottomRight +
+            bottomLeft
+          ) * 0.25;
+
+          if (centerValue < level) {
+            addContourSegment(
+              path,
+              intersections[0],
+              intersections[3]
+            );
+
+            addContourSegment(
+              path,
+              intersections[1],
+              intersections[2]
+            );
+          } else {
+            addContourSegment(
+              path,
+              intersections[0],
+              intersections[1]
+            );
+
+            addContourSegment(
+              path,
+              intersections[2],
+              intersections[3]
+            );
+          }
+        }
+      }
+    }
+
+    return path;
+  }
+
+
+  /* ── Draw the light contour map ────────────────────────────────── */
+
+  function drawLightTopography() {
+    updateLiveTopographicField();
+
+    fieldCtx.lineCap = 'round';
+    fieldCtx.lineJoin = 'round';
+
+    TOPO_LEVELS.forEach(
+      (level, index) => {
+        /*
+         * The center contour is slightly stronger, similar to an
+         * index contour on a real topographic map.
+         */
+        const isIndexContour =
+          index === 2;
+
+        const path =
+          createContourPath(level);
+
+        /*
+         * Subtle light-facing edge.
+         */
+        fieldCtx.save();
+
+        fieldCtx.translate(
+          0,
+          -0.7
+        );
+
+        fieldCtx.strokeStyle =
+          palette.topoHighlight;
+
+        fieldCtx.lineWidth =
+          isIndexContour
+            ? 1.6
+            : 1.15;
+
+        fieldCtx.stroke(path);
+        fieldCtx.restore();
+
+        /*
+         * Main cactus-green contour.
+         */
+        fieldCtx.strokeStyle =
+          isIndexContour
+            ? palette.topoIndex
+            : palette.topoLine;
+
+        fieldCtx.lineWidth =
+          isIndexContour
+            ? 1.2
+            : 0.8;
+
+        fieldCtx.stroke(path);
+      }
+    );
+  }
+
+
+  /* ── Shared drawing ────────────────────────────────────────────── */
+
+  function drawBodyEnvironment() {
+    fieldCtx.clearRect(
+      0,
+      0,
+      width,
+      height
+    );
+
+    if (currentTheme === 'light') {
+      drawLightTopography();
+    } else {
+      drawDarkGrid();
+    }
+  }
+
+
+  /* ── Animation loop ────────────────────────────────────────────── */
+
+  function renderBodyEnvironment(now) {
+    requestAnimationFrame(
+      renderBodyEnvironment
+    );
+
+    if (document.hidden) return;
+
+    /*
+     * During the hero, only the portion below the hero boundary may
+     * respond. Once the hero is completely above the viewport,
+     * clipTop becomes zero.
+     */
+    const pointerCanAffectBody = (
+      canInteract &&
+      pointer.inside &&
+      pointer.targetY >= clipTop
+    );
+
+    const targetStrength =
+      pointerCanAffectBody
+        ? 1
+        : 0;
+
+    const previousX =
+      pointer.x;
+
+    const previousY =
+      pointer.y;
+
+    const previousStrength =
+      pointer.strength;
+
+    /*
+     * Slight delay gives both themes the soft field-following effect.
+     */
+    pointer.x += (
+      pointer.targetX -
+      pointer.x
+    ) * 0.14;
+
+    pointer.y += (
+      pointer.targetY -
+      pointer.y
+    ) * 0.14;
+
+    pointer.strength += (
+      targetStrength -
+      pointer.strength
+    ) * 0.10;
+
+    const stillMoving = (
+      Math.abs(
+        pointer.x -
+        previousX
+      ) +
+
+      Math.abs(
+        pointer.y -
+        previousY
+      ) +
+
+      Math.abs(
+        pointer.strength -
+        previousStrength
+      )
+    ) > 0.03;
+
+    if (
+      !dirty &&
+      !stillMoving
+    ) {
+      return;
+    }
+
+    if (
+      now - lastFrameTime <
+      FRAME_INTERVAL
+    ) {
+      return;
+    }
+
+    lastFrameTime = now;
+
+    drawBodyEnvironment();
+    dirty = false;
+  }
+
+
+  /* ── Pointer tracking ──────────────────────────────────────────── */
+
+  if (canInteract) {
+    document.addEventListener(
+      'mousemove',
+      event => {
+        pointer.targetX =
+          event.clientX;
+
+        pointer.targetY =
+          event.clientY;
+
+        pointer.inside = true;
+        dirty = true;
+      },
+      {
+        passive: true
+      }
+    );
+
+    document.documentElement.addEventListener(
+      'mouseleave',
+      () => {
+        pointer.inside = false;
+        dirty = true;
+      }
+    );
+
+    window.addEventListener(
+      'blur',
+      () => {
+        pointer.inside = false;
+        dirty = true;
+      }
+    );
+  }
+
+
+  /* ── Keep the canvas below the hero ────────────────────────────── */
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (clipFramePending) return;
+
+      clipFramePending = true;
+
+      requestAnimationFrame(() => {
+        updateBodyClip();
+        dirty = true;
+        clipFramePending = false;
+      });
+    },
+    {
+      passive: true
+    }
+  );
+
+
+  /* ── Resize handling ───────────────────────────────────────────── */
+
+  window.addEventListener(
+    'resize',
+    () => {
+      clearTimeout(resizeTimer);
+
+      resizeTimer = setTimeout(
+        () => {
+          resizeBodyEnvironment();
+          drawBodyEnvironment();
+        },
+        120
+      );
+    }
+  );
+
+
+  /* ── Theme switching ───────────────────────────────────────────── */
+
+  const themeObserver =
+    new MutationObserver(
+      mutations => {
+        const themeChanged =
+          mutations.some(
+            mutation =>
+              mutation.attributeName ===
+              'data-theme'
+          );
+
+        if (!themeChanged) return;
+
+        readThemeAndPalette();
+        dirty = true;
+      }
+    );
+
+  themeObserver.observe(
+    root,
+    {
+      attributes: true,
+      attributeFilter: [
+        'data-theme'
+      ]
+    }
+  );
+
+
+  /* ── Initial setup ─────────────────────────────────────────────── */
+
+  readThemeAndPalette();
+  resizeBodyEnvironment();
+  drawBodyEnvironment();
+
+  requestAnimationFrame(
+    renderBodyEnvironment
+  );
+}
+
 /* =====================================================================
  * § 5  TERRAIN IMAGE LOADING
  * ===================================================================== */
@@ -1334,6 +2365,7 @@ initThemeToggle();
 swapFavicon(document.documentElement.getAttribute('data-theme') || 'dark');
 initIntro();
 initStars();
+initBodyEnvironment();
 fetchTerrain();
 initTerrainParallax();
 initUfoScroll();
