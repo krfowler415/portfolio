@@ -850,6 +850,7 @@
 :root[data-theme="light"] .hero-sun {
   left: 6%;
   right: auto;
+  width: clamp(260px, 32vw, 500px);
 }
 
 /* Shared UFO appears in both themes */
