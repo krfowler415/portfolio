@@ -853,6 +853,16 @@
   width: clamp(260px, 32vw, 500px);
 }
 
+:root[data-theme="light"] .hero-sun img {
+  opacity: 0.97;
+
+  filter:
+    saturate(1.06)
+    brightness(0.98)
+    drop-shadow(0 0 10px rgba(255, 210, 60, 0.42))
+    drop-shadow(0 0 24px rgba(255, 210, 60, 0.20));
+}
+
 /* Shared UFO appears in both themes */
 :root[data-theme="light"] .hero-ufo {
   display: block;
