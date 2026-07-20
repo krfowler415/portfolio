@@ -1375,6 +1375,12 @@ a.card-feat,
   user-select: none;
 }
 
+.hero-ufo-ship--light {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
 .hero-ufo-beam {
   position: absolute;
   z-index: 1;
