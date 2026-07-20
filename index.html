@@ -10,6 +10,18 @@
     <!-- Favicon -->
     <link id="favicon" rel="icon" type="image/svg+xml" href="favicon-ufo.svg" />
 
+    <!-- Critical hero images — load before render -->
+    <link rel="preload" as="image" href="images/terrain-dark.png" fetchpriority="high">
+    <link rel="preload" as="image" href="images/terrain-light.png" fetchpriority="high">
+    <link rel="preload" as="image" href="images/intro-ufo.png" fetchpriority="high">
+    <link rel="preload" as="image" href="hero-ufo-dark.svg">
+    <link rel="preload" as="image" href="hero-ufo-light.svg">
+    <link rel="preload" as="image" href="hero-moon.svg">
+    <link rel="preload" as="image" href="hero-sun.svg">
+
+    <!-- GSAP — load before render -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
     <!-- Intro Skip if Played -->
     <script>
       if (sessionStorage.getItem('introPlayed')) {
@@ -28,7 +40,7 @@
     <script>
       (() => {
         const savedTheme = localStorage.getItem('kf-theme');
-        const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+        const systemPrefersLight = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const theme = savedTheme || (systemPrefersLight ? 'light' : 'dark');
 
         document.documentElement.setAttribute('data-theme', theme);
