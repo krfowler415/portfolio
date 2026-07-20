@@ -23,12 +23,6 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
     <!-- Intro Skip if Played -->
-    <script>
-      if (sessionStorage.getItem('introPlayed')) {
-        document.documentElement.classList.add('intro-skip');
-      }
-    </script>
-
     <style>
       html.intro-skip #intro,
       html.intro-skip #intro-flash {
@@ -36,6 +30,12 @@
       }
     </style>
 
+    <script>
+      if (sessionStorage.getItem('introPlayed')) {
+        document.documentElement.classList.add('intro-skip');
+      }
+    </script>
+    
     <!-- System Theme Check Script -->
     <script>
       (() => {
