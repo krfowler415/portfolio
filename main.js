@@ -1521,7 +1521,7 @@ function swapFavicon(theme) {
   favicon.id = 'favicon';
   favicon.rel = 'icon';
   favicon.type = 'image/svg+xml';
-  favicon.href = href;
+  favicon.href = href + '?v=' + Date.now();
 
   document.head.appendChild(favicon);
 }
@@ -1875,8 +1875,6 @@ function initNav() {
     trigger: hero,
     start: 'top top',
     end: 'bottom bottom',
-    scrub: true,
-
     onUpdate: syncNavState,
     onRefresh: syncNavState
   });
@@ -1942,6 +1940,13 @@ function initThemeToggle() {
 
     refreshStarsForTheme(theme);
 
+    const alienImg = document.querySelector('.about-alien');
+    if (alienImg) {
+      alienImg.src = theme === 'light'
+        ? 'images/Alien-Image-light.png'
+        : 'images/Alien-Image-dark.png';
+    }
+
     if (shouldSave) {
       localStorage.setItem('kf-theme', theme);
     }
@@ -1961,11 +1966,9 @@ function initThemeToggle() {
     const currentTheme = getCurrentTheme();
     const nextTheme    = currentTheme === 'dark' ? 'light' : 'dark';
 
-    themeToggle.setAttribute('aria-pressed', nextTheme === 'dark' ? 'true' : 'false');
-
     playThemeWipe(nextTheme, () => {
       applyTheme(nextTheme);
-      swapTerrain(nextTheme);
+      swapTerrain();
       swapFavicon(nextTheme);
     });
   });
