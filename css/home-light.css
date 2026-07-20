@@ -875,12 +875,12 @@
 }
 
 /* Light UFO swap */
-:root[data-theme="light"] .hero-ufo-dark {
-  opacity:0;
+:root[data-theme="light"] .hero-ufo-ship--dark {
+  opacity: 0;
 }
 
-:root[data-theme="light"] .hero-ufo-light {
-  opacity:1;
+:root[data-theme="light"] .hero-ufo-ship--light {
+  opacity: 1;
 }
 
 /* Hide cosmos-only hero elements */
@@ -1093,20 +1093,29 @@
  * Recolors the inline SVG beam gradient in light mode only.
  * The original dark-theme beam colors remain untouched.
  */
-:root[data-theme="light"] #beamGradUfo stop {
-  stop-color: var(--plasma-200);
+:root[data-theme="light"] #beamGradUfo stop:nth-child(1){
+  stop-color:#FFFFFF;
 }
 
-:root[data-theme="light"] #beamGradUfo stop:nth-child(1) {
-  stop-opacity: 0.62;
+:root[data-theme="light"] #beamGradUfo stop:nth-child(2){
+  stop-color:var(--plasma-200);
 }
 
-:root[data-theme="light"] #beamGradUfo stop:nth-child(2) {
-  stop-opacity: 0.24;
+:root[data-theme="light"] #beamGradUfo stop:nth-child(3){
+  stop-color:var(--alien-skin);
 }
 
-:root[data-theme="light"] #beamGradUfo stop:nth-child(3) {
-  stop-opacity: 0;
+
+:root[data-theme="light"] #beamCoreGrad stop:nth-child(1){
+  stop-color:#FFFFFF;
+}
+
+:root[data-theme="light"] #beamCoreGrad stop:nth-child(2){
+  stop-color:var(--plasma-200);
+}
+
+:root[data-theme="light"] #beamLandingGrad stop:nth-child(1){
+  stop-color:var(--plasma-200);
 }
 
 :root[data-theme="light"] #ufoBeam {
