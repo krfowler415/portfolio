@@ -1118,10 +1118,26 @@
   stop-color:var(--plasma-200);
 }
 
-:root[data-theme="light"] #ufoBeam {
+:root[data-theme="light"] #ufoBeamOuter,
+:root[data-theme="light"] #ufoBeam,
+:root[data-theme="light"] #ufoBeamCore {
+
   filter:
-    drop-shadow(0 0 8px rgba(255, 240, 120, 0.46))
-    drop-shadow(0 0 18px rgba(255, 240, 120, 0.22));
+    blur(1.8px)
+    drop-shadow(
+      0 0 22px rgba(255,240,120,.30)
+    );
+}
+
+
+:root[data-theme="light"] #beamLanding {
+
+  filter:
+    blur(10px)
+    drop-shadow(
+      0 0 35px rgba(255,210,60,.30)
+    );
+
 }
 
 /* =====================================================================
