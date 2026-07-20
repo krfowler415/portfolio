@@ -1730,22 +1730,22 @@ function renderUfoAtProgress(progress) {
     
     ufoBeamOuter?.setAttribute(
       'opacity',
-      (beamProgress * 0.45).toFixed(3)
+      (beamProgress * 0.15).toFixed(3)
     );
     
     ufoBeam?.setAttribute(
       'opacity',
-      (beamProgress * 0.85).toFixed(3)
+      (beamProgress * 0.65).toFixed(3)
     );
     
     ufoBeamCore?.setAttribute(
       'opacity',
-      (beamProgress * 0.95).toFixed(3)
+      (beamProgress * 0.75).toFixed(3)
     );
     
     beamLanding?.setAttribute(
       'opacity',
-      (beamProgress * 0.55).toFixed(3)
+      (beamProgress * 0.25).toFixed(3)
     );
 
   heroUfo.classList.toggle(
