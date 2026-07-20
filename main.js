@@ -50,6 +50,7 @@ let introFired       = false;
 let scanTween        = null;
 let ufoScrollTrigger = null;
 let navScrollTrigger = null;
+let starRafId        = null;
 
 const heroUfo        = document.getElementById('heroUfo');
 const ufoBeam        = document.getElementById('ufoBeam');
@@ -171,8 +172,10 @@ function playIntroOutro() {
     .to(introScanlines, { opacity: 0, duration: 0.18 }, '>')
     .to(flash, { opacity: 1, duration: 0.1 })
     .add(() => {
-      introEl.style.display = 'none';
+      introEl.style.visibility = 'hidden';
+      introEl.style.pointerEvents = 'none';
       gsap.set(heroUfo, { x: introX, y: introY, opacity: 1, force3D: false });
+      setTimeout(() => { introEl.style.display = 'none'; }, 100);
     })
     .to(flash, {
       opacity: 0,
@@ -234,7 +237,7 @@ function initIntro() {
     gsap.to(introGlow, { opacity: 0.8, duration: 1.2 });
   }, 1200);
 
-  setTimeout(() => { minTimeDone = true; tryStartOutro(); }, 2800);
+  setTimeout(() => { minTimeDone = true; tryStartOutro(); }, 1800);
 }
 
 
@@ -320,13 +323,21 @@ function drawStars() {
     ctx.fill();
   });
 
-  requestAnimationFrame(drawStars);
+    starRafId = requestAnimationFrame(drawStars);
+}
+
+function stopStars() {
+  if (starRafId) {
+    cancelAnimationFrame(starRafId);
+    starRafId = null;
+  }
 }
 
 function initStars() {
   resizeCanvas();
   initStarField();
-  requestAnimationFrame(drawStars);
+  stopStars();
+  drawStars();
 
   if (!isTouchDevice) {
     heroPin.addEventListener('mousemove', e => {
@@ -342,17 +353,17 @@ function initStars() {
 }
 
 function refreshStarsForTheme(theme) {
-  if (theme !== 'dark' || !canvas) return;
+  if (theme !== 'dark' || !canvas) {
+    stopStars();
+    return;
+  }
 
-  /*
-   * Wait until the data-theme change has been painted.
-   * The canvas was display:none in light mode, so it must be
-   * measured again after becoming visible.
-   */
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       resizeCanvas();
       initStarField();
+      stopStars();
+      drawStars();
     });
   });
 }
@@ -2275,7 +2286,6 @@ function initCardTilt() {
       const rect = wrap.getBoundingClientRect();
       const rx = ((e.clientY - rect.top)  / rect.height - 0.5) * -6;
       const ry = ((e.clientX - rect.left) / rect.width  - 0.5) *  6;
-      inner.style.transition = 'transform 0.1s ease';
       inner.style.transform  = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
     });
 
@@ -2391,17 +2401,22 @@ setViewportHeight();
 initThemeToggle();
 swapFavicon(document.documentElement.getAttribute('data-theme') || 'dark');
 initIntro();
-initStars();
-initBodyEnvironment();
 fetchTerrain();
-initTerrainParallax();
-initUfoScroll();
-initHeroScrollCue();
 initNav();
-initCursor();
-initClickRipple();
-initCaseStudyStrip();
-initScrollReveal();
-initCardTilt();
-initBeamUp();
-initResizeHandlers();
+
+// Defer heavy visual effects until the browser is idle
+const defer = window.requestIdleCallback || ((cb) => setTimeout(cb, 50));
+defer(() => {
+  initStars();
+  initBodyEnvironment();
+  initTerrainParallax();
+  initUfoScroll();
+  initHeroScrollCue();
+  initCursor();
+  initClickRipple();
+  initCaseStudyStrip();
+  initScrollReveal();
+  initCardTilt();
+  initBeamUp();
+  initResizeHandlers();
+});
