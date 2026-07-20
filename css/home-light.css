@@ -874,9 +874,13 @@
   visibility: visible;
 }
 
-/* Light UFO asset swap */
-:root[data-theme="light"] .hero-ufo-ship {
-  content: url("hero-ufo-light.svg");
+/* Light UFO swap */
+:root[data-theme="light"] .hero-ufo-dark {
+  opacity:0;
+}
+
+:root[data-theme="light"] .hero-ufo-light {
+  opacity:1;
 }
 
 /* Hide cosmos-only hero elements */
