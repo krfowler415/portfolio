@@ -248,24 +248,75 @@
             <!-- Tractor beam built separately in code -->
             <svg
               class="hero-ufo-beam"
-              viewBox="0 0 200 170"
+              viewBox="0 0 200 220"
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
             >
               <defs>
+            
+                <!-- Outer energy field -->
                 <linearGradient id="beamGradUfo" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#00A2A2" stop-opacity="0.55" />
-                  <stop offset="60%" stop-color="#00A2A2" stop-opacity="0.18" />
-                  <stop offset="100%" stop-color="#00A2A2" stop-opacity="0" />
+                  <stop offset="0%" />
+                  <stop offset="55%" />
+                  <stop offset="100%" />
                 </linearGradient>
+            
+            
+                <!-- Bright center column -->
+                <linearGradient id="beamCoreGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" />
+                  <stop offset="65%" />
+                  <stop offset="100%" />
+                </linearGradient>
+            
+            
+                <!-- Landing glow -->
+                <radialGradient id="beamLandingGrad">
+                  <stop offset="0%" />
+                  <stop offset="100%" />
+                </radialGradient>
+            
               </defs>
-        
+            
+            
+              <!-- Outer beam -->
               <polygon
-                id="ufoBeam"
-                points="72,0 128,0 165,165 35,165"
+                id="ufoBeamOuter"
+                points="45,0 155,0 200,200 0,200"
                 fill="url(#beamGradUfo)"
                 opacity="0"
               />
+            
+            
+              <!-- Main beam -->
+              <polygon
+                id="ufoBeam"
+                points="70,0 130,0 170,200 30,200"
+                fill="url(#beamGradUfo)"
+                opacity="0"
+              />
+            
+            
+              <!-- Bright core -->
+              <polygon
+                id="ufoBeamCore"
+                points="90,0 110,0 130,200 70,200"
+                fill="url(#beamCoreGrad)"
+                opacity="0"
+              />
+            
+            
+              <!-- Ground energy -->
+              <ellipse
+                id="beamLanding"
+                cx="100"
+                cy="200"
+                rx="75"
+                ry="14"
+                fill="url(#beamLandingGrad)"
+                opacity="0"
+              />
+            
             </svg>
         
           </div>
