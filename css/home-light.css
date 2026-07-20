@@ -745,6 +745,11 @@
   color: var(--text-on-dark-muted);
 }
 
+/* About alien image swap */
+:root[data-theme="light"] .about-alien {
+  content: url("../images/Alien-Image-light.png");
+}
+
 /* =====================================================================
  * § 9  LIGHT CONTACT
  * ===================================================================== */
