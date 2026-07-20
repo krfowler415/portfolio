@@ -876,7 +876,7 @@
 
 /* Light UFO asset swap */
 :root[data-theme="light"] .hero-ufo-ship {
-  content: url("../images/hero-ufo-light.png");
+  content: url("hero-ufo-light.svg");
 }
 
 /* Hide cosmos-only hero elements */
