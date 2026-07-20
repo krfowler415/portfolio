@@ -53,6 +53,9 @@ let navScrollTrigger = null;
 
 const heroUfo        = document.getElementById('heroUfo');
 const ufoBeam        = document.getElementById('ufoBeam');
+const ufoBeamOuter   = document.getElementById('ufoBeamOuter');
+const ufoBeamCore    = document.getElementById('ufoBeamCore');
+const beamLanding    = document.getElementById('beamLanding');
 const heroPin        = document.querySelector('.hero-pin');
 const introEl        = document.getElementById('intro');
 const introWrap      = document.getElementById('intro-ufo-wrap');
@@ -1716,10 +1719,34 @@ function renderUfoAtProgress(progress) {
       (clampedProgress - 0.50) / 0.15
     );
 
-  ufoBeam.setAttribute(
-    'opacity',
-    (beamProgress * 0.85).toFixed(3)
-  );
+    /*
+     * Tractor beam layers:
+     *
+     * Outer energy field
+     * Main beam body
+     * Bright core
+     * Ground landing glow
+     */
+    
+    ufoBeamOuter?.setAttribute(
+      'opacity',
+      (beamProgress * 0.45).toFixed(3)
+    );
+    
+    ufoBeam?.setAttribute(
+      'opacity',
+      (beamProgress * 0.85).toFixed(3)
+    );
+    
+    ufoBeamCore?.setAttribute(
+      'opacity',
+      (beamProgress * 0.95).toFixed(3)
+    );
+    
+    beamLanding?.setAttribute(
+      'opacity',
+      (beamProgress * 0.55).toFixed(3)
+    );
 
   heroUfo.classList.toggle(
     'hovering',
