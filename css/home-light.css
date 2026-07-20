@@ -1093,8 +1093,9 @@
  * Recolors the inline SVG beam gradient in light mode only.
  * The original dark-theme beam colors remain untouched.
  */
+
 :root[data-theme="light"] #beamGradUfo stop:nth-child(1){
-  stop-color:#FFFFFF;
+  stop-color:var(--plasma-50);
 }
 
 :root[data-theme="light"] #beamGradUfo stop:nth-child(2){
@@ -1102,43 +1103,47 @@
 }
 
 :root[data-theme="light"] #beamGradUfo stop:nth-child(3){
-  stop-color:var(--alien-skin);
+  stop-color:var(--plasma-400);
 }
 
-
 :root[data-theme="light"] #beamCoreGrad stop:nth-child(1){
-  stop-color:#FFFFFF;
+  stop-color:var(--plasma-50);
 }
 
 :root[data-theme="light"] #beamCoreGrad stop:nth-child(2){
-  stop-color:var(--plasma-200);
+  stop-color:var(--plasma-100);
+}
+
+:root[data-theme="light"] #beamCoreGrad stop:nth-child(3){
+  stop-color:var(--plasma-400);
 }
 
 :root[data-theme="light"] #beamLandingGrad stop:nth-child(1){
   stop-color:var(--plasma-200);
 }
 
+:root[data-theme="light"] #beamLandingGrad stop:nth-child(2){
+  stop-color:var(--plasma-400);
+}
+
 :root[data-theme="light"] #ufoBeamOuter,
 :root[data-theme="light"] #ufoBeam,
 :root[data-theme="light"] #ufoBeamCore {
-
   filter:
     blur(1.8px)
     drop-shadow(
-      0 0 22px rgba(255,240,120,.30)
+      0 0 22px rgba(255,210,60,.30)
     );
 }
 
-
 :root[data-theme="light"] #beamLanding {
-
   filter:
     blur(10px)
     drop-shadow(
       0 0 35px rgba(255,210,60,.30)
     );
-
 }
+
 
 /* =====================================================================
  * § 12  LIGHT SCROLL CUE
