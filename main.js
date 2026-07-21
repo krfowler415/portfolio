@@ -108,33 +108,6 @@ function spawnParticles(count, speedMult) {
   }
 }
 
-function spawnExtractionStreaks(count) {
-  for (let i = 0; i < count; i++) {
-    const pt = document.createElement('div');
-    pt.className = 'ipt extraction-streak';
-
-    const size  = 1 + Math.random() * 2.5;
-    const left  = Math.random() * 100;
-    const dur   = 0.25 + Math.random() * 0.35;
-    const delay = Math.random() * 0.4;
-
-    pt.style.cssText = [
-      `position:absolute`,
-      `width:${size}px`,
-      `height:${size * 10}px`,
-      `left:${left}%`,
-      `top:-5%`,
-      `border-radius:999px`,
-      `opacity:0`,
-      `pointer-events:none`,
-      `background:hsla(${183 + Math.random() * 60}, 85%, 75%, 0.85)`,
-      `animation:streakFall ${dur}s linear ${delay}s forwards`
-    ].join(';');
-
-    introPts.appendChild(pt);
-  }
-}
-
 function runScan() {
   scanTween = gsap.fromTo(
     iScan,
@@ -170,54 +143,19 @@ function playIntroOutro() {
   });
 
   tl
-    /* ── Phase 1: Beam intensifies ── */
     .to(iBeam, { opacity: 1, duration: 0.2, ease: 'power2.in' })
-
-    /* ── Phase 2: Upward-biased environmental shake ── */
     .to(introEl, {
       keyframes: [
-        { x: -5, y: -4, duration: 0.06 },
-        { x:  4, y: -6, duration: 0.06 },
-        { x: -6, y: -3, duration: 0.06 },
-        { x:  5, y: -7, duration: 0.06 },
-        { x: -3, y: -2, duration: 0.06 },
+        { x: -5, y: -2, duration: 0.06 },
+        { x:  4, y:  3, duration: 0.06 },
+        { x: -6, y: -1, duration: 0.06 },
+        { x:  5, y:  2, duration: 0.06 },
+        { x: -3, y: -3, duration: 0.06 },
         { x:  0, y:  0, duration: 0.06 },
       ]
     }, '+=0.05')
-
-    /* ── Phase 3: Ship approaches (viewer sees it getting big) ── */
-    .to(introWrap, { scale: 4.2, duration: 0.5, ease: 'power3.in' })
+    .to(introWrap, { scale: 4.2, duration: 0.75, ease: 'power3.in' })
     .to(introGlow, { opacity: 0.95, duration: 0.3 }, '<')
-
-    /* ── Phase 4: EXTRACTION ── */
-    /* Spawn downward streaks (world falling away as viewer rises) */
-    .add(() => spawnExtractionStreaks(45), '>+=0.02')
-
-    /* Ship scales past recognition — viewer enters the emitter */
-    .to(introWrap, { scale: 10, duration: 0.32, ease: 'power4.in' }, '>+=0.04')
-
-    /* Beam engulfs entire viewport */
-    .to(iBeam, {
-      attr: { points: '-3000,-3000 3000,-3000 3000,3000 -3000,3000' },
-      opacity: 0.92,
-      duration: 0.28,
-      ease: 'power2.in'
-    }, '<+=0.08')
-
-    /* Chromatic aberration on viewer's vision */
-    .to(introWrap, {
-      filter: 'drop-shadow(-4px 0 0 rgba(255,0,80,0.45)) drop-shadow(4px 0 0 rgba(0,255,220,0.45))',
-      duration: 0.12
-    }, '-=0.18')
-
-    /* Reverse scan snap (beam locking on / retracting) */
-    .fromTo(iScan,
-      { attr: { y1: 560, y2: 560 }, opacity: 0.9 },
-      { attr: { y1: 123, y2: 123 }, opacity: 0, duration: 0.22, ease: 'power2.in' },
-      '-=0.15'
-    )
-
-    /* ── Phase 5: Chromatic glitch breakdown ── */
     .to(introEl, {
       keyframes: [
         { x: -7,  skewX:  2, filter: 'hue-rotate(90deg) saturate(4) brightness(1.7)',  duration: 0.07 },
@@ -230,23 +168,15 @@ function playIntroOutro() {
         { x:  0,  skewX:  0, filter: 'none',                                           duration: 0.06 },
       ]
     })
-
-    /* Scanlines flash */
     .to(introScanlines, { opacity: 1, duration: 0.04 }, '<')
     .to(introScanlines, { opacity: 0, duration: 0.18 }, '>')
-
-    /* ── Phase 6: White flash + teleport ── */
     .to(flash, { opacity: 1, duration: 0.1 })
-
-    /* Hide intro, reveal hero UFO at exact intro handoff position */
     .add(() => {
       introEl.style.visibility = 'hidden';
       introEl.style.pointerEvents = 'none';
       gsap.set(heroUfo, { x: introX, y: introY, opacity: 1, force3D: false });
       setTimeout(() => { introEl.style.display = 'none'; }, 100);
     })
-
-    /* Fade flash out */
     .to(flash, {
       opacity: 0,
       duration: 1.1,
@@ -255,8 +185,6 @@ function playIntroOutro() {
         ufoIntroComplete = true;
         sessionStorage.setItem('introPlayed', 'true');
         syncUfoToScroll();
-        /* Clean up extraction streak DOM nodes */
-        document.querySelectorAll('.extraction-streak').forEach(el => el.remove());
       }
     }, '+=0.05');
 }
@@ -311,7 +239,6 @@ function initIntro() {
 
   setTimeout(() => { minTimeDone = true; tryStartOutro(); }, 1800);
 }
-
 
 /* =====================================================================
  * § 4  STAR FIELD CANVAS
