@@ -258,7 +258,6 @@ function playIntroOutro() {
         /* Clean up extraction streak DOM nodes */
         document.querySelectorAll('.extraction-streak').forEach(el => el.remove());
       }
-      }
     }, '+=0.05');
 }
 
