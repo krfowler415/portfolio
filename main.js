@@ -714,7 +714,10 @@ function initBodyEnvironment() {
       0
     );
 
-    buildTopographicField();
+    if (currentTheme !== 'light') {
+      buildTopographicField();
+    }
+
     updateBodyClip();
 
     dirty = true;
@@ -818,6 +821,63 @@ function initBodyEnvironment() {
     fieldCtx.globalAlpha = 1;
   }
 
+  /* ── Light theme: warm particle field ──────────────────────────── */
+
+  function drawLightParticles() {
+    const spacing = 34;
+    const originX = (width * 0.5) % spacing;
+    const originY = (height * 0.5) % spacing;
+
+    for (let y = originY - spacing; y < height + spacing; y += spacing) {
+      for (let x = originX - spacing; x < width + spacing; x += spacing) {
+        let drawX = x;
+        let drawY = y;
+        let scale = 1;
+        let opacity = 0.3;
+
+        if (pointer.strength > 0.001) {
+          const diffX = pointer.x - x;
+          const diffY = pointer.y - y;
+          const dist = Math.hypot(diffX, diffY);
+
+          if (dist < DOT_FIELD_RADIUS && dist > 0.001) {
+            const normalized = 1 - dist / DOT_FIELD_RADIUS;
+            const influence = (normalized * normalized * (3 - 2 * normalized) * pointer.strength);
+            drawX += diffX * DOT_PULL * influence;
+            drawY += diffY * DOT_PULL * influence;
+            scale += 0.4 * influence;
+            opacity += 0.5 * influence;
+          }
+        }
+
+        const hueHash = Math.sin(x * 0.1 + y * 0.13) * 0.5 + 0.5;
+        let hue, sat, light;
+
+        if (hueHash < 0.55) {
+          hue = 38 + hueHash * 22;
+          sat = 62;
+          light = 56;
+        } else if (hueHash < 0.88) {
+          hue = 24 + (hueHash - 0.55) * 28;
+          sat = 58;
+          light = 52;
+        } else {
+          hue = 162 + (hueHash - 0.88) * 18;
+          sat = 52;
+          light = 48;
+        }
+
+        fieldCtx.globalAlpha = Math.min(0.85, opacity);
+        fieldCtx.fillStyle = `hsla(${hue.toFixed(1)}, ${sat}%, ${light}%, 1)`;
+
+        fieldCtx.beginPath();
+        fieldCtx.arc(drawX, drawY, 2.0 * scale, 0, Math.PI * 2);
+        fieldCtx.fill();
+      }
+    }
+
+    fieldCtx.globalAlpha = 1;
+  }
 
   /* ── Light theme: alter the elevation field ────────────────────── */
 
@@ -1183,7 +1243,7 @@ function initBodyEnvironment() {
     );
 
     if (currentTheme === 'light') {
-      drawLightTopography();
+      drawLightParticles();
     } else {
       drawDarkGrid();
     }
