@@ -1854,20 +1854,6 @@ a.card-feat,
   }
 }
 
-@keyframes streakFall {
-  0% {
-    transform: translateY(0) scaleY(1);
-    opacity: 0;
-  }
-  15% {
-    opacity: 0.9;
-  }
-  100% {
-    transform: translateY(110vh) scaleY(1.4);
-    opacity: 0;
-  }
-}
-
 /* =====================================================================
  * § 13  HOME REDUCED MOTION
  * ===================================================================== */
