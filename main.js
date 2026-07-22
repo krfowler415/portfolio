@@ -80,18 +80,18 @@ function setViewportHeight() {
  * § 3  INTRO OVERLAY
  * ===================================================================== */
 
-function spawnParticles(count, speedMult) {
+function spawnLightParticles(count, speedMult) {
   for (let i = 0; i < count; i++) {
     const pt    = document.createElement('div');
     pt.className = 'ipt';
 
-    const size  = 1.5 + Math.random() * 4;
-    const left  = 5   + Math.random() * 90;
-    const btm   = 2   + Math.random() * 85;
-    const dur   = (1.4 + Math.random() * 2.2) / speedMult;
-    const delay = (Math.random() * 2.5) / speedMult;
-    const drift = (Math.random() - 0.5) * 60;
-    const rise  = 70  + Math.random() * 30;
+    const size  = 2 + Math.random() * 5;
+    const left  = 5 + Math.random() * 90;
+    const btm   = 5 + Math.random() * 80;
+    const dur   = (2.2 + Math.random() * 2.8) / speedMult;
+    const delay = (Math.random() * 3) / speedMult;
+    const drift = (Math.random() - 0.5) * 80;
+    const rise  = 35 + Math.random() * 45;
 
     pt.style.cssText = [
       `width:${size}px`,
@@ -131,6 +131,17 @@ function playIntroOutro() {
   gsap.set(introWrap, { transformOrigin: '50% 48%' });
   gsap.set(iScan, { opacity: 0 });
 
+  const isLight = introEl.classList.contains('intro-light');
+  if (isLight) {
+    playLightOutro();
+  } else {
+    playDarkOutro();
+  }
+}
+
+/* ── Dark outro (your existing sequence, extracted unchanged) ───── */
+
+function playDarkOutro() {
   const flash = document.getElementById('intro-flash');
 
   spawnParticles(90, 6);
@@ -189,19 +200,69 @@ function playIntroOutro() {
     }, '+=0.05');
 }
 
+/* ── Light outro (golden sunbeam + lens flare) ──────────────────── */
+
+function playLightOutro() {
+  const flash = document.getElementById('intro-flash');
+
+  spawnLightParticles(100, 5);
+
+  const tl = gsap.timeline({
+    onComplete() {
+      document.body.style.overflow = '';
+      ScrollTrigger.refresh();
+    }
+  });
+
+  tl
+    .to(iBeam, { opacity: 1, duration: 0.2, ease: 'power2.in' })
+    .to(introEl, {
+      keyframes: [
+        { x: -3, y: -1, duration: 0.07 },
+        { x:  2, y:  2, duration: 0.07 },
+        { x: -2, y:  1, duration: 0.07 },
+        { x:  0, y:  0, duration: 0.07 }
+      ]
+    }, '+=0.05')
+    .to(introWrap, { scale: 4.5, duration: 0.8, ease: 'power3.in' })
+    .to(introGlow, { opacity: 0.95, duration: 0.3 }, '<')
+    .to(introEl, {
+      keyframes: [
+        { filter: 'brightness(1.3) sepia(0.15) saturate(1.3)', duration: 0.08 },
+        { filter: 'brightness(1.7) sepia(0.35) saturate(1.6)', duration: 0.10 },
+        { filter: 'brightness(2.2) sepia(0.15) saturate(2.0)', duration: 0.08 },
+        { filter: 'brightness(2.6) sepia(0)    saturate(2.4)', duration: 0.08 },
+        { filter: 'none',                                      duration: 0.06 }
+      ]
+    })
+    .to(introScanlines, { opacity: 0.55, duration: 0.06 }, '<')
+    .to(introScanlines, { opacity: 0, duration: 0.30 }, '>')
+    .to(flash, { opacity: 1, duration: 0.14 })
+    .add(() => {
+      introEl.style.visibility = 'hidden';
+      introEl.style.pointerEvents = 'none';
+      gsap.set(heroUfo, { x: introX, y: introY, opacity: 1, force3D: false });
+      setTimeout(() => { introEl.style.display = 'none'; }, 100);
+    })
+    .to(flash, {
+      opacity: 0,
+      duration: 1.2,
+      ease: 'power2.out',
+      onComplete: () => {
+        ufoIntroComplete = true;
+        sessionStorage.setItem('introPlayed', 'true');
+        syncUfoToScroll();
+      }
+    }, '+=0.05');
+}
+
 function initIntro() {
-  if (document.documentElement.getAttribute('data-theme') === 'light') {
-    if (introEl) {introEl.style.display = 'none';
-    }
-  
-    if (heroUfo) {
-      gsap.set(heroUfo, {x: introX, y: introY, opacity: 1, visibility: 'visible', force3D: false});
-    }
-  
-    ufoIntroComplete = true;
-    return;
+  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+
+  if (introEl) {
+    introEl.classList.toggle('intro-light', isLight);
   }
-  
+
   if (sessionStorage.getItem('introPlayed')) {
     introEl.style.display = 'none';
     gsap.set(heroUfo, { x: introX, y: introY, opacity: 1, force3D: false });
@@ -227,13 +288,23 @@ function initIntro() {
   gsap.to(introGlow, { opacity: 1, duration: 0.9, delay: 0.4 });
   gsap.to(iBeam,     { opacity: 0.65, duration: 1.4, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 1.1 });
 
-  setTimeout(() => runScan(), 400);
+  if (!isLight) {
+    setTimeout(() => runScan(), 400);
+  }
 
-  spawnParticles(35, 1);
+  if (isLight) {
+    spawnLightParticles(30, 1);
+  } else {
+    spawnParticles(35, 1);
+  }
 
   setTimeout(() => {
     if (introFired) return;
-    spawnParticles(55, 2.5);
+    if (isLight) {
+      spawnLightParticles(55, 2.5);
+    } else {
+      spawnParticles(55, 2.5);
+    }
     gsap.to(introGlow, { opacity: 0.8, duration: 1.2 });
   }, 1200);
 
