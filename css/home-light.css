@@ -321,10 +321,10 @@
 }
 
 :root[data-theme="light"] .nav-links a {
-  color: #07100A;
-  text-shadow:
-    0 1px 1px rgba(255, 255, 255, 0.25),
-    0 0 8px rgba(255, 255, 255, 0.14);
+  color: var(--text);  /* instead of #07100A */
+  text-shadow: 
+    0 1px 1px rgba(255, 255, 255, 0.30), 
+    0 0 8px rgba(255, 255, 255, 0.18);
 }
 
 :root[data-theme="light"] .nav-links a:hover {
@@ -352,10 +352,8 @@
  */
 :root[data-theme="light"] .hero-us {
   --accent-aurora: var(--cosmos-800);
-
-  color: var(--cosmos-900);
+  color: var(--text);  /* instead of var(--cosmos-900) */
   background: transparent;
-
   text-shadow:
     0 1px 1px rgba(255, 255, 255, 0.30),
     0 0 8px rgba(255, 255, 255, 0.16);
@@ -363,8 +361,7 @@
 
 :root[data-theme="light"] nav.scrolled .hero-us {
   --accent-aurora: var(--cosmos-800);
-
-  color: var(--cosmos-800);
+  color: var(--text);  /* instead of var(--cosmos-800) */
   background: transparent;
   text-shadow: none;
 }
@@ -384,7 +381,7 @@
 }
 
 :root[data-theme="light"] nav.scrolled .nav-links a {
-  color: var(--text-muted);
+  color: var(--text);  /* add explicit scrolled state */
   text-shadow: none;
 }
 
