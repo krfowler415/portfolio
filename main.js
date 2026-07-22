@@ -80,6 +80,34 @@ function setViewportHeight() {
  * § 3  INTRO OVERLAY
  * ===================================================================== */
 
+function spawnParticles(count, speedMult) {
+  for (let i = 0; i < count; i++) {
+    const pt    = document.createElement('div');
+    pt.className = 'ipt';
+
+    const size  = 1.5 + Math.random() * 4;
+    const left  = 5   + Math.random() * 90;
+    const btm   = 2   + Math.random() * 85;
+    const dur   = (1.4 + Math.random() * 2.2) / speedMult;
+    const delay = (Math.random() * 2.5) / speedMult;
+    const drift = (Math.random() - 0.5) * 60;
+    const rise  = 70  + Math.random() * 30;
+
+    pt.style.cssText = [
+      `width:${size}px`,
+      `height:${size}px`,
+      `left:${left}%`,
+      `bottom:${btm}%`,
+      `animation-duration:${dur}s`,
+      `animation-delay:-${delay}s`,
+      `--drift:${drift}px`,
+      `--rise:-${rise}vh`
+    ].join(';');
+
+    introPts.appendChild(pt);
+  }
+}
+
 function spawnLightParticles(count, speedMult) {
   for (let i = 0; i < count; i++) {
     const pt    = document.createElement('div');
