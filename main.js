@@ -2433,7 +2433,7 @@ function initScrollReveal() {
 
 
 /* =====================================================================
- * § 12  CARD TILT  (enhanced 3D — theme-agnostic)
+ * § 12  CARD TILT  (theme-agnostic)
  * ===================================================================== */
 
 function initCardTilt() {
@@ -2455,22 +2455,14 @@ function initCardTilt() {
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
 
-      // Rotation only — the entire card moves as one solid object
       const rx = (y - 0.5) * -20;
       const ry = (x - 0.5) *  20;
 
       inner.style.transition = 'transform 0.1s ease-out';
       inner.style.transform =
-        `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.03, 1.03, 1.03)`;
+        `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg)`;
 
-      // Dynamic shadow tracks opposite to cursor
-      const shadowX = (x - 0.5) * -60;
-      const shadowY = (y - 0.5) * -60 + 20;
-      wrap.style.setProperty('--shadow-x', `${shadowX}px`);
-      wrap.style.setProperty('--shadow-y', `${shadowY}px`);
-      wrap.style.setProperty('--shadow-opacity', '1');
-
-      // Sheen sweep
+      // Sheen sweep only
       const sheenX = 50 + (x - 0.5) * -100;
       const sheenY = 50 + (y - 0.5) * -100;
       const rot    = (x - 0.5) * 45;
@@ -2483,10 +2475,6 @@ function initCardTilt() {
     wrap.addEventListener('mouseleave', () => {
       inner.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
       inner.style.transform  = '';
-
-      wrap.style.setProperty('--shadow-opacity', '0');
-      wrap.style.setProperty('--shadow-x', '0px');
-      wrap.style.setProperty('--shadow-y', '20px');
 
       sheen.style.opacity    = '0';
       sheen.style.transition = 'opacity 0.4s ease';
