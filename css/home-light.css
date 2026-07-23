@@ -540,6 +540,12 @@
     0 0 0 1px rgba(167, 207, 131, 0.14);
 }
 
+:root[data-theme="light"] .card-tilt-wrap {
+  --card-float-shadow: rgba(11, 36, 18, 0.22);
+  --card-rim-light: rgba(255, 253, 247, 0.35);
+  --card-rim-shadow: rgba(11, 36, 18, 0.08);
+}
+
 :root[data-theme="light"] .cs-strip {
   padding-top: 3rem;
   padding-bottom: 3rem;
