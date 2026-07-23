@@ -2443,16 +2443,41 @@ function initCardTilt() {
     const inner = wrap.querySelector('.card-feat');
     if (!inner) return;
 
+    // Add sheen element if not present
+    let sheen = inner.querySelector('.card-sheen');
+    if (!sheen) {
+      sheen = document.createElement('div');
+      sheen.className = 'card-sheen';
+      inner.appendChild(sheen);
+    }
+
     wrap.addEventListener('mousemove', e => {
       const rect = wrap.getBoundingClientRect();
-      const rx = ((e.clientY - rect.top)  / rect.height - 0.5) * -6;
-      const ry = ((e.clientX - rect.left) / rect.width  - 0.5) *  6;
-      inner.style.transform  = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top)  / rect.height;
+
+      // Tilt: stronger rotation for more 3D feel
+      const rx = (y - 0.5) * -10;
+      const ry = (x - 0.5) *  10;
+
+      inner.style.transition = 'transform 0.1s ease-out';
+      inner.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.02, 1.02, 1.02)`;
+
+      // Sheen position: moves opposite to tilt for realistic light reflection
+      const sheenX = 50 + (x - 0.5) * -80;
+      const sheenY = 50 + (y - 0.5) * -80;
+      const rot = (x - 0.5) * 45;
+
+      sheen.style.opacity = '1';
+      sheen.style.transform = `translate(-50%, -50%) rotate(${rot}deg) translate(${sheenX - 50}%, ${sheenY - 50}%)`;
+      sheen.style.backgroundPosition = `${sheenX}% ${sheenY}%`;
     });
 
     wrap.addEventListener('mouseleave', () => {
-      inner.style.transition = 'transform 0.6s cubic-bezier(0.23,1,0.32,1)';
-      inner.style.transform  = '';
+      inner.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+      inner.style.transform = '';
+      sheen.style.opacity = '0';
+      sheen.style.transition = 'opacity 0.4s ease';
     });
   });
 }
