@@ -684,6 +684,28 @@
 }
 
 
+/* ── Light theme holographic sheen ──────────────────────────────── */
+
+:root[data-theme="light"] .card-sheen::after {
+  background: conic-gradient(
+    from 180deg at 50% 50%,
+    rgba(255, 210, 60, 0) 0deg,
+    rgba(255, 210, 60, 0.20) 30deg,
+    rgba(255, 255, 220, 0.42) 60deg,
+    rgba(255, 210, 60, 0.20) 90deg,
+    rgba(255, 210, 60, 0) 120deg,
+    rgba(255, 210, 60, 0) 180deg,
+    rgba(233, 132, 53, 0.16) 210deg,
+    rgba(255, 240, 120, 0.38) 240deg,
+    rgba(233, 132, 53, 0.16) 270deg,
+    rgba(255, 210, 60, 0) 300deg,
+    rgba(255, 210, 60, 0) 360deg
+  );
+  filter: blur(50px);
+  mix-blend-mode: overlay;
+}
+
+
 /* =====================================================================
  * § 8  LIGHT ABOUT / STATS
  * ===================================================================== */
