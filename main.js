@@ -1574,7 +1574,7 @@ function initThemeToggle() {
     if (!savedTheme) {
       const newTheme = event.matches ? 'light' : 'dark';
       applyTheme(newTheme, false);
-      swapTerrain(newTheme);
+      swapTerrain();
       swapFavicon(newTheme);
     }
   });
