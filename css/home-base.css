@@ -567,25 +567,6 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   position: relative;
   transform-style: preserve-3d;
   will-change: transform;
-  --shadow-x: 0px;
-  --shadow-y: 20px;
-  --shadow-opacity: 0;
-}
-
-/* Dynamic shadow layer (follows cursor via JS) */
-.card-tilt-wrap::after {
-  content: '';
-  position: absolute;
-  inset: 8%;
-  border-radius: 18px;
-  background: transparent;
-  box-shadow:
-    var(--shadow-x) var(--shadow-y) 35px -8px var(--card-shadow-color, rgba(0,0,0,0.6)),
-    var(--shadow-x) var(--shadow-y) 70px -16px var(--card-shadow-color-soft, rgba(0,0,0,0.3));
-  opacity: var(--shadow-opacity);
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-  z-index: -1;
 }
 
 a.card-feat,
