@@ -559,18 +559,13 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   }
 }
 
-
-/* =====================================================================
- * § 7  HOME CARDS + CASE STUDY CONTROLS STRUCTURE
- * ===================================================================== */
-
 /* =====================================================================
  * § 7  HOME CARDS + CASE STUDY CONTROLS STRUCTURE
  * ===================================================================== */
 
 .card-tilt-wrap {
   position: relative;
-  transform-style: preserve-3d;
+  transform-style: flat;
   will-change: transform;
   --shadow-x: 0px;
   --shadow-y: 20px;
