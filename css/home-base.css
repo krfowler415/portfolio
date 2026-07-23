@@ -2,7 +2,7 @@
  * =====================================================================
  * HOME BASE
  * Shared homepage layout only.
- * No cosmos styling. No western styling.
+ * No cosmos styling. No light styling.
  * =====================================================================
  */
 
@@ -564,6 +564,10 @@ nav.nav-open #nav-toggle span:nth-child(3) {
  * § 7  HOME CARDS + CASE STUDY CONTROLS STRUCTURE
  * ===================================================================== */
 
+/* =====================================================================
+ * § 7  HOME CARDS + CASE STUDY CONTROLS STRUCTURE
+ * ===================================================================== */
+
 .card-tilt-wrap {
   position: relative;
   transform-style: preserve-3d;
@@ -572,7 +576,7 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   --shadow-y: 20px;
 }
 
-/* Flat blurred shadow behind the card */
+/* Shadow behind the card — blurred, offset, tracks opposite to mouse */
 .card-tilt-wrap::after {
   content: '';
   position: absolute;
@@ -609,50 +613,35 @@ a.card-feat,
   text-decoration: none;
 }
 
-/* Surface reflection — subtle gradient overlay, no borders */
-.card-feat::before {
-  content: '';
+/* NO ::before on .card-feat — that was the black layer blocking the link */
+
+/* Shine overlay — sits on top of card content, doesn't block clicks */
+.card-sheen {
   position: absolute;
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  z-index: 5;
+  z-index: 2;
   opacity: 0;
   transition: opacity 0.3s ease;
-  background: linear-gradient(
-    135deg,
-    var(--card-rim-light, rgba(255, 255, 255, 0.08)) 0%,
-    transparent 35%,
-    transparent 65%,
-    var(--card-rim-shadow, rgba(0, 0, 0, 0.12)) 100%
-  );
-  mix-blend-mode: soft-light;
+  overflow: hidden;
 }
 
-.card-tilt-wrap:hover .card-feat::before {
-  opacity: 1;
-}
-
-/* Sweeping sheen overlay */
-.card-sheen {
+.card-sheen::after {
+  content: '';
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 300%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 10;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  background: linear-gradient(
-    90deg,
-    transparent 35%,
-    rgba(255, 255, 255, 0.06) 42%,
-    rgba(255, 255, 255, 0.16) 50%,
-    rgba(255, 255, 255, 0.06) 58%,
-    transparent 65%
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.06) 25%,
+    transparent 60%
   );
   mix-blend-mode: overlay;
+  transform: translate(var(--sheen-x, 0), var(--sheen-y, 0));
 }
 
 .card-vis {
