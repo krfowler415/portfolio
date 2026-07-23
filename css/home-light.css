@@ -706,6 +706,29 @@
   border-color: var(--accent-cosmos);
 }
 
+/* ── Light Card 3D Shadows ──────────────────────────────────────── */
+
+:root[data-theme="light"] .card-tilt-wrap {
+  --card-shadow-color: rgba(11, 36, 18, 0.32);
+  --card-shadow-color-soft: rgba(74, 33, 10, 0.16);
+  --card-edge-light: rgba(255, 253, 247, 0.72);
+  --card-edge-dark: rgba(11, 36, 18, 0.12);
+}
+
+:root[data-theme="light"] a.card-feat,
+:root[data-theme="light"] .card-feat {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 253, 247, 0.42),
+    0 12px 32px -8px rgba(11, 36, 18, 0.14);
+}
+
+:root[data-theme="light"] .card-feat:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 253, 247, 0.52),
+    0 28px 56px -12px rgba(11, 36, 18, 0.20),
+    0 0 30px rgba(255, 210, 60, 0.14),
+    0 0 60px rgba(167, 207, 131, 0.10);
+}
 
 /* ── Light theme holographic sheen ──────────────────────────────── */
 
@@ -786,6 +809,17 @@
 :root[data-theme="light"] .stat-l {
   color: var(--text-on-dark-muted);
 }
+
+/* ── Light Stat Ambient Glow ────────────────────────────────────── */
+
+:root[data-theme="light"] .stat:hover {
+  box-shadow:
+    0 0 0 1px #C8185840,
+    0 0 20px #C8185825,
+    inset 0 1px 0 #C8185850,
+    0 0 30px rgba(255, 210, 60, 0.12);
+}
+
 
 /* =====================================================================
  * § 9  LIGHT CONTACT
