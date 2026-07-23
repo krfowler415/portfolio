@@ -584,6 +584,51 @@ a.card-feat,
   text-decoration: none;
 }
 
+
+/* Holographic sheen overlay */
+.card-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+
+  /* Larger than card so it can move */
+  width: 200%;
+  height: 200%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.card-sheen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+
+  /* Conic gradient creates the rainbow band */
+  background: conic-gradient(
+    from 180deg at 50% 50%,
+    rgba(255, 255, 255, 0) 0deg,
+    rgba(255, 255, 255, 0.12) 30deg,
+    rgba(255, 255, 255, 0.30) 60deg,
+    rgba(255, 255, 255, 0.12) 90deg,
+    rgba(255, 255, 255, 0) 120deg,
+    rgba(255, 255, 255, 0) 180deg,
+    rgba(255, 255, 255, 0.08) 210deg,
+    rgba(255, 255, 255, 0.25) 240deg,
+    rgba(255, 255, 255, 0.08) 270deg,
+    rgba(255, 255, 255, 0) 300deg,
+    rgba(255, 255, 255, 0) 360deg
+  );
+
+  filter: blur(45px);
+  mix-blend-mode: overlay;
+}
+
 .card-vis {
   min-height: 420px;
   display: flex;
