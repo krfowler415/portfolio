@@ -2455,25 +2455,13 @@ function initCardTilt() {
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
 
-      // Stronger rotation for physical weight
+      // Rotation only — the entire card moves as one solid object
       const rx = (y - 0.5) * -20;
       const ry = (x - 0.5) *  20;
 
       inner.style.transition = 'transform 0.1s ease-out';
       inner.style.transform =
         `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.03, 1.03, 1.03)`;
-
-      // Internal Z-parallax: visual pops forward, text sits mid
-      const vis  = inner.querySelector('.card-vis');
-      const body = inner.querySelector('.card-body');
-      if (vis) {
-        vis.style.transition = 'transform 0.1s ease-out';
-        vis.style.transform  = `translateZ(50px) scale(0.97)`;
-      }
-      if (body) {
-        body.style.transition = 'transform 0.1s ease-out';
-        body.style.transform  = `translateZ(24px) scale(0.985)`;
-      }
 
       // Dynamic shadow tracks opposite to cursor
       const shadowX = (x - 0.5) * -60;
@@ -2495,17 +2483,6 @@ function initCardTilt() {
     wrap.addEventListener('mouseleave', () => {
       inner.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
       inner.style.transform  = '';
-
-      const vis  = inner.querySelector('.card-vis');
-      const body = inner.querySelector('.card-body');
-      if (vis) {
-        vis.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
-        vis.style.transform  = '';
-      }
-      if (body) {
-        body.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
-        body.style.transform  = '';
-      }
 
       wrap.style.setProperty('--shadow-opacity', '0');
       wrap.style.setProperty('--shadow-x', '0px');
