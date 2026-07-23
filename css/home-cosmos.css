@@ -277,6 +277,12 @@
     0 0 70px #5F259F30;
 }
 
+:root[data-theme="dark"] .card-tilt-wrap {
+  --card-float-shadow: rgba(5, 2, 16, 0.75);
+  --card-rim-light: rgba(255, 255, 255, 0.1);
+  --card-rim-shadow: rgba(0, 0, 0, 0.3);
+}
+
 :root[data-theme="dark"] .card-vis {
   background: var(--project-vis-bg, var(--bg-dark));
 }
