@@ -711,8 +711,8 @@
 :root[data-theme="light"] .card-tilt-wrap {
   --card-shadow-color: rgba(11, 36, 18, 0.32);
   --card-shadow-color-soft: rgba(74, 33, 10, 0.16);
-  --card-edge-light: rgba(255, 253, 247, 0.72);
-  --card-edge-dark: rgba(11, 36, 18, 0.12);
+  --card-edge-light: rgba(255, 253, 247, 0.35);
+  --card-edge-dark: rgba(11, 36, 18, 0.10);
 }
 
 :root[data-theme="light"] a.card-feat,
