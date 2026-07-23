@@ -2443,7 +2443,6 @@ function initCardTilt() {
     const inner = wrap.querySelector('.card-feat');
     if (!inner) return;
 
-    // Create sheen overlay if missing
     let sheen = inner.querySelector('.card-sheen');
     if (!sheen) {
       sheen = document.createElement('div');
@@ -2456,20 +2455,21 @@ function initCardTilt() {
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
 
-      // Card rotation
+      // Parent .cs-strip already has perspective: 1200px
+      // Card only rotates — no perspective(), no scale, no translateZ
       const rx = (y - 0.5) * -12;
       const ry = (x - 0.5) *  12;
 
       inner.style.transition = 'transform 0.1s ease-out';
-      inner.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      inner.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
 
-      // Shadow shifts opposite to cursor (light source logic)
-      const shadowX = (x - 0.5) * -45;
-      const shadowY = (y - 0.5) * -45 + 20;
+      // Shadow shifts opposite to cursor
+      const shadowX = (x - 0.5) * -40;
+      const shadowY = (y - 0.5) * -40 + 20;
       wrap.style.setProperty('--shadow-x', `${shadowX}px`);
       wrap.style.setProperty('--shadow-y', `${shadowY}px`);
 
-      // Sheen sweeps across surface
+      // Sheen sweep
       const sheenX = (x - 0.5) * 40;
       sheen.style.opacity = '1';
       sheen.style.transform = `translateX(${sheenX}%)`;
