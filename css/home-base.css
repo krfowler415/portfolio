@@ -559,6 +559,7 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   }
 }
 
+
 /* =====================================================================
  * § 7  HOME CARDS + CASE STUDY CONTROLS STRUCTURE
  * ===================================================================== */
@@ -567,11 +568,32 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   position: relative;
   transform-style: preserve-3d;
   will-change: transform;
+  --shadow-x: 0px;
+  --shadow-y: 20px;
+}
+
+/* Flat blurred shadow behind the card */
+.card-tilt-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 10%;
+  border-radius: 20px;
+  background: var(--card-float-shadow, rgba(0, 0, 0, 0.5));
+  filter: blur(32px);
+  opacity: 0;
+  transform: translate(var(--shadow-x), var(--shadow-y));
+  transition: opacity 0.35s ease, transform 0.1s ease-out;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.card-tilt-wrap:hover::after {
+  opacity: 1;
 }
 
 a.card-feat,
 .card-feat {
-  position: relative; 
+  position: relative;
   border-radius: 14px;
   overflow: hidden;
   display: grid;
@@ -587,7 +609,7 @@ a.card-feat,
   text-decoration: none;
 }
 
-/* Physical glass edge — inset bevel */
+/* Surface reflection — subtle gradient overlay, no borders */
 .card-feat::before {
   content: '';
   position: absolute;
@@ -597,58 +619,39 @@ a.card-feat,
   z-index: 5;
   opacity: 0;
   transition: opacity 0.3s ease;
-
-  box-shadow:
-    inset 1px 1px 0 var(--card-edge-light, rgba(255,255,255,0.1)),
-    inset -1px -1px 0 var(--card-edge-dark, rgba(0,0,0,0.2)),
-    inset 2px 2px 0 var(--card-edge-light, rgba(255,255,255,0.05));
+  background: linear-gradient(
+    135deg,
+    var(--card-rim-light, rgba(255, 255, 255, 0.08)) 0%,
+    transparent 35%,
+    transparent 65%,
+    var(--card-rim-shadow, rgba(0, 0, 0, 0.12)) 100%
+  );
+  mix-blend-mode: soft-light;
 }
 
 .card-tilt-wrap:hover .card-feat::before {
   opacity: 1;
 }
 
-/* Holographic sheen overlay */
+/* Sweeping sheen overlay */
 .card-sheen {
   position: absolute;
-  inset: 0;
-  border-radius: 14px;
+  top: 0;
+  left: -100%;
+  width: 300%;
+  height: 100%;
   pointer-events: none;
   z-index: 10;
   opacity: 0;
   transition: opacity 0.3s ease;
-
-  /* Larger than card so it can move */
-  width: 200%;
-  height: 200%;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.card-sheen::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-
-  /* Conic gradient creates the rainbow band */
-  background: conic-gradient(
-    from 180deg at 50% 50%,
-    rgba(255, 255, 255, 0) 0deg,
-    rgba(255, 255, 255, 0.12) 30deg,
-    rgba(255, 255, 255, 0.30) 60deg,
-    rgba(255, 255, 255, 0.12) 90deg,
-    rgba(255, 255, 255, 0) 120deg,
-    rgba(255, 255, 255, 0) 180deg,
-    rgba(255, 255, 255, 0.08) 210deg,
-    rgba(255, 255, 255, 0.25) 240deg,
-    rgba(255, 255, 255, 0.08) 270deg,
-    rgba(255, 255, 255, 0) 300deg,
-    rgba(255, 255, 255, 0) 360deg
+  background: linear-gradient(
+    90deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.06) 42%,
+    rgba(255, 255, 255, 0.16) 50%,
+    rgba(255, 255, 255, 0.06) 58%,
+    transparent 65%
   );
-
-  filter: blur(45px);
   mix-blend-mode: overlay;
 }
 
