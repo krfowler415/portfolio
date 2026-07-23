@@ -439,27 +439,6 @@
     0 0 80px rgba(95, 37, 159, 0.22);
 }
 
-/* ── Dark theme holographic sheen ───────────────────────────────── */
-
-:root[data-theme="dark"] .card-sheen::after {
-  background: conic-gradient(
-    from 180deg at 50% 50%,
-    rgba(10, 195, 154, 0) 0deg,
-    rgba(10, 195, 154, 0.18) 30deg,
-    rgba(127, 246, 228, 0.38) 60deg,
-    rgba(10, 195, 154, 0.18) 90deg,
-    rgba(10, 195, 154, 0) 120deg,
-    rgba(10, 195, 154, 0) 180deg,
-    rgba(95, 37, 159, 0.12) 210deg,
-    rgba(10, 195, 154, 0.32) 240deg,
-    rgba(95, 37, 159, 0.12) 270deg,
-    rgba(10, 195, 154, 0) 300deg,
-    rgba(10, 195, 154, 0) 360deg
-  );
-  filter: blur(50px);
-  mix-blend-mode: screen;
-}
-
 
 /* =====================================================================
  * § 8  COSMOS ABOUT / STATS
