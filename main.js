@@ -2433,7 +2433,7 @@ function initScrollReveal() {
 
 
 /* =====================================================================
- * § 12  CARD TILT
+ * § 12  CARD TILT  (enhanced 3D — theme-agnostic)
  * ===================================================================== */
 
 function initCardTilt() {
@@ -2443,7 +2443,6 @@ function initCardTilt() {
     const inner = wrap.querySelector('.card-feat');
     if (!inner) return;
 
-    // Add sheen element if not present
     let sheen = inner.querySelector('.card-sheen');
     if (!sheen) {
       sheen = document.createElement('div');
@@ -2454,34 +2453,97 @@ function initCardTilt() {
     wrap.addEventListener('mousemove', e => {
       const rect = wrap.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top)  / rect.height;
+      const y = (e.clientY - rect.top) / rect.height;
 
-      // Tilt: stronger rotation for more 3D feel
-      const rx = (y - 0.5) * -10;
-      const ry = (x - 0.5) *  10;
+      // Stronger rotation for physical weight
+      const rx = (y - 0.5) * -20;
+      const ry = (x - 0.5) *  20;
 
       inner.style.transition = 'transform 0.1s ease-out';
-      inner.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.02, 1.02, 1.02)`;
+      inner.style.transform =
+        `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.03, 1.03, 1.03)`;
 
-      // Sheen position: moves opposite to tilt for realistic light reflection
-      const sheenX = 50 + (x - 0.5) * -80;
-      const sheenY = 50 + (y - 0.5) * -80;
-      const rot = (x - 0.5) * 45;
+      // Internal Z-parallax: visual pops forward, text sits mid
+      const vis  = inner.querySelector('.card-vis');
+      const body = inner.querySelector('.card-body');
+      if (vis) {
+        vis.style.transition = 'transform 0.1s ease-out';
+        vis.style.transform  = `translateZ(50px) scale(0.97)`;
+      }
+      if (body) {
+        body.style.transition = 'transform 0.1s ease-out';
+        body.style.transform  = `translateZ(24px) scale(0.985)`;
+      }
+
+      // Dynamic shadow tracks opposite to cursor
+      const shadowX = (x - 0.5) * -60;
+      const shadowY = (y - 0.5) * -60 + 20;
+      wrap.style.setProperty('--shadow-x', `${shadowX}px`);
+      wrap.style.setProperty('--shadow-y', `${shadowY}px`);
+      wrap.style.setProperty('--shadow-opacity', '1');
+
+      // Sheen sweep
+      const sheenX = 50 + (x - 0.5) * -100;
+      const sheenY = 50 + (y - 0.5) * -100;
+      const rot    = (x - 0.5) * 45;
 
       sheen.style.opacity = '1';
-      sheen.style.transform = `translate(-50%, -50%) rotate(${rot}deg) translate(${sheenX - 50}%, ${sheenY - 50}%)`;
-      sheen.style.backgroundPosition = `${sheenX}% ${sheenY}%`;
+      sheen.style.transform =
+        `translate(-50%, -50%) rotate(${rot}deg) translate(${sheenX - 50}%, ${sheenY - 50}%)`;
     });
 
     wrap.addEventListener('mouseleave', () => {
       inner.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
-      inner.style.transform = '';
-      sheen.style.opacity = '0';
+      inner.style.transform  = '';
+
+      const vis  = inner.querySelector('.card-vis');
+      const body = inner.querySelector('.card-body');
+      if (vis) {
+        vis.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+        vis.style.transform  = '';
+      }
+      if (body) {
+        body.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+        body.style.transform  = '';
+      }
+
+      wrap.style.setProperty('--shadow-opacity', '0');
+      wrap.style.setProperty('--shadow-x', '0px');
+      wrap.style.setProperty('--shadow-y', '20px');
+
+      sheen.style.opacity    = '0';
       sheen.style.transition = 'opacity 0.4s ease';
     });
   });
 }
 
+/* =====================================================================
+ * § 12A  STAT TILT
+ * ===================================================================== */
+
+function initStatTilt() {
+  if (reducedMotion) return;
+
+  document.querySelectorAll('.stat').forEach(stat => {
+    stat.addEventListener('mousemove', e => {
+      const rect = stat.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+
+      const rx = (y - 0.5) * -10;
+      const ry = (x - 0.5) *  10;
+
+      stat.style.transition = 'transform 0.15s ease-out';
+      stat.style.transform =
+        `perspective(600px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-3px)`;
+    });
+
+    stat.addEventListener('mouseleave', () => {
+      stat.style.transition = 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)';
+      stat.style.transform  = '';
+    });
+  });
+}
 
 /* =====================================================================
  * § 13  RESIZE & ORIENTATION HANDLERS
@@ -2603,6 +2665,7 @@ defer(() => {
   initCaseStudyStrip();
   initScrollReveal();
   initCardTilt();
+  initStatTilt();
   initBeamUp();
   initResizeHandlers();
 });
