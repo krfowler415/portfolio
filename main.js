@@ -2455,24 +2455,24 @@ function initCardTilt() {
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
 
-      // Parent .cs-strip already has perspective: 1200px
-      // Card only rotates — no perspective(), no scale, no translateZ
+      // Tilt
       const rx = (y - 0.5) * -12;
       const ry = (x - 0.5) *  12;
 
       inner.style.transition = 'transform 0.1s ease-out';
       inner.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
 
-      // Shadow shifts opposite to cursor
+      // Shadow moves opposite
       const shadowX = (x - 0.5) * -40;
       const shadowY = (y - 0.5) * -40 + 20;
       wrap.style.setProperty('--shadow-x', `${shadowX}px`);
       wrap.style.setProperty('--shadow-y', `${shadowY}px`);
 
-      // Sheen sweep
-      const sheenX = (x - 0.5) * 40;
+      // Sheen follows cursor across surface
+      const sheenX = (x - 0.5) * 200;
+      const sheenY = (y - 0.5) * 200;
       sheen.style.opacity = '1';
-      sheen.style.transform = `translateX(${sheenX}%)`;
+      sheen.style.transform = `translateX(${sheenX}%) translateY(${sheenY}%)`;
     });
 
     wrap.addEventListener('mouseleave', () => {
