@@ -1878,11 +1878,6 @@ a.card-feat,
   animation-delay: 0.55s;
 }
 
-.intro-skip #intro,
-.intro-skip #intro-flash {
-  display: none !important;
-}
-
 /* ── Intro Overlay Keyframes ───────────────────────────────────────── */
 
 @keyframes iptRise {
