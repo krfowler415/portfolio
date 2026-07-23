@@ -301,72 +301,71 @@
  * § 3  LIGHT NAVIGATION
  * ===================================================================== */
 
-:root[data-theme="light"] nav:not(.scrolled) {
-  background: transparent;
-  border-bottom-color: transparent;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-  box-shadow: none;
+/* Unified hover accent — mesa rust, readable on sky + sand */
+:root[data-theme="light"] {
+  --nav-hover: var(--pulsar-800);   /* #7F390F */
 }
+
+/* ── Transparent nav over sky blue ─────────────────────────────── */
 
 :root[data-theme="light"] .nav-logo {
   color: #07100A;
-  text-shadow:
-    0 1px 1px rgba(255, 255, 255, 0.30),
-    0 0 10px rgba(255, 255, 255, 0.18);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.30), 0 0 10px rgba(255, 255, 255, 0.18);
+  transition: color 0.2s ease;
 }
 
 :root[data-theme="light"] .nav-logo:hover {
-  color: var(--cosmos-800);
+  color: var(--nav-hover);
 }
 
 :root[data-theme="light"] .nav-links a {
-  color: var(--text);  /* instead of #07100A */
-  text-shadow: 
-    0 1px 1px rgba(255, 255, 255, 0.30), 
-    0 0 8px rgba(255, 255, 255, 0.18);
+  color: #07100A;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.25), 0 0 8px rgba(255, 255, 255, 0.14);
+  transition: color 0.2s ease;
 }
 
 :root[data-theme="light"] .nav-links a:hover {
-  color: var(--cosmos-800);
+  color: var(--nav-hover);
 }
 
+/* Border animation lines follow the hover color */
 :root[data-theme="light"] .nav-links a::before,
 :root[data-theme="light"] .nav-links a::after,
 :root[data-theme="light"] .nav-links a span::before,
 :root[data-theme="light"] .nav-links a span::after {
   background: #07100A;
+  transition: all 0.3s ease, background 0.2s ease;
+}
+
+:root[data-theme="light"] .nav-links a:hover::before,
+:root[data-theme="light"] .nav-links a:hover::after,
+:root[data-theme="light"] .nav-links a:hover span::before,
+:root[data-theme="light"] .nav-links a:hover span::after {
+  background: var(--nav-hover);
 }
 
 :root[data-theme="light"] #nav-toggle span {
   background: #07100A;
+  transition: background 0.2s ease;
 }
 
 :root[data-theme="light"] #nav-toggle:hover span {
-  background: var(--cosmos-800);
+  background: var(--nav-hover);
 }
 
-/* Availability badge — colors only.
- * All sizing, pulse, expansion, and text-swap animation
- * remain controlled by home-base.css.
- */
+/* Availability badge — dot stays green, text shifts to rust */
 :root[data-theme="light"] .hero-us {
-  --accent-aurora: var(--cosmos-800);
-  color: var(--text);  /* instead of var(--cosmos-900) */
-  background: transparent;
-  text-shadow:
-    0 1px 1px rgba(255, 255, 255, 0.30),
-    0 0 8px rgba(255, 255, 255, 0.16);
+  color: var(--text);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.30), 0 0 8px rgba(255, 255, 255, 0.16);
+  transition: color 0.2s ease;
 }
 
-:root[data-theme="light"] nav.scrolled .hero-us {
-  --accent-aurora: var(--cosmos-800);
-  color: var(--text);  /* instead of var(--cosmos-800) */
-  background: transparent;
-  text-shadow: none;
+:root[data-theme="light"] .hero-us:hover {
+  color: var(--nav-hover);
 }
 
-/* Scrolled nav over the sand page */
+/* ── Scrolled nav over sand ───────────────────────────────────── */
+
 :root[data-theme="light"] nav.scrolled {
   background: rgba(243, 211, 154, 0.94);
   -webkit-backdrop-filter: blur(16px);
@@ -380,25 +379,49 @@
   text-shadow: none;
 }
 
+:root[data-theme="light"] nav.scrolled .nav-logo:hover {
+  color: var(--nav-hover);
+}
+
+/* Scrolled links: lighter default so the hover jump is visible */
 :root[data-theme="light"] nav.scrolled .nav-links a {
-  color: var(--text);  /* add explicit scrolled state */
+  color: var(--aether-800);   /* #4E4030 — lighter than text */
   text-shadow: none;
 }
 
-/* Explicit hover states for the solid/scrolled nav */
-:root[data-theme="light"] nav.scrolled .nav-logo:hover {
-  color: var(--pulsar-800);
-}
-
 :root[data-theme="light"] nav.scrolled .nav-links a:hover {
-  color: var(--text);
+  color: var(--nav-hover);
 }
 
 :root[data-theme="light"] nav.scrolled .nav-links a::before,
 :root[data-theme="light"] nav.scrolled .nav-links a::after,
 :root[data-theme="light"] nav.scrolled .nav-links a span::before,
 :root[data-theme="light"] nav.scrolled .nav-links a span::after {
+  background: var(--aether-800);
+}
+
+:root[data-theme="light"] nav.scrolled .nav-links a:hover::before,
+:root[data-theme="light"] nav.scrolled .nav-links a:hover::after,
+:root[data-theme="light"] nav.scrolled .nav-links a:hover span::before,
+:root[data-theme="light"] nav.scrolled .nav-links a:hover span::after {
+  background: var(--nav-hover);
+}
+
+:root[data-theme="light"] nav.scrolled #nav-toggle span {
   background: var(--text);
+}
+
+:root[data-theme="light"] nav.scrolled #nav-toggle:hover span {
+  background: var(--nav-hover);
+}
+
+:root[data-theme="light"] nav.scrolled .hero-us {
+  color: var(--text);
+  text-shadow: none;
+}
+
+:root[data-theme="light"] nav.scrolled .hero-us:hover {
+  color: var(--nav-hover);
 }
 
 
