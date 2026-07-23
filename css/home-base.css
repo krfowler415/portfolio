@@ -606,7 +606,7 @@ a.card-feat,
   text-decoration: none;
 }
 
-/* Physical glass edge / thickness */
+/* Physical glass edge — inset bevel */
 .card-feat::before {
   content: '';
   position: absolute;
@@ -617,10 +617,10 @@ a.card-feat,
   opacity: 0;
   transition: opacity 0.3s ease;
 
-  border-top: 1px solid var(--card-edge-light, rgba(255,255,255,0.1));
-  border-left: 1px solid var(--card-edge-light, rgba(255,255,255,0.05));
-  border-right: 1px solid var(--card-edge-dark, rgba(0,0,0,0.15));
-  border-bottom: 1px solid var(--card-edge-dark, rgba(0,0,0,0.25));
+  box-shadow:
+    inset 1px 1px 0 var(--card-edge-light, rgba(255,255,255,0.1)),
+    inset -1px -1px 0 var(--card-edge-dark, rgba(0,0,0,0.2)),
+    inset 2px 2px 0 var(--card-edge-light, rgba(255,255,255,0.05));
 }
 
 .card-tilt-wrap:hover .card-feat::before {
@@ -669,13 +669,6 @@ a.card-feat,
 
   filter: blur(45px);
   mix-blend-mode: overlay;
-}
-
-/* Internal layers ready for Z-parallax */
-.card-vis,
-.card-body {
-  transform-style: preserve-3d;
-  will-change: transform;
 }
 
 .card-vis {
