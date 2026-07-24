@@ -1557,17 +1557,26 @@ function initThemeToggle() {
 
   applyTheme(getCurrentTheme(), false);
 
-  themeToggle.addEventListener('click', () => {
-    const currentTheme = getCurrentTheme();
-    const nextTheme    = currentTheme === 'dark' ? 'light' : 'dark';
+themeToggle.addEventListener('click', () => {
+  const currentTheme = getCurrentTheme();
+  const nextTheme    = currentTheme === 'dark' ? 'light' : 'dark';
 
-    playThemeWipe(nextTheme, () => {
-      applyTheme(nextTheme);
-      swapTerrain();
-      swapFavicon(nextTheme);
-    });
+  // Move toggle immediately
+  const isLight = nextTheme === 'light';
+
+  themeToggle.setAttribute('aria-pressed', String(!isLight));
+  themeToggle.setAttribute(
+    'aria-label',
+    isLight ? 'Switch to dark theme' : 'Switch to light theme'
+  );
+
+  playThemeWipe(nextTheme, () => {
+    applyTheme(nextTheme);
+    swapTerrain();
+    swapFavicon(nextTheme);
   });
-
+});
+  
   systemTheme.addEventListener('change', event => {
     const savedTheme = localStorage.getItem('kf-theme');
 
@@ -1587,7 +1596,6 @@ function initThemeToggle() {
  *  Two layered paths with randomised bezier control points create
  *  the organic wave edge. Phase 1 covers the screen, theme switches
  *  at peak coverage, phase 2 reveals the new theme.
- *  Adapted from Blake Bowen / GreenSock codepen qBedXpg.
  * ===================================================================== */
 
 let wipeIsActive = false;
