@@ -1906,10 +1906,9 @@ function initCardTilt() {
       wrap.style.setProperty('--shadow-y', `${shadowY}px`);
 
       // Sheen follows cursor across surface
-      const sheenX = (x - 0.5) * 200;
-      const sheenY = (y - 0.5) * 200;
       sheen.style.opacity = '1';
-      sheen.style.transform = `translateX(${sheenX}%) translateY(${sheenY}%)`;
+      sheen.style.setProperty('--sheen-x', `${x * 100}%`);
+      sheen.style.setProperty('--sheen-y', `${y * 100}%`);
     });
 
     wrap.addEventListener('mouseleave', () => {
