@@ -1439,27 +1439,11 @@ a.card-feat,
   width: 1200px;
   height: 900px;
   transform: translateX(-50%);
+  transform-origin: top center;
   z-index: 1;
   pointer-events: none;
   opacity: 0;
   overflow: hidden;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(62, 250, 187, 0.00) 0%,
-      rgba(62, 250, 187, 0.18) 18%,
-      rgba(62, 250, 187, 0.35) 100%
-    );
-  clip-path: polygon(
-    47% 0%,
-    53% 0%,
-    100% 100%,
-    0% 100%
-  );
-  filter:
-    blur(18px)
-    saturate(140%);
-  transform-origin: top center;
 }
 
 .hero-ufo.hovering .hero-ufo-inner {
