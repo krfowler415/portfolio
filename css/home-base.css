@@ -1451,6 +1451,49 @@ a.card-feat,
   will-change: opacity, transform;
 }
 
+#beamStreaks line{
+    stroke:white;
+    stroke-width:1.25;
+    stroke-linecap:round;
+
+    opacity:.18;
+
+    animation:
+        beamTwinkle 3.8s ease-in-out infinite alternate;
+}
+
+#beamStreaks line:nth-child(2){
+    animation-delay:.6s;
+}
+
+#beamStreaks line:nth-child(3){
+    animation-delay:1.4s;
+}
+
+#beamStreaks line:nth-child(4){
+    animation-delay:2.1s;
+}
+
+#beamStreaks line:nth-child(5){
+    animation-delay:.9s;
+}
+
+#beamStreaks line:nth-child(6){
+    animation-delay:2.8s;
+}
+
+@keyframes beamTwinkle{
+
+    from{
+        opacity:.08;
+    }
+
+    to{
+        opacity:.30;
+    }
+
+}
+
 .hero-ufo.hovering .hero-ufo-inner {
   animation: ufoHover 3s ease-in-out infinite;
 }
