@@ -1570,11 +1570,13 @@ themeToggle.addEventListener('click', () => {
     isLight ? 'Switch to dark theme' : 'Switch to light theme'
   );
 
+setTimeout(() => {
   playThemeWipe(nextTheme, () => {
     applyTheme(nextTheme);
     swapTerrain();
     swapFavicon(nextTheme);
   });
+}, 700);
 });
   
   systemTheme.addEventListener('change', event => {
