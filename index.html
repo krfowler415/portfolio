@@ -272,63 +272,91 @@
               aria-hidden="true"
             >
               <defs>
-            
-                <!-- Outer energy field -->
+              
+                <!-- Main beam -->
                 <linearGradient id="beamGradUfo" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" />
+                  <stop offset="45%" />
+                  <stop offset="100%" />
+                </linearGradient>
+              
+                <!-- Bright core -->
+                <linearGradient id="beamCoreGrad" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" />
                   <stop offset="55%" />
                   <stop offset="100%" />
                 </linearGradient>
-            
-                <!-- Bright center column -->
-                <linearGradient id="beamCoreGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" />
-                  <stop offset="65%" />
-                  <stop offset="100%" />
-                </linearGradient>
-            
+              
                 <!-- Landing glow -->
                 <radialGradient id="beamLandingGrad">
                   <stop offset="0%" />
                   <stop offset="100%" />
                 </radialGradient>
-            
-              </defs>
-            
-            
-              <!-- Outer atmospheric glow -->
-              <polygon
-                id="ufoBeamOuter"
-                points="62,0 138,0 180,200 20,200"
-                fill="url(#beamGradUfo)"
-                opacity="0"
-              />
-            
+              
+              </defs>          
+              
+              <!-- Atmospheric volume -->
+              <path
+                  id="ufoBeamOuter"
+                  d="
+                    M72 0
+                    C66 40 56 120 34 220
+                    L166 220
+                    C144 120 134 40 128 0
+                    Z"
+                  fill="url(#beamGradUfo)"
+                  opacity="0"
+              />           
+              
               <!-- Main beam -->
-              <polygon
-               id="ufoBeam"
-               points="55,0 145,0 175,200 25,200"
-               fill="url(#beamGradUfo)"
-               opacity="0"
-              />
-            
-              <!-- Bright core -->
-              <polygon
-               id="ufoBeamCore"
-               points="85,0 115,0 135,200 65,200"
-               fill="url(#beamCoreGrad)"
-               opacity="0"
-              />
-            
-              <!-- Ground energy -->
+              <path
+                  id="ufoBeam"
+                  d="
+                    M80 0
+                    C76 36 68 118 54 220
+                    L146 220
+                    C132 118 124 36 120 0
+                    Z"
+                  fill="url(#beamGradUfo)"
+                  opacity="0"
+              />              
+              
+              <!-- Bright center -->
+              <path
+                  id="ufoBeamCore"
+                  d="
+                    M93 0
+                    C92 34 90 118 82 220
+                    L118 220
+                    C110 118 108 34 107 0
+                    Z"
+                  fill="url(#beamCoreGrad)"
+                  opacity="0"
+              />             
+              
+              <!-- Light streaks -->
+              
+              <g id="beamStreaks" opacity="0">
+              
+                <line x1="90" x2="84" y1="6" y2="175"/>
+                <line x1="98" x2="94" y1="12" y2="205"/>
+                <line x1="108" x2="112" y1="4" y2="188"/>
+                <line x1="102" x2="100" y1="25" y2="215"/>
+                <line x1="95" x2="88" y1="42" y2="205"/>
+                <line x1="110" x2="116" y1="20" y2="170"/>
+              
+              </g>             
+              
+              <!-- Ground glow -->
+              
               <ellipse
-                id="beamLanding"
-                cx="100"
-                cy="200"
-                rx="95"
-                ry="22"
-                fill="url(#beamLandingGrad)"
-                opacity="0"
+                  id="beamLanding"
+                  cx="100"
+                  cy="218"
+                  rx="88"
+                  ry="18"
+                  fill="url(#beamLandingGrad)"
+                  opacity="0"
               />
             
             </svg>
