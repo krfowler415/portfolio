@@ -565,7 +565,7 @@ nav.nav-open #nav-toggle span:nth-child(3) {
 
 .card-tilt-wrap {
   position: relative;
-  transform-style: flat;
+  transform-style: preserve-3d;
   will-change: transform;
   --shadow-x: 0px;
   --shadow-y: 20px;
@@ -580,7 +580,7 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   background: var(--card-float-shadow, rgba(0, 0, 0, 0.5));
   filter: blur(32px);
   opacity: 0;
-  transform: translate(var(--shadow-x), var(--shadow-y));
+  transform: translate3d(var(--shadow-x), var(--shadow-y), -60px);
   transition: opacity 0.35s ease, transform 0.1s ease-out;
   pointer-events: none;
   z-index: -1;
