@@ -1576,7 +1576,7 @@ setTimeout(() => {
     swapTerrain();
     swapFavicon(nextTheme);
   });
-}, 700);
+}, 600);
 });
   
   systemTheme.addEventListener('change', event => {
