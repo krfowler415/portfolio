@@ -720,12 +720,13 @@ void main() {
     this.animationId = requestAnimationFrame(update);
 
     if (this.mouseInteraction) {
-      document.addEventListener('mousemove', this._onMouseMove);
-      document.addEventListener('mouseleave', this._onMouseLeave);
+      this.container.addEventListener('mousemove', this._onMouseMove);
+      this.container.addEventListener('mouseleave', this._onMouseLeave);
     }
   }
 
   _onMouseMove(e) {
+    const rect = this.container.getBoundingClientRect();
     this.targetMousePos.x = e.clientX / window.innerWidth;
     this.targetMousePos.y = 1.0 - (e.clientY / window.innerHeight);
     this.targetMouseActive = 1.0;
@@ -741,8 +742,8 @@ void main() {
       cancelAnimationFrame(this.animationId);
       this.animationId = null;
     }
-    document.removeEventListener('mousemove', this._onMouseMove);
-    document.removeEventListener('mouseleave', this._onMouseLeave);
+    this.container.removeEventListener('mousemove', this._onMouseMove);
+    this.container.removeEventListener('mouseleave', this._onMouseLeave);
 
     if (this.renderer) {
       try {
