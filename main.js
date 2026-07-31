@@ -2742,22 +2742,33 @@ function initBeamUp() {
  * ===================================================================== */
 
 gsap.registerPlugin(ScrollTrigger);
-setViewportHeight();
+
+/* Theme first */
 initThemeToggle();
-swapFavicon(document.documentElement.getAttribute('data-theme') || 'dark');
+
+/* Immediately show the intro */
 initIntro();
+
+/* Everything else can happen while the intro is playing */
+setViewportHeight();
+swapFavicon(document.documentElement.getAttribute("data-theme") || "dark");
+
 fetchTerrain();
+
 initNav();
-initBodyEnvironment();
 initTerrainParallax();
 initUfoScroll();
 initUfoLightRays();
 initHeroScrollCue();
+
 initCursor();
 initClickRipple();
+
+initBodyEnvironment();
 initCaseStudyStrip();
 initScrollReveal();
 initCardTilt();
 initStatTilt();
 initBeamUp();
+
 initResizeHandlers();
