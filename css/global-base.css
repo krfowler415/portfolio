@@ -1,0 +1,589 @@
+/*
+ * =====================================================================
+ * GLOBAL BASE
+ * Shared reset, layout primitives, accessibility utilities, and sitewide
+ * structure used across all pages and all themes.
+ * =====================================================================
+ */
+
+
+/* =====================================================================
+ * § 1  RESET
+ * ===================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* =====================================================================
+ * § 2  ACCESSIBILITY + GLOBAL ELEMENT DEFAULTS
+ * ===================================================================== */
+
+:focus-visible {
+  outline: 2px solid var(--accent-aurora);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* =====================================================================
+ * § 3  BODY FOUNDATION
+ * ===================================================================== */
+
+body {
+  color: var(--text);
+  font-family: var(--Orb);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  cursor: none;
+  overflow-x: hidden;
+}
+
+/* =====================================================================
+ * § 4  SHARED LAYOUT
+ * ===================================================================== */
+
+.section {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 6rem var(--px);
+}
+
+.section + .section,
+.s-border {
+  border-top: 1px solid var(--border);
+}
+
+.sec-hd {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 1.6rem var(--px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.foot-l {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 0.92rem;
+  color: var(--footer-brand, var(--text));
+}
+
+.foot-r {
+  font-family: var(--display);
+  font-size: 0.72rem;
+  color: var(--footer-meta, var(--text-muted));
+}
+
+/* =====================================================================
+ * § 5  ACCESSIBILITY UTILITIES
+ * ===================================================================== */
+
+.skip-nav {
+  position: absolute;
+  top: -100%;
+  left: var(--px);
+  background: var(--primary);
+  color: var(--text);
+  font-family: var(--display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0 0 7px 7px;
+  z-index: 9999;
+  transition: top 0.2s ease;
+}
+
+.skip-nav:focus {
+  top: 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* =====================================================================
+ * § 6  SCROLL REVEAL UTILITIES
+ * ===================================================================== */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal-left.in {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal-right.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* =====================================================================
+ * § 7  GLOBAL RESPONSIVE RULES
+ * ===================================================================== */
+
+@media (max-width: 600px) {
+  footer {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  body {
+    cursor: auto;
+  }
+
+  #cur {
+    display: none;
+  }
+}
+
+/* =====================================================================
+ * § 8  THEME WIPE OVERLAY
+ * ===================================================================== */
+
+.shape-overlays {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99998;
+  pointer-events: none;
+}
+
+/* =====================================================================
+ * § 9  BUTTON STRUCTURE
+ * ===================================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.5rem;
+  font-family: var(--Orb);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  border-radius: 7px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-primary::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  border-radius: 7px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover::after {
+  top: 0;
+  height: 100%;
+}
+
+.btn-primary:active {
+  top: 2px;
+}
+
+.btn-ghost {
+  line-height: normal;
+  position: relative;
+}
+
+.btn-ghost::before,
+.btn-ghost::after {
+  position: absolute;
+  content: "";
+  right: 0;
+  top: 0;
+  transition: all 0.3s ease;
+}
+
+.btn-ghost::before {
+  height: 0%;
+  width: 1.5px;
+}
+
+.btn-ghost::after {
+  width: 0%;
+  height: 1.5px;
+}
+
+.btn-ghost:hover::before {
+  height: 100%;
+}
+
+.btn-ghost:hover::after {
+  width: 100%;
+}
+
+.btn-ghost span::before,
+.btn-ghost span::after {
+  position: absolute;
+  content: "";
+  left: 0;
+  bottom: 0;
+  transition: all 0.3s ease;
+}
+
+.btn-ghost span::before {
+  width: 1.5px;
+  height: 0%;
+}
+
+.btn-ghost span::after {
+  width: 0%;
+  height: 1.5px;
+}
+
+.btn-ghost:hover span::before {
+  height: 100%;
+}
+
+.btn-ghost:hover span::after {
+  width: 100%;
+}
+
+.btn-outline {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-outline::after {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 100%;
+  top: 0;
+  right: 0;
+  z-index: -1;
+  border-radius: 7px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover::after {
+  left: 0;
+  width: 100%;
+}
+
+.btn-outline:active {
+  top: 2px;
+}
+
+/* =====================================================================
+ * § 10  CUSTOM CURSOR STRUCTURE
+ * ===================================================================== */
+
+#cur {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+}
+
+.cur-dot {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.12s ease;
+}
+
+body.clicking .cur-dot {
+  transform: translate(-50%, -50%) scale(0.5);
+}
+
+a,
+button,
+.project-hover,
+.card-feat,
+.nav-links a {
+  cursor: none;
+}
+
+/* =====================================================================
+ * § 11  GLOBAL INTERACTION KEYFRAMES
+ * ===================================================================== */
+
+@keyframes rippleOut {
+  to {
+    transform: translate(-50%, -50%) scale(8);
+    opacity: 0;
+  }
+}
+
+/* =====================================================================
+ * § 12  THEME TOGGLE
+ * ===================================================================== */
+
+.toggle {
+  --slide-ease: cubic-bezier(.4, -0.3, .6, 1.3);
+  --easing:     var(--slide-ease);
+  --speed:      0.5s;
+  --width:      115px;
+  --ar:         8 / 3;
+  --ray:        hsl(0 0% 100% / 0.5);
+  --sun:        hsl(47, 91%, 58%);
+  --moon:       hsl(212, 13%, 82%);
+  --crater:     hsl(221, 16%, 68%);
+
+  position: fixed;
+  left: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  z-index: 9996;
+  cursor: none;
+
+  -webkit-tap-highlight-color: transparent;
+  width: var(--width);
+  will-change: transform;
+  isolation: isolate;
+  transform: translate3d(0, 0, 0);
+  aspect-ratio: var(--ar);
+  border-radius: 100vh;
+  border: 0;
+  padding: 0;
+  overflow: hidden;
+  outline-color: transparent;
+  transition: background var(--speed) var(--easing);
+  background: hsl(
+    calc(204 + (var(--dark, 0) * 25))
+    calc((53 - (var(--dark, 0) * 28)) * 1%)
+    calc((47 - (var(--dark, 0) * 31)) * 1%)
+  );
+  box-shadow:
+    0 calc(var(--width) * 0.02)  calc(var(--width) * 0.01)  calc(var(--width) * -0.0025) hsl(210 10% 100% / 0.95),
+    0 calc(var(--width) * -0.02) calc(var(--width) * 0.01)  calc(var(--width) * -0.0025) hsl(210 10% 10% / 0.2),
+    0 calc(var(--width) * 0.02)  calc(var(--width) * 0.5)   0                            hsl(210 10% 100% / 0.15);
+}
+
+.toggle:after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100vh;
+  box-shadow:
+    0 calc(var(--width) * -0.025) calc(var(--width) * 0.025) 0 hsl(210 10% 10% / 0.15) inset,
+    0 calc(var(--width) * 0.025)  calc(var(--width) * 0.025) 0 hsl(210 10% 10% / 0.65) inset;
+}
+
+.toggle__content {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 100vh;
+  display: block;
+  clip-path: inset(0 0 0 0 round 100vh);
+  container-type: inline-size;
+}
+
+.toggle__backdrop {
+  overflow: visible !important;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  transition: translate var(--speed) var(--easing);
+  translate: 0 calc(var(--dark, 0) * (100% - (3 / 8 * var(--width))));
+}
+
+.toggle[aria-pressed=false] .toggle__backdrop:last-of-type {
+  transition-timing-function: cubic-bezier(.2, -0.6, .7, 1.6);
+}
+
+.toggle[aria-pressed=false] .stars path {
+  transition-delay: 0s;
+}
+
+.stars path {
+  transform-box: fill-box;
+  transform-origin: 25% 50%;
+  scale: calc(0.25 + (var(--dark, 0) * 0.75));
+  transition: scale var(--speed) calc(var(--speed) * 0.5) var(--easing);
+}
+
+.toggle__indicator-wrapper {
+  position: absolute;
+  inset: 0;
+}
+
+.toggle__indicator {
+  height: 100%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  padding: 3%;
+  transition: translate var(--speed) var(--slide-ease);
+  translate: calc(var(--dark, 0) * (100cqi - 100%)) 0;
+}
+
+.toggle__star {
+  height: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  position: relative;
+  transition: translate var(--speed) var(--easing);
+  translate: calc((var(--dark, 0) * -10%) + 5%) 0;
+}
+
+.toggle__star:before {
+  content: '';
+  z-index: -1;
+  width: 356%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transition: translate var(--speed) var(--easing);
+  translate: calc((50 - (var(--dark, 0) * 4)) * -1%) -50%;
+  background:
+    radial-gradient(hsl(0 0% 100% / 0.25) 40%, transparent 40.5%),
+    radial-gradient(hsl(0 0% 100% / 0.25) 56%, transparent 56.5%)
+    hsl(0 0% 100% / 0.25);
+}
+
+.toggle__star:after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: hsl(0 0% 0% / 0.5);
+  filter: blur(4px);
+  translate: 2% 4%;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.sun {
+  background: var(--sun);
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow:
+    calc(var(--width) * 0.01)  calc(var(--width) * 0.01)  calc(var(--width) * 0.02) 0 hsl(210 10% 100% / 0.95) inset,
+    calc(var(--width) * -0.01) calc(var(--width) * -0.01) calc(var(--width) * 0.02) 0 hsl(210 10% 20%  / 0.5)  inset;
+}
+
+.moon {
+  position: absolute;
+  inset: -1%;
+  border-radius: 50%;
+  background: var(--moon);
+  transition: translate var(--speed) ease-in-out;
+  translate: calc((100 - (var(--dark, 0) * 100)) * 1%) 0%;
+  box-shadow:
+    calc(var(--width) * 0.01)  calc(var(--width) * 0.01)  calc(var(--width) * 0.02) 0 hsl(210 10% 100% / 0.95) inset,
+    calc(var(--width) * -0.01) calc(var(--width) * -0.01) calc(var(--width) * 0.02) 0 hsl(210 10% 10%  / 0.95) inset;
+}
+
+.moon__crater {
+  position: absolute;
+  background: var(--crater);
+  border-radius: 50%;
+  width: calc(var(--size, 10) * 1%);
+  aspect-ratio: 1;
+  left: calc(var(--x) * 1%);
+  top:  calc(var(--y) * 1%);
+  box-shadow:
+    calc(var(--width) * 0.01)  calc(var(--width) * 0.01)  calc(var(--width) * 0.01) 0 hsl(210 10% 6%   / 0.25) inset,
+    0                          calc(var(--width) * 0.005) calc(var(--width) * 0.01) 0 hsl(210 10% 100% / 0.25);
+}
+
+.moon__crater:nth-of-type(1) { --size: 18; --x: 40; --y: 15; }
+.moon__crater:nth-of-type(2) { --size: 20; --x: 65; --y: 58; }
+.moon__crater:nth-of-type(3) { --size: 34; --x: 18; --y: 40; }
+
+.toggle__backdrop:first-of-type .clouds path:first-of-type {
+  fill: var(--ray);
+}
+
+.toggle[aria-pressed=true] { --dark: 1; }
+
+.stars g {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+
+.stars g:nth-of-type(3)  { animation: twinkle 4s -2s infinite; }
+.stars g:nth-of-type(9)  { animation: twinkle 4s -1s infinite; }
+.stars g:nth-of-type(11) { animation: twinkle 6s -2s infinite; }
+
+@keyframes twinkle {
+  0%, 40%, 60%, 100% { transform: scale(1); }
+  50%                { transform: scale(0); }
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--accent-aurora);
+  outline-offset: 4px;
+  border-radius: 999px;
+}

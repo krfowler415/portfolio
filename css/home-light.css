@@ -1,0 +1,1507 @@
+/*
+ * =====================================================================
+ * HOME LIGHT THEME
+ * Light theme homepage visuals, colors, textures, hero elements,
+ * palette, and light-specific component styling.
+ * =====================================================================
+ */
+
+
+/* =====================================================================
+ * § 1  LIGHT FONTS + TOKENS
+ * ===================================================================== */
+
+:root[data-theme="light"] {
+  /* ================================================================
+   * RAW COLOR FAMILIES
+   * Derived from the light hero:
+   * sky, clouds, sun, terrain, sand, and vegetation.
+   * ================================================================ */
+
+  /* Aurora — blue sky / daylight atmosphere */
+  --aurora-50:  #F4FBFE;
+  --aurora-100: #DDF3FC;
+  --aurora-200: #BCE8F8;
+  --aurora-400: #72C4E8;
+  --aurora-600: #2288C8;
+  --aurora-800: #1565A8;
+  --aurora-900: #0F5795;
+
+  /* Pulsar — mesa orange / canyon rock */
+  --pulsar-50:  #FFF4E9;
+  --pulsar-100: #FFD7AF;
+  --pulsar-200: #F7A35C;
+  --pulsar-400: #E98435;
+  --pulsar-600: #B75417;
+  --pulsar-800: #7F390F;
+  --pulsar-900: #4A210A;
+
+  /* Cosmos — cactus and agave greens */
+  --cosmos-50:  #F0F7EA;
+  --cosmos-100: #DCECCF;
+  --cosmos-200: #A7CF83;
+  --cosmos-300: #70B551;
+  --cosmos-400: #3A962D;
+  --cosmos-600: #276A24;
+  --cosmos-800: #23542B;
+  --cosmos-900: #1E4223;
+
+  /* Plasma — sunlight / solar gold */
+  --plasma-50:  #FFFDF0;
+  --plasma-100: #FFF7C6;
+  --plasma-200: #FFF078;
+  --plasma-400: #FFD23C;
+  --plasma-600: #C98E14;
+  --plasma-800: #75510A;
+  --plasma-900: #472E05;
+
+  /* Aether — clouds, sand, and mineral neutrals */
+  --aether-50:  #FFFDF7;
+  --aether-100: #F4F2DE;
+  --aether-200: #F3D39A;
+  --aether-400: #D6B77C;
+  --aether-600: #8E744F;
+  --aether-800: #4E4030;
+  --aether-900: #292117;
+
+
+  /* ================================================================
+   * RESTRICTED ALIEN / UFO COLOR
+   * Use only for the tractor beam, alien skin, and deliberate
+   * spacecraft or signal details.
+   * ================================================================ */
+
+  /* Exact primary fill sampled from the alien character */
+  --alien-skin: #28C19B;
+
+  /* Alien energy only — deliberately darker than the former cyan */
+  --signal-teal:        #168F83;
+  --signal-teal-subtle: rgba(22, 143, 131, 0.14);
+
+
+  /* ================================================================
+   * SEMANTIC SURFACES
+   * ================================================================ */
+
+  /*
+   * The page foundation matches the sand color used by the hero fade.
+   * This keeps the hero and body visually continuous.
+   */
+  --bg:          var(--aether-200);
+  --bg-dark:     var(--aether-400);
+  
+  /* Clean component surfaces */
+  --bg-surface:  var(--aether-50);
+  --bg-raised:   var(--cosmos-50);
+  
+  /* Restrained structural tint */
+  --bg-tint:     rgba(35, 84, 43, 0.10);
+  
+  /* Strong bridge between the hero and portfolio content */
+  --bg-marquee:  var(--cosmos-900);
+
+
+  /* ================================================================
+   * TEXT
+   * ================================================================ */
+
+  /* Dark cactus ink */
+  --text:        #0B2412;
+  
+  /* Secondary text over the warm page background */
+  --text-muted: #3F4C3E;
+  
+  /* Structural green for tertiary emphasis */
+  --text-light:  var(--cosmos-800);
+  
+  /* Cloud-white text over strong surfaces */
+  --text-inv:    var(--aether-50);
+
+  /* Text over deep cactus and agave surfaces */
+  --text-on-dark:       var(--aether-50);
+  --text-on-dark-muted: #DCE9D4;
+
+
+  /* ================================================================
+   * FOOTER
+   * PROVISIONAL:
+   * These are now readable and hero-aligned, but we will verify them
+   * again after the final body background is approved.
+   * ================================================================ */
+
+  --footer-brand: var(--cosmos-800);
+  --footer-meta:  var(--pulsar-800);
+
+
+  /* ================================================================
+   * PRIMARY ACTION
+   * ================================================================ */
+
+  --primary:        var(--cosmos-800);
+  --primary-hover:  var(--cosmos-900);
+  --primary-lt:     var(--cosmos-400);
+  --primary-subtle: var(--cosmos-50);
+
+
+  /* ================================================================
+   * COMPONENT-FACING ACCENTS
+   * ================================================================ */
+
+  /* Mesa orange */
+  --accent-pulsar:        var(--pulsar-800);
+  --accent-pulsar-subtle: var(--pulsar-50);
+
+  /* Cactus and agave green */
+  --accent-cosmos:        var(--cosmos-800);
+  --accent-cosmos-subtle: var(--cosmos-50);
+
+  /*
+   * Generic light-theme interface accent.
+   * The Aurora variable name remains because shared components already
+   * reference it, but light-mode UI should use structural green.
+   */
+  --accent-aurora:        var(--cosmos-800);
+  --accent-aurora-subtle: var(--cosmos-50);
+
+  /* Sun gold */
+  --accent-plasma:        var(--plasma-800);
+  --accent-plasma-subtle: var(--plasma-50);
+
+
+  /* ================================================================
+   * NEUTRALS / BORDERS / EFFECTS
+   * ================================================================ */
+
+  --aether: var(--aether-600);
+  --dune:   var(--aether-400);
+
+  --border:        rgba(27, 36, 28, 0.26);
+  --border-subtle: rgba(27, 36, 28, 0.13);
+
+  /*
+   * Compatibility values used by shared component effects.
+   * In light mode, generic UI effects use structural green rather
+   * than sky blue.
+   */
+  --aurora-glass: rgba(35, 84, 43, 0.08);
+  --aurora-glow:  rgba(35, 84, 43, 0.18);
+  --aurora-inset: rgba(35, 84, 43, 0.07);
+
+}
+
+/* =====================================================================
+ * § 1A  LIGHT TYPOGRAPHY + ACCESSIBILITY OVERRIDES
+ * ===================================================================== */
+:root[data-theme="light"] .sec-title {
+  background: linear-gradient(
+    135deg,
+    var(--text) 0%,
+    var(--cosmos-900) 30%,
+    var(--cosmos-600) 60%,
+    var(--cosmos-400) 90%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+:root[data-theme="light"] .skip-nav {
+  color: var(--text-inv);
+}
+
+/* =====================================================================
+ * § 2  LIGHT BASE / BODY
+ * Continuous desert atmosphere:
+ * hero-matched sand, broad environmental color fields, and fine grain.
+ * ===================================================================== */
+
+:root[data-theme="light"] body {
+  background:
+    /* Fine mineral atmosphere */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23grain)' opacity='0.09'/%3E%3C/svg%3E"),
+
+    /* Large cloud-light field */
+    radial-gradient(
+      ellipse 115% 72% at -8% 0%,
+      rgba(255, 253, 247, 0.54) 0%,
+      transparent 66%
+    ),
+
+    /* Solar atmosphere */
+    radial-gradient(
+      ellipse 82% 56% at 105% 14%,
+      rgba(255, 240, 120, 0.16) 0%,
+      transparent 68%
+    ),
+
+    /* Mesa warmth */
+    radial-gradient(
+      ellipse 105% 72% at -6% 92%,
+      rgba(233, 132, 53, 0.12) 0%,
+      transparent 72%
+    ),
+
+    /* Cactus-field depth */
+    radial-gradient(
+      ellipse 86% 66% at 104% 90%,
+      rgba(30, 66, 35, 0.10) 0%,
+      transparent 74%
+    ),
+
+    /* Subtle environmental falloff */
+    radial-gradient(
+      ellipse 110% 90% at 50% 42%,
+      transparent 42%,
+      rgba(78, 64, 48, 0.055) 100%
+    ),
+
+    /* Exact hero-transition foundation */
+    var(--bg);
+
+  background-attachment:
+    fixed,
+    fixed,
+    fixed,
+    fixed,
+    fixed,
+    fixed,
+    fixed;
+
+  background-size:
+    240px 240px,
+    cover,
+    cover,
+    cover,
+    cover,
+    cover,
+    cover;
+
+  background-repeat:
+    repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat;
+
+  color: var(--text);
+}
+
+/* =====================================================================
+ * § 3  LIGHT NAVIGATION
+ * ===================================================================== */
+
+/* Unified hover accent — mesa rust, readable on sky + sand */
+:root[data-theme="light"] {
+  --nav-hover: var(--pulsar-800);   /* #7F390F */
+}
+
+/* ── Transparent nav over sky blue ─────────────────────────────── */
+
+:root[data-theme="light"] .nav-logo {
+  color: #07100A;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.30), 0 0 10px rgba(255, 255, 255, 0.18);
+  transition: color 0.2s ease;
+}
+
+:root[data-theme="light"] .nav-logo:hover {
+  color: var(--nav-hover);
+}
+
+:root[data-theme="light"] .nav-links a {
+  color: #07100A;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.25), 0 0 8px rgba(255, 255, 255, 0.14);
+  transition: color 0.2s ease;
+}
+
+:root[data-theme="light"] .nav-links a:hover {
+  color: var(--nav-hover);
+}
+
+/* Border animation lines follow the hover color */
+:root[data-theme="light"] .nav-links a::before,
+:root[data-theme="light"] .nav-links a::after,
+:root[data-theme="light"] .nav-links a span::before,
+:root[data-theme="light"] .nav-links a span::after {
+  background: #07100A;
+  transition: all 0.3s ease, background 0.2s ease;
+}
+
+:root[data-theme="light"] .nav-links a:hover::before,
+:root[data-theme="light"] .nav-links a:hover::after,
+:root[data-theme="light"] .nav-links a:hover span::before,
+:root[data-theme="light"] .nav-links a:hover span::after {
+  background: var(--nav-hover);
+}
+
+:root[data-theme="light"] #nav-toggle span {
+  background: #07100A;
+  transition: background 0.2s ease;
+}
+
+:root[data-theme="light"] #nav-toggle:hover span {
+  background: var(--nav-hover);
+}
+
+/* Availability badge — dot stays green, text shifts to rust */
+:root[data-theme="light"] .hero-us {
+  color: var(--text);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.30), 0 0 8px rgba(255, 255, 255, 0.16);
+  transition: color 0.2s ease;
+}
+
+:root[data-theme="light"] .hero-us:hover {
+  color: var(--nav-hover);
+}
+
+/* ── Scrolled nav over sand ───────────────────────────────────── */
+
+:root[data-theme="light"] nav.scrolled {
+  background: rgba(243, 211, 154, 0.94);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-bottom-color: var(--border);
+  box-shadow: 0 1px 20px rgba(27, 36, 28, 0.14);
+}
+
+:root[data-theme="light"] nav.scrolled .nav-logo {
+  color: var(--text);
+  text-shadow: none;
+}
+
+:root[data-theme="light"] nav.scrolled .nav-logo:hover {
+  color: var(--nav-hover);
+}
+
+/* Scrolled links: lighter default so the hover jump is visible */
+:root[data-theme="light"] nav.scrolled .nav-links a {
+  color: var(--aether-800);   /* #4E4030 — lighter than text */
+  text-shadow: none;
+}
+
+:root[data-theme="light"] nav.scrolled .nav-links a:hover {
+  color: var(--nav-hover);
+}
+
+:root[data-theme="light"] nav.scrolled .nav-links a::before,
+:root[data-theme="light"] nav.scrolled .nav-links a::after,
+:root[data-theme="light"] nav.scrolled .nav-links a span::before,
+:root[data-theme="light"] nav.scrolled .nav-links a span::after {
+  background: var(--aether-800);
+}
+
+:root[data-theme="light"] nav.scrolled .nav-links a:hover::before,
+:root[data-theme="light"] nav.scrolled .nav-links a:hover::after,
+:root[data-theme="light"] nav.scrolled .nav-links a:hover span::before,
+:root[data-theme="light"] nav.scrolled .nav-links a:hover span::after {
+  background: var(--nav-hover);
+}
+
+:root[data-theme="light"] nav.scrolled #nav-toggle span {
+  background: var(--text);
+}
+
+:root[data-theme="light"] nav.scrolled #nav-toggle:hover span {
+  background: var(--nav-hover);
+}
+
+:root[data-theme="light"] nav.scrolled .hero-us {
+  color: var(--text);
+  text-shadow: none;
+}
+
+:root[data-theme="light"] nav.scrolled .hero-us:hover {
+  color: var(--nav-hover);
+}
+
+
+/* =====================================================================
+ * § 4  LIGHT SECTION ATMOSPHERES
+ * Large nonrepeating environmental fields create section depth.
+ * ===================================================================== */
+
+:root[data-theme="light"] #work::before {
+  background-image:
+    radial-gradient(
+      ellipse 880px 60% at 50% 0%,
+      rgba(183, 84, 23, 0.075) 0%,
+      transparent 72%
+    );
+}
+
+:root[data-theme="light"] #about::before {
+  background-image:
+    radial-gradient(
+      ellipse 640px 70% at calc(50% + 290px) 56%,
+      rgba(35, 84, 43, 0.065) 0%,
+      transparent 68%
+    ),
+
+    radial-gradient(
+      ellipse 540px 54% at calc(50% - 330px) 42%,
+      rgba(255, 253, 247, 0.22) 0%,
+      transparent 66%
+    );
+}
+
+:root[data-theme="light"] #contact::before {
+  background-image:
+    radial-gradient(
+      ellipse 820px 82% at 50% 100%,
+      rgba(35, 84, 43, 0.085) 0%,
+      transparent 68%
+    );
+}
+
+
+/* =====================================================================
+ * § 5  LIGHT LINKS
+ * ===================================================================== */
+
+:root[data-theme="light"] .c-link {
+  color: var(--accent-cosmos);
+}
+
+:root[data-theme="light"] .c-link::after {
+  background: var(--accent-cosmos);
+}
+
+:root[data-theme="light"] .c-link:hover {
+  text-shadow: 0 0 12px rgba(35, 84, 43, 0.24);
+}
+
+/* Featured About link — deep sky blue */
+:root[data-theme="light"] .about-copy .c-link {
+  color: var(--aurora-900);
+  font-weight: 700;
+}
+
+:root[data-theme="light"] .about-copy .c-link::after {
+  background: var(--aurora-900);
+}
+
+:root[data-theme="light"] .about-copy .c-link:hover {
+  color: var(--aurora-900);
+
+  text-shadow:
+    0 0 10px rgba(15, 87, 149, 0.24);
+}
+
+
+/* =====================================================================
+ * § 6  LIGHT MARQUEE
+ * Deep cactus bridge between the illustrated hero and portfolio body.
+ * ===================================================================== */
+
+:root[data-theme="light"] .marquee {
+  background: linear-gradient(
+    90deg,
+    var(--cosmos-900) 0%,
+    var(--cosmos-800) 52%,
+    var(--cosmos-900) 100%
+  );
+}
+
+:root[data-theme="light"] .m-item {
+  color: var(--aether-50);
+}
+
+:root[data-theme="light"] .m-sep {
+  background: var(--plasma-400);
+  opacity: 0.92;
+}
+
+
+/* =====================================================================
+ * § 7  LIGHT CARDS
+ * ===================================================================== */
+
+:root[data-theme="light"] a.card-feat,
+:root[data-theme="light"] .card-feat {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  box-shadow: inset 0 1px 0 #0AC39A40;
+}
+
+:root[data-theme="light"] .card-feat:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 253, 247, 0.20),
+    0 18px 42px rgba(30, 66, 35, 0.22),
+    0 0 0 1px rgba(167, 207, 131, 0.14);
+}
+
+:root[data-theme="light"] .card-tilt-wrap {
+  --card-float-shadow: rgba(11, 36, 18, 0.22);
+  --card-rim-light: rgba(255, 253, 247, 0.35);
+  --card-rim-shadow: rgba(11, 36, 18, 0.08);
+}
+
+:root[data-theme="light"] .cs-strip {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+:root[data-theme="light"] .card-vis {
+  background: var(--project-vis-bg, var(--bg-dark));
+}
+
+/* ── Light Project Visual Identities ──────────────────────────────── */
+
+:root[data-theme="light"] .project--edreams {
+  --project-vis-bg:
+    linear-gradient(
+      135deg,
+      #160828 0%,
+      #280408 100%
+    );
+}
+
+:root[data-theme="light"] .project--field-feast {
+  --project-vis-bg:
+    linear-gradient(
+      135deg,
+      #003438 0%,
+      #38241A 100%
+    );
+
+  --project-vis-color: rgba(227, 212, 173, 0.60);
+}
+
+:root[data-theme="light"] .project--vanguard {
+  --project-vis-bg:
+    linear-gradient(
+      135deg,
+      #2A0E50 0%,
+      #003438 100%
+    );
+
+  --project-vis-color: rgba(176, 128, 224, 0.70);
+}
+
+:root[data-theme="light"] .project--path-success {
+  --project-vis-bg:
+    linear-gradient(
+      135deg,
+      #38241A 0%,
+      #280408 100%
+    );
+
+  --project-vis-color: rgba(216, 176, 144, 0.70);
+}
+
+:root[data-theme="light"] .card-vis::before {
+  background: radial-gradient(
+    ellipse at 30% 50%,
+    rgba(44, 142, 53, 0.20) 0%,
+    transparent 65%
+  );
+}
+
+:root[data-theme="light"] .card-vis-tag {
+  color: var(--plasma-200);
+  opacity: 1;
+}
+
+:root[data-theme="light"] .card-vis-tag::before {
+  content: '◈ ';
+  opacity: 0.8;
+}
+
+:root[data-theme="light"] .card-body {
+  background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
+  box-shadow:
+    inset 0 0 30px rgba(9, 138, 125, 0.14);
+}
+
+:root[data-theme="light"] .card-body .c-title {
+  background: linear-gradient(
+    135deg,
+    var(--text-on-dark) 0%,
+    var(--plasma-100) 55%,
+    var(--pulsar-100) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+}
+
+:root[data-theme="light"] .card-body::after {
+  border-top: 1.5px solid var(--plasma-200);
+  border-right: 1.5px solid var(--plasma-200);
+  opacity: 0.65;
+}
+
+:root[data-theme="light"] .c-tag {
+  background: var(--bg-tint);
+  border: 1px solid rgba(125, 224, 209, 0.28);
+  color: var(--text-on-dark-muted);
+}
+
+/* Text inside the dark green card body */
+:root[data-theme="light"] .card-body .c-desc {
+  color: var(--text-on-dark-muted);
+}
+
+:root[data-theme="light"] .card-body .c-link {
+  color: var(--plasma-200);
+}
+
+:root[data-theme="light"] .card-body .c-link::after {
+  background: var(--plasma-200);
+}
+
+/* ── Light Case Study Progress Bar ──────────────────────────────── */
+
+:root[data-theme="light"] .cs-progress-wrap {
+  background: var(--border);
+}
+
+:root[data-theme="light"] .cs-progress-bar {
+  background: var(--accent-cosmos);
+  box-shadow: 0 0 8px rgba(35, 84, 43, 0.22);
+}
+
+/* ── Light Case Study Arrow Visuals ──────────────────────────────── */
+
+:root[data-theme="light"] .cs-arrow {
+  --active: var(--text);
+}
+
+:root[data-theme="light"] .cs-arrow i::before,
+:root[data-theme="light"] .cs-arrow i::after {
+  background: var(--active);
+}
+
+:root[data-theme="light"] .cs-arrow::before {
+  background: rgba(255, 244, 219, 0.34);
+}
+
+:root[data-theme="light"] .cs-arrow::after {
+  border: 1.5px solid var(--border);
+}
+
+:root[data-theme="light"] .cs-arrow svg {
+  color: var(--active);
+}
+
+:root[data-theme="light"] .cs-arrow:hover {
+  --active: var(--accent-cosmos);
+}
+
+:root[data-theme="light"] .cs-arrow:hover::before {
+  background: rgba(35, 84, 43, 0.08);
+  box-shadow:
+    0 0 22px rgba(35, 84, 43, 0.16),
+    inset 0 0 14px rgba(255, 253, 247, 0.32);
+}
+
+:root[data-theme="light"] .cs-arrow:hover::after {
+  border-color: var(--accent-cosmos);
+}
+
+/* ── Light Card 3D Shadows ──────────────────────────────────────── */
+
+:root[data-theme="light"] .card-tilt-wrap {
+  --card-shadow-color: rgba(11, 36, 18, 0.32);
+  --card-shadow-color-soft: rgba(74, 33, 10, 0.16);
+  --card-edge-light: rgba(255, 253, 247, 0.35);
+  --card-edge-dark: rgba(11, 36, 18, 0.10);
+}
+
+:root[data-theme="light"] a.card-feat,
+:root[data-theme="light"] .card-feat {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 253, 247, 0.42),
+    0 12px 32px -8px rgba(11, 36, 18, 0.14);
+}
+
+:root[data-theme="light"] .card-feat:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 253, 247, 0.52),
+    0 28px 56px -12px rgba(11, 36, 18, 0.20),
+    0 0 30px rgba(255, 210, 60, 0.14),
+    0 0 60px rgba(167, 207, 131, 0.10);
+}
+
+
+/* =====================================================================
+ * § 8  LIGHT ABOUT / STATS
+ * ===================================================================== */
+
+:root[data-theme="light"] .about-copy p {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+:root[data-theme="light"] .about-copy strong {
+  color: var(--accent-cosmos);
+}
+
+:root[data-theme="light"] .stat {
+  background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
+  border: 1px solid var(--border);
+  box-shadow:
+    0 0 0 1px #98A8D418,
+    0 0 15px #C8185820,
+    inset 0 1px 0 #C8185840;
+}
+
+:root[data-theme="light"] .stat::before {
+  background: var(--plasma-200);
+  box-shadow: 2px 0 12px #C8185880;
+}
+
+:root[data-theme="light"] .stat::after {
+  border-bottom: 1.5px solid var(--plasma-200);
+  border-right: 1.5px solid var(--plasma-200);
+  opacity: 0.65;
+}
+
+:root[data-theme="light"] .stat:hover {
+  box-shadow:
+    0 0 0 1px #C8185840,
+    0 0 20px #C8185825,
+    inset 0 1px 0 #C8185850;
+}
+
+:root[data-theme="light"] .stat-n {
+  color: var(--alien-skin);
+
+  text-shadow:
+    0 0 7px rgba(40, 193, 155, 0.28),
+    0 0 16px rgba(40, 193, 155, 0.12);
+}
+
+:root[data-theme="light"] .stat:hover .stat-n {
+  text-shadow:
+    0 0 9px rgba(40, 193, 155, 0.36),
+    0 0 22px rgba(40, 193, 155, 0.17);
+}
+
+:root[data-theme="light"] .stat-l {
+  color: var(--text-on-dark-muted);
+}
+
+/* ── Light Stat Ambient Glow ────────────────────────────────────── */
+
+:root[data-theme="light"] .stat:hover {
+  box-shadow:
+    0 0 0 1px #C8185840,
+    0 0 20px #C8185825,
+    inset 0 1px 0 #C8185850,
+    0 0 30px rgba(255, 210, 60, 0.12);
+}
+
+
+/* =====================================================================
+ * § 9  LIGHT CONTACT
+ * ===================================================================== */
+
+:root[data-theme="light"] .c-band {
+  background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
+  border: 1px solid var(--border);
+  box-shadow:
+    0 0 0 1px #98A8D420,
+    0 0 50px #5F259F30,
+    inset 0 1px 0 #5F259F60;
+}
+
+:root[data-theme="light"] .c-band .c-headline {
+  background: linear-gradient(
+    135deg,
+    var(--text-on-dark) 0%,
+    var(--plasma-100) 55%,
+    var(--pulsar-100) 100%
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+}
+
+:root[data-theme="light"] .c-band .c-body {
+  color: var(--text-on-dark-muted);
+}
+
+:root[data-theme="light"] .c-band::before {
+  border-top: 1.5px solid var(--plasma-200);
+  border-left: 1.5px solid var(--plasma-200);
+  opacity: 0.65;
+}
+
+:root[data-theme="light"] .c-band::after {
+  border-bottom: 1.5px solid var(--plasma-200);
+  border-right: 1.5px solid var(--plasma-200);
+  opacity: 0.65;
+}
+
+:root[data-theme="light"] .c-cta-btn {
+  background:
+    linear-gradient(
+      135deg,
+      var(--pulsar-800) 0%,
+      var(--pulsar-600) 100%
+    );
+
+  color: var(--aether-50);
+  box-shadow:
+    0 12px 28px rgba(74, 33, 10, 0.26),
+    0 0 22px rgba(255, 210, 60, 0.12);
+}
+
+:root[data-theme="light"] .c-cta-btn::after {
+  background:
+    linear-gradient(
+      135deg,
+      var(--pulsar-600) 0%,
+      var(--pulsar-800) 100%
+    );
+}
+
+:root[data-theme="light"] .c-cta-btn:hover {
+  box-shadow:
+    0 15px 34px rgba(74, 33, 10, 0.32),
+    0 0 28px rgba(255, 210, 60, 0.18);
+}
+
+:root[data-theme="light"] .c-secondary-link {
+  color: var(--plasma-200);
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 240, 120, 0.38);
+}
+
+:root[data-theme="light"] .c-secondary-link:hover {
+  color: var(--text-on-dark);
+  text-decoration: none;
+  text-shadow:
+    0 0 10px rgba(255, 210, 60, 0.24);
+}
+
+:root[data-theme="light"] .c-secondary-link::before,
+:root[data-theme="light"] .c-secondary-link::after,
+:root[data-theme="light"] .c-secondary-link span::before,
+:root[data-theme="light"] .c-secondary-link span::after {
+  background: var(--text-on-dark);
+}
+
+
+/* =====================================================================
+ * § 10  LIGHT HERO SCENE
+ * ===================================================================== */
+
+/* Swap celestial bodies */
+:root[data-theme="light"] .hero-moon {
+  display: none;
+}
+
+:root[data-theme="light"] .hero-sun {
+  left: 6%;
+  right: auto;
+  width: clamp(260px, 32vw, 500px);
+}
+
+:root[data-theme="light"] .hero-sun img {
+  opacity: 0.97;
+
+  filter:
+    saturate(1.06)
+    brightness(0.98)
+    drop-shadow(0 0 10px rgba(255, 210, 60, 0.42))
+    drop-shadow(0 0 24px rgba(255, 210, 60, 0.20));
+}
+
+/* Shared UFO appears in both themes */
+:root[data-theme="light"] .hero-ufo {
+  display: block;
+  visibility: visible;
+}
+
+/* Light UFO swap */
+:root[data-theme="light"] .hero-ufo-ship--dark {
+  opacity: 0;
+}
+
+:root[data-theme="light"] .hero-ufo-ship--light {
+  opacity: 1;
+}
+
+/* Hide cosmos-only hero elements */
+:root[data-theme="light"] #stars {
+  display: none;
+}
+
+/* Desert sky — late afternoon, sun upper-left, heat shimmer at horizon */
+:root[data-theme="light"] .hero-pin {
+  background:
+    linear-gradient(
+      to bottom,
+      #1565A8 0%,
+      #2288C8 18%,
+      #46AAD8 40%,
+      #72C4E8 62%,
+      #98D8F4 80%,
+      #BCE8F8 100%
+    );
+}
+
+:root[data-theme="light"] .hero-pin::after {
+  height: 14vh;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(243, 211, 154, 0.45) 55%,
+    var(--bg) 100%
+  );
+}
+
+/* Light terrain image swap */
+:root[data-theme="light"] .terrain-img--dark {
+  opacity: 0;
+}
+
+:root[data-theme="light"] .terrain-img--light {
+  opacity: 1;
+}
+
+:root[data-theme="light"] .hero-terrain::after {
+  background: linear-gradient(to bottom, transparent, var(--bg));
+}
+
+
+/* =====================================================================
+ * § 11  LIGHT HERO ACTORS + EFFECTS
+ * ===================================================================== */
+
+.hero-clouds {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100svh;
+  z-index: 4;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+:root[data-theme="light"] .hero-clouds {
+  display: block;
+}
+
+.cloud-img {
+  position: absolute;
+  height: auto;
+  animation: cloudDrift linear infinite;
+}
+
+.cloud-img--1 {
+  width: clamp(280px, 42vw, 620px);
+  top: 4%;
+  left: -650px;
+  animation-duration: 52s;
+  animation-delay: -10s;
+  opacity: 0.95;
+}
+
+.cloud-img--2 {
+  width: clamp(340px, 44vw, 640px);
+  top: 8%;
+  left: -700px;
+  animation-duration: 97s;
+  animation-delay: -58s;
+  opacity: 0.88;
+}
+
+.cloud-img--3 {
+  width: clamp(160px, 18vw, 240px);
+  top: 14%;
+  left: -280px;
+  animation-duration: 45s;
+  animation-delay: -20s;
+  opacity: 0.82;
+  animation-name: cloudDriftMirror;
+}
+
+.cloud-img--4 {
+  width: clamp(120px, 14vw, 180px);
+  top: 18%;
+  left: -220px;
+  animation-duration: 83s;
+  animation-delay: -5s;
+  opacity: 0.74;
+}
+
+.cloud-img--5 {
+  width: clamp(340px, 40vw, 580px);
+  top: 22%;
+  left: -640px;
+  animation-duration: 101s;
+  animation-delay: -80s;
+  opacity: 0.78;
+  animation-name: cloudDriftMirror;
+}
+
+.cloud-img--11 {
+  width: clamp(340px, 38vw, 540px);
+  top: 28%;
+  left: -600px;
+  animation-duration: 58s;
+  animation-delay: -15s;
+  opacity: 0.72;
+}
+
+.cloud-img--6 {
+  width: clamp(200px, 22vw, 300px);
+  top: 40%;
+  left: -350px;
+  animation-duration: 47s;
+  animation-delay: -8s;
+  opacity: 0.70;
+}
+
+.cloud-img--12 {
+  width: clamp(240px, 28vw, 400px);
+  top: 47%;
+  left: -460px;
+  animation-duration: 88s;
+  animation-delay: -55s;
+  opacity: 0.62;
+}
+
+.cloud-img--7 {
+  width: clamp(280px, 30vw, 420px);
+  top: 55%;
+  left: -480px;
+  animation-duration: 105s;
+  animation-delay: -90s;
+  opacity: 0.65;
+  animation-name: cloudDriftMirror;
+}
+
+.cloud-img--9 {
+  width: clamp(320px, 36vw, 500px);
+  top: 58%;
+  left: -580px;
+  animation-duration: 61s;
+  animation-delay: -25s;
+  opacity: 0.52;
+  animation-name: cloudDriftMirror;
+}
+
+.cloud-img--8 {
+  width: clamp(140px, 16vw, 200px);
+  top: 62%;
+  left: -250px;
+  animation-duration: 49s;
+  animation-delay: -30s;
+  opacity: 0.58;
+}
+
+.cloud-img--10 {
+  width: clamp(180px, 20vw, 260px);
+  top: 66%;
+  left: -320px;
+  animation-duration: 91s;
+  animation-delay: -10s;
+  opacity: 0.50;
+}
+
+
+/* ── Light Cloud Animations ─────────────────────────────────────── */
+
+@keyframes cloudDrift {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(100vw + 500px));
+  }
+}
+
+@keyframes cloudDriftMirror {
+  from {
+    transform: translateX(0) scaleX(-1);
+  }
+
+  to {
+    transform: translateX(calc(100vw + 500px)) scaleX(-1);
+  }
+}
+
+/* ── Light Hero Tractor Beam ─────────────────────────────────────── */
+
+/*
+ * Recolors the inline SVG beam gradient in light mode only.
+ * The original dark-theme beam colors remain untouched.
+ */
+
+:root[data-theme="light"] #beamGradUfo stop:nth-child(1){
+  stop-color:var(--plasma-50);
+}
+
+:root[data-theme="light"] #beamGradUfo stop:nth-child(2){
+  stop-color:var(--plasma-200);
+}
+
+:root[data-theme="light"] #beamGradUfo stop:nth-child(3){
+  stop-color:var(--plasma-400);
+}
+
+:root[data-theme="light"] #beamCoreGrad stop:nth-child(1){
+  stop-color:var(--plasma-50);
+}
+
+:root[data-theme="light"] #beamCoreGrad stop:nth-child(2){
+  stop-color:var(--plasma-100);
+}
+
+:root[data-theme="light"] #beamCoreGrad stop:nth-child(3){
+  stop-color:var(--plasma-400);
+}
+
+:root[data-theme="light"] #beamLandingGrad stop:nth-child(1){
+  stop-color:var(--plasma-200);
+}
+
+:root[data-theme="light"] #beamLandingGrad stop:nth-child(2){
+  stop-color:var(--plasma-400);
+}
+
+:root[data-theme="light"] #ufoBeamOuter,
+:root[data-theme="light"] #ufoBeam,
+:root[data-theme="light"] #ufoBeamCore {
+  filter:
+    blur(1.8px)
+    drop-shadow(
+      0 0 22px rgba(255,210,60,.30)
+    );
+}
+
+:root[data-theme="light"] #beamLanding {
+  filter:
+    blur(10px)
+    drop-shadow(
+      0 0 35px rgba(255,210,60,.30)
+    );
+}
+
+
+/* =====================================================================
+ * § 12  LIGHT SCROLL CUE
+ * High-contrast cactus treatment over sky, terrain, and vegetation.
+ * ===================================================================== */
+
+:root[data-theme="light"] .hero-scroll-cue {
+  --scroll-cue-bg: rgba(255, 253, 247, 0.92);
+  --scroll-cue-outline: var(--cosmos-900);
+  --scroll-cue-outline-fade: rgba(30, 66, 35, 0.56);
+  --scroll-cue-wheel: var(--cosmos-800);
+  --scroll-cue-glow: rgba(255, 253, 247, 0.96);
+
+  color: var(--scroll-cue-outline);
+}
+
+:root[data-theme="light"] .hero-scroll-cue__mouse {
+  background:
+    linear-gradient(
+      to bottom,
+      var(--scroll-cue-outline-fade) 0%,
+      var(--scroll-cue-outline-fade) 50%,
+      var(--scroll-cue-outline) 50%,
+      var(--scroll-cue-outline) 100%
+    );
+  filter:
+    drop-shadow(0 0 2px rgba(255, 253, 247, 0.98))
+    drop-shadow(0 2px 6px rgba(11, 36, 18, 0.38));
+}
+
+:root[data-theme="light"] .hero-scroll-cue__mouse::before {
+  background: var(--scroll-cue-bg);
+}
+
+:root[data-theme="light"] .hero-scroll-cue__mouse::after {
+  background: var(--scroll-cue-wheel);
+
+  box-shadow:
+    0 0 0 1px rgba(255, 253, 247, 0.82),
+    0 0 8px rgba(30, 66, 35, 0.30);
+}
+
+:root[data-theme="light"] .hero-scroll-cue__text {
+  color: var(--scroll-cue-outline);
+  font-weight: 700;
+  text-shadow:
+    0 1px 0 rgba(255, 253, 247, 0.98),
+    0 0 4px rgba(255, 253, 247, 0.98),
+    0 2px 7px rgba(11, 36, 18, 0.34);
+}
+
+/* =====================================================================
+ * § 13  LIGHT BACK-TO-TOP
+ * Cactus structure with solar-plasma illumination.
+ * Interaction mechanics remain shared with home-base.css.
+ * ===================================================================== */
+
+:root[data-theme="light"] #beamUp {
+  background:
+    linear-gradient(
+      135deg,
+      var(--cosmos-900) 0%,
+      var(--cosmos-600) 100%
+    );
+
+  border: 1px solid rgba(255, 240, 120, 0.42);
+  color: var(--aether-50);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.30),
+    inset 0 -2px 4px rgba(11, 36, 18, 0.22),
+    0 5px 16px rgba(11, 36, 18, 0.30),
+    0 0 24px rgba(255, 240, 120, 0.34),
+    0 0 56px rgba(255, 210, 60, 0.18);
+}
+
+:root[data-theme="light"] #beamUp::before {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.30) 0%,
+      rgba(255, 255, 255, 0) 58%
+    );
+}
+
+:root[data-theme="light"] #beamUp:hover {
+  filter: brightness(1.08);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.38),
+    inset 0 -2px 4px rgba(11, 36, 18, 0.18),
+    0 7px 20px rgba(11, 36, 18, 0.34),
+    0 0 32px rgba(255, 240, 120, 0.52),
+    0 0 76px rgba(255, 210, 60, 0.26);
+}
+
+:root[data-theme="light"] #beamUp:active {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 2px 4px rgba(11, 36, 18, 0.30),
+    0 2px 7px rgba(11, 36, 18, 0.26),
+    0 0 22px rgba(255, 240, 120, 0.34),
+    0 0 50px rgba(255, 210, 60, 0.16);
+}
+
+:root[data-theme="light"] #beam-streak {
+  background: linear-gradient(
+    to top,
+    var(--plasma-200) 0%,
+    rgba(255, 240, 120, 0.50) 50%,
+    transparent 100%
+  );
+
+  box-shadow:
+    0 0 8px var(--plasma-200),
+    0 0 20px rgba(255, 240, 120, 0.38);
+}
+
+:root[data-theme="light"] #beam-flash {
+  background: var(--plasma-200);
+}
+
+/* =====================================================================
+ * § 14  LIGHT RESPONSIVE OVERRIDES
+ * ===================================================================== */
+
+/* Light responsive overrides will move here later. */
+
+
+/* =====================================================================
+ * § 15  LIGHT BUTTON VISUALS
+ * ===================================================================== */
+
+:root[data-theme="light"] .btn-primary {
+  background: linear-gradient(180deg, var(--primary-lt) 0%, var(--primary) 74%);
+  color: var(--text);
+  border: none;
+  font-weight: 600;
+}
+
+:root[data-theme="light"] .btn-primary::after {
+  background: linear-gradient(180deg, var(--primary) 0%, var(--primary-lt) 74%);
+}
+
+:root[data-theme="light"] .btn-primary:hover {
+  color: var(--text);
+}
+
+:root[data-theme="light"] .btn-ghost {
+  background: transparent;
+  color: #F2E9EA80;
+  border: none;
+}
+
+:root[data-theme="light"] .btn-ghost::before,
+:root[data-theme="light"] .btn-ghost::after {
+  background: var(--text);
+}
+
+:root[data-theme="light"] .btn-ghost:hover {
+  background: transparent;
+  color: var(--text);
+  box-shadow: none;
+}
+
+:root[data-theme="light"] .btn-ghost span::before,
+:root[data-theme="light"] .btn-ghost span::after {
+  background: var(--text);
+}
+
+:root[data-theme="light"] .btn-outline {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1.5px solid var(--border);
+}
+
+:root[data-theme="light"] .btn-outline::after {
+  background: var(--bg-raised);
+}
+
+:root[data-theme="light"] .btn-outline:hover {
+  color: var(--text);
+  border-color: var(--bg-raised);
+}
+
+/* =====================================================================
+ * § 16  LIGHT CURSOR VISUALS
+ * ===================================================================== */
+
+:root[data-theme="light"] .cur-dot {
+  background: var(--cosmos-800);
+  box-shadow:
+    0 0 0 1px rgba(255, 253, 247, 0.46),
+    0 0 8px rgba(35, 84, 43, 0.32),
+    0 0 18px rgba(58, 150, 45, 0.18);
+}
+
+/* =====================================================================
+ * § 17  LIGHT INTRO OVERLAY VISUALS  (corrected)
+ * ===================================================================== */
+
+:root[data-theme="light"] #intro {
+  background: linear-gradient(
+    to bottom,
+    #1565A8  0%,
+    #2288C8 18%,
+    #46AAD8 40%,
+    #72C4E8 62%,
+    #98D8F4 80%,
+    #BCE8F8 100%
+  );
+}
+
+:root[data-theme="light"] #intro-glow {
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 100%,
+    rgba(255, 210, 60, 0.45) 0%,
+    transparent 65%
+  );
+}
+
+:root[data-theme="light"] .ipt {
+  background: radial-gradient(
+    circle,
+    rgba(255, 252, 245, 0.95)  0%,
+    rgba(255, 230, 180, 0.55) 35%,
+    rgba(255, 200, 100, 0.25) 65%,
+    transparent 100%
+  );
+  box-shadow: 0 0 6px 1px rgba(255, 215, 0, 0.25);
+}
+
+:root[data-theme="light"] #intro-scanlines {
+  background: radial-gradient(
+    circle at 50% 45%,
+    rgba(255, 250, 240, 0.92) 0%,
+    rgba(255, 230, 180, 0.55) 35%,
+    rgba(255, 200, 100, 0.18) 60%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+}
+
+:root[data-theme="light"] #intro-flash {
+  background: #FFF8E7;
+}
+
+/* Golden beam gradient overrides */
+:root[data-theme="light"] #iBeamGrad stop:nth-child(1) {
+  stop-color: #FFD700;
+  stop-opacity: 0;
+}
+
+:root[data-theme="light"] #iBeamGrad stop:nth-child(2) {
+  stop-color: #FFA500;
+  stop-opacity: 0.32;
+}
+
+:root[data-theme="light"] #iBeamGrad stop:nth-child(3) {
+  stop-color: #FF8C00;
+  stop-opacity: 0.9;
+}
+
+:root[data-theme="light"] #iEmitterGlow stop:nth-child(1) {
+  stop-color: #FFF8DC;
+  stop-opacity: 0.75;
+}
+
+:root[data-theme="light"] #iEmitterGlow stop:nth-child(2) {
+  stop-color: #FFD700;
+  stop-opacity: 0.32;
+}
+
+:root[data-theme="light"] #iEmitterGlow stop:nth-child(3) {
+  stop-color: #FFA500;
+  stop-opacity: 0;
+}
+
+:root[data-theme="light"] #iScan {
+  stroke: rgba(255, 215, 0, 0.9);
+  filter: drop-shadow(0 0 6px rgba(255, 200, 80, 0.6));
+}
+
+
+/* =====================================================================
+ * § 18  LIGHT STAT HOLO (light theme)
+ * ===================================================================== */
+
+:root[data-theme="light"] .stat {
+  --holo-c1: var(--plasma-400);
+  --holo-c2: var(--pulsar-400);
+  --holo-c3: var(--aurora-800);
+  --holo-c4: var(--cosmos-400);
+  --holo-c5: var(--plasma-200);
+  --holo-c6: var(--pulsar-200);
+}
+
+:root[data-theme="light"] .stat-n {
+  color: var(--alien-skin);
+  text-shadow:
+    0 0 7px rgba(40, 193, 155, 0.3),
+    0 0 16px rgba(40, 193, 155, 0.15);
+}
+
+:root[data-theme="light"] .stat:hover .stat-n {
+  text-shadow:
+    0 0 9px rgba(40, 193, 155, 0.36),
+    0 0 22px rgba(40, 193, 155, 0.17);
+}
+
+:root[data-theme="light"] .stat:hover .stat-l {
+  text-shadow: 0 1px 0 rgba(255,255,255,0.3), 0 -1px 2px rgba(0,0,0,0.7);
+}

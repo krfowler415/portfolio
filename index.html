@@ -1,0 +1,615 @@
+<!-- theme-toggle-test branch check -->
+
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kevin Fowler — UX/UI Designer & Systems Thinker</title>
+    
+    <!-- Favicon -->
+    <link id="favicon" rel="icon" type="image/svg+xml" href="favicon-ufo.svg" />
+
+    <!-- Critical hero images — load before render -->
+    <link rel="preload" as="image" href="images/terrain-dark.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="images/terrain-light.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="images/intro-ufo.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="hero-ufo-dark.svg" fetchpriority="high">
+    <link rel="preload" as="image" href="hero-ufo-light.svg" fetchpriority="high">
+    <link rel="preload" as="image" href="hero-moon.svg" fetchpriority="high">
+    <link rel="preload" as="image" href="hero-sun.svg" fetchpriority="high">
+
+    <!-- GSAP — load before render -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+    <!-- Intro Skip if Played -->
+    <style>
+      .intro-skip #intro,
+      .intro-skip #intro-flash {
+        display: none !important;
+      }
+    </style>
+
+    <script>
+      if (sessionStorage.getItem('introPlayed')) {
+        document.documentElement.classList.add('intro-skip');
+      }
+    </script>
+    
+    <!-- System Theme Check Script -->
+    <script>
+      (() => {
+        const savedTheme = localStorage.getItem('kf-theme');
+        const systemPrefersLight = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = savedTheme || (systemPrefersLight ? 'light' : 'dark');
+
+        document.documentElement.setAttribute('data-theme', theme);
+
+        document.documentElement.style.backgroundColor =
+          theme === 'light' ? '#F3D39A' : '#100820';
+      })();
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Orbitron:wght@400;500;600;700;900&family=Oxanium:wght@200..800&display=swap" rel="stylesheet"/>
+    
+    <!-- Split CSS architecture -->
+    <link rel="stylesheet" href="css/global-base.css" />
+    <link rel="stylesheet" href="css/home-base.css" />
+    <link rel="stylesheet" href="css/home-cosmos.css" />
+    <link rel="stylesheet" href="css/home-light.css" />
+    
+    <!-- Vercel Analytics -->
+    <script defer src="/_vercel/insights/script.js"></script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
+  </head>
+  <body>
+
+  <!-- ── Theme Wipe Overlay ───────────────────────────────────────── -->
+  <svg class="shape-overlays" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="wipe-grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop class="wipe-stop1a" offset="0%"   stop-color="#0AC39A"/>
+        <stop class="wipe-stop1b" offset="100%" stop-color="#100820"/>
+      </linearGradient>
+      <linearGradient id="wipe-grad2" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop class="wipe-stop2a" offset="0%"   stop-color="#5F259F"/>
+        <stop class="wipe-stop2b" offset="100%" stop-color="#100820"/>
+      </linearGradient>
+    </defs>
+    <path class="shape-overlays__path" fill="url(#wipe-grad2)"></path>
+    <path class="shape-overlays__path" fill="url(#wipe-grad1)"></path>
+  </svg>
+   
+  <!-- ── Loading Screen ─────────────────────────────────────────────────────── -->
+  
+  <div id="intro" aria-hidden="true">
+    <div id="intro-glow"></div>
+  
+    <div id="intro-ufo-wrap">
+
+      <!-- Beam, scan, and emitter glow stay separately animatable -->
+      <svg
+        id="intro-effects"
+        viewBox="0 0 200 150"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <defs>
+          <linearGradient
+            id="iBeamGrad"
+            x1="100"
+            y1="119"
+            x2="100"
+            y2="1700"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0%" stop-color="#1CCFC8" stop-opacity="0"/>
+            <stop offset="12%" stop-color="#1CCFC8" stop-opacity="0.32"/>
+            <stop offset="100%" stop-color="#0C9D95" stop-opacity="0.9"/>
+          </linearGradient>
+  
+          <clipPath id="beamClip">
+            <polygon points="88,119 112,119 1780,1700 -1580,1700"/>
+          </clipPath>
+  
+          <radialGradient id="iEmitterGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ABF8F4" stop-opacity="0.75"/>
+            <stop offset="45%" stop-color="#1CCFC8" stop-opacity="0.32"/>
+            <stop offset="100%" stop-color="#1CCFC8" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Animated tractor beam -->
+        <polygon
+          id="iBeam"
+          points="88,119 112,119 1780,1700 -1580,1700"
+          fill="url(#iBeamGrad)"
+          opacity="0"
+        />
+
+        <!-- Animated scan line -->
+        <line
+          id="iScan"
+          x1="-1580"
+          y1="123"
+          x2="1780"
+          y2="123"
+          stroke="rgba(126, 239, 240, 0.9)"
+          stroke-width="2"
+          stroke-linecap="round"
+          clip-path="url(#beamClip)"
+          opacity="0"
+        />
+
+        <!-- Glow behind the PNG's emitter -->
+        <ellipse
+          cx="100"
+          cy="119"
+          rx="22"
+          ry="8"
+          fill="url(#iEmitterGlow)"
+          opacity="0.35"
+          class="iLight"
+        />
+      </svg>
+
+      <!-- Underside UFO artwork -->
+      <picture>
+        <source srcset="images/intro-ufo.webp" type="image/webp">
+        <img id="intro-ufo" src="images/intro-ufo.png" alt="" aria-hidden="true" loading="eager" fetchpriority="high" decoding="async">
+      </picture>
+  
+    </div>
+  
+    <div id="intro-pts"></div>
+    <div id="intro-scanlines"></div>
+  </div>
+  
+  <div id="intro-flash" aria-hidden="true"></div>
+
+  <!-- ── Skip Nav + Cursor Dot ────────────────────────────────────── -->
+
+    <a href="#main" class="skip-nav">Skip to main content</a>
+    <div id="cur"><div class="cur-dot"></div></div>
+
+    <!-- ── Nav ─────────────────────────────────────────────────────── -->
+
+    <nav aria-label="Main navigation">
+      <a href="#" class="nav-logo">Kevin Fowler</a>
+  
+      <a href="mailto:krfowler415@gmail.com" class="hero-us">
+        <span class="sdot"></span>
+        <span class="us-default">Available for Work</span>
+        <span class="us-hover">Arizona &amp; Remote</span>
+      </a>
+  
+      <ul class="nav-links">
+        <li><a href="#work"><span>Work</span></a></li>
+        <li><a href="#about"><span>About</span></a></li>
+        <li><a href="#contact"><span>Contact</span></a></li>
+      </ul>
+  
+      <button id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+
+  <!-- ── Main ─────────────────────────────────────────────────────── -->
+
+    <main id="main">
+
+  <!-- ── Hero ─────────────────────────────────────────────────────── -->
+      
+    <section class="hero" id="hero" aria-label="Hero">
+      <div class="hero-pin">
+        <canvas id="stars"></canvas>
+        <div id="galaxy-stars" aria-hidden="true"></div>
+        <canvas id="light-rays"></canvas>
+        
+        <h1 class="visually-hidden">Kevin Fowler — UX Designer</h1>
+
+  <!-- ── Hero Moon (dark theme) ─────────────────────────────────────────────────────── -->
+
+        <div class="hero-moon" aria-hidden="true">
+          <img src="hero-moon.svg" alt=""/>
+        </div>
+      
+  <!-- ── Hero Sun (light theme) ───────────────────────────────────────── -->
+
+        <div class="hero-sun" aria-hidden="true">
+          <img src="hero-sun.svg" alt=""/>
+        </div>
+
+  <!-- ── Hero Clouds (light theme) ──────────────────────────────────── -->
+
+        <div class="hero-clouds" aria-hidden="true">
+          <img class="cloud-img cloud-img--1"  src="cloud-1.svg" alt=""/>
+          <img class="cloud-img cloud-img--2"  src="cloud-2.svg" alt=""/>
+          <img class="cloud-img cloud-img--3"  src="cloud-3.svg" alt=""/>
+          <img class="cloud-img cloud-img--4"  src="cloud-4.svg" alt=""/>
+          <img class="cloud-img cloud-img--5"  src="cloud-5.svg" alt=""/>
+          <img class="cloud-img cloud-img--6"  src="cloud-1.svg" alt=""/>
+          <img class="cloud-img cloud-img--7"  src="cloud-3.svg" alt=""/>
+          <img class="cloud-img cloud-img--8"  src="cloud-5.svg" alt=""/>
+          <img class="cloud-img cloud-img--9"  src="cloud-2.svg" alt=""/>
+          <img class="cloud-img cloud-img--10" src="cloud-4.svg" alt=""/>
+          <img class="cloud-img cloud-img--11" src="cloud-2.svg" alt=""/>
+          <img class="cloud-img cloud-img--12" src="cloud-3.svg" alt=""/>
+        </div>
+        
+  <!-- ── Hero UFO (dark + light themes) ───────────────────────────────────────────── -->
+
+        <div class="hero-ufo" id="heroUfo" aria-hidden="true">
+          <div class="hero-ufo-inner">
+
+            <div class="hero-ufo-beam" id="ufoBeamContainer"></div>
+        
+            <!-- UFO ship only -->
+            <img
+              class="hero-ufo-ship hero-ufo-ship--dark"
+              src="hero-ufo-dark.svg"
+              alt=""
+              aria-hidden="true"
+            />
+            
+            <img
+              class="hero-ufo-ship hero-ufo-ship--light"
+              src="hero-ufo-light.svg"
+              alt=""
+              aria-hidden="true"
+            />
+        
+          </div>
+        </div>
+        
+  <!-- ── Hero Terrain ─────────────────────────────────────────────────────── -->
+  
+        <div class="hero-terrain" id="heroTerrain" aria-hidden="true">
+          <div class="terrain-stage">
+            <picture>
+              <source srcset="images/terrain-dark.webp" type="image/webp">
+              <img class="terrain-img terrain-img--dark" src="images/terrain-dark.png" alt="" loading="eager" fetchpriority="high" decoding="async">
+            </picture>
+        
+            <picture>
+              <source srcset="images/terrain-light.webp" type="image/webp">
+              <img class="terrain-img terrain-img--light" src="images/terrain-light.png" alt="" loading="eager" fetchpriority="high" decoding="async">
+            </picture>
+          </div>
+        </div>
+
+        <!-- Hero Scroll Cue -->
+        <button class="hero-scroll-cue" id="heroScrollCue" type="button" aria-label="Scroll down">
+          <span class="hero-scroll-cue__mouse" aria-hidden="true"></span>
+          <span class="hero-scroll-cue__text">Scroll</span>
+        </button>
+
+      </div>
+    </section>
+
+  <canvas id="body-environment" aria-hidden="true"></canvas>
+
+  <!-- ── Marquee ─────────────────────────────────────────────────────── -->
+
+    <div class="marquee">
+      <div class="m-track">
+        <span class="m-item">User Interviews <span class="m-sep"></span></span>
+        <span class="m-item">Usability Testing <span class="m-sep"></span></span>
+        <span class="m-item">Heuristics <span class="m-sep"></span></span>
+        <span class="m-item">Personas <span class="m-sep"></span></span>
+        <span class="m-item">Journey Maps <span class="m-sep"></span></span>
+        <span class="m-item">Empathy Maps <span class="m-sep"></span></span>
+        <span class="m-item">Task Flows <span class="m-sep"></span></span>
+        <span class="m-item">Benchmarking <span class="m-sep"></span></span>
+    
+        <span class="m-item">Figma <span class="m-sep"></span></span>
+        <span class="m-item">Wireframing <span class="m-sep"></span></span>
+        <span class="m-item">Prototyping <span class="m-sep"></span></span>
+        <span class="m-item">Hi-Fi Design <span class="m-sep"></span></span>
+        <span class="m-item">Design Systems <span class="m-sep"></span></span>
+        <span class="m-item">Typography <span class="m-sep"></span></span>
+        <span class="m-item">Info Architecture <span class="m-sep"></span></span>
+        <span class="m-item">Microinteractions <span class="m-sep"></span></span>
+    
+        <span class="m-item">HTML <span class="m-sep"></span></span>
+        <span class="m-item">CSS <span class="m-sep"></span></span>
+        <span class="m-item">JavaScript <span class="m-sep"></span></span>
+        <span class="m-item">GSAP <span class="m-sep"></span></span>
+        <span class="m-item">Debugging <span class="m-sep"></span></span>
+        <span class="m-item">Accessibility <span class="m-sep"></span></span>
+        <span class="m-item">Responsive <span class="m-sep"></span></span>
+        <span class="m-item">GitHub <span class="m-sep"></span></span>
+      </div>
+    </div>
+
+  <!-- ── Work ─────────────────────────────────────────────────────── -->
+
+    <div class="section" id="work">
+      <div class="sec-hd reveal" style="margin-bottom: 0.5rem">
+        <h2 class="sec-title">Case Studies</h2>
+      </div>
+      <div class="cs-scroll-wrap">
+        <div class="cs-strip" id="csStrip">
+         
+          <!-- ── Project 01: eDreams ──────────────────────────────────────── -->
+          <div class="card-tilt-wrap cs-card">
+            <a href="eDreams-case-study.html" class="card-feat project-hover project--edreams">
+              <div class="card-vis">
+                <span class="card-vis-tag">01</span>
+                <picture>
+                  <source srcset="images/eDreams-Final-DefaultPage.webp" type="image/webp">
+                  <img class="project-vis-image" src="images/eDreams-Final-DefaultPage.png" alt="eDreams redesign" loading="lazy" decoding="async">
+                </picture>
+              </div>
+          
+              <div class="card-body">
+                <h3 class="c-title">eDreams Flight Results Redesign</h3>
+                <p class="c-desc">
+                  Full research-to-design cycle. User interviews, heuristic
+                  evaluation, and moderated usability testing with 3 participants
+                  across multiple demographics. Every decision tied directly to
+                  what a real person said.
+                </p>
+          
+                <div class="c-tags">
+                  <span class="c-tag">User Research</span>
+                  <span class="c-tag">Usability Testing</span>
+                  <span class="c-tag">Heuristic Evaluation</span>
+                  <span class="c-tag">Wireframing</span>
+                  <span class="c-tag">Hi-Fi Design</span>
+                  <span class="c-tag">Figma</span>
+                </div>
+          
+                <span class="c-link">Dive Deeper →</span>
+              </div>
+            </a>
+          </div>
+          
+          <!-- ── Project 02: Field & Feast ─────────────────────────────────── -->
+          <div class="card-tilt-wrap cs-card">
+            <a href="https://krfowler415.github.io/fieldandfeast/" target="_blank" rel="noopener noreferrer" class="card-feat project-hover project--field-feast">
+              <div class="card-vis">
+                <span class="card-vis-tag">02</span>
+                <span class="project-vis-title">Field &amp; Feast</span>
+              </div>
+          
+              <div class="card-body">
+                <h3 class="c-title">Field &amp; Feast</h3>
+                <p class="c-desc">
+                  Mobile-first farm-to-table restaurant site built with CSS Grid,
+                  4 responsive breakpoints, and a responsive image gallery.
+                </p>
+          
+                <div class="c-tags">
+                  <span class="c-tag">HTML5</span>
+                  <span class="c-tag">CSS Grid</span>
+                  <span class="c-tag">Responsive Design</span>
+                  <span class="c-tag">Typography</span>
+                </div>
+          
+                <span class="c-link">View Live Site →</span>
+              </div>
+            </a>
+          </div>
+          
+          <!-- ── Project 03: Vanguard ──────────────────────────────────────── -->
+          <div class="card-tilt-wrap cs-card">
+            <a href="https://krfowler415.github.io/vanguard/" target="_blank" rel="noopener noreferrer" class="card-feat project-hover project--vanguard">
+              <div class="card-vis">
+                <span class="card-vis-tag">03</span>
+                <span class="project-vis-title">Vanguard</span>
+              </div>
+          
+              <div class="card-body">
+                <h3 class="c-title">Vanguard</h3>
+                <p class="c-desc">
+                  Corporate site featuring CSS animations, SVG illustrations,
+                  a responsive mobile menu, and polished form styles.
+                </p>
+          
+                <div class="c-tags">
+                  <span class="c-tag">HTML5</span>
+                  <span class="c-tag">CSS Animations</span>
+                  <span class="c-tag">SVG</span>
+                  <span class="c-tag">JavaScript</span>
+                </div>
+          
+                <span class="c-link">View Live Site →</span>
+              </div>
+            </a>
+          </div>
+          
+          
+          <!-- ── Project 04: Path to Success ───────────────────────────────── -->
+          
+          <div class="card-tilt-wrap cs-card">
+            <a href="https://krfowler415.github.io/path-to-success/" target="_blank" rel="noopener noreferrer" class="card-feat project-hover project--path-success">
+              <div class="card-vis">
+                <span class="card-vis-tag">04</span>
+                <span class="project-vis-title">Path to Success</span>
+              </div>
+          
+              <div class="card-body">
+                <h3 class="c-title">Path to Success</h3>
+                <p class="c-desc">
+                  Mobile-only coaching site built with complex CSS selectors and
+                  a clean information hierarchy.
+                </p>
+          
+                <div class="c-tags">
+                  <span class="c-tag">HTML5</span>
+                  <span class="c-tag">CSS Selectors</span>
+                  <span class="c-tag">Mobile-First</span>
+                  <span class="c-tag">Information Architecture</span>
+                </div>
+          
+                <span class="c-link">View Live Site →</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="cs-arrows">
+          <svg xmlns="http://www.w3.org/2000/svg" style="display:none;"><symbol viewBox="0 0 44 44" width="44" height="44" id="circle" fill="none" stroke="currentColor"><circle r="20" cy="22" cx="22"></circle></symbol></svg>
+          <button class="cs-arrow left" id="csPrev" aria-label="Previous"><i aria-hidden="true"></i><svg aria-hidden="true"><use href="#circle"></use></svg></button>
+          <button class="cs-arrow" id="csNext" aria-label="Next"><i aria-hidden="true"></i><svg aria-hidden="true"><use href="#circle"></use></svg></button>
+        </div>
+        <div class="cs-progress-wrap"><div class="cs-progress-bar" id="csProgress"></div></div>
+      </div>
+    </div>
+
+  <!-- ── About ─────────────────────────────────────────────────────── -->
+
+    <div class="section s-border" id="about">
+      <div class="about-layout">
+        <div class="about-copy reveal-left">
+          <h2 class="sec-title">Greetings, Earthling!</h2>
+          <p>Currently, I'm a senior at ASU working towards my degree in Human Systems Engineering.</p>
+          <p>One of my biggest professional influences came from four years managing 100+ staff at one of the largest non-profit zoos in the country. Welcoming nearly 1.4 million guests annually meant owning the full guest journey.</p> 
+          <p>It taught me how to read people, communicate under pressure, and care deeply about cultivating a world-class experience at every touchpoint.</p>
+          <p>Little did I know I was doing UX long before I even knew what UX was. Now I get to do it on purpose! Turns out the zoo was just my first usability test.</p>
+          <a href="about.html" class="c-link">More about me →</a>
+        </div>
+        <div class="stat-grid reveal-right">
+          <div class="stat">
+            <span class="stat-shine" aria-hidden="true"></span>
+            <span class="stat-glare" aria-hidden="true"></span>
+            <div class="stat-n" data-text="4.24">4.24</div>
+            <div class="stat-l">Current GPA, ASU<br>Ira A. Fulton</div>
+          </div>
+          <div class="stat">
+            <span class="stat-shine" aria-hidden="true"></span>
+            <span class="stat-glare" aria-hidden="true"></span>
+            <div class="stat-n" data-text="4+">4+</div>
+            <div class="stat-l">Years leading 100+ staff at the Phoenix Zoo</div>
+          </div>
+          <div class="stat">
+            <span class="stat-shine" aria-hidden="true"></span>
+            <span class="stat-glare" aria-hidden="true"></span>
+            <div class="stat-n" data-text="2027">2027</div>
+            <div class="stat-l">Expected graduation,<br>Spring</div>
+          </div>
+          <div class="stat">
+            <span class="stat-shine" aria-hidden="true"></span>
+            <span class="stat-glare" aria-hidden="true"></span>
+            <div class="stat-n" data-text="5+">5+</div>
+            <div class="stat-l">Years coaching youth sports</div>
+          </div>
+          <img src="images/Alien-Image-dark.webp" alt="" aria-hidden="true" class="about-alien" loading="lazy" decoding="async"/>
+        </div>
+      </div>
+    </div>
+
+  <!-- ── Contact ─────────────────────────────────────────────────────── -->
+
+    <div class="section s-border" id="contact">
+      <div class="c-band reveal">
+        <div class="c-header">
+          <h2 class="c-headline">Awaiting Your Signal</h2>
+          <p class="c-body">I'm looking to grow, learn, and create work that matters.<br>If you're searching for someone with fresh eyes and a passion for perfection.</p>
+        </div>
+        <a href="mailto:krfowler415@gmail.com" class="c-cta-btn">
+          <span>Establish Contact</span>
+          <span class="c-cta-arrow">→</span>
+        </a>
+        <div class="c-secondary">
+          <a href="https://github.com/krfowler415" target="_blank" rel="noopener noreferrer" class="c-secondary-link"><span>GitHub</span></a>
+          <a href="https://asu.joinhandshake.com/profiles/kevinf" target="_blank" rel="noopener noreferrer" class="c-secondary-link"><span>Handshake</span></a>
+          <a href="https://www.linkedin.com/in/kevin-fowler-101713ajf/" target="_blank" rel="noopener noreferrer" class="c-secondary-link"><span>LinkedIn</span></a>
+          <a href="resume.pdf" target="_blank" rel="noopener noreferrer" class="c-secondary-link"><span>Resume (PDF)</span></a>
+        </div>
+      </div>
+    </div>
+
+  <!-- ── End of Main ─────────────────────────────────────────────────────── -->
+      
+    </main>
+
+  <!-- ── Footer ─────────────────────────────────────────────────────── -->
+    
+    <footer>
+      <span class="foot-l">Kevin Fowler</span>
+      <span class="foot-r">© 2026 · Made in AZ · 🌵🌵</span>
+    </footer>
+
+
+  <!-- ── Theme Toggle ─────────────────────────────────────────────────────── -->
+    <button
+      id="theme-toggle"
+      class="toggle"
+      type="button"
+      aria-label="Switch to light theme"
+      aria-pressed="true"
+      title="Toggle Theme"
+    >
+      <span class="toggle__content">
+        <svg aria-hidden="true" class="toggle__backdrop" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 290 228">
+          <g class="clouds">
+            <path fill="#D9D9D9" d="M335 147.5c0 27.89-22.61 50.5-50.5 50.5a50.78 50.78 0 0 1-9.29-.853c-2.478 12.606-10.595 23.188-21.615 29.011C245.699 243.749 228.03 256 207.5 256a50.433 50.433 0 0 1-16.034-2.599A41.811 41.811 0 0 1 166 262a41.798 41.798 0 0 1-22.893-6.782A42.21 42.21 0 0 1 135 256a41.82 41.82 0 0 1-19.115-4.592A41.84 41.84 0 0 1 88 262c-1.827 0-3.626-.117-5.391-.343C74.911 270.448 63.604 276 51 276c-23.196 0-42-18.804-42-42s18.804-42 42-42c1.827 0 3.626.117 5.391.343C64.089 183.552 75.396 178 88 178a41.819 41.819 0 0 1 19.115 4.592C114.532 176.002 124.298 172 135 172a41.798 41.798 0 0 1 22.893 6.782 42.066 42.066 0 0 1 7.239-.773C174.137 164.159 189.749 155 207.5 155c.601 0 1.199.01 1.794.031A41.813 41.813 0 0 1 234 147h.002c.269-27.66 22.774-50 50.498-50 27.89 0 50.5 22.61 50.5 50.5Z"/>
+          </g>
+        </svg>
+        <svg aria-hidden="true" class="toggle__backdrop" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 290 228">
+          <g class="clouds">
+            <path fill="#fff" d="M328 167.5c0 15.214-7.994 28.56-20.01 36.068.007.31.01.621.01.932 0 23.472-19.028 42.5-42.5 42.5-3.789 0-7.461-.496-10.957-1.426C249.671 263.676 233.141 277 213.5 277a42.77 42.77 0 0 1-7.702-.696C198.089 284.141 187.362 289 175.5 289a42.338 42.338 0 0 1-27.864-10.408A42.411 42.411 0 0 1 133.5 281c-4.36 0-8.566-.656-12.526-1.876C113.252 287.066 102.452 292 90.5 292a42.388 42.388 0 0 1-15.8-3.034A42.316 42.316 0 0 1 48.5 298C25.028 298 6 278.972 6 255.5S25.028 213 48.5 213a42.388 42.388 0 0 1 15.8 3.034A42.316 42.316 0 0 1 90.5 207c4.36 0 8.566.656 12.526 1.876C110.748 200.934 121.548 196 133.5 196a42.338 42.338 0 0 1 27.864 10.408A42.411 42.411 0 0 1 175.5 204c2.63 0 5.204.239 7.702.696C190.911 196.859 201.638 192 213.5 192c3.789 0 7.461.496 10.957 1.426 2.824-10.491 9.562-19.377 18.553-24.994-.007-.31-.01-.621-.01-.932 0-23.472 19.028-42.5 42.5-42.5s42.5 19.028 42.5 42.5Z"/>
+          </g>
+        </svg>
+        <span class="toggle__indicator-wrapper">
+          <span class="toggle__indicator">
+            <span class="toggle__star">
+              <span class="sun">
+                <span class="moon">
+                  <span class="moon__crater"></span>
+                  <span class="moon__crater"></span>
+                  <span class="moon__crater"></span>
+                </span>
+              </span>
+            </span>
+          </span>
+        </span>
+        <svg aria-hidden="true" class="toggle__backdrop" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 290 228">
+          <g>
+            <g class="stars">
+              <g><path fill="#fff" fill-rule="evenodd" d="M61 11.5a.75.75 0 0 1 .721.544l.813 2.846a3.75 3.75 0 0 0 2.576 2.576l2.846.813a.75.75 0 0 1 0 1.442l-2.846.813a3.749 3.749 0 0 0-2.576 2.576l-.813 2.846a.75.75 0 0 1-1.442 0l-.813-2.846a3.749 3.749 0 0 0-2.576-2.576l-2.846-.813a.75.75 0 0 1 0-1.442l2.846-.813a3.749 3.749 0 0 0 2.576-2.576l.813-2.846A.75.75 0 0 1 61 11.5Z" clip-rule="evenodd"/></g>
+              <g><path fill="#fff" fill-rule="evenodd" d="M62.5 45.219a.329.329 0 0 1 .315.238l.356 1.245a1.641 1.641 0 0 0 1.127 1.127l1.245.356a.328.328 0 0 1 0 .63l-1.245.356a1.641 1.641 0 0 0-1.127 1.127l-.356 1.245a.328.328 0 0 1-.63 0l-.356-1.245a1.641 1.641 0 0 0-1.127-1.127l-1.245-.356a.328.328 0 0 1 0-.63l1.245-.356a1.641 1.641 0 0 0 1.127-1.127l.356-1.245a.328.328 0 0 1 .315-.238Z" clip-rule="evenodd"/></g>
+              <g><path fill="#fff" fill-rule="evenodd" d="M32 31.188a.28.28 0 0 1 .27.204l.305 1.067a1.405 1.405 0 0 0 .966.966l1.068.305a.28.28 0 0 1 0 .54l-1.068.305a1.405 1.405 0 0 0-.966.966l-.305 1.068a.28.28 0 0 1-.54 0l-.305-1.068a1.406 1.406 0 0 0-.966-.966l-1.067-.305a.28.28 0 0 1 0-.54l1.067-.305a1.406 1.406 0 0 0 .966-.966l.305-1.068a.281.281 0 0 1 .27-.203Z" clip-rule="evenodd"/></g>
+              <g><path fill="#fff" fill-rule="evenodd" d="M41.5 74.219a.329.329 0 0 1 .315.238l.356 1.245a1.641 1.641 0 0 0 1.127 1.127l1.245.356a.328.328 0 0 1 0 .63l-1.245.356a1.641 1.641 0 0 0-1.127 1.127l-.356 1.245a.328.328 0 0 1-.63 0l-.356-1.245a1.641 1.641 0 0 0-1.127-1.127l-1.245-.356a.328.328 0 0 1 0-.63l1.245-.356a1.641 1.641 0 0 0 1.127-1.127l.356-1.245a.328.328 0 0 1 .315-.238Z" clip-rule="evenodd"/></g>
+              <g><path fill="#fff" fill-rule="evenodd" d="M34 83.188a.28.28 0 0 1 .27.203l.305 1.068a1.405 1.405 0 0 0 .966.966l1.068.305a.28.28 0 0 1 0 .54l-1.068.305a1.405 1.405 0 0 0-.966.966l-.305 1.068a.28.28 0 0 1-.54 0l-.305-1.068a1.406 1.406 0 0 0-.966-.966l-1.068-.305a.28.28 0 0 1 0-.54l1.068-.305a1.406 1.406 0 0 0 .966-.966l.305-1.068a.281.281 0 0 1 .27-.204Z" clip-rule="evenodd"/></g>
+              <g><path fill="#fff" fill-rule="evenodd" d="M63 89.25a.375.375 0 0 1 .36.272l.407 1.423a1.874 1.874 0 0 0 1.288 1.288l1.423.406a.374.374 0 0 1 0 .722l-1.423.406a1.874 1.874 0 0 0-1.288 1.288l-.407 1.423a.374.374 0 0 1-.72 0l-.407-1.423a1.874 1.874 0 0 0-1.288-1.288l-1.423-.406a.374.374 0 0 1 0-.722l1.423-.406a1.874 1.874 0 0 0 1.288-1.288l.407-1.423a.376.376 0 0 1 .36-.272Z" clip-rule="evenodd"/></g>
+              <g><path fill="#fff" fill-rule="evenodd" d="M110.5 53.156a.236.236 0 0 1 .225.17l.254.89a1.174 1.174 0 0 0 .805.805l.89.254a.233.233 0 0 1 0 .45l-.89.254a1.167 1.167 0 0 0-.805.805l-.254.89a.232.232 0 0 1-.45 0l-.254-.89a1.174 1.174 0 0 0-.805-.805l-.89-.254a.233.233 0 0 1 0-.45l.89-.254a1.167 1.167 0 0 0 .805-.805l.254-.89a.232.232 0 0 1 .225-.17Z" clip-rule="evenodd"/></g>
+              <g><path fill="#fff" fill-rule="evenodd" d="M120 27.188a.279.279 0 0 1 .27.204l.305 1.067a1.41 1.41 0 0 0 .966.966l1.067.305a.28.28 0 0 1 0 .54l-1.067.305a1.403 1.403 0 0 0-.966.966l-.305 1.067a.279.279 0 0 1-.54 0l-.305-1.067a1.41 1.41 0 0 0-.966-.966l-1.068-.305a.28.28 0 0 1 0-.54l1.068-.305a1.405 1.405 0 0 0 .966-.966l.305-1.067a.279.279 0 0 1 .27-.204Z" clip-rule="evenodd"/></g>
+              <g><path fill="#fff" fill-rule="evenodd" d="M155 28.5a.753.753 0 0 1 .721.544l.813 2.846a3.746 3.746 0 0 0 2.576 2.576l2.846.813a.75.75 0 0 1 0 1.442l-2.846.813a3.75 3.75 0 0 0-2.576 2.576l-.813 2.846a.749.749 0 0 1-1.442 0l-.813-2.846a3.746 3.746 0 0 0-2.576-2.576l-2.846-.813a.75.75 0 0 1 0-1.442l2.846-.813a3.75 3.75 0 0 0 2.576-2.576l.813-2.846A.751.751 0 0 1 155 28.5Z" clip-rule="evenodd"/></g>
+              <g><path fill="#fff" fill-rule="evenodd" d="M147 60.25a.377.377 0 0 1 .36.272l.407 1.423a1.883 1.883 0 0 0 1.288 1.288l1.423.407a.375.375 0 0 1 0 .72l-1.423.407a1.875 1.875 0 0 0-1.288 1.288l-.407 1.423a.374.374 0 0 1-.72 0l-.407-1.423a1.883 1.883 0 0 0-1.288-1.288l-1.423-.406a.375.375 0 0 1 0-.722l1.423-.406a1.875 1.875 0 0 0 1.288-1.288l.407-1.423a.372.372 0 0 1 .36-.272Z" clip-rule="evenodd"/></g>
+              <g><path fill="#fff" fill-rule="evenodd" d="M125.5 76.344a.513.513 0 0 1 .496.374l.559 1.956a2.574 2.574 0 0 0 1.771 1.771l1.956.56a.514.514 0 0 1 0 .991l-1.956.559a2.57 2.57 0 0 0-1.771 1.77l-.559 1.957a.514.514 0 0 1-.992 0l-.559-1.956a2.574 2.574 0 0 0-1.771-1.771l-1.956-.56a.514.514 0 0 1 0-.991l1.956-.559a2.57 2.57 0 0 0 1.771-1.77l.559-1.957a.515.515 0 0 1 .496-.374Z" clip-rule="evenodd"/></g>
+            </g>
+          </g>
+        </svg>
+      </span>
+    </button>
+      
+  <!-- ── BeamUp Button ─────────────────────────────────────────────────────── -->
+
+    <button id="beamUp" aria-label="Scroll to top">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" class="beam-arrow">
+        <path d="M6 9.5V2.5M6 2.5L2.5 6M6 2.5L9.5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    
+      <span class="beam-label">Beam Me Up!</span>
+    </button>
+    <div id="beam-streak"></div>
+    <div id="beam-flash"></div>
+
+  <!-- ── GSAP & JS Scripts ─────────────────────────────────────────────────────── -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="main.js"></script>
+
+  <!-- ── End of Body ─────────────────────────────────────────────────────── -->
+    
+  </body>
+</html>

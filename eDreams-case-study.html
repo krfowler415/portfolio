@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- ── Header ─────────────────────────────────────────────────────── --> 
+
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>eDreams Redesign | Kevin Fowler</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Oxanium:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="eDreams-case-study.css"/>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+</head>
+
+<!-- ── Body ─────────────────────────────────────────────────────── -->
+
+<body>
+  
+<!-- ── Cursor ─────────────────────────────────────────────────────── -->
+
+<div id="cur"><div class="cur-dot"></div><div class="cur-cross"></div></div>
+
+<!-- ── Nav ─────────────────────────────────────────────────────── -->
+
+<a href="#main" class="skip-nav">Skip to main content</a>
+  
+<nav aria-label="Main navigation">
+  <a href="index.html" class="nav-logo">Kevin Fowler</a>
+  <a href="#" class="nav-next-cs cs-hidden"><span>Next Case Study →</span></a>
+</nav>
+<div id="scroll-progress"></div>
+
+<!-- ── Hero ─────────────────────────────────────────────────────── -->
+
+<main id="main">
+<div class="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">01 · Case Study</p>
+    <h1 class="hero-title">
+      <span class="line"><span>Redesigning how people compare flights.&thinsp;<img src="images/Plane-Icon-Colored.png" class="hero-plane" alt="" aria-hidden="true"/></span></span>
+    </h1>
+    <div class="hero-meta">
+      <div><div class="meta-label">Role</div><div class="meta-val">UX Researcher &amp; Designer (student)</div></div>
+      <div><div class="meta-label">Timeline</div><div class="meta-val">Spring 2026</div></div>
+      <div><div class="meta-label">Tools</div><div class="meta-val">Figma · Nielsen Norman Heuristics</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="wave">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <linearGradient id="cosmosSweep" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#5F259F" stop-opacity="0.22"/>
+        <stop offset="50%"  stop-color="#0AC39A" stop-opacity="0.10"/>
+        <stop offset="100%" stop-color="#5F259F" stop-opacity="0.22"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,0 C360,80 1080,80 1440,0 L1440,80 L0,80 Z" fill="url(#cosmosSweep)"/>
+  </svg>
+</div>
+
+<!-- ── BeamUp Button ─────────────────────────────────────────────────────── -->
+
+<button id="beamUp" aria-label="Scroll to top">
+  <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true" class="beam-arrow">
+    <path d="M5.5 9V2M5.5 2L2 5.5M5.5 2L9 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  Beam Me Up
+</button>
+<div id="beam-streak"></div>
+<div id="beam-flash"></div>
+
+<!-- ── OPENING ─────────────────────────────────────────────────────── -->
+
+<div class="cs-body">
+  <p class="graf-lead reveal">eDreams.net is a travel booking site most people have never heard of. It was assigned to our class as the subject for a redesign project, with the only direction being to find something on the site that needed work. So I started navigating around, comparing the experience against more familiar platforms like Google Flights and Expedia, and pretty quickly the flight results page started standing out for the wrong reasons.</p>
+  <p class="graf reveal">It surfaced fast. Comparing flights meant scrolling through cards that looked nearly identical, holding details in your head, and hoping you remembered which option was better by the time you reached the bottom.</p>
+  <p class="graf reveal">How do you fix a flight results page so users can actually make a decision without rebuilding the whole product around them?</p>
+</div>
+
+<!-- ── WHAT I HEARD ────────────────────────────────────────────────── -->
+
+<div class="cs-body">
+  <span class="cs-label reveal">What I Heard</span>
+  <p class="graf reveal">Three interviews: a 29-year-old who books flights a few times a year, a 45-year-old who travels frequently and prioritizes flexibility, and a 70-year-old who books infrequently and prefers desktop. Different habits, different comfort levels with booking sites, same frustrations once the conversation got going.</p>
+  <p class="graf reveal">Pricing felt deceptive. Not dishonest necessarily, but unclear enough that people couldn't trust what they were seeing until the very end of checkout. The interface added to that. Too much competing for attention at once, and no single tool that could handle everything in one place.</p>
+  <div class="pull-q reveal">"They'll say there's a certain price, and then when you click on it, it's a different price."<br><small style="font-size:0.75rem;opacity:0.7;font-style:normal;letter-spacing:0.06em;text-transform:uppercase;">Interview participant</small></div>
+  <p class="graf reveal">From the interviews I built a composite persona. Merry Smith, a working professional in her late 20s to mid-30s, budget-aware, usually planning around a packed schedule. She stood in for the pattern I kept seeing across all three participants.</p>
+</div>
+
+<div class="img-grid img-grid-2 reveal">
+  <div>
+    <img src="images/eDreams-persona.png" alt="User persona, Merry Smith" style="width:100%;border-radius:10px;display:block;" loading="lazy"/>
+    <p class="img-caption">User persona, Merry Smith</p>
+  </div>
+  <div>
+    <img src="images/Fowler_Spring2026A_340_JourneyMap.png" alt="Merry Smith journey map — Decide, Research, Compare, Book" style="width:100%;border-radius:10px;display:block;" loading="lazy"/>
+    <p class="img-caption">Journey map, Merry Smith</p>
+  </div>
+</div>
+
+<!-- ── THE AUDIT ───────────────────────────────────────────────────── -->
+
+<div class="cs-body">
+  <span class="cs-label reveal">The Audit</span>
+  <p class="graf reveal">Before running usability sessions, I evaluated the flight results page against Nielsen Norman's 10 heuristics. It was a way to identify structural problems before bringing real people into the room.</p>
+  <p class="graf reveal">Two violations stood out. The page was visually dense, with promotions and banners competing against the core booking content for attention. And there were no shortcuts for repeat travelers. Every session started from scratch regardless of how many times you had used the site before.</p>
+</div>
+
+<div class="img-full reveal" style="text-align:center;">
+  <img src="images/Nielsen-heuristic-eval.png" alt="Heuristic evaluation — heuristics 7 and 8 flagged as primary violations" style="max-height:520px;width:auto;border-radius:12px;display:inline-block;" loading="lazy"/>
+  <p class="img-caption" style="text-align:center;margin-top:0.75rem;">Nielsen Norman heuristic evaluation, eDreams.net</p>
+</div>
+
+<!-- ── IN THE ROOM ─────────────────────────────────────────────────── -->
+
+<div class="cs-body">
+  <span class="cs-label">In the Room</span>
+    <p class="graf">Three participants, three scenarios: find a round-trip flight, explore current deals, and navigate to transportation options. Think-aloud protocol throughout. I wrote the test script, the pre and post questionnaires, and the observation sheets.</p>
+    <p class="graf">Then I sat with each person and watched the site fight them.</p>
+    <div class="pull-q">"These all look the same."<br><small style="font-size:0.75rem;opacity:0.7;font-style:normal;letter-spacing:0.06em;text-transform:uppercase;">User 2, comparing flight options</small></div>
+    <p class="graf">Cards were visually identical. Nothing distinguished a nonstop flight from one with a connection at a glance. There was no way to hold two options side by side, so users scrolled up and down trying to keep the details straight in their heads. The oldest participant convinced himself at one point that he had left the site entirely when the navigation disappeared on a secondary page.</p>
+    <p class="graf">After each session, participants filled out a post-test questionnaire rating their experience across several dimensions. The numbers matched what I had just watched happen. Ease of comparing options came back as the lowest score by a wide margin.</p>
+</div>
+
+<!-- ── STATS + KEY FINDINGS ───────────────────────────────────────── -->
+
+<div class="cs-body" style="padding-bottom: 0.5rem;">
+  <span class="cs-label reveal">Key Findings</span>
+  <div class="stat-row reveal">
+    <div class="stat-box"><div class="stat-box-n">3</div><div class="stat-box-l">Participants<br>Ages 29, 45, and 70</div></div>
+    <div class="stat-box"><div class="stat-box-n">9</div><div class="stat-box-l">Tasks completed across<br>3 scenarios</div></div>
+    <div class="stat-box"><div class="stat-box-n">1.8</div><div class="stat-box-l">Average ease of comparing options<br>(out of 5)</div></div>
+  </div>
+
+  <div class="findings-grid reveal">
+    <div class="finding"><div class="finding-hed">Flight comparison friction</div><p>No way to save or compare flights side by side. Users had to rely on memory and repeated scrolling to make a decision.</p></div>
+    <div class="finding"><div class="finding-hed">Weak visual hierarchy</div><p>Identical icons for nonstop and connecting flights forced users to read small text to distinguish options, which slowed scanning considerably for all three participants.</p></div>
+    <div class="finding"><div class="finding-hed">Pricing confusion</div><p>Prices changed after selection, and baggage inclusions weren't visible at the results level. Trust dropped immediately.</p></div>
+    <div class="finding"><div class="finding-hed">Navigation loss</div><p>Global navigation disappeared on secondary pages. One participant re-entered the site URL from the address bar to recover.</p></div>
+  </div>
+</div>
+
+<!-- ── THE DIRECTION ───────────────────────────────────────────────── -->
+
+<div class="cs-body" style="padding-top:2rem;">
+  <span class="cs-label reveal">The Direction</span>
+  <p class="graf reveal">One problem had to be solved before anything else: users could not compare flights without memorizing them. Every other issue on the page flowed from that.</p>
+  <p class="graf reveal">I ran Crazy 8s to generate options quickly. Most of the sketches kept circling back to the same core idea, a persistent way to hold selected flights somewhere visible so users could compare them without losing their place in the results. The concept that kept standing out was a floating comparison panel. It appears once two or more flights are selected, sits at the bottom of the screen, and lets you book directly without navigating away from the list.</p>
+  <p class="graf reveal">Mapping out the full task flow helped clarify where things were breaking down. Five steps from the homepage to a selected flight. The existing design was creating the most friction at step three, the moment users needed to actually evaluate their options and make a call.</p>
+</div>
+
+<div class="img-full reveal">
+  <img src="images/eDreams-taskflow.PNG" alt="Task flow, Homepage to flight selection, 5 steps" style="width:100%;border-radius:12px;display:block;" loading="lazy"/>
+  <p class="img-caption" style="text-align:center;margin-top:0.75rem;">Task flow, Homepage to flight selection</p>
+</div>
+
+<div class="img-grid img-grid-2 reveal" style="margin-top:2rem;">
+  <div>
+    <img src="images/eDreams-wireframe-default.PNG" alt="Mid-fidelity wireframe — default results page" style="width:100%;border-radius:10px;display:block;" loading="lazy"/>
+    <p class="img-caption">Wireframe, default results page</p>
+  </div>
+  <div>
+    <img src="images/eDreams-wireframe-compare.PNG" alt="Mid-fidelity wireframe — comparison panel active" style="width:100%;border-radius:10px;display:block;" loading="lazy"/>
+    <p class="img-caption">Wireframe, comparison panel active</p>
+  </div>
+</div>
+
+<!-- ── WHAT I BUILT ────────────────────────────────────────────────── -->
+
+<div class="cs-body">
+  <span class="cs-label reveal">What I Built</span>
+  <p class="graf reveal">This was not a rebrand. The goal was a targeted fix using the structure that already existed.</p>
+  <p class="graf reveal">Stop type now reads at a glance. Nonstop, 1 Stop, and 2+ Stops are visually distinct rather than buried in identical small text. Filters were reorganized around the criteria participants reached for first. The comparison panel sits at the bottom of the results page and shows selected flights side by side with a direct path to booking.</p>
+  <p class="graf reveal">Every decision in the final design traces back to something a real person said or did during testing.</p>
+</div>
+
+<div class="img-grid img-grid-2 reveal">
+  <div>
+    <img src="images/eDreams-Final-DefaultPage.png" alt="Final design, default results view" style="width:100%;border-radius:10px;display:block;" loading="lazy"/>
+    <p class="img-caption">Final design, default results view</p>
+  </div>
+  <div>
+    <img src="images/eDreams-Final-Comparison.png" alt="Final design, comparison panel active" style="width:100%;border-radius:10px;display:block;" loading="lazy"/>
+    <p class="img-caption">Final design, comparison panel active</p>
+  </div>
+</div>
+
+<!-- ── REFLECTION ──────────────────────────────────────────────────── -->
+
+<div class="cs-body">
+  <span class="cs-label reveal">Reflection</span>
+  <p class="graf reveal">The comparison panel was not something I came up with on my own. It came from watching three people try to hold flight details in their heads and fail at it. I just gave the problem a shape.</p>
+  <p class="graf reveal">Every time I wanted to make a change because it looked better, I had to stop and ask whether the research actually supported it. That constraint made the work more defensible and, I think, stronger.</p>
+  <p class="graf reveal">If I had more time, I would have run a second round of usability testing on the redesign itself. I know what I set out to fix. I don't know with certainty how much I fixed it. That is the honest gap in this study, and the first thing I would close given the chance.</p>
+</div>
+
+<!-- ── CTA ─────────────────────────────────────────────────────────── -->
+
+<div class="cs-cta-wrap">
+  <div class="cs-cta reveal">
+    <div class="cs-cta-header">
+      <p class="cs-cta-eyebrow">Liked what you saw?</p>
+      <h2 class="cs-cta-headline">Open to New Missions!</h2>
+    </div>
+    <a href="mailto:krfowler415@gmail.com" class="cs-cta-btn">
+      <span>Establish Contact</span>
+      <span class="cs-cta-arrow">→</span>
+    </a>
+    <div class="cs-cta-links">
+      <a href="index.html" class="c-secondary-link"><span>Back to All Work</span></a>
+      <a href="#" class="c-secondary-link cs-hidden"><span>Next Case Study →</span></a>
+    </div>
+  </div>
+</div>
+
+
+</main>
+  
+<!-- ── Footer ─────────────────────────────────────────────────────── -->
+
+<footer>
+  <span class="foot-l">Kevin Fowler</span>
+  <span class="foot-r">&copy; 2026 &middot; Made in AZ &middot; &#x1F335;&#x1F335;</span>
+</footer>
+
+<!-- ── Lightbox ─────────────────────────────────────────────────────── -->
+
+<div id="lightbox" aria-modal="true" role="dialog" aria-label="Image viewer">
+  <button id="lightbox-close" aria-label="Close">✕</button>
+  <img id="lightbox-img" src="" alt=""/>
+</div>
+
+<!-- ── js script ─────────────────────────────────────────────────────── -->
+
+<script src="eDreams-case-study.js"></script>
+
+<!-- ── end ─────────────────────────────────────────────────────── -->
+
+</body>
+</html>

@@ -1,0 +1,928 @@
+/*
+ * =====================================================================
+ * HOME COSMOS THEME
+ * Dark theme homepage visuals, colors, textures, UFO/stars/alien effects,
+ * and cosmos-specific component styling.
+ * =====================================================================
+ */
+
+
+/* =====================================================================
+ * § 1  COSMOS FONTS + TOKENS
+ * ===================================================================== */
+
+:root {
+
+  /* ── Raw Palette ────────────────────────────────────────────────────
+   *  Named families with a full stop scale (50→900).
+   *  Use raw tokens only when a semantic token doesn't exist.
+   *  ─────────────────────────────────────────────────────────────── */
+
+  /* Pulsar — warning signal, UFO lights, tension */
+  --pulsar-50:   #FFE8EE;
+  --pulsar-100:  #FFB0C8;
+  --pulsar-200:  #F87098;
+  --pulsar-400:  #C81858;   /* primary accent value */
+  --pulsar-600:  #900840;
+  --pulsar-800:  #580428;
+  --pulsar-900:  #2C0114;
+
+  /* Cosmos — deep space, structural, s */
+  --cosmos-50:   #F0EAF8;
+  --cosmos-100:  #D4BAF0;
+  --cosmos-200:  #B080E0;
+  --cosmos-300:  #8B45D4;
+  --cosmos-400:  #5F259F;   /* primary accent value */
+  --cosmos-600:  #431878;
+  --cosmos-800:  #2A0E50;
+  --cosmos-900:  #160828;
+
+  /* Aurora — alien energy, interactive, emissive (source: alien image) */
+  --aurora-50:   #E3FDF8;
+  --aurora-100:  #ADFAEC;
+  --aurora-200:  #7FF6E4;   /* light variant — glow contexts */
+  --aurora-400:  #0AC39A;   /* primary interactive value */
+  --aurora-600:  #17A487;
+  --aurora-800:  #0F5042;
+  --aurora-900:  #0C1916;
+
+  /* Plasma — exotic accent, used in one place only */
+  --plasma-50:   #FFE8FA;
+  --plasma-100:  #FFB0F0;
+  --plasma-200:  #F870D8;
+  --plasma-400:  #C818A8;   /* primary accent value */
+  --plasma-600:  #900878;
+  --plasma-800:  #580448;
+  --plasma-900:  #2C0124;
+
+  /* Aether — moonlight, ambient, non-glowing UI chrome */
+  --aether-50:   #F0F2FA;
+  --aether-100:  #C8D0EC;   /* secondary text, nav default */
+  --aether-200:  #98A8D4;   /* borders, neutral chrome */
+  --aether-400:  #5868A8;
+  --aether-600:  #384880;
+  --aether-800:  #202858;
+  --aether-900:  #101430;
+
+
+  /* ── Semantic  Tokens ─────────────────────────────────── */
+  --bg:          #100820;   /* LOCKED — must match terrain SVG gradient */
+  --bg-dark:     #100820;   /* nav glass base */
+  --bg-surface:  #1C1232;   /* card s */
+  --bg-raised:   #281842;   /* elevated surfaces */
+  --bg-tint:     #5F259F47; /* tag / chip fill */
+  --bg-marquee:  #17A487;   /* aurora-600 — marquee strip */
+
+  /* ── Semantic Text Tokens ────────────────────────────────────────── */
+  --text:        #F4F2FF;   /* primary — near-white with cool tint */
+  --text-muted:  #C8D0EC;   /* secondary — aether-100, moonlit ambient */
+  --text-light:  #7FF6E4;   /* tertiary — aurora-200, footer / meta */
+  --text-inv:    #1C1210;   /* dark text on light surfaces (light mode) */
+
+  /* ── Footer ─────────────────────────────────────────────────────── */
+  --footer-brand: var(--aurora-200);
+  --footer-meta:  var(--pulsar-200);
+
+  /* ── Primary Action — Aurora Teal ───────────────────────────────── */
+  --primary:        #0AC39A;
+  --primary-hover:  #17A487;
+  --primary-lt:     #7FF6E4;   /* light variant for gradients */
+  --primary-subtle: #0C1916;   /* very dark teal  tint */
+
+  /* ── Named Accent Aliases (semantic, component-facing) ──────────── */
+  --accent-pulsar:           #C81858;
+  --accent-pulsar-subtle:    #2C0114;
+  --accent-cosmos:           #5F259F;
+  --accent-cosmos-subtle:    #160828;
+  --accent-aurora:           #0AC39A;
+  --accent-aurora-subtle:    #0C1916;
+  --accent-plasma:           #C818A8;   /* ONE USE: "More about me →" */
+  --accent-plasma-subtle:    #2C0124;
+  --accent-turquoise:        #0F5042;
+  --accent-turquoise-subtle: #0C1916;
+
+  /* ── Neutral Aliases ─────────────────────────────────────────────── */
+  --aether: #98A8D4;         /* general-purpose mid neutral */
+  --dune:   #D8B090;         /* warm sand — reserved for light mode */
+
+  /* ── Border Tokens — aether at controlled opacity ────────────────── */
+  --border:        #98A8D45A;   /* standard border */
+  --border-subtle: #98A8D42D;   /* ghost border, arrow fill */
+
+  /* ── Aurora Transparency Set — for glow and bloom effects only ───── */
+  --aurora-glass: #0AC39A14;   /* arrow hover fill */
+  --aurora-glow:  #0AC39A40;   /* arrow hover outer shadow */
+  --aurora-inset: #0AC39A0D;   /* arrow hover inner shadow */
+
+  /* ── Shared Interactive Body Environment ─────────────────────────── */
+  --body-grid-dot: #98A8D428;
+
+  /* ── Typography ──────────────────────────────────────────────────────
+   *  Token names map to role, not literal type classification.
+   *  --display  Audiowide  named for what it is: a display typeface
+   *  --Ox       Oxanium    the non-sans secondary slot
+   *  --Orb      Orbitron    copy and all UI chrome
+   *  ─────────────────────────────────────────────────────────────── */
+  --display:  'Audiowide', sans-serif;
+  --Ox:       'Oxanium', system-ui, sans-serif;
+  --Orb:      'Orbitron', sans-serif;
+
+  /* ── Layout ──────────────────────────────────────────────────────── */
+  --max: 1100px;                         /* max content width */
+  --px:  clamp(1.25rem, 5vw, 3rem);      /* fluid horizontal padding */
+}
+
+
+/* =====================================================================
+ * § 2  COSMOS BASE / BODY
+ * ===================================================================== */
+
+:root[data-theme="dark"] body {
+  background: var(--bg);
+  background-attachment: fixed;
+}
+
+
+/* =====================================================================
+ * § 3  COSMOS NAVIGATION
+ * ===================================================================== */
+
+/* Glass panel state — activated by JS when nav.scrolled is added */
+:root[data-theme="dark"] nav.scrolled {
+  background: var(--bg-dark);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid #0AC39A25;
+  box-shadow: 0 1px 20px #0AC39A10;
+}
+
+:root[data-theme="dark"] .nav-logo:hover {
+  opacity: 0.8;
+  color: var(--aurora-200);
+}
+
+:root[data-theme="dark"] .nav-links a:hover {
+  color: var(--text);
+}
+
+:root[data-theme="dark"] #nav-toggle span {
+  background: var(--aether-100);
+}
+
+:root[data-theme="dark"] #nav-toggle:hover span {
+  background: var(--aurora-200);
+}
+
+
+/* =====================================================================
+ * § 4  COSMOS SECTION ATMOSPHERES
+ * ===================================================================== */
+
+:root[data-theme="dark"] #work::before {
+  background-image:
+    radial-gradient(
+      ellipse 880px 60% at 50% 0%,
+      #5F259F38 0%,
+      transparent 70%
+    );
+}
+
+:root[data-theme="dark"] #about::before {
+  background-image:
+    radial-gradient(
+      ellipse 605px 70% at calc(50% + 275px) 55%,
+      #0AC39A22 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 495px 50% at calc(50% - 330px) 45%,
+      #5F259F28 0%,
+      transparent 60%
+    );
+}
+
+:root[data-theme="dark"] #contact::before {
+  background-image:
+    radial-gradient(
+      ellipse 770px 80% at 50% 100%,
+      #0AC39A20 0%,
+      transparent 65%
+    );
+}
+
+
+/* =====================================================================
+ * § 5  COSMOS LINKS
+ * ===================================================================== */
+
+:root[data-theme="dark"] .c-link {
+  color: var(--accent-aurora);
+}
+
+:root[data-theme="dark"] .c-link::after {
+  background: var(--accent-aurora);
+}
+
+:root[data-theme="dark"] .c-link:hover {
+  text-shadow: 0 0 12px var(--aurora-400);
+}
+
+/* "More about me →" — plasma variant */
+:root[data-theme="dark"] .about-copy .c-link {
+  color: var(--accent-plasma);
+}
+
+:root[data-theme="dark"] .about-copy .c-link::after {
+  background: var(--accent-plasma);
+}
+
+:root[data-theme="dark"] .about-copy .c-link:hover {
+  text-shadow: 0 0 14px var(--accent-plasma);
+}
+
+
+/* =====================================================================
+ * § 6  COSMOS MARQUEE
+ * ===================================================================== */
+
+:root[data-theme="dark"] .marquee {
+  background: var(--bg-marquee);
+}
+
+:root[data-theme="dark"] .m-item {
+  color: #F2E9EAE6;
+}
+
+:root[data-theme="dark"] .m-sep {
+  background: var(--accent-pulsar);
+  opacity: 0.7;
+}
+
+/* =====================================================================
+ * § 7  COSMOS CARDS
+ * ===================================================================== */
+
+:root[data-theme="dark"] a.card-feat,
+:root[data-theme="dark"] .card-feat {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  box-shadow: inset 0 1px 0 #0AC39A40;
+}
+
+:root[data-theme="dark"] .card-feat:hover {
+  box-shadow:
+    inset 0 1px 0 #0AC39A40,
+    0 24px 70px #00000080,
+    0 0 35px #0AC39A25,
+    0 0 70px #5F259F30;
+}
+
+:root[data-theme="dark"] .card-tilt-wrap {
+  --card-float-shadow: rgba(5, 2, 16, 0.75);
+  --card-rim-light: rgba(255, 255, 255, 0.1);
+  --card-rim-shadow: rgba(0, 0, 0, 0.3);
+}
+
+:root[data-theme="dark"] .card-vis {
+  background: var(--project-vis-bg, var(--bg-dark));
+}
+
+/* ── Dark Project Visual Identities ───────────────────────────────── */
+
+:root[data-theme="dark"] .project--edreams {
+  --project-vis-bg:
+    linear-gradient(
+      135deg,
+      #160828 0%,
+      #280408 100%
+    );
+}
+
+:root[data-theme="dark"] .project--field-feast {
+  --project-vis-bg:
+    linear-gradient(
+      135deg,
+      #003438 0%,
+      #38241A 100%
+    );
+
+  --project-vis-color: rgba(227, 212, 173, 0.60);
+}
+
+:root[data-theme="dark"] .project--vanguard {
+  --project-vis-bg:
+    linear-gradient(
+      135deg,
+      #2A0E50 0%,
+      #003438 100%
+    );
+
+  --project-vis-color: rgba(176, 128, 224, 0.70);
+}
+
+:root[data-theme="dark"] .project--path-success {
+  --project-vis-bg:
+    linear-gradient(
+      135deg,
+      #38241A 0%,
+      #280408 100%
+    );
+
+  --project-vis-color: rgba(216, 176, 144, 0.70);
+}
+
+:root[data-theme="dark"] .card-vis::before {
+  background: radial-gradient(
+    ellipse at 30% 50%,
+    #5F259F40 0%,
+    transparent 65%
+  );
+}
+
+:root[data-theme="dark"] .card-vis-tag {
+  color: var(--accent-pulsar);
+  opacity: 0.75;
+}
+
+:root[data-theme="dark"] .card-vis-tag::before {
+  content: '◈ ';
+  opacity: 0.8;
+}
+
+:root[data-theme="dark"] .card-body {
+  background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
+  box-shadow: inset 0 0 30px #5F259F25;
+}
+
+:root[data-theme="dark"] .card-body::after {
+  border-top: 1.5px solid var(--accent-aurora);
+  border-right: 1.5px solid var(--accent-aurora);
+  opacity: 0.25;
+}
+
+:root[data-theme="dark"] .c-tag {
+  background: var(--bg-tint);
+  border: 1px solid #C8185840;
+  color: var(--text-muted);
+}
+
+/* ── Cosmos Case Study Progress Bar ───────────────────────────────── */
+
+:root[data-theme="dark"] .cs-progress-wrap {
+  background: var(--border);
+}
+
+:root[data-theme="dark"] .cs-progress-bar {
+  background: var(--accent-aurora);
+  box-shadow: 0 0 8px var(--accent-aurora);
+}
+
+/* ── Cosmos Case Study Arrow Visuals ───────────────────────────────── */
+
+:root[data-theme="dark"] .cs-arrow {
+  --active: var(--aether-100);
+}
+
+:root[data-theme="dark"] .cs-arrow i::before,
+:root[data-theme="dark"] .cs-arrow i::after {
+  background: var(--active);
+}
+
+:root[data-theme="dark"] .cs-arrow::before {
+  background: var(--border-subtle);
+}
+
+:root[data-theme="dark"] .cs-arrow::after {
+  border: 1.5px solid var(--border);
+}
+
+:root[data-theme="dark"] .cs-arrow svg {
+  color: var(--active);
+}
+
+:root[data-theme="dark"] .cs-arrow:hover {
+  --active: var(--accent-aurora);
+}
+
+:root[data-theme="dark"] .cs-arrow:hover::before {
+  background: var(--aurora-glass);
+  box-shadow:
+    0 0 28px var(--aurora-glow),
+    inset 0 0 14px var(--aurora-inset);
+}
+
+:root[data-theme="dark"] .cs-arrow:hover::after {
+  border-color: var(--accent-aurora);
+}
+
+/* ── Dark Card 3D Shadows ───────────────────────────────────────── */
+
+:root[data-theme="dark"] .card-tilt-wrap {
+  --card-shadow-color: rgba(5, 2, 16, 0.92);
+  --card-shadow-color-soft: rgba(95, 37, 159, 0.35);
+  --card-edge-light: rgba(255, 255, 255, 0.14);
+  --card-edge-dark: rgba(0, 0, 0, 0.45);
+}
+
+:root[data-theme="dark"] a.card-feat,
+:root[data-theme="dark"] .card-feat {
+  box-shadow:
+    inset 0 1px 0 #0AC39A40,
+    0 16px 40px -12px rgba(5, 2, 16, 0.75);
+}
+
+:root[data-theme="dark"] .card-feat:hover {
+  box-shadow:
+    inset 0 1px 0 #0AC39A40,
+    0 32px 64px -12px rgba(5, 2, 16, 0.85),
+    0 0 40px rgba(10, 195, 154, 0.15),
+    0 0 80px rgba(95, 37, 159, 0.22);
+}
+
+
+/* =====================================================================
+ * § 8  COSMOS ABOUT / STATS
+ * ===================================================================== */
+
+:root[data-theme="dark"] .about-copy p {
+  color: var(--text-muted);
+}
+
+:root[data-theme="dark"] .about-copy strong {
+  color: var(--accent-cosmos);
+}
+
+:root[data-theme="dark"] .stat {
+  background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
+  border: 1px solid var(--border);
+  box-shadow:
+    0 0 0 1px #98A8D418,
+    0 0 15px #C8185820,
+    inset 0 1px 0 #C8185840;
+}
+
+:root[data-theme="dark"] .stat::before {
+  background: var(--accent-pulsar);
+  box-shadow: 2px 0 12px #C8185880;
+}
+
+:root[data-theme="dark"] .stat::after {
+  border-bottom: 1.5px solid var(--accent-aurora);
+  border-right: 1.5px solid var(--accent-aurora);
+}
+
+:root[data-theme="dark"] .stat:hover {
+  box-shadow:
+    0 0 0 1px #C8185840,
+    0 0 20px #C8185825,
+    inset 0 1px 0 #C8185850;
+}
+
+:root[data-theme="dark"] .stat-n {
+  color: var(--accent-aurora);
+  text-shadow:
+    0 0 7px var(--aurora-400),
+    0 0 20px var(--aurora-400),
+    0 0 45px #0AC39A80;
+}
+
+:root[data-theme="dark"] .stat:hover .stat-n {
+  text-shadow:
+    0 0 7px var(--aurora-400),
+    0 0 30px var(--aurora-400),
+    0 0 65px #0AC39A90;
+}
+
+:root[data-theme="dark"] .stat-l {
+  color: var(--text-muted);
+}
+
+/* ── Dark Stat Ambient Glow ─────────────────────────────────────── */
+
+:root[data-theme="dark"] .stat:hover {
+  box-shadow:
+    0 0 0 1px #C8185840,
+    0 0 20px #C8185825,
+    inset 0 1px 0 #C8185850,
+    0 0 30px rgba(10, 195, 154, 0.10);
+}
+
+
+/* =====================================================================
+ * § 9  COSMOS CONTACT
+ * ===================================================================== */
+
+:root[data-theme="dark"] .c-band {
+  background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
+  border: 1px solid var(--border);
+  box-shadow:
+    0 0 0 1px #98A8D420,
+    0 0 50px #5F259F30,
+    inset 0 1px 0 #5F259F60;
+}
+
+:root[data-theme="dark"] .c-band::before {
+  border-top: 1.5px solid var(--accent-aurora);
+  border-left: 1.5px solid var(--accent-aurora);
+  opacity: 0.5;
+}
+
+:root[data-theme="dark"] .c-band::after {
+  border-bottom: 1.5px solid var(--accent-aurora);
+  border-right: 1.5px solid var(--accent-aurora);
+  opacity: 0.5;
+}
+
+:root[data-theme="dark"] .c-cta-btn {
+  background: linear-gradient(135deg, var(--aurora-400) 0%, var(--cosmos-600) 100%);
+  color: var(--text);
+  box-shadow:
+    0 0 25px #0AC39A50,
+    0 0 60px #0AC39A25;
+}
+
+:root[data-theme="dark"] .c-cta-btn::after {
+  background: linear-gradient(135deg, var(--cosmos-600) 0%, var(--aurora-400) 100%);
+}
+
+:root[data-theme="dark"] .c-cta-btn:hover {
+  box-shadow:
+    0 0 35px #0AC39A70,
+    0 0 80px #0AC39A35;
+}
+
+:root[data-theme="dark"] .c-secondary-link {
+  color: var(--aurora-200);
+  text-decoration: underline;
+  text-decoration-color: #0AC39A40;
+}
+
+:root[data-theme="dark"] .c-secondary-link:hover {
+  color: var(--text);
+  text-decoration: none;
+  text-shadow: 0 0 12px var(--accent-aurora);
+}
+
+:root[data-theme="dark"] .c-secondary-link::before,
+:root[data-theme="dark"] .c-secondary-link::after,
+:root[data-theme="dark"] .c-secondary-link span::before,
+:root[data-theme="dark"] .c-secondary-link span::after {
+  background: var(--text);
+}
+
+
+/* =====================================================================
+ * § 10  COSMOS HERO SCENE
+ * ===================================================================== */
+
+/* ── Cosmos Hero Scene Visuals ─────────────────────────────────────── */
+
+:root[data-theme="dark"] .hero-pin {
+  background:
+    radial-gradient(ellipse 55% 60% at 18% 55%, #C823558C 0%, transparent 100%),
+    radial-gradient(ellipse 40% 45% at 8% 30%, #1A3A9AB3 0%, transparent 100%),
+    radial-gradient(ellipse 50% 55% at 78% 38%, #0AC39A7A 0%, transparent 100%),
+    radial-gradient(ellipse 35% 40% at 94% 18%, #1E46B494 0%, transparent 100%),
+    radial-gradient(ellipse 45% 50% at 55% 68%, #5F259F85 0%, transparent 100%),
+    radial-gradient(ellipse 60% 50% at 32% 42%, #6E1EAF7A 0%, transparent 100%),
+    radial-gradient(ellipse 30% 35% at 90% 58%, #A7193057 0%, transparent 100%),
+    radial-gradient(ellipse 28% 32% at 62% 22%, #0AC39A4D 0%, transparent 100%),
+    radial-gradient(ellipse 22% 28% at 45% 18%, #B428784D 0%, transparent 100%),
+    linear-gradient(to bottom, #010308 0%, #03050F 15%, #060818 35%, #0A0720 55%, #100826 75%, #100820 100%);
+}
+
+:root[data-theme="dark"] .hero-pin::after {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(16, 8, 32, 0.45) 55%,
+    var(--bg) 100%
+  );
+}
+
+:root[data-theme="dark"] .hero-terrain::after {
+  background: linear-gradient(to bottom, transparent, var(--bg));
+}
+
+:root[data-theme="dark"] .terrain-img--dark {
+  opacity: 1;
+}
+
+:root[data-theme="dark"] .terrain-img--light {
+  opacity: 0;
+}
+
+:root[data-theme="dark"] .hero-sun {
+  display: none;
+}
+
+
+/* =====================================================================
+ * § 11  COSMOS HERO ACTORS + EFFECTS
+ * ===================================================================== */
+
+/* ── Dark Hero Tractor Beam ─────────────────────────────────────── */
+
+:root[data-theme="dark"] #beamGradUfo stop:nth-child(1){
+  stop-color:var(--aurora-50);
+}
+
+:root[data-theme="dark"] #beamGradUfo stop:nth-child(2){
+  stop-color:var(--aurora-200);
+}
+
+:root[data-theme="dark"] #beamGradUfo stop:nth-child(3){
+  stop-color:var(--aurora-400);
+}
+
+
+:root[data-theme="dark"] #beamCoreGrad stop:nth-child(1){
+  stop-color:var(--aurora-50);
+}
+
+:root[data-theme="dark"] #beamCoreGrad stop:nth-child(2){
+  stop-color:var(--aurora-100);
+}
+
+:root[data-theme="dark"] #beamCoreGrad stop:nth-child(3){
+  stop-color:var(--aurora-400);
+}
+
+
+:root[data-theme="dark"] #beamLandingGrad stop:nth-child(1){
+  stop-color:var(--aurora-200);
+}
+
+:root[data-theme="dark"] #beamLandingGrad stop:nth-child(2){
+  stop-color:var(--aurora-400);
+}
+
+
+:root[data-theme="dark"] #ufoBeamOuter,
+:root[data-theme="dark"] #ufoBeam,
+:root[data-theme="dark"] #ufoBeamCore {
+  filter:
+    blur(1.8px)
+    drop-shadow(
+      0 0 22px var(--aurora-glow)
+    );
+}
+
+
+:root[data-theme="dark"] #beamLanding {
+  filter:
+    blur(10px)
+    drop-shadow(
+      0 0 35px var(--aurora-glow)
+    );
+}
+
+
+/* =====================================================================
+ * § 12  COSMOS SCROLL CUE
+ * ===================================================================== */
+
+:root[data-theme="dark"] .hero-scroll-cue {
+  --scroll-cue-bg: var(--bg);
+  --scroll-cue-outline: rgba(238, 250, 255, 0.8);
+  --scroll-cue-outline-fade: rgba(120, 255, 241, 0.24);
+  --scroll-cue-wheel: rgba(120, 255, 241, 0.82);
+  --scroll-cue-glow: rgba(120, 255, 241, 0.42);
+
+  color: var(--scroll-cue-outline);
+}
+
+:root[data-theme="dark"] .hero-scroll-cue__mouse {
+  background:
+    linear-gradient(
+      to bottom,
+      var(--scroll-cue-outline-fade) 0%,
+      var(--scroll-cue-outline-fade) 50%,
+      var(--scroll-cue-outline) 50%,
+      var(--scroll-cue-outline) 100%
+    );
+
+  filter:
+    drop-shadow(0 0 8px var(--scroll-cue-glow))
+    drop-shadow(0 0 18px rgba(120, 255, 241, 0.12));
+}
+
+:root[data-theme="dark"] .hero-scroll-cue__mouse::before {
+  background: var(--scroll-cue-bg);
+}
+
+:root[data-theme="dark"] .hero-scroll-cue__mouse::after {
+  background: var(--scroll-cue-wheel);
+  box-shadow:
+    0 0 8px var(--scroll-cue-wheel),
+    0 0 18px var(--scroll-cue-glow);
+}
+
+:root[data-theme="dark"] .hero-scroll-cue__text {
+  color: var(--scroll-cue-outline);
+}
+
+
+/* =====================================================================
+ * § 13  COSMOS BACK-TO-TOP
+ * ===================================================================== */
+
+/* ── Cosmos Beam Me Up Visuals ─────────────────────────────────────── */
+
+:root[data-theme="dark"] #beamUp {
+  background: linear-gradient(135deg, var(--aurora-400) 0%, var(--cosmos-600) 100%);
+  border: none;
+  color: var(--text);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,0.45),
+    inset 0 -3px 5px rgba(0,0,0,0.3),
+    0 4px 14px rgba(0,0,0,0.35),
+    0 0 20px #0AC39A40,
+    0 0 50px #0AC39A20;
+}
+
+:root[data-theme="dark"] #beamUp::before {
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.35) 0%,
+    rgba(255,255,255,0) 55%
+  );
+}
+
+:root[data-theme="dark"] #beamUp:hover {
+  filter: brightness(1.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.3),
+    inset 0 -2px 4px rgba(0,0,0,0.15),
+    0 6px 18px rgba(0,0,0,0.4),
+    0 0 30px #0AC39A60,
+    0 0 70px #0AC39A30;
+}
+
+:root[data-theme="dark"] #beamUp:active {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.15),
+    inset 0 2px 4px rgba(0,0,0,0.3),
+    0 1px 4px rgba(0,0,0,0.3),
+    0 0 20px #0AC39A40,
+    0 0 50px #0AC39A20;
+}
+
+:root[data-theme="dark"] #beam-streak {
+  background: linear-gradient(
+    to top,
+    var(--aurora-400) 0%,
+    rgba(10,195,154,0.5) 50%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 8px var(--aurora-400),
+    0 0 20px #0AC39A60;
+}
+
+:root[data-theme="dark"] #beam-flash {
+  background: var(--aurora-400);
+}
+
+
+/* =====================================================================
+ * § 14  COSMOS RESPONSIVE OVERRIDES
+ * ===================================================================== */
+
+/* Cosmos responsive overrides */
+
+
+/* =====================================================================
+ * § 15  COSMOS BUTTON VISUALS
+ * ===================================================================== */
+
+:root[data-theme="dark"] .btn-primary {
+  background: linear-gradient(180deg, var(--primary-lt) 0%, var(--primary) 74%);
+  color: var(--text);
+  border: none;
+  font-weight: 600;
+}
+
+:root[data-theme="dark"] .btn-primary::after {
+  background: linear-gradient(180deg, var(--primary) 0%, var(--primary-lt) 74%);
+}
+
+:root[data-theme="dark"] .btn-primary:hover {
+  color: var(--text);
+}
+
+:root[data-theme="dark"] .btn-ghost {
+  background: transparent;
+  color: #F2E9EA80;
+  border: none;
+}
+
+:root[data-theme="dark"] .btn-ghost::before,
+:root[data-theme="dark"] .btn-ghost::after {
+  background: var(--text);
+}
+
+:root[data-theme="dark"] .btn-ghost:hover {
+  background: transparent;
+  color: var(--text);
+  box-shadow: none;
+}
+
+:root[data-theme="dark"] .btn-ghost span::before,
+:root[data-theme="dark"] .btn-ghost span::after {
+  background: var(--text);
+}
+
+:root[data-theme="dark"] .btn-outline {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1.5px solid var(--border);
+}
+
+:root[data-theme="dark"] .btn-outline::after {
+  background: var(--bg-raised);
+}
+
+:root[data-theme="dark"] .btn-outline:hover {
+  color: var(--text);
+  border-color: var(--bg-raised);
+}
+
+/* =====================================================================
+ * § 16  COSMOS CURSOR VISUALS
+ * ===================================================================== */
+
+:root[data-theme="dark"] .cur-dot {
+  background: var(--accent-aurora);
+  box-shadow:
+    0 0 8px 2px var(--aurora-400),
+    0 0 20px 4px #0AC39A60;
+}
+
+/* =====================================================================
+ * § 17  COSMOS INTRO OVERLAY VISUALS
+ * ===================================================================== */
+
+:root[data-theme="dark"] #intro {
+  background: #0E0818;
+}
+
+:root[data-theme="dark"] #intro-glow {
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 100%,
+    #0AC39A80 0%,
+    transparent 65%
+  );
+}
+
+:root[data-theme="dark"] .ipt {
+  background: #0AC39AD9;
+  box-shadow: 0 0 6px #0AC39A99;
+}
+
+:root[data-theme="dark"] #intro-scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    #00000033 3px,
+    #00000033 4px
+  );
+}
+
+:root[data-theme="dark"] #intro-flash {
+  background: var(--aurora-400);
+}
+
+
+/* =====================================================================
+ * § 18  COSMOS STAT HOLO (dark theme)
+ * ===================================================================== */
+
+:root[data-theme="dark"] .stat {
+  --holo-c1: var(--pulsar-400);
+  --holo-c2: var(--plasma-400);
+  --holo-c3: var(--aurora-400);
+  --holo-c4: var(--cosmos-400);
+  --holo-c5: var(--aurora-200);
+  --holo-c6: var(--pulsar-200);
+}
+
+:root[data-theme="dark"] .stat-n {
+  color: var(--accent-aurora);
+  text-shadow:
+    0 0 7px var(--aurora-400),
+    0 0 20px var(--aurora-400),
+    0 0 45px #0AC39A80;
+}
+
+:root[data-theme="dark"] .stat:hover .stat-n {
+  text-shadow:
+    0 0 7px var(--aurora-400),
+    0 0 30px var(--aurora-400),
+    0 0 65px #0AC39A90;
+}
+
+:root[data-theme="dark"] .stat:hover .stat-l {
+  text-shadow: 0 1px 0 rgba(255,255,255,0.15), 0 -1px 2px rgba(0,0,0,0.9);
+}
