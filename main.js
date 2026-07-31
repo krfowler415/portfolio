@@ -51,7 +51,6 @@ let introFired         = false;
 let scanTween          = null;
 let ufoScrollTrigger   = null;
 let navScrollTrigger   = null;
-let starRafId          = null;
 let ufoLightRays       = null;
 
 const heroUfo          = document.getElementById('heroUfo');
@@ -1082,134 +1081,18 @@ function initIntro() {
  * § 4  STAR FIELD CANVAS
  * ===================================================================== */
 
-const canvas = document.getElementById('stars');
-const ctx    = canvas.getContext('2d');
-
-let canvasW, canvasH;
-let stars    = [];
-let mousePos = { x: -9999, y: -9999 };
-
-const STAR_COUNT = 380;
-
-function resizeCanvas() {
-  canvasW = canvas.width  = canvas.offsetWidth;
-  canvasH = canvas.height = canvas.offsetHeight;
-}
-
-function randomStarHue() {
-  const r = Math.random();
-  if (r < 0.45) return 183 + (Math.random() - 0.5) * 14;
-  if (r < 0.90) return 268 + (Math.random() - 0.5) * 18;
-  return 22 + (Math.random() - 0.5) * 12;
-}
-
-function initStarField() {
-  stars = Array.from({ length: STAR_COUNT }, () => ({
-    x:     Math.random() * canvasW,
-    y:     Math.random() * canvasH,
-    vx:    (Math.random() - 0.5) * 0.3,
-    vy:    (Math.random() - 0.5) * 0.3,
-    r:     1.5 + Math.random() * 2.5,
-    phase: Math.random() * Math.PI * 2,
-    speed: 0.4 + Math.random() * 0.6,
-    hue:   randomStarHue(),
-  }));
-}
-
-function drawStars() {
-  ctx.clearRect(0, 0, canvasW, canvasH);
-
-  stars.forEach(star => {
-    const dx   = star.x - mousePos.x;
-    const dy   = star.y - mousePos.y;
-    const dist = Math.hypot(dx, dy);
-
-    if (dist < 700 && dist > 0) {
-      const force = ((700 - dist) / 700) * 0.3;
-      star.vx += (dx / dist) * force;
-      star.vy += (dy / dist) * force;
-    }
-
-    star.vx = star.vx * 0.96 + (Math.random() - 0.5) * 0.1;
-    star.vy = star.vy * 0.96 + (Math.random() - 0.5) * 0.1;
-
-    star.x += star.vx;
-    star.y += star.vy;
-
-    if (star.x < -10 || star.x > canvasW + 10 || star.y < -10 || star.y > canvasH + 10) {
-      star.x  = Math.random() * canvasW;
-      star.y  = Math.random() * canvasH;
-      star.vx = (Math.random() - 0.5) * 0.3;
-      star.vy = (Math.random() - 0.5) * 0.3;
-    }
-
-    star.phase += star.speed * 0.02;
-    const pulse = 0.2 + Math.abs(Math.sin(star.phase)) * 0.75;
-
-    const glow = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.r * 4);
-    glow.addColorStop(0, `hsla(${star.hue}, 80%, 70%, ${(pulse * 0.5).toFixed(3)})`);
-    glow.addColorStop(1, `hsla(${star.hue}, 80%, 70%, 0)`);
-    ctx.beginPath();
-    ctx.arc(star.x, star.y, star.r * 4, 0, Math.PI * 2);
-    ctx.fillStyle = glow;
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-    ctx.fillStyle = `hsla(${star.hue}, 90%, 80%, ${pulse.toFixed(3)})`;
-    ctx.fill();
-  });
-
-    starRafId = requestAnimationFrame(drawStars);
-}
-
-function stopStars() {
-  if (starRafId) {
-    cancelAnimationFrame(starRafId);
-    starRafId = null;
-  }
-}
-
-function initStars() {
-  /* ── Galaxy swap: skip 2D init when WebGL galaxy is active ── */
-  if (document.body.classList.contains('galaxy-active')) {
-    resizeCanvas(); // still size the fallback canvas
-    return;
-  }
-
-  resizeCanvas();
-  initStarField();
-  stopStars();
-  drawStars();
-
-  if (!isTouchDevice) {
-    heroPin.addEventListener('mousemove', e => {
-      const rect = canvas.getBoundingClientRect();
-      mousePos.x = e.clientX - rect.left;
-      mousePos.y = e.clientY - rect.top;
-    });
-    heroPin.addEventListener('mouseleave', () => {
-      mousePos.x = -9999;
-      mousePos.y = -9999;
-    });
-  }
-}
-
 function refreshStarsForTheme(theme) {
-  if (theme !== 'dark' || !canvas) {
-    stopStars();
+  if (theme !== 'dark') {
     destroyGalaxy();
     document.body.classList.remove('galaxy-active');
     return;
   }
 
   if (reducedMotion) {
-    stopStars();
     return;
   }
 
   /* Dark mode: Galaxy replaces the 2D starfield */
-  stopStars();
   initGalaxy();
   document.body.classList.add('galaxy-active');
 }
@@ -2770,16 +2653,12 @@ function initStatTilt() {
 function initResizeHandlers() {
   window.addEventListener('resize', () => {
     setViewportHeight();
-    resizeCanvas();
-    initStarField();
     ScrollTrigger.refresh();
   });
 
   window.addEventListener('orientationchange', () => {
     setTimeout(() => {
       setViewportHeight();
-      resizeCanvas();
-      initStarField();
       ScrollTrigger.refresh();
     }, 100);
   });
@@ -2869,22 +2748,17 @@ swapFavicon(document.documentElement.getAttribute('data-theme') || 'dark');
 initIntro();
 fetchTerrain();
 initNav();
-
-// Defer heavy visual effects until the browser is idle
-const defer = window.requestIdleCallback || ((cb) => setTimeout(cb, 50));
-defer(() => {
-  initStars();
-  initBodyEnvironment();
-  initTerrainParallax();
-  initUfoScroll();
-  initUfoLightRays();
-  initHeroScrollCue();
-  initCursor();
-  initClickRipple();
-  initCaseStudyStrip();
-  initScrollReveal();
-  initCardTilt();
-  initStatTilt();
-  initBeamUp();
-  initResizeHandlers();
+initBodyEnvironment();
+initTerrainParallax();
+initUfoScroll();
+initUfoLightRays();
+initHeroScrollCue();
+initCursor();
+initClickRipple();
+initCaseStudyStrip();
+initScrollReveal();
+initCardTilt();
+initStatTilt();
+initBeamUp();
+initResizeHandlers();
 });
