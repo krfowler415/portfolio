@@ -2685,6 +2685,13 @@ function initCardTilt() {
       inner.appendChild(sheen);
     }
 
+    let holo = inner.querySelector('.card-holo');
+    if (!holo) {
+      holo = document.createElement('div');
+      holo.className = 'card-holo';
+      inner.appendChild(holo);
+    }
+
     wrap.addEventListener('mousemove', e => {
       const rect = wrap.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
@@ -2704,6 +2711,12 @@ function initCardTilt() {
       sheen.style.opacity = '1';
       sheen.style.setProperty('--sheen-x', `${x * 100}%`);
       sheen.style.setProperty('--sheen-y', `${y * 100}%`);
+
+      // Holo tracking (-1..1)
+      const ratioX = (x - 0.5) * 2;
+      const ratioY = (y - 0.5) * 2;
+      inner.style.setProperty('--ratio-x', ratioX);
+      inner.style.setProperty('--ratio-y', ratioY);
     });
 
     wrap.addEventListener('mouseleave', () => {
@@ -2714,6 +2727,9 @@ function initCardTilt() {
       wrap.style.setProperty('--shadow-y', '20px');
 
       sheen.style.opacity = '0';
+
+      inner.style.setProperty('--ratio-x', 0);
+      inner.style.setProperty('--ratio-y', 0);
     });
   });
 }
@@ -2732,35 +2748,6 @@ function initStatTilt() {
       const hw = rect.width / 2;
       const hh = rect.height / 2;
 
-      const ratioX = (e.clientX - (rect.left + hw)) / hw;
-      const ratioY = (e.clientY - (rect.top + hh)) / hh;
-
-      stat.style.setProperty('--ratio-x', ratioX);
-      stat.style.setProperty('--ratio-y', ratioY);
-    });
-
-    stat.addEventListener('mouseleave', () => {
-      stat.style.setProperty('--ratio-x', 0);
-      stat.style.setProperty('--ratio-y', 0);
-    });
-  });
-}
-
-
-/* =====================================================================
- * § 12A  STAT TILT + HOLO
- * ===================================================================== */
-
-function initStatTilt() {
-  if (reducedMotion) return;
-
-  document.querySelectorAll('.stat').forEach(stat => {
-    stat.addEventListener('mousemove', e => {
-      const rect = stat.getBoundingClientRect();
-      const hw = rect.width / 2;
-      const hh = rect.height / 2;
-
-      // -1 .. 1, centered — matches the CodePen math exactly
       const ratioX = (e.clientX - (rect.left + hw)) / hw;
       const ratioY = (e.clientY - (rect.top + hh)) / hh;
 
