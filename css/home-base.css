@@ -29,6 +29,12 @@
   initial-value: 100%;
 }
 
+@property --spin {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+
 
 /* =====================================================================
  * § 1  HOME SECTION ATMOSPHERE STRUCTURE
