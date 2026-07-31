@@ -706,7 +706,7 @@ void main() {
         program.uniforms.uStarSpeed.value = (t * 0.001 * this.starSpeed) / 10.0;
       }
 
-      const lerpFactor = 0.15;
+      const lerpFactor = 0.2;
       this.smoothMousePos.x += (this.targetMousePos.x - this.smoothMousePos.x) * lerpFactor;
       this.smoothMousePos.y += (this.targetMousePos.y - this.smoothMousePos.y) * lerpFactor;
       this.smoothMouseActive += (this.targetMouseActive - this.smoothMouseActive) * lerpFactor;
