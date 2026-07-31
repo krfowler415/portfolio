@@ -2761,4 +2761,3 @@ initCardTilt();
 initStatTilt();
 initBeamUp();
 initResizeHandlers();
-});
