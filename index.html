@@ -11,13 +11,35 @@
     <link id="favicon" rel="icon" type="image/svg+xml" href="favicon-ufo.svg" />
 
     <!-- Critical hero images — load before render -->
-    <link rel="preload" as="image" href="images/terrain-dark.webp" fetchpriority="high">
-    <link rel="preload" as="image" href="images/terrain-light.webp" fetchpriority="high">
-    <link rel="preload" as="image" href="images/intro-ufo.webp" fetchpriority="high">
-    <link rel="preload" as="image" href="hero-ufo-dark.svg" fetchpriority="high">
-    <link rel="preload" as="image" href="hero-ufo-light.svg" fetchpriority="high">
-    <link rel="preload" as="image" href="hero-moon.svg" fetchpriority="high">
-    <link rel="preload" as="image" href="hero-sun.svg" fetchpriority="high">
+    <script>
+      (() => {
+        const savedTheme = localStorage.getItem('kf-theme');
+        const theme = savedTheme || 'dark';
+    
+        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.style.backgroundColor = theme === 'light' ? '#F3D39A' : '#100820';
+    
+        const preload = (href, as = 'image') => {
+          const link = document.createElement('link');
+          link.rel = 'preload';
+          link.as = as;
+          link.href = href;
+          link.fetchPriority = 'high';
+          document.head.appendChild(link);
+        };
+    
+        if (theme === 'dark') {
+          preload('images/terrain-dark.webp');
+          preload('hero-ufo-dark.svg');
+          preload('hero-moon.svg');
+        } else {
+          preload('images/terrain-light.webp');
+          preload('hero-ufo-light.svg');
+          preload('hero-sun.svg');
+        }
+        preload('images/intro-ufo.webp');
+      })();
+    </script>
 
     <!-- GSAP — load before render -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
