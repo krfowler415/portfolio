@@ -998,6 +998,101 @@ a.card-feat,
 
 
 /* =====================================================================
+ * § 7D  CASE STUDY HOLO — Josh Dance Day 50 Reconstruction
+ * ===================================================================== */
+
+.card-holo {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+
+  --posx: calc(50% + var(--ratio-x) * 50%);
+  --posy: calc(50% + var(--ratio-y) * 50%);
+
+  background-image:
+    url("/images/holo-texture.png"),
+    repeating-linear-gradient(
+      180deg,
+      #a78bfa 0%,
+      #38bdf8 20%,
+      #4ade80 40%,
+      #facc15 60%,
+      #fb923c 80%,
+      #a78bfa 100%
+    ),
+    repeating-linear-gradient(
+      45deg,
+      rgba(192, 132, 252, 0.25) 0%,
+      rgba(34, 211, 238, 0.25) 25%,
+      rgba(163, 230, 53, 0.25) 50%,
+      rgba(251, 191, 36, 0.25) 75%,
+      rgba(192, 132, 252, 0.25) 100%
+    );
+
+  background-blend-mode: overlay, soft-light, soft-light;
+  background-size: 150px 150px, 400% 400%, 400% 400%;
+  background-position:
+    0% var(--posy),
+    calc(var(--posx) * -1) calc(var(--posy) * -1),
+    var(--posx) var(--posy);
+  background-repeat: repeat, repeat, repeat;
+
+  mix-blend-mode: color-dodge;
+
+  --hyp: calc(var(--ratio-x) * var(--ratio-x) + var(--ratio-y) * var(--ratio-y));
+  filter: brightness(calc(var(--hyp) * 0.15 + 0.55)) contrast(1.1) saturate(0.85);
+}
+
+.card-tilt-wrap:hover .card-holo {
+  opacity: 0.5;
+}
+
+.card-holo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+
+  background-image:
+    url("/images/holo-texture.png"),
+    repeating-linear-gradient(
+      180deg,
+      #a78bfa 0%,
+      #38bdf8 20%,
+      #4ade80 40%,
+      #facc15 60%,
+      #fb923c 80%,
+      #a78bfa 100%
+    ),
+    repeating-linear-gradient(
+      45deg,
+      rgba(192, 132, 252, 0.25) 0%,
+      rgba(34, 211, 238, 0.25) 25%,
+      rgba(163, 230, 53, 0.25) 50%,
+      rgba(251, 191, 36, 0.25) 75%,
+      rgba(192, 132, 252, 0.25) 100%
+    );
+
+  background-blend-mode: overlay, soft-light, soft-light;
+  background-size: 150px 150px, 400% 400%, 400% 400%;
+  background-position:
+    0% calc(var(--posy) * -1),
+    var(--posx) var(--posy),
+    calc(var(--posx) * -1) calc(var(--posy) * -1);
+  background-repeat: repeat, repeat, repeat;
+
+  mix-blend-mode: color-dodge;
+  opacity: 0.3;
+  filter: saturate(0.8);
+}
+
+
+/* =====================================================================
  * § 8  HOME ABOUT STRUCTURE
  * ===================================================================== */
 
