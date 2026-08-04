@@ -716,6 +716,7 @@ void main() {
 
       renderer.render({ scene: mesh });
     };
+    this._update = update;
     this.animationId = requestAnimationFrame(update);
 
     if (this.mouseInteraction) {
@@ -733,6 +734,18 @@ void main() {
 
   _onMouseLeave() {
     this.targetMouseActive = 0.0;
+  }
+
+  pause() {
+    if (this.animationId) {
+      cancelAnimationFrame(this.animationId);
+      this.animationId = null;
+    }
+  }
+
+  resume() {
+    if (this.isDestroyed || this.animationId || !this._update) return;
+    this.animationId = requestAnimationFrame(this._update);
   }
 
   destroy() {
@@ -804,6 +817,28 @@ function destroyGalaxy() {
   }
 }
 
+// Pause the Galaxy WebGL render loop when the hero scrolls out of view,
+// since it was previously running its full-viewport shader forever
+// regardless of visibility.
+(function setupGalaxyVisibilityObserver() {
+  const heroEl = document.getElementById('hero');
+  if (!heroEl || typeof IntersectionObserver === 'undefined') return;
+  const galaxyObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (galaxyInstance) galaxyInstance.resume();
+          if (ufoLightRays) ufoLightRays.play();
+        } else {
+          if (galaxyInstance) galaxyInstance.pause();
+          if (ufoLightRays) ufoLightRays.pause();
+        }
+      });
+    },
+    { threshold: 0 }
+  );
+  galaxyObserver.observe(heroEl);
+})();
 
 /* =====================================================================
  * § 2  VIEWPORT HEIGHT
