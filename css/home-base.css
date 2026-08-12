@@ -1034,12 +1034,18 @@ a.card-feat,
     );
 
   background-blend-mode: overlay, soft-light, soft-light;
-  background-size: 150px 150px, 400% 400%, 400% 400%;
+  background-size:
+    100% 100%,   /* texture: stretch to fill, no tiling */
+    200% 200%,   /* conic sheen */
+    400% 400%;   /* linear shimmer */
   background-position:
     0% var(--posy),
     calc(var(--posx) * -1) calc(var(--posy) * -1),
     var(--posx) var(--posy);
-  background-repeat: repeat, repeat, repeat;
+  background-repeat:
+    no-repeat,    /* texture: no tile */
+    repeat,       /* conic sheen */
+    repeat;       /* linear shimmer */
 
   mix-blend-mode: color-dodge;
 
@@ -1079,12 +1085,18 @@ a.card-feat,
     );
 
   background-blend-mode: overlay, soft-light, soft-light;
-  background-size: 150px 150px, 400% 400%, 400% 400%;
+  background-size:
+    100% 100%,   /* texture stretched */
+    200% 200%,
+    400% 400%;
   background-position:
     0% calc(var(--posy) * -1),
     var(--posx) var(--posy),
     calc(var(--posx) * -1) calc(var(--posy) * -1);
-  background-repeat: repeat, repeat, repeat;
+  background-repeat:
+    no-repeat,
+    repeat,
+    repeat;
 
   mix-blend-mode: color-dodge;
   opacity: 0.3;
