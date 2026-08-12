@@ -1014,48 +1014,32 @@ a.card-feat,
   --posy: calc(50% + var(--ratio-y) * 50%);
 
   background-image:
-    url("/images/holo-texture.png"),              /* layer 1 */
-    url("/images/holo-texture.png"),              /* layer 2 — same image */
-    conic-gradient(
-      from calc(var(--spin, 0deg) + 180deg) at var(--posx) var(--posy),
-      rgba(167,139,250,0) 0deg,
-      rgba(167,139,250,0.18) 30deg,
-      rgba(56,189,248,0.24) 60deg,
-      rgba(74,222,128,0.18) 90deg,
-      rgba(250,204,21,0.24) 120deg,
-      rgba(251,146,60,0.18) 150deg,
-      rgba(192,132,252,0.24) 180deg,
-      rgba(56,189,248,0.18) 210deg,
-      rgba(74,222,128,0.24) 240deg,
-      rgba(250,204,21,0.18) 270deg,
-      rgba(251,146,60,0.24) 300deg,
-      rgba(167,139,250,0) 360deg
+    url("/images/holo-texture.png"),
+    repeating-linear-gradient(
+      180deg,
+      #a78bfa 0%,
+      #38bdf8 20%,
+      #4ade80 40%,
+      #facc15 60%,
+      #fb923c 80%,
+      #a78bfa 100%
     ),
     repeating-linear-gradient(
       45deg,
-      rgba(192,132,252,0.22) 0%,
-      rgba(34,211,238,0.22) 25%,
-      rgba(163,230,53,0.22) 50%,
-      rgba(251,191,36,0.22) 75%,
-      rgba(192,132,252,0.22) 100%
+      rgba(192, 132, 252, 0.25) 0%,
+      rgba(34, 211, 238, 0.25) 25%,
+      rgba(163, 230, 53, 0.25) 50%,
+      rgba(251, 191, 36, 0.25) 75%,
+      rgba(192, 132, 252, 0.25) 100%
     );
 
-  background-blend-mode: overlay, soft-light, overlay, soft-light;
-  background-size:
-    150px 150px,   /* texture - layer 1 */
-    150px 150px    /* texture - layer 2 */
-    200% 200%,     /* conic sheen */
-    400% 400%;     /* linear shimmer */
+  background-blend-mode: overlay, soft-light, soft-light;
+  background-size: 150px 150px, 400% 400%, 400% 400%;
   background-position:
-    0% var(--posy),                   /* layer 1 tracks mouse */
-    75px calc(var(--posy) + 75px),    /* layer 2: offset by half a tile */
+    0% var(--posy),
     calc(var(--posx) * -1) calc(var(--posy) * -1),
     var(--posx) var(--posy);
-  background-repeat:
-    repeat,    /* texture - layer 1 */
-    repeat,    /* texture - layer 2 */
-    repeat,    /* conic sheen */
-    repeat;    /* linear shimmer */
+  background-repeat: repeat, repeat, repeat;
 
   mix-blend-mode: color-dodge;
 
@@ -1075,44 +1059,32 @@ a.card-feat,
   pointer-events: none;
 
   background-image:
-    url("/images/holo-texture.png"),              /* layer 1 */
-    url("/images/holo-texture.png"),              /* layer 2 — same image */
-    conic-gradient(
-      from calc(var(--spin, 0deg) * -1) at var(--posx) var(--posy),
-      rgba(167,139,250,0) 0deg,
-      rgba(56,189,248,0.14) 45deg,
-      rgba(74,222,128,0.14) 90deg,
-      rgba(250,204,21,0.14) 135deg,
-      rgba(251,146,60,0.14) 180deg,
-      rgba(192,132,252,0.14) 225deg,
-      rgba(167,139,250,0) 270deg
-    ),
+    url("/images/holo-texture.png"),
     repeating-linear-gradient(
       180deg,
-      rgba(192,132,252,0.18) 0%,
-      rgba(34,211,238,0.18) 20%,
-      rgba(163,230,53,0.18) 40%,
-      rgba(251,191,36,0.18) 60%,
-      rgba(192,132,252,0.18) 80%,
-      rgba(34,211,238,0.18) 100%
+      #a78bfa 0%,
+      #38bdf8 20%,
+      #4ade80 40%,
+      #facc15 60%,
+      #fb923c 80%,
+      #a78bfa 100%
+    ),
+    repeating-linear-gradient(
+      45deg,
+      rgba(192, 132, 252, 0.25) 0%,
+      rgba(34, 211, 238, 0.25) 25%,
+      rgba(163, 230, 53, 0.25) 50%,
+      rgba(251, 191, 36, 0.25) 75%,
+      rgba(192, 132, 252, 0.25) 100%
     );
 
-  background-blend-mode: overlay, soft-light, overlay, soft-light;
-  background-size:
-    150px 150px,   /* texture - layer 1 */
-    150px 150px    /* texture - layer 2 */
-    200% 200%,     /* conic sheen */
-    400% 400%;     /* linear shimmer */
+  background-blend-mode: overlay, soft-light, soft-light;
+  background-size: 150px 150px, 400% 400%, 400% 400%;
   background-position:
-    0% var(--posy),                   /* layer 1 tracks mouse */
-    75px calc(var(--posy) + 75px),    /* layer 2: offset by half a tile */
-    calc(var(--posx) * -1) calc(var(--posy) * -1),
-    var(--posx) var(--posy);
-  background-repeat:
-    repeat,    /* texture - layer 1 */
-    repeat,    /* texture - layer 2 */
-    repeat,    /* conic sheen */
-    repeat;    /* linear shimmer */
+    0% calc(var(--posy) * -1),
+    var(--posx) var(--posy),
+    calc(var(--posx) * -1) calc(var(--posy) * -1);
+  background-repeat: repeat, repeat, repeat;
 
   mix-blend-mode: color-dodge;
   opacity: 0.3;
