@@ -1035,9 +1035,9 @@ a.card-feat,
 
   background-blend-mode: overlay, soft-light, soft-light;
   background-size:
-    100% 100%,   /* texture: stretch to fill, no tiling */
-    200% 200%,   /* conic sheen */
-    400% 400%;   /* linear shimmer */
+    250px 250px,   /* texture: larger tiles, less obvious repetition */
+    200% 200%,     /* conic sheen */
+    400% 400%;     /* linear shimmer */
   background-position:
     0% var(--posy),
     calc(var(--posx) * -1) calc(var(--posy) * -1),
@@ -1086,9 +1086,9 @@ a.card-feat,
 
   background-blend-mode: overlay, soft-light, soft-light;
   background-size:
-    100% 100%,   /* texture stretched */
-    200% 200%,
-    400% 400%;
+    250px 250px,   /* texture: larger tiles, less obvious repetition */
+    200% 200%,     /* conic sheen */
+    400% 400%;     /* linear shimmer */
   background-position:
     0% calc(var(--posy) * -1),
     var(--posx) var(--posy),
