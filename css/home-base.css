@@ -1031,24 +1031,31 @@ a.card-feat,
       rgba(163, 230, 53, 0.25) 50%,
       rgba(251, 191, 36, 0.25) 75%,
       rgba(192, 132, 252, 0.25) 100%
+    ),
+    radial-gradient(
+      farthest-corner circle at var(--posx) var(--posy),
+      hsla(189, 76%, 77%, 0.6) 0%,
+      hsla(147, 59%, 77%, 0.6) 25%,
+      hsla(271, 55%, 69%, 0.6) 50%,
+      hsla(355, 56%, 72%, 0.6) 75%
     );
 
-  background-blend-mode: overlay, soft-light, soft-light;
-  background-size: 200% 200%, 1100% 1100%, 600% 600%;
+  background-blend-mode: difference, luminosity, soft-light;
+  background-size: 150px 150px, 1100% 1100%, 600% 600%, 200% 200%;
   background-position:
-    0% var(--posy),
-    calc(var(--posx) * -1) calc(var(--posy) * -1),
+    center,
+    var(--posx) var(--posy),
+    var(--posx) var(--posy),
     var(--posx) var(--posy);
-  background-repeat: repeat, repeat, repeat;
 
   mix-blend-mode: color-dodge;
 
   --hyp: calc(var(--ratio-x) * var(--ratio-x) + var(--ratio-y) * var(--ratio-y));
-  filter: brightness(calc(var(--hyp) * 0.25 + 0.75)) contrast(1.2) saturate(0.9);
+  filter: brightness(calc((var(--hyp) * .4) + .4)) contrast(2) saturate(1);
 }
 
 .card-tilt-wrap:hover .card-holo {
-  opacity: 0.3;
+  opacity: 0.5;
 }
 
 .card-holo::after {
@@ -1058,8 +1065,8 @@ a.card-feat,
   border-radius: inherit;
   pointer-events: none;
 
+  /* NO texture — only the two gradients */
   background-image:
-    url("/images/holo-texture.png"),
     repeating-linear-gradient(
       180deg,
       #a78bfa 0%,
@@ -1078,17 +1085,15 @@ a.card-feat,
       rgba(192, 132, 252, 0.25) 100%
     );
 
-  background-blend-mode: overlay, soft-light, soft-light;
-  background-size: 200% 200%, 1100% 1100%, 600% 600%;
+  background-blend-mode: hue, hard-light;
+  background-size: 200% 700%, 300% 100%;
   background-position:
-    0% calc(var(--posy) * -1),
-    var(--posx) var(--posy),
-    calc(var(--posx) * -1) calc(var(--posy) * -1);
-  background-repeat: repeat, repeat, repeat;
+    0% var(--posy),
+    var(--posx) var(--posy);
 
-  mix-blend-mode: color-dodge;
-  opacity: 0.15;
-  filter: saturate(0.7);
+  mix-blend-mode: lighten;
+  opacity: calc(0.3 + var(--hyp) * 0.5);
+  filter: saturate(1.5);
 }
 
 
@@ -1258,9 +1263,7 @@ a.card-feat,
   --posy: calc(50% + var(--ratio-y) * 50%);
 
   background-image:
-    /* 1. Texture — top layer, breaks up seams */
     url("/images/holo-texture.png"),
-    /* 2. Rainbow 1 — seamless vertical loop */
     repeating-linear-gradient(
       180deg,
       #a78bfa 0%,
@@ -1270,7 +1273,6 @@ a.card-feat,
       #fb923c 80%,
       #a78bfa 100%
     ),
-    /* 3. Rainbow 2 — seamless diagonal loop */
     repeating-linear-gradient(
       45deg,
       rgba(192, 132, 252, 0.25) 0%,
@@ -1278,24 +1280,31 @@ a.card-feat,
       rgba(163, 230, 53, 0.25) 50%,
       rgba(251, 191, 36, 0.25) 75%,
       rgba(192, 132, 252, 0.25) 100%
+    ),
+    radial-gradient(
+      farthest-corner circle at var(--posx) var(--posy),
+      hsla(189, 76%, 77%, 0.6) 0%,
+      hsla(147, 59%, 77%, 0.6) 25%,
+      hsla(271, 55%, 69%, 0.6) 50%,
+      hsla(355, 56%, 72%, 0.6) 75%
     );
 
-  background-blend-mode: overlay, soft-light, soft-light;
-  background-size: 200% 200%, 1100% 1100%, 600% 600%;
+  background-blend-mode: difference, luminosity, soft-light;
+  background-size: 100px 100px, 1100% 1100%, 600% 600%, 200% 200%;
   background-position:
-    0% var(--posy),
-    calc(var(--posx) * -1) calc(var(--posy) * -1),
+    center,
+    var(--posx) var(--posy),
+    var(--posx) var(--posy),
     var(--posx) var(--posy);
-  background-repeat: repeat, repeat, repeat;
 
   mix-blend-mode: color-dodge;
 
   --hyp: calc(var(--ratio-x) * var(--ratio-x) + var(--ratio-y) * var(--ratio-y));
-  filter: brightness(calc(var(--hyp) * 0.25 + 0.75)) contrast(1.2) saturate(0.9);
+  filter: brightness(calc((var(--hyp) * .4) + .4)) contrast(2) saturate(1);
 }
 
 .stat:hover .stat-shine {
-  opacity: 0.3;
+  opacity: 0.5;
 }
 
 /* ::after — same layers, opposing motion */
@@ -1307,7 +1316,6 @@ a.card-feat,
   pointer-events: none;
 
   background-image:
-    url("/images/holo-texture.png"),
     repeating-linear-gradient(
       180deg,
       #a78bfa 0%,
@@ -1326,17 +1334,15 @@ a.card-feat,
       rgba(192, 132, 252, 0.25) 100%
     );
 
-  background-blend-mode: overlay, soft-light, soft-light;
-  background-size: 200% 200%, 1100% 1100%, 600% 600%;
+  background-blend-mode: hue, hard-light;
+  background-size: 200% 700%, 300% 100%;
   background-position:
-    0% calc(var(--posy) * -1),
-    var(--posx) var(--posy),
-    calc(var(--posx) * -1) calc(var(--posy) * -1);
-  background-repeat: repeat, repeat, repeat;
+    0% var(--posy),
+    var(--posx) var(--posy);
 
-  mix-blend-mode: color-dodge;
-  opacity: 0.15;
-  filter: saturate(0.7);
+  mix-blend-mode: lighten;
+  opacity: calc(0.3 + var(--hyp) * 0.5);
+  filter: saturate(1.5);
 }
 
 
