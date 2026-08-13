@@ -1034,7 +1034,7 @@ a.card-feat,
     );
 
   background-blend-mode: overlay, soft-light, soft-light;
-  background-size: 150px 150px, 400% 400%, 400% 400%;
+  background-size: 200% 200%, 1100% 1100%, 600% 600%;
   background-position:
     0% var(--posy),
     calc(var(--posx) * -1) calc(var(--posy) * -1),
@@ -1044,11 +1044,11 @@ a.card-feat,
   mix-blend-mode: color-dodge;
 
   --hyp: calc(var(--ratio-x) * var(--ratio-x) + var(--ratio-y) * var(--ratio-y));
-  filter: brightness(calc(var(--hyp) * 0.15 + 0.55)) contrast(1.1) saturate(0.85);
+  filter: brightness(calc(var(--hyp) * 0.25 + 0.75)) contrast(1.2) saturate(0.9);
 }
 
 .card-tilt-wrap:hover .card-holo {
-  opacity: 0.5;
+  opacity: 0.3;
 }
 
 .card-holo::after {
@@ -1079,7 +1079,7 @@ a.card-feat,
     );
 
   background-blend-mode: overlay, soft-light, soft-light;
-  background-size: 150px 150px, 400% 400%, 400% 400%;
+  background-size: 200% 200%, 1100% 1100%, 600% 600%;
   background-position:
     0% calc(var(--posy) * -1),
     var(--posx) var(--posy),
@@ -1087,8 +1087,8 @@ a.card-feat,
   background-repeat: repeat, repeat, repeat;
 
   mix-blend-mode: color-dodge;
-  opacity: 0.3;
-  filter: saturate(0.8);
+  opacity: 0.15;
+  filter: saturate(0.7);
 }
 
 
@@ -1281,7 +1281,7 @@ a.card-feat,
     );
 
   background-blend-mode: overlay, soft-light, soft-light;
-  background-size: 100px 100px, 400% 400%, 400% 400%;
+  background-size: 200% 200%, 1100% 1100%, 600% 600%;
   background-position:
     0% var(--posy),
     calc(var(--posx) * -1) calc(var(--posy) * -1),
@@ -1291,11 +1291,11 @@ a.card-feat,
   mix-blend-mode: color-dodge;
 
   --hyp: calc(var(--ratio-x) * var(--ratio-x) + var(--ratio-y) * var(--ratio-y));
-  filter: brightness(calc(var(--hyp) * 0.15 + 0.55)) contrast(1.1) saturate(0.85);
+  filter: brightness(calc(var(--hyp) * 0.25 + 0.75)) contrast(1.2) saturate(0.9);
 }
 
 .stat:hover .stat-shine {
-  opacity: 0.5;
+  opacity: 0.3;
 }
 
 /* ::after — same layers, opposing motion */
@@ -1327,7 +1327,7 @@ a.card-feat,
     );
 
   background-blend-mode: overlay, soft-light, soft-light;
-  background-size: 100px 100px, 400% 400%, 400% 400%;
+  background-size: 200% 200%, 1100% 1100%, 600% 600%;
   background-position:
     0% calc(var(--posy) * -1),
     var(--posx) var(--posy),
@@ -1335,8 +1335,8 @@ a.card-feat,
   background-repeat: repeat, repeat, repeat;
 
   mix-blend-mode: color-dodge;
-  opacity: 0.3;
-  filter: saturate(0.8);
+  opacity: 0.15;
+  filter: saturate(0.7);
 }
 
 
