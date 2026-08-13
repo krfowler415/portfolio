@@ -1034,7 +1034,7 @@ a.card-feat,
     );
 
   background-blend-mode: overlay, soft-light, soft-light;
-  background-size: 150px 150px, 400% 400%, 400% 400%;
+  background-size: 60% 30%, 1100% 1100%, 600% 600%;
   background-position:
     0% var(--posy),
     calc(var(--posx) * -1) calc(var(--posy) * -1),
@@ -1079,7 +1079,7 @@ a.card-feat,
     );
 
   background-blend-mode: overlay, soft-light, soft-light;
-  background-size: 150px 150px, 400% 400%, 400% 400%;
+  background-size: 60% 30%, 1100% 1100%, 600% 600%;
   background-position:
     0% calc(var(--posy) * -1),
     var(--posx) var(--posy),
@@ -1281,7 +1281,7 @@ a.card-feat,
     );
 
   background-blend-mode: overlay, soft-light, soft-light;
-  background-size: 100px 100px, 400% 400%, 400% 400%;
+  background-size: 60% 30%, 1100% 1100%, 600% 600%;
   background-position:
     0% var(--posy),
     calc(var(--posx) * -1) calc(var(--posy) * -1),
@@ -1327,7 +1327,7 @@ a.card-feat,
     );
 
   background-blend-mode: overlay, soft-light, soft-light;
-  background-size: 100px 100px, 400% 400%, 400% 400%;
+  background-size: 60% 30%, 1100% 1100%, 600% 600%;
   background-position:
     0% calc(var(--posy) * -1),
     var(--posx) var(--posy),
