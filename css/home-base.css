@@ -1006,49 +1006,51 @@ a.card-feat,
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  z-index: 1;
+  z-index: 3;
   opacity: 0;
   transition: opacity 0.35s ease;
 
-  --posx: calc(50% + var(--ratio-x) * 50%);
-  --posy: calc(50% + var(--ratio-y) * 50%);
+  --holo-posx: calc(38% + ((var(--ratio-x, 0) + 1) / 2) * 27%);
+  --holo-posy: calc(38% + ((var(--ratio-y, 0) + 1) / 2) * 27%);
+  --holo-mx: calc(1% + ((var(--ratio-x, 0) + 1) / 2) * 98%);
+  --holo-my: calc(1% + ((var(--ratio-y, 0) + 1) / 2) * 98%);
+  --holo-hyp: calc(var(--ratio-x, 0) * var(--ratio-x, 0) + var(--ratio-y, 0) * var(--ratio-y, 0));
+
+  mix-blend-mode: color-dodge;
 
   background-image:
     url("/images/holo-texture.png"),
     repeating-linear-gradient(
-      180deg,
-      #a78bfa 0%,
-      #38bdf8 20%,
-      #4ade80 40%,
-      #facc15 60%,
-      #fb923c 80%,
-      #a78bfa 100%
+      0deg,
+      #ff7773 5%, #ffed5f 10%, #a8ff5f 15%,
+      #83fff7 20%, #7894ff 25%, #d875ff 30%, #ff7773 35%
     ),
     repeating-linear-gradient(
-      45deg,
-      rgba(192, 132, 252, 0.25) 0%,
-      rgba(34, 211, 238, 0.25) 25%,
-      rgba(163, 230, 53, 0.25) 50%,
-      rgba(251, 191, 36, 0.25) 75%,
-      rgba(192, 132, 252, 0.25) 100%
+      133deg,
+      #0e152e 0%, hsl(180,10%,60%) 3.8%, hsl(180,29%,66%) 4.5%,
+      hsl(180,10%,60%) 5.2%, #0e152e 10%, #0e152e 12%
+    ),
+    radial-gradient(
+      farthest-corner circle at var(--holo-mx) var(--holo-my),
+      rgba(0,0,0,.1) 12%, rgba(0,0,0,.15) 20%, rgba(0,0,0,.25) 120%
     );
 
-  background-blend-mode: exclusion, soft-light, soft-light;
-  background-size: 180%, 400% 400%, 400% 400%;
+  background-blend-mode: exclusion, hue, hard-light, exclusion;
+  background-size: 50%, 200% 700%, 300%, 200%;
   background-position:
     center,
-    calc(var(--posx) * -1) calc(var(--posy) * -1),
-    var(--posx) var(--posy);
-  background-repeat: no-repeat, repeat, repeat;
+    0% var(--holo-posy),
+    var(--holo-posx) var(--holo-posy),
+    var(--holo-posx) var(--holo-posy);
 
-  mix-blend-mode: color-dodge;
-
-  --hyp: calc(var(--ratio-x) * var(--ratio-x) + var(--ratio-y) * var(--ratio-y));
-  filter: brightness(calc(var(--hyp) * 0.15 + 0.55)) contrast(1.1) saturate(0.85);
+  filter:
+    brightness(calc((var(--holo-hyp) * 0.3) + 0.5))
+    contrast(2)
+    saturate(1.5);
 }
 
 .card-tilt-wrap:hover .card-holo {
-  opacity: 0.5;
+  opacity: 0.85;
 }
 
 .card-holo::after {
@@ -1058,39 +1060,38 @@ a.card-feat,
   border-radius: inherit;
   pointer-events: none;
 
+  mix-blend-mode: exclusion;
+
   background-image:
     url("/images/holo-texture.png"),
     repeating-linear-gradient(
-      180deg,
-      #a78bfa 0%,
-      #38bdf8 20%,
-      #4ade80 40%,
-      #facc15 60%,
-      #fb923c 80%,
-      #a78bfa 100%
+      0deg,
+      #ff7773 5%, #ffed5f 10%, #a8ff5f 15%,
+      #83fff7 20%, #7894ff 25%, #d875ff 30%, #ff7773 35%
     ),
     repeating-linear-gradient(
-      45deg,
-      rgba(192, 132, 252, 0.25) 0%,
-      rgba(34, 211, 238, 0.25) 25%,
-      rgba(163, 230, 53, 0.25) 50%,
-      rgba(251, 191, 36, 0.25) 75%,
-      rgba(192, 132, 252, 0.25) 100%
+      133deg,
+      #0e152e 0%, hsl(180,10%,60%) 3.8%, hsl(180,29%,66%) 4.5%,
+      hsl(180,10%,60%) 5.2%, #0e152e 10%, #0e152e 12%
+    ),
+    radial-gradient(
+      farthest-corner circle at var(--holo-mx) var(--holo-my),
+      rgba(0,0,0,.1) 12%, rgba(0,0,0,.15) 20%, rgba(0,0,0,.25) 120%
     );
 
-  background-blend-mode: exclusion, soft-light, soft-light;
-  background-size: 180%, 400% 400%, 400% 400%;
+  background-blend-mode: exclusion, hue, hard-light, exclusion;
+  background-size: 50%, 200% 400%, 195%, 200%;
   background-position:
     center,
-    var(--posx) var(--posy),
-    calc(var(--posx) * -1) calc(var(--posy) * -1);
-  background-repeat: no-repeat, repeat, repeat;
+    0% var(--holo-posy),
+    calc(var(--holo-posx) * -1) calc(var(--holo-posy) * -1),
+    var(--holo-posx) var(--holo-posy);
 
-  mix-blend-mode: color-dodge;
-  opacity: 0.3;
-  filter: saturate(0.8);
+  filter:
+    brightness(calc((var(--holo-hyp) * 0.5) + 0.8))
+    contrast(1.6)
+    saturate(1.4);
 }
-
 
 /* =====================================================================
  * § 8  HOME ABOUT STRUCTURE
