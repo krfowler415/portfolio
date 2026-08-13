@@ -1033,13 +1033,13 @@ a.card-feat,
       rgba(192, 132, 252, 0.25) 100%
     );
 
-  background-blend-mode: overlay, soft-light, soft-light;
-  background-size: 150px 150px, 1100% 1100%, 600% 600%;
+  background-blend-mode: exclusion, soft-light, soft-light;
+  background-size: 180%, 400% 400%, 400% 400%;
   background-position:
-    0% var(--posy),
+    center,
     calc(var(--posx) * -1) calc(var(--posy) * -1),
     var(--posx) var(--posy);
-  background-repeat: repeat, repeat, repeat;
+  background-repeat: no-repeat, repeat, repeat;
 
   mix-blend-mode: color-dodge;
 
@@ -1078,13 +1078,13 @@ a.card-feat,
       rgba(192, 132, 252, 0.25) 100%
     );
 
-  background-blend-mode: overlay, soft-light, soft-light;
-  background-size: 150px 150px, 1100% 1100%, 600% 600%;
+  background-blend-mode: exclusion, soft-light, soft-light;
+  background-size: 180%, 400% 400%, 400% 400%;
   background-position:
-    0% calc(var(--posy) * -1),
+    center,
     var(--posx) var(--posy),
     calc(var(--posx) * -1) calc(var(--posy) * -1);
-  background-repeat: repeat, repeat, repeat;
+  background-repeat: no-repeat, repeat, repeat;
 
   mix-blend-mode: color-dodge;
   opacity: 0.3;
