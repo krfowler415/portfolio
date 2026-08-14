@@ -1992,36 +1992,40 @@ function renderUfoAtProgress(progress) {
   });
 
   /* ── Light Rays volumetric beam (ReactBits adaptation) ───────── */
-
+  
   if (ufoLightRays && ufoLightRays.isReady) {
     const beamStart = 0.48;
     const beamPeak  = 0.55;
-
+  
     let opacity   = 0;
     let intensity = 0;
-
+  
     if (clampedProgress >= beamStart && clampedProgress < beamPeak) {
       const t = (clampedProgress - beamStart) / (beamPeak - beamStart);
+  
       opacity   = t;
       intensity = t;
     } else if (clampedProgress >= beamPeak) {
       opacity   = 1;
       intensity = 1;
     }
-
+  
     ufoLightRays.setOpacity(opacity);
     ufoLightRays.setIntensity(intensity);
-
+  
     // Dynamic spread/length for cinematic feel
     ufoLightRays.setSpread(0.12 + intensity * 0.06);
     ufoLightRays.setLength(0.3 + intensity * 0.15);
     ufoLightRays.setAnimationSpeed(0.08 + intensity * 0.10);
-  }
-
+  
+    /*
+     * Don't run the WebGL beam while it is outside
+     * the visible portion of the hero animation.
+     */
     const beamShouldRender =
       clampedProgress >= beamStart &&
       Boolean(ufoScrollTrigger?.isActive);
-    
+  
     if (beamShouldRender) {
       ufoBeamContainer.style.visibility = 'visible';
       ufoLightRays.play();
@@ -2029,6 +2033,7 @@ function renderUfoAtProgress(progress) {
       ufoBeamContainer.style.visibility = 'hidden';
       ufoLightRays.pause();
     }
+  }
 
   heroUfo.classList.toggle(
     'hovering',
