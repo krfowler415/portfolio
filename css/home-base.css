@@ -1066,8 +1066,8 @@ a.card-feat,
     url("/images/holo-texture.png"),
     repeating-linear-gradient(
       0deg,
-      #ff7773 5%, #ffed5f 10%, #a8ff5f 15%,
-      #83fff7 20%, #7894ff 25%, #d875ff 30%, #ff7773 35%
+      var(--holo-c1) 5%, var(--holo-c2) 10%, var(--holo-c3) 15%,
+      var(--holo-c4) 20%, var(--holo-c5) 25%, var(--holo-c6) 30%, var(--holo-c1) 35%
     ),
     repeating-linear-gradient(
       133deg,
