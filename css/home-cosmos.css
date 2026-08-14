@@ -132,6 +132,16 @@
   --px:  clamp(1.25rem, 5vw, 3rem);      /* fluid horizontal padding */
 }
 
+  /* ── Card Holo Colors - Dark Theme ───────────────────────────────── */
+  :root[data-theme="dark"] {
+    --holo-c1: var(--pulsar-400);
+    --holo-c2: var(--plasma-400);
+    --holo-c3: var(--aurora-400);
+    --holo-c4: var(--cosmos-400);
+    --holo-c5: var(--aurora-200);
+    --holo-c6: var(--pulsar-200);
+  }
+
 
 /* =====================================================================
  * § 2  COSMOS BASE / BODY
