@@ -48,6 +48,7 @@ let ufoIntroComplete   = false;
 let minTimeDone        = false;
 let assetsDone         = false;
 let introFired         = false;
+let heroIsVisible      = false;
 let scanTween          = null;
 let ufoScrollTrigger   = null;
 let navScrollTrigger   = null;
@@ -827,10 +828,18 @@ function destroyGalaxy() {
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          if (galaxyInstance) galaxyInstance.resume();
+          heroIsVisible = true;
+          if (galaxyInstance) {
+            galaxyInstance.resume();
+          }
         } else {
-          if (galaxyInstance) galaxyInstance.pause();
-          if (ufoLightRays) ufoLightRays.pause();
+          heroIsVisible = false;    
+          if (galaxyInstance) {
+            galaxyInstance.pause();
+          }   
+          if (ufoLightRays) {
+            ufoLightRays.pause();
+          }
         }
       });
     },
@@ -2024,8 +2033,7 @@ function renderUfoAtProgress(progress) {
      */
     const beamShouldRender =
       clampedProgress >= beamStart &&
-      Boolean(ufoScrollTrigger?.isActive);
-  
+      heroIsVisible;
     if (beamShouldRender) {
       ufoBeamContainer.style.visibility = 'visible';
       ufoLightRays.play();
