@@ -828,7 +828,6 @@ function destroyGalaxy() {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           if (galaxyInstance) galaxyInstance.resume();
-          if (ufoLightRays) ufoLightRays.play();
         } else {
           if (galaxyInstance) galaxyInstance.pause();
           if (ufoLightRays) ufoLightRays.pause();
@@ -1520,14 +1519,23 @@ function initBodyEnvironment() {
         previousStrength
       )
     ) > 0.03;
-
+    
     if (
       !dirty &&
       !stillMoving
     ) {
       return;
     }
-
+    
+    /*
+     * The body environment is completely covered by the hero.
+     * Skip drawing until some portion of it is actually visible.
+     */
+    if (clipTop >= height) {
+      dirty = false;
+      return;
+    }
+    
     if (
       now - lastFrameTime <
       FRAME_INTERVAL
@@ -2009,6 +2017,18 @@ function renderUfoAtProgress(progress) {
     ufoLightRays.setLength(0.3 + intensity * 0.15);
     ufoLightRays.setAnimationSpeed(0.08 + intensity * 0.10);
   }
+
+    const beamShouldRender =
+      clampedProgress >= beamStart &&
+      Boolean(ufoScrollTrigger?.isActive);
+    
+    if (beamShouldRender) {
+      ufoBeamContainer.style.visibility = 'visible';
+      ufoLightRays.play();
+    } else {
+      ufoBeamContainer.style.visibility = 'hidden';
+      ufoLightRays.pause();
+    }
 
   heroUfo.classList.toggle(
     'hovering',
