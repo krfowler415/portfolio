@@ -1093,6 +1093,15 @@ a.card-feat,
     saturate(1.4);
 }
 
+.card-vis-tag,
+.card-body h3,
+.card-body p,
+.card-body .c-tags,
+.card-body .c-link {
+  position: relative;
+  z-index: 4;
+}
+
 /* =====================================================================
  * § 8  HOME ABOUT STRUCTURE
  * ===================================================================== */
