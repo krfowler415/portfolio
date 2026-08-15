@@ -1036,7 +1036,7 @@ a.card-feat,
     );
 
   background-blend-mode: exclusion, hue, hard-light, exclusion;
-  background-size: 50%, 200% 700%, 300%, 200%;
+  background-size: 50%, 400% 1400%, 500%, 200%;
   background-position:
     center,
     0% var(--holo-posy),
@@ -1080,7 +1080,7 @@ a.card-feat,
     );
 
   background-blend-mode: exclusion, hue, hard-light, exclusion;
-  background-size: 50%, 200% 400%, 195%, 200%;
+  background-size: 50%, 400% 800%, 350%, 200%;
   background-position:
     center,
     0% var(--holo-posy),
