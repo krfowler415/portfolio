@@ -16,13 +16,20 @@
 window.KFTheme = (() => {
   let wipeIsActive = false;
 
-  function swapTerrain() {
-    /*
-     * Terrain is swapped entirely by CSS:
-     * :root[data-theme="light"] .terrain-img--light
-     */
+function swapTerrain() {
+  /*
+   * Terrain is swapped entirely by CSS:
+   * :root[data-theme="light"] .terrain-img--light
+   *
+   * ScrollTrigger is only present on pages that need it.
+   */
+  if (
+    typeof ScrollTrigger !== 'undefined' &&
+    typeof ScrollTrigger.refresh === 'function'
+  ) {
     ScrollTrigger.refresh();
   }
+}
 
   function swapFavicon(theme) {
     const href = theme === 'light'
