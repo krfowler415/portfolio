@@ -180,6 +180,37 @@ a, button { cursor: none; }
   background-clip: text;
 }
 
+/* =====================================================================
+ * INTERACTIVE BODY ENVIRONMENT
+ * ===================================================================== */
+
+:root {
+  --body-grid-dot: #98A8D428;
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  position: relative;
+  isolation: isolate;
+}
+
+#body-environment {
+  position: fixed;
+  inset: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  display: block;
+
+  z-index: -1;
+
+  pointer-events: none;
+}
+
 
 /* =====================================================================
  * § 3  NAVIGATION
