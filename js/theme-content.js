@@ -46,27 +46,31 @@ window.KFTheme = (() => {
 
   function initThemeToggle() {
     const themeToggle = document.getElementById('theme-toggle');
-
+  
     if (!themeToggle) return;
-
+  
     const systemTheme = window.matchMedia('(prefers-color-scheme: light)');
-
-  function getCurrentTheme() {
-    const savedTheme = localStorage.getItem('kf-theme');
   
-    if (savedTheme === 'dark' || savedTheme === 'light') {
-      return savedTheme;
+    function getSystemTheme() {
+      return systemTheme.matches ? 'light' : 'dark';
     }
   
-    const currentTheme =
-      document.documentElement.getAttribute('data-theme');
+    function getCurrentTheme() {
+      const savedTheme = localStorage.getItem('kf-theme');
   
-    if (currentTheme === 'dark' || currentTheme === 'light') {
-      return currentTheme;
+      if (savedTheme === 'dark' || savedTheme === 'light') {
+        return savedTheme;
+      }
+  
+      const currentTheme =
+        document.documentElement.getAttribute('data-theme');
+  
+      if (currentTheme === 'dark' || currentTheme === 'light') {
+        return currentTheme;
+      }
+  
+      return getSystemTheme();
     }
-  
-    return getSystemTheme();
-  }
 
     function applyTheme(theme, shouldSave = true) {
       document.documentElement.setAttribute('data-theme', theme);
@@ -84,7 +88,10 @@ window.KFTheme = (() => {
       );
     }
 
-    applyTheme(getCurrentTheme(), false);
+    const savedTheme = localStorage.getItem('kf-theme');
+    const initialTheme = savedTheme || getSystemTheme();
+
+    applyTheme(initialTheme, false);
 
     themeToggle.addEventListener('click', () => {
       const currentTheme = getCurrentTheme();
