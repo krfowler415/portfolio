@@ -51,13 +51,22 @@ window.KFTheme = (() => {
 
     const systemTheme = window.matchMedia('(prefers-color-scheme: light)');
 
-    function getSystemTheme() {
-      return systemTheme.matches ? 'light' : 'dark';
+  function getCurrentTheme() {
+    const savedTheme = localStorage.getItem('kf-theme');
+  
+    if (savedTheme === 'dark' || savedTheme === 'light') {
+      return savedTheme;
     }
-
-    function getCurrentTheme() {
-      return document.documentElement.getAttribute('data-theme') || getSystemTheme();
+  
+    const currentTheme =
+      document.documentElement.getAttribute('data-theme');
+  
+    if (currentTheme === 'dark' || currentTheme === 'light') {
+      return currentTheme;
     }
+  
+    return getSystemTheme();
+  }
 
     function applyTheme(theme, shouldSave = true) {
       document.documentElement.setAttribute('data-theme', theme);
