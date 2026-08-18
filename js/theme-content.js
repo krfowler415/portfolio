@@ -47,8 +47,6 @@ window.KFTheme = (() => {
   function initThemeToggle() {
     const themeToggle = document.querySelector('[data-theme-toggle]');
   
-    if (!themeToggle) return;
-  
     const systemTheme = window.matchMedia('(prefers-color-scheme: light)');
   
     function getSystemTheme() {
