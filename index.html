@@ -62,7 +62,7 @@
     <script>
       (() => {
         const savedTheme = localStorage.getItem('kf-theme');
-        const systemPrefersLight = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
         const theme = savedTheme || (systemPrefersLight ? 'light' : 'dark');
 
         document.documentElement.setAttribute('data-theme', theme);
