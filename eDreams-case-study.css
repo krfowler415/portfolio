@@ -131,18 +131,53 @@ html { scroll-behavior: smooth; }
  * ===================================================================== */
 
 body {
-  background: radial-gradient(circle, #98A8D428 1px, transparent 1px) center / 28px 28px, var(--bg);
-  background-attachment: fixed;
+  background: transparent;
+
   color: var(--text);
   font-family: var(--Orb);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   cursor: none;
   overflow-x: hidden;
+
+  position: relative;
+  isolation: isolate;
 }
 
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
+
+
+/* =====================================================================
+ * INTERACTIVE BODY ENVIRONMENT
+ * ===================================================================== */
+
+:root {
+  --body-grid-dot: #98A8D428;
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  position: relative;
+  isolation: isolate;
+}
+
+#body-environment {
+  position: fixed;
+  inset: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  display: block;
+
+  z-index: -1;
+
+  pointer-events: none;
+}
 
 
 /* =====================================================================
