@@ -79,13 +79,21 @@ window.KFTheme = (() => {
         localStorage.setItem('kf-theme', theme);
       }
 
-      const isLight = theme === 'light';
-
-      themeToggle.setAttribute('aria-pressed', String(!isLight));
+    const isLight = theme === 'light';
+    
+      if (themeToggle) {
+      themeToggle.setAttribute(
+        'aria-pressed',
+        String(!isLight)
+      );
+    
       themeToggle.setAttribute(
         'aria-label',
-        isLight ? 'Switch to dark theme' : 'Switch to light theme'
+        isLight
+          ? 'Switch to dark theme'
+          : 'Switch to light theme'
       );
+      }
     }
 
     const savedTheme = localStorage.getItem('kf-theme');
