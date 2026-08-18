@@ -45,7 +45,7 @@ window.KFTheme = (() => {
   }
 
   function initThemeToggle() {
-    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggle = document.querySelector('[data-theme-toggle]');
   
     if (!themeToggle) return;
   
