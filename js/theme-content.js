@@ -106,18 +106,23 @@ function swapTerrain() {
 
     applyTheme(initialTheme, false);
 
-    themeToggle.addEventListener('click', () => {
-      const currentTheme = getCurrentTheme();
-      const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-      themeToggle.setAttribute('aria-pressed', nextTheme === 'dark' ? 'true' : 'false');
-
-      playThemeWipe(nextTheme, () => {
-        applyTheme(nextTheme);
-        swapTerrain(nextTheme);
-        swapFavicon(nextTheme);
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = getCurrentTheme();
+        const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+        themeToggle.setAttribute(
+          'aria-pressed',
+          nextTheme === 'dark' ? 'true' : 'false'
+        );
+    
+        playThemeWipe(nextTheme, () => {
+          applyTheme(nextTheme);
+          swapTerrain(nextTheme);
+          swapFavicon(nextTheme);
+        });
       });
-    });
+    }
 
     systemTheme.addEventListener('change', event => {
       const savedTheme = localStorage.getItem('kf-theme');
