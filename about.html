@@ -20,6 +20,8 @@
 
 <body>
 
+<canvas id="body-environment" aria-hidden="true"></canvas>
+
 <!-- ── Cursor ─────────────────────────────────────────────────────── -->
 
 <div id="cur"><div class="cur-dot"></div></div>
@@ -324,11 +326,12 @@
 
 <!-- ── js script ─────────────────────────────────────────────────────── -->
 
-    <script src="about.js"></script>
+  <script src="js/body-gravity-well.js"></script>
+  <script src="about.js"></script>
 
 <!-- ── vfx script ─────────────────────────────────────────────────────── -->
 
-    <script type="module">
+  <script type="module">
     /* ── VFX-JS pixel scan title rotation ─────────────────────────────
      *
      * u_t is a FUNCTION uniform — VFX-JS calls it every frame.
