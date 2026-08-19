@@ -156,19 +156,7 @@ nav {
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--px);
-  background: rgba(16, 8, 32, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid #FFFFFF0A;
   transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
-}
-
-nav.scrolled {
-  background: var(--bg-dark);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid #0AC39A25;
-  box-shadow: 0 1px 20px #0AC39A10;
 }
 
 .nav-logo {
@@ -176,9 +164,7 @@ nav.scrolled {
   font-style: italic;
   font-size: 1.5rem;
   color: var(--text);
-  text-shadow: 0 0 25px #F4F2FF35;
 }
-.nav-logo:hover { opacity: 0.8; color: var(--aurora-200); }
 
 /* Resume pill — right side of nav */
 .nav-resume {
@@ -190,43 +176,69 @@ nav.scrolled {
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--aurora-200);
   text-decoration: underline;
-  text-decoration-color: #0AC39A40;
   transition: color 0.2s ease;
 }
 
 .nav-resume:hover {
-  color: var(--text);
   text-decoration: none;
-  text-shadow: 0 0 12px var(--accent-aurora);
 }
 
 .nav-resume::before,
 .nav-resume::after {
   position: absolute;
   content: '';
-  right: 0; top: 0;
+  right: 0;
+  top: 0;
   background: var(--text);
   transition: all 0.3s ease;
 }
-.nav-resume::before { height: 0%; width: 1.5px; }
-.nav-resume::after  { width: 0%; height: 1.5px; }
-.nav-resume:hover::before { height: 100%; }
-.nav-resume:hover::after  { width: 100%; }
+
+.nav-resume::before {
+  height: 0%;
+  width: 1.5px;
+}
+
+.nav-resume::after {
+  width: 0%;
+  height: 1.5px;
+}
+
+.nav-resume:hover::before {
+  height: 100%;
+}
+
+.nav-resume:hover::after {
+  width: 100%;
+}
 
 .nav-resume span::before,
 .nav-resume span::after {
   position: absolute;
   content: '';
-  left: 0; bottom: 0;
+  left: 0;
+  bottom: 0;
   background: var(--text);
   transition: all 0.3s ease;
 }
-.nav-resume span::before { width: 1.5px; height: 0%; }
-.nav-resume span::after  { width: 0%; height: 1.5px; }
-.nav-resume:hover span::before { height: 100%; }
-.nav-resume:hover span::after  { width: 100%; }
+
+.nav-resume span::before {
+  width: 1.5px;
+  height: 0%;
+}
+
+.nav-resume span::after {
+  width: 0%;
+  height: 1.5px;
+}
+
+.nav-resume:hover span::before {
+  height: 100%;
+}
+
+.nav-resume:hover span::after {
+  width: 100%;
+}
 
 
 /* =====================================================================
