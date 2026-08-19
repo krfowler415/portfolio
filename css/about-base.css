@@ -19,105 +19,19 @@
  * =====================================================================
  */
 
-
 /* =====================================================================
  * § 1  VARIABLES & RESET
  * ===================================================================== */
 
-:root {
-  --pulsar-50:   #FFE8EE;
-  --pulsar-100:  #FFB0C8;
-  --pulsar-200:  #F87098;
-  --pulsar-400:  #C81858;
-  --pulsar-600:  #900840;
-  --pulsar-800:  #580428;
-  --pulsar-900:  #2C0114;
-
-  --cosmos-50:   #F0EAF8;
-  --cosmos-100:  #D4BAF0;
-  --cosmos-200:  #B080E0;
-  --cosmos-300:  #8B45D4;
-  --cosmos-400:  #5F259F;
-  --cosmos-600:  #431878;
-  --cosmos-800:  #2A0E50;
-  --cosmos-900:  #160828;
-
-  --aurora-50:   #E3FDF8;
-  --aurora-100:  #ADFAEC;
-  --aurora-200:  #7FF6E4;
-  --aurora-400:  #0AC39A;
-  --aurora-600:  #17A487;
-  --aurora-800:  #0F5042;
-  --aurora-900:  #0C1916;
-
-  --plasma-50:   #FFE8FA;
-  --plasma-100:  #FFB0F0;
-  --plasma-200:  #F870D8;
-  --plasma-400:  #C818A8;
-  --plasma-600:  #900878;
-  --plasma-800:  #580448;
-  --plasma-900:  #2C0124;
-
-  --aether-50:   #F0F2FA;
-  --aether-100:  #C8D0EC;
-  --aether-200:  #98A8D4;
-  --aether-400:  #5868A8;
-  --aether-600:  #384880;
-  --aether-800:  #202858;
-  --aether-900:  #101430;
-
-  --bg:          #100820;
-  --bg-dark:     #100820;
-  --bg-surface:  #1C1232;
-  --bg-raised:   #281842;
-  --bg-tint:     #5F259F47;
-
-  --text:        #F4F2FF;
-  --text-muted:  #C8D0EC;
-  --text-light:  #7FF6E4;
-  --text-inv:    #1C1210;
-
-  --primary:        #0AC39A;
-  --primary-hover:  #17A487;
-  --primary-lt:     #7FF6E4;
-  --primary-subtle: #0C1916;
-
-  --accent-pulsar:        #C81858;
-  --accent-pulsar-subtle: #2C0114;
-  --accent-cosmos:        #5F259F;
-  --accent-cosmos-subtle: #160828;
-  --accent-aurora:        #0AC39A;
-  --accent-aurora-subtle: #0C1916;
-  --accent-plasma:        #C818A8;
-  --accent-plasma-subtle: #2C0124;
-
-  --aether: #98A8D4;
-
-  --border:        #98A8D45A;
-  --border-subtle: #98A8D42D;
-
-  --aurora-glass: #0AC39A14;
-  --aurora-glow:  #0AC39A40;
-  --aurora-inset: #0AC39A0D;
-
-  --display: 'Audiowide', sans-serif;
-  --Ox:      'Oxanium', system-ui, sans-serif;
-  --Orb:     'Orbitron', sans-serif;
-
-  --max:      1100px;
-  --max-text:  640px;
-  --px:       clamp(1.25rem, 5vw, 3rem);
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-
-:focus-visible {
-  outline: 2px solid var(--accent-aurora);
-  outline-offset: 3px;
-  border-radius: 3px;
+html {
+  scroll-behavior: smooth;
 }
-
 
 /* =====================================================================
  * § 2  BODY & GLOBAL
@@ -209,10 +123,6 @@ a, button {
 /* =====================================================================
  * INTERACTIVE BODY ENVIRONMENT
  * ===================================================================== */
-
-:root {
-  --body-grid-dot: #98A8D428;
-}
 
 #body-environment {
   position: fixed;
