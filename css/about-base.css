@@ -256,14 +256,10 @@ nav {
 .cur-dot {
   position: absolute;
   width: 11px; height: 11px;
-  background: var(--accent-aurora);
   border-radius: 50%;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   transition: transform 0.12s ease;
-  box-shadow:
-    0 0 8px 2px var(--aurora-400),
-    0 0 20px 4px #0AC39A60;
 }
 
 body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
