@@ -953,8 +953,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 
 /* ── Card ── */
 .closing-card {
-  background: linear-gradient(135deg, var(--cosmos-900), var(--cosmos-800));
-  border: 1px solid var(--border);
   border-radius: 14px;
   padding: 3.5rem;
   display: flex;
@@ -964,10 +962,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   text-align: center;
   width: 100%;
   position: relative;
-  box-shadow:
-    0 0 0 1px #98A8D420,
-    0 0 50px #5F259F30,
-    inset 0 1px 0 #5F259F60;
 }
 
 /* Top-left corner bracket */
@@ -976,9 +970,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   position: absolute;
   top: 16px; left: 16px;
   width: 14px; height: 14px;
-  border-top: 1.5px solid var(--accent-aurora);
-  border-left: 1.5px solid var(--accent-aurora);
-  opacity: 0.5;
   pointer-events: none;
 }
 
@@ -988,9 +979,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   position: absolute;
   bottom: 16px; right: 16px;
   width: 14px; height: 14px;
-  border-bottom: 1.5px solid var(--accent-aurora);
-  border-right: 1.5px solid var(--accent-aurora);
-  opacity: 0.5;
   pointer-events: none;
 }
 
