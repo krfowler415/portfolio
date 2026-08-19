@@ -390,3 +390,38 @@
   box-shadow: 0 0 8px rgba(200, 24, 88, 0.3);
 }
 
+/* =====================================================================
+ * COSMOS CLOSING
+ * Dark-theme Closing card presentation only.
+ * Card structure and reveal mechanics remain in about-base.css.
+ * ===================================================================== */
+
+:root[data-theme="dark"] .closing-card {
+  background: linear-gradient(
+    135deg,
+    var(--cosmos-900),
+    var(--cosmos-800)
+  );
+
+  border: 1px solid var(--border);
+
+  box-shadow:
+    0 0 0 1px #98A8D420,
+    0 0 50px #5F259F30,
+    inset 0 1px 0 #5F259F60;
+}
+
+/* Top-left corner bracket — Cosmos presentation */
+:root[data-theme="dark"] .closing-card::before {
+  border-top: 1.5px solid var(--accent-aurora);
+  border-left: 1.5px solid var(--accent-aurora);
+  opacity: 0.5;
+}
+
+/* Bottom-right corner bracket — Cosmos presentation */
+:root[data-theme="dark"] .closing-card::after {
+  border-bottom: 1.5px solid var(--accent-aurora);
+  border-right: 1.5px solid var(--accent-aurora);
+  opacity: 0.5;
+}
+
