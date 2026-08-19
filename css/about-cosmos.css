@@ -161,20 +161,6 @@
 }
 
 /* =====================================================================
- * § 1  VARIABLES & RESET
- * ===================================================================== */
-
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-/* =====================================================================
  * § 2  COSMOS NAVIGATION
  * Dark-theme presentation only.
  * Structural nav layout remains in about-base.css.
