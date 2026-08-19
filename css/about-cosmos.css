@@ -1,1 +1,175 @@
+:root {
+  /* ================================================================
+   * PULSAR — rose / crimson / magenta-red family
+   * Used for warm accent energy, warnings, emphasis, timeline nodes,
+   * card accents, and high-contrast secondary highlights.
+   * ================================================================ */
 
+  --pulsar-50:   #FFE8EE; /* very pale blush pink */
+  --pulsar-100:  #FFB0C8; /* soft light rose */
+  --pulsar-200:  #F87098; /* bright coral-rose */
+  --pulsar-400:  #C81858; /* vivid crimson-magenta */
+  --pulsar-600:  #900840; /* deep raspberry red */
+  --pulsar-800:  #580428; /* dark wine / burgundy */
+  --pulsar-900:  #2C0114; /* near-black burgundy */
+
+  /* ================================================================
+   * COSMOS — violet / purple family
+   * Core dark-theme identity. Used for space-toned surfaces,
+   * gradients, cards, raised UI, and purple accent energy.
+   * ================================================================ */
+
+  --cosmos-50:   #F0EAF8; /* very pale lavender */
+  --cosmos-100:  #D4BAF0; /* soft lavender */
+  --cosmos-200:  #B080E0; /* medium lilac-purple */
+  --cosmos-300:  #8B45D4; /* vivid violet */
+  --cosmos-400:  #5F259F; /* primary cosmos purple */
+  --cosmos-600:  #431878; /* deep royal purple */
+  --cosmos-800:  #2A0E50; /* very dark violet */
+  --cosmos-900:  #160828; /* near-black purple */
+
+  /* ================================================================
+   * AURORA — mint / teal / emerald family
+   * Primary interactive color. Used for active states, focus,
+   * highlights, glow, status indicators, and primary actions.
+   * ================================================================ */
+
+  --aurora-50:   #E3FDF8; /* icy mint white */
+  --aurora-100:  #ADFAEC; /* pale mint */
+  --aurora-200:  #7FF6E4; /* bright aqua-mint */
+  --aurora-400:  #0AC39A; /* saturated emerald-teal */
+  --aurora-600:  #17A487; /* deeper teal */
+  --aurora-800:  #0F5042; /* dark forest teal */
+  --aurora-900:  #0C1916; /* near-black green-teal */
+
+  /* ================================================================
+   * PLASMA — pink / violet-magenta family
+   * More electric than Pulsar. Useful for neon secondary accents,
+   * decorative energy, and high-saturation visual effects.
+   * ================================================================ */
+
+  --plasma-50:   #FFE8FA; /* very pale pink-lilac */
+  --plasma-100:  #FFB0F0; /* light candy pink */
+  --plasma-200:  #F870D8; /* bright orchid pink */
+  --plasma-400:  #C818A8; /* vivid magenta */
+  --plasma-600:  #900878; /* deep fuchsia-purple */
+  --plasma-800:  #580448; /* dark plum-magenta */
+  --plasma-900:  #2C0124; /* near-black plum */
+
+  /* ================================================================
+   * AETHER — cool blue / lavender-gray family
+   * Neutral-support family used for muted text, borders,
+   * secondary information, and cool UI structure.
+   * ================================================================ */
+
+  --aether-50:   #F0F2FA; /* cool off-white / lavender-white */
+  --aether-100:  #C8D0EC; /* pale periwinkle-gray */
+  --aether-200:  #98A8D4; /* muted periwinkle blue */
+  --aether-400:  #5868A8; /* medium slate-indigo */
+  --aether-600:  #384880; /* deep slate blue */
+  --aether-800:  #202858; /* very dark indigo */
+  --aether-900:  #101430; /* near-black navy-indigo */
+
+  /* ================================================================
+   * BACKGROUNDS — semantic dark-theme surfaces
+   * ================================================================ */
+
+  --bg:          #100820;   /* main page background — near-black violet */
+  --bg-dark:     #100820;   /* deepest page/nav background */
+  --bg-surface:  #1C1232;   /* dark purple surface / card background */
+  --bg-raised:   #281842;   /* lighter raised dark-purple surface */
+  --bg-tint:     #5F259F47; /* translucent cosmos purple tint ~28% opacity */
+
+  /* ================================================================
+   * TEXT — semantic text colors
+   * ================================================================ */
+
+  --text:        #F4F2FF; /* primary text — soft lavender-white */
+  --text-muted:  #C8D0EC; /* secondary text — pale periwinkle */
+  --text-light:  #7FF6E4; /* bright highlighted text — aqua-mint */
+  --text-inv:    #1C1210; /* inverse text — near-black warm brown */
+
+  /* ================================================================
+   * PRIMARY — main interactive/action family
+   * Based on the Aurora teal palette.
+   * ================================================================ */
+
+  --primary:        #0AC39A; /* primary emerald-teal */
+  --primary-hover:  #17A487; /* darker teal hover state */
+  --primary-lt:     #7FF6E4; /* bright mint highlight */
+  --primary-subtle: #0C1916; /* very dark teal background/subtle state */
+
+  /* ================================================================
+   * ACCENTS — semantic shortcuts into the major color families
+   * ================================================================ */
+
+  --accent-pulsar:        #C81858; /* vivid crimson-magenta */
+  --accent-pulsar-subtle: #2C0114; /* near-black burgundy */
+
+  --accent-cosmos:        #5F259F; /* primary violet-purple */
+  --accent-cosmos-subtle: #160828; /* near-black violet */
+
+  --accent-aurora:        #0AC39A; /* primary emerald-teal */
+  --accent-aurora-subtle: #0C1916; /* near-black teal */
+
+  --accent-plasma:        #C818A8; /* vivid electric magenta */
+  --accent-plasma-subtle: #2C0124; /* near-black plum */
+
+  /* ================================================================
+   * AETHER SHORTCUT
+   * ================================================================ */
+
+  --aether: #98A8D4; /* muted periwinkle / cool blue-gray */
+
+  /* ================================================================
+   * BORDERS — translucent Aether blue
+   * 8-digit hex: final two digits control alpha/transparency.
+   * ================================================================ */
+
+  --border:        #98A8D45A; /* periwinkle border ~35% opacity */
+  --border-subtle: #98A8D42D; /* periwinkle border ~18% opacity */
+
+  /* ================================================================
+   * AURORA EFFECTS — translucent teal for glass/glow/inset effects
+   * ================================================================ */
+
+  --aurora-glass: #0AC39A14; /* teal glass tint ~8% opacity */
+  --aurora-glow:  #0AC39A40; /* teal glow ~25% opacity */
+  --aurora-inset: #0AC39A0D; /* very subtle teal inset ~5% opacity */
+
+  /* ================================================================
+   * BODY ENVIRONMENT
+   * ================================================================ */
+
+  --body-grid-dot: #98A8D428; /* muted periwinkle gravity-well dot ~16% opacity */
+
+  /* ================================================================
+   * TYPOGRAPHY
+   * ================================================================ */
+
+  --display: 'Audiowide', sans-serif;
+  --Ox:      'Oxanium', system-ui, sans-serif;
+  --Orb:     'Orbitron', sans-serif;
+
+  /* ================================================================
+   * LAYOUT
+   * ================================================================ */
+
+  --max:      1100px;
+  --max-text: 640px;
+  --px:       clamp(1.25rem, 5vw, 3rem);
+}
+
+/* =====================================================================
+ * § 1  VARIABLES & RESET
+ * ===================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
