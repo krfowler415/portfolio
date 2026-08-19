@@ -378,14 +378,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   left: 0; right: 0;
   top: -80px;
   height: 80px;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(10, 195, 154, 0.07) 25%,
-    rgba(10, 195, 154, 0.2) 50%,
-    rgba(10, 195, 154, 0.07) 75%,
-    transparent 100%
-  );
   pointer-events: none;
   z-index: 10;
 }
