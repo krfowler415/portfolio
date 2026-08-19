@@ -294,3 +294,45 @@
     0 0 20px 4px #0AC39A60;
 }
 
+/* =====================================================================
+ * COSMOS OFF THE CLOCK
+ * Dark-theme card presentation only.
+ * Card structure and hover movement remain in about-base.css.
+ * ===================================================================== */
+
+:root[data-theme="dark"] .off-card {
+  background:
+    linear-gradient(
+      135deg,
+      var(--cosmos-900),
+      var(--cosmos-800)
+    ) padding-box,
+    linear-gradient(
+      135deg,
+      var(--accent-pulsar) 0%,
+      var(--accent-cosmos) 100%
+    ) border-box;
+
+  box-shadow:
+    0 0 0 1px #98A8D418,
+    0 0 15px rgba(200, 24, 88, 0.1),
+    inset 0 1px 0 rgba(200, 24, 88, 0.15);
+}
+
+:root[data-theme="dark"] .off-card::before {
+  background: var(--accent-pulsar);
+  box-shadow: 2px 0 12px rgba(200, 24, 88, 0.5);
+}
+
+:root[data-theme="dark"] .off-card::after {
+  border-bottom: 1.5px solid var(--accent-aurora);
+  border-right: 1.5px solid var(--accent-aurora);
+}
+
+:root[data-theme="dark"] .off-card:hover {
+  box-shadow:
+    0 0 0 1px rgba(200, 24, 88, 0.3),
+    0 0 20px rgba(200, 24, 88, 0.12),
+    inset 0 1px 0 rgba(200, 24, 88, 0.2);
+}
+
