@@ -437,8 +437,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 
 .subject-mugshot {
   position: relative;
-  background: var(--bg-dark);
-  border-right: 1px solid var(--border-subtle);
   border-bottom-left-radius: 12.5px;
   overflow: hidden;
   display: flex;
