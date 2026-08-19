@@ -192,3 +192,14 @@
   opacity: 0.8;
   color: var(--aurora-200);
 }
+
+/* Resume link — Cosmos presentation */
+:root[data-theme="dark"] .nav-resume {
+  color: var(--aurora-200);
+  text-decoration-color: #0AC39A40;
+}
+
+:root[data-theme="dark"] .nav-resume:hover {
+  color: var(--text);
+  text-shadow: 0 0 12px var(--accent-aurora);
+}
