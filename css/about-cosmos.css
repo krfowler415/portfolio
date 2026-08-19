@@ -275,3 +275,9 @@
   );
 }
 
+/* Mugshot container — Cosmos presentation */
+:root[data-theme="dark"] .subject-mugshot {
+  background: var(--bg-dark);
+  border-right: 1px solid var(--border-subtle);
+}
+
