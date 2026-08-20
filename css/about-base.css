@@ -532,10 +532,11 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
 .subject-status::before {
   content: '';
   flex-shrink: 0;
-  width: 6px; height: 6px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--accent-aurora);
-  box-shadow: 0 0 6px var(--aurora-400);
+  box-shadow: 0 0 6px var(--accent-aurora);
   animation: statusPulse 2.2s ease-in-out infinite;
 }
 
@@ -1345,8 +1346,15 @@ footer {
 }
 
 @keyframes statusPulse {
-  0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--aurora-400); }
-  50%       { opacity: 0.4; box-shadow: none; }
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 6px var(--accent-aurora);
+  }
+
+  50% {
+    opacity: 0.4;
+    box-shadow: none;
+  }
 }
 
 @keyframes arrowBounce {
