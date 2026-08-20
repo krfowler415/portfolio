@@ -362,3 +362,38 @@
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
+
+
+/* =====================================================================
+ * § 4  LIGHT ABOUT HEADER
+ *
+ * Daylight atmospheric field for the About-page hero.
+ * Geometry and stacking remain in about-base.css.
+ *
+ * Uses the same environmental families as Home's daylight theme:
+ * blue sky, cloud light, and restrained solar warmth.
+ * ===================================================================== */
+
+:root[data-theme="light"] .about-header::before {
+  background:
+    /* Daylight sky atmosphere */
+    radial-gradient(
+      ellipse 88% 64% at 50% 0%,
+      rgba(114, 196, 232, 0.24) 0%,
+      transparent 70%
+    ),
+
+    /* Soft solar warmth from the upper-right */
+    radial-gradient(
+      ellipse 46% 42% at 88% 12%,
+      rgba(255, 240, 120, 0.12) 0%,
+      transparent 70%
+    ),
+
+    /* Cloud-light lift on the opposite side */
+    radial-gradient(
+      ellipse 52% 48% at 8% 62%,
+      rgba(255, 253, 247, 0.18) 0%,
+      transparent 72%
+    );
+}
