@@ -337,3 +337,28 @@
 :root[data-theme="light"] nav.scrolled .nav-resume:hover span::after {
   background: var(--nav-hover);
 }
+
+
+/* =====================================================================
+ * § 3  LIGHT TYPOGRAPHY
+ *
+ * Daylight section headings use Home's cactus/agave gradient rather
+ * than the Cosmos theme's Aurora/teal treatment.
+ *
+ * Typography geometry remains in about-base.css.
+ * ===================================================================== */
+
+:root[data-theme="light"] .sec-title {
+  background: linear-gradient(
+    135deg,
+    var(--text) 0%,
+    var(--cosmos-900) 30%,
+    var(--cosmos-600) 60%,
+    var(--cosmos-400) 90%
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
