@@ -454,3 +454,23 @@
     0 0 80px #0AC39A35;
 }
 
+/* Closing secondary links — Cosmos presentation */
+:root[data-theme="dark"] .c-secondary-link {
+  color: var(--aurora-200);
+  text-decoration: underline;
+  text-decoration-color: #0AC39A40;
+}
+
+:root[data-theme="dark"] .c-secondary-link:hover {
+  color: var(--text);
+  text-decoration: none;
+  text-shadow: 0 0 12px var(--accent-aurora);
+}
+
+:root[data-theme="dark"] .c-secondary-link::before,
+:root[data-theme="dark"] .c-secondary-link::after,
+:root[data-theme="dark"] .c-secondary-link span::before,
+:root[data-theme="dark"] .c-secondary-link span::after {
+  background: var(--text);
+}
+
