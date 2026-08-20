@@ -90,6 +90,15 @@
   --text-inv:    #1C1210; /* inverse text — near-black warm brown */
 
   /* ================================================================
+   * FOOTER
+   * Theme-specific footer text colors.
+   * Structure remains in about-base.css.
+   * ================================================================ */
+  
+  --footer-brand: var(--aurora-200); /* bright aqua-mint */
+  --footer-meta:  var(--pulsar-200); /* bright coral-rose */
+
+  /* ================================================================
    * PRIMARY — main interactive/action family
    * Based on the Aurora teal palette.
    * ================================================================ */
