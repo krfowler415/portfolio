@@ -139,6 +139,14 @@
   --text-on-dark:       var(--aether-50);
   --text-on-dark-muted: #DCE9D4;
 
+  
+  /* ================================================================
+ * NAVIGATION
+ * Warm mesa-rust hover shared by light-theme nav controls.
+ * ================================================================ */
+
+--nav-hover: var(--pulsar-800); /* dark mesa rust — #7F390F */
+
 
   /* ================================================================
    * FOOTER
