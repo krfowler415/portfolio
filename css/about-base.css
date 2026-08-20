@@ -1112,13 +1112,13 @@ footer {
   font-family: var(--display);
   font-style: italic;
   font-size: 0.92rem;
-  color: var(--footer-brand, var(--text));
+  color: var(--footer-brand);
 }
 
 .foot-r {
   font-family: var(--display);
   font-size: 0.72rem;
-  color: var(--footer-meta, var(--text-muted));
+  color: var(--footer-meta);
 }
 
 /* ── Theme Toggle Button ── */
