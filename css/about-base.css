@@ -1017,9 +1017,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   width: fit-content;
   padding: 1.25rem 3rem;
   gap: 1rem;
-  background: linear-gradient(135deg, var(--aurora-400) 0%, var(--cosmos-600) 100%);
   border-radius: 10px;
-  color: var(--text);
   font-family: var(--Orb);
   font-size: clamp(1rem, 2vw, 1.4rem);
   font-weight: 600;
@@ -1030,9 +1028,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   z-index: 1;
   cursor: none;
   transition: box-shadow 0.3s ease;
-  box-shadow:
-    0 0 25px #0AC39A50,
-    0 0 60px #0AC39A25;
 }
 
 .c-establish-btn::after {
@@ -1042,17 +1037,10 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   bottom: 0; left: 0;
   z-index: -1;
   border-radius: 10px;
-  background: linear-gradient(135deg, var(--cosmos-600) 0%, var(--aurora-400) 100%);
   transition: all 0.3s ease;
 }
 
 .c-establish-btn:hover::after { top: 0; height: 100%; }
-
-.c-establish-btn:hover {
-  box-shadow:
-    0 0 35px #0AC39A70,
-    0 0 80px #0AC39A35;
-}
 
 .c-establish-arrow {
   font-size: 2rem;
