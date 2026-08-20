@@ -220,3 +220,120 @@
   --aurora-glow:  rgba(35, 84, 43, 0.18);
   --aurora-inset: rgba(35, 84, 43, 0.07);
 }
+
+
+/* =====================================================================
+ * § 2  LIGHT NAVIGATION
+ *
+ * Daylight navigation mirrors Home's visual language:
+ * dark readable ink at the top, mesa-rust interaction accents,
+ * and a translucent sand surface once the page is scrolled.
+ *
+ * Positioning and interaction mechanics remain in about-base.css.
+ * ===================================================================== */
+
+/* ---------------------------------------------------------------------
+ * Default navigation
+ * --------------------------------------------------------------------- */
+
+:root[data-theme="light"] .nav-logo {
+  color: #07100A;
+
+  text-shadow:
+    0 1px 1px rgba(255, 255, 255, 0.30),
+    0 0 10px rgba(255, 255, 255, 0.18);
+}
+
+:root[data-theme="light"] .nav-logo:hover {
+  color: var(--nav-hover);
+  opacity: 1;
+}
+
+
+/* Resume link */
+:root[data-theme="light"] .nav-resume {
+  color: #07100A;
+
+  text-decoration-color: rgba(127, 57, 15, 0.40);
+
+  text-shadow:
+    0 1px 1px rgba(255, 255, 255, 0.25),
+    0 0 8px rgba(255, 255, 255, 0.14);
+}
+
+:root[data-theme="light"] .nav-resume:hover {
+  color: var(--nav-hover);
+  text-shadow: none;
+}
+
+
+/* Resume-link corner lines */
+:root[data-theme="light"] .nav-resume::before,
+:root[data-theme="light"] .nav-resume::after,
+:root[data-theme="light"] .nav-resume span::before,
+:root[data-theme="light"] .nav-resume span::after {
+  background: #07100A;
+}
+
+:root[data-theme="light"] .nav-resume:hover::before,
+:root[data-theme="light"] .nav-resume:hover::after,
+:root[data-theme="light"] .nav-resume:hover span::before,
+:root[data-theme="light"] .nav-resume:hover span::after {
+  background: var(--nav-hover);
+}
+
+
+/* ---------------------------------------------------------------------
+ * Scrolled navigation
+ * about.js already applies .scrolled after the existing threshold.
+ * --------------------------------------------------------------------- */
+
+:root[data-theme="light"] nav.scrolled {
+  background: rgba(243, 211, 154, 0.94);
+
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+
+  border-bottom: 1px solid var(--border);
+
+  box-shadow:
+    0 1px 20px rgba(27, 36, 28, 0.14);
+}
+
+
+/* Logo over sand panel */
+:root[data-theme="light"] nav.scrolled .nav-logo {
+  color: var(--text);
+  text-shadow: none;
+}
+
+:root[data-theme="light"] nav.scrolled .nav-logo:hover {
+  color: var(--nav-hover);
+}
+
+
+/* Resume link over sand panel */
+:root[data-theme="light"] nav.scrolled .nav-resume {
+  color: var(--aether-800);
+  text-shadow: none;
+}
+
+:root[data-theme="light"] nav.scrolled .nav-resume:hover {
+  color: var(--nav-hover);
+}
+
+
+/* Resume corner lines over sand panel */
+:root[data-theme="light"] nav.scrolled .nav-resume::before,
+:root[data-theme="light"] nav.scrolled .nav-resume::after,
+:root[data-theme="light"] nav.scrolled .nav-resume span::before,
+:root[data-theme="light"] nav.scrolled .nav-resume span::after {
+  background: var(--aether-800);
+}
+
+:root[data-theme="light"] nav.scrolled .nav-resume:hover::before,
+:root[data-theme="light"] nav.scrolled .nav-resume:hover::after,
+:root[data-theme="light"] nav.scrolled .nav-resume:hover span::before,
+:root[data-theme="light"] nav.scrolled .nav-resume:hover span::after {
+  background: var(--nav-hover);
+}
