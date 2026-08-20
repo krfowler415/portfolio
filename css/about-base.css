@@ -1066,16 +1066,7 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--aurora-200);
-  text-decoration: underline;
-  text-decoration-color: #0AC39A40;
   transition: color 0.2s ease;
-}
-
-.c-secondary-link:hover {
-  color: var(--text);
-  text-decoration: none;
-  text-shadow: 0 0 12px var(--accent-aurora);
 }
 
 .c-secondary-link::before,
@@ -1083,7 +1074,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   position: absolute;
   content: '';
   right: 0; top: 0;
-  background: var(--text);
   transition: all 0.3s ease;
 }
 .c-secondary-link::before { height: 0%; width: 1.5px; }
@@ -1096,7 +1086,6 @@ body.clicking .cur-dot { transform: translate(-50%, -50%) scale(0.5); }
   position: absolute;
   content: '';
   left: 0; bottom: 0;
-  background: var(--text);
   transition: all 0.3s ease;
 }
 .c-secondary-link span::before { width: 1.5px; height: 0%; }
