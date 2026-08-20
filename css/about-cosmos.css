@@ -304,6 +304,22 @@
 }
 
 /* =====================================================================
+ * COSMOS SECTION TITLE
+ * Dark-theme section titles with gradient effect.
+ * Section title structure and interaction remain in about-base.css.
+ * ===================================================================== */
+
+:root[data-theme="dark"] .sec-title {
+  background: linear-gradient(
+    135deg,
+    var(--text) 0%,
+    var(--aurora-100) 15%,
+    var(--aurora-200) 30%,
+    var(--aurora-400) 60%
+  );
+}
+
+/* =====================================================================
  * COSMOS OFF THE CLOCK
  * Dark-theme card presentation only.
  * Card structure and hover movement remain in about-base.css.
