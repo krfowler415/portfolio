@@ -1,1 +1,214 @@
+/*
+ * =====================================================================
+ *  SONORAN DAYLIGHT — ABOUT PAGE
+ *  Kevin Fowler | krfowler415.github.io/portfolio
+ * =====================================================================
+ *
+ *  Light-theme presentation for the About page.
+ *  Palette and semantic roles mirror Home's canonical light theme.
+ *
+ *  Structural layout and interaction mechanics remain in about-base.css.
+ * =====================================================================
+ */
 
+
+/* =====================================================================
+ * § 1  LIGHT THEME TOKENS
+ * ===================================================================== */
+
+:root[data-theme="light"] {
+
+  /* ================================================================
+   * AURORA — blue sky / daylight atmosphere
+   *
+   * In the light theme, Aurora no longer represents neon teal.
+   * It becomes the blue family sampled from the daytime sky.
+   * ================================================================ */
+
+  --aurora-50:  #F4FBFE; /* near-white sky tint */
+  --aurora-100: #DDF3FC; /* very pale sky blue */
+  --aurora-200: #BCE8F8; /* soft daylight blue */
+  --aurora-400: #72C4E8; /* clear sky blue */
+  --aurora-600: #2288C8; /* saturated medium blue */
+  --aurora-800: #1565A8; /* deep sky blue */
+  --aurora-900: #0F5795; /* darkest atmospheric blue */
+
+
+  /* ================================================================
+   * PULSAR — mesa orange / canyon rock
+   *
+   * Pulsar shifts from crimson-magenta in Cosmos to the warm
+   * orange/rust family of Arizona rock and desert terrain.
+   * ================================================================ */
+
+  --pulsar-50:  #FFF4E9; /* pale warm cream */
+  --pulsar-100: #FFD7AF; /* light sandstone peach */
+  --pulsar-200: #F7A35C; /* warm desert orange */
+  --pulsar-400: #E98435; /* vivid mesa orange */
+  --pulsar-600: #B75417; /* deep burnt orange */
+  --pulsar-800: #7F390F; /* dark canyon rust */
+  --pulsar-900: #4A210A; /* deepest earth brown-orange */
+
+
+  /* ================================================================
+   * COSMOS — cactus / agave green
+   *
+   * Cosmos becomes the primary structural green family in daylight.
+   * It carries much of the interface emphasis that Aurora teal
+   * carries in the dark theme.
+   * ================================================================ */
+
+  --cosmos-50:  #F0F7EA; /* pale sage */
+  --cosmos-100: #DCECCF; /* soft cactus tint */
+  --cosmos-200: #A7CF83; /* light agave green */
+  --cosmos-300: #70B551; /* fresh cactus green */
+  --cosmos-400: #3A962D; /* saturated vegetation green */
+  --cosmos-600: #276A24; /* deep cactus green */
+  --cosmos-800: #23542B; /* dark structural green */
+  --cosmos-900: #1E4223; /* deepest agave green */
+
+
+  /* ================================================================
+   * PLASMA — sunlight / solar gold
+   *
+   * Plasma moves away from electric magenta and becomes the warm
+   * yellow/gold family used for sunlight and solar accents.
+   * ================================================================ */
+
+  --plasma-50:  #FFFDF0; /* warm near-white */
+  --plasma-100: #FFF7C6; /* pale sunlight */
+  --plasma-200: #FFF078; /* bright sun yellow */
+  --plasma-400: #FFD23C; /* saturated solar gold */
+  --plasma-600: #C98E14; /* deep golden amber */
+  --plasma-800: #75510A; /* dark ochre */
+  --plasma-900: #472E05; /* deepest golden brown */
+
+
+  /* ================================================================
+   * AETHER — clouds / sand / mineral neutrals
+   *
+   * Aether supplies the warm neutral foundation of the daylight
+   * theme: cloud whites, Sonoran sand, and darker mineral tones.
+   * ================================================================ */
+
+  --aether-50:  #FFFDF7; /* cloud white */
+  --aether-100: #F4F2DE; /* warm off-white */
+  --aether-200: #F3D39A; /* hero-matched desert sand */
+  --aether-400: #D6B77C; /* darker sand / mineral tan */
+  --aether-600: #8E744F; /* muted earth brown */
+  --aether-800: #4E4030; /* dark mineral brown */
+  --aether-900: #292117; /* deepest warm neutral */
+
+
+  /* ================================================================
+   * RESTRICTED ALIEN / UFO COLORS
+   *
+   * Reserved for explicit spacecraft, tractor-beam, alien, or
+   * signal effects. These are not generic interface accents.
+   * ================================================================ */
+
+  --alien-skin: #28C19B;
+
+  --signal-teal:        #168F83;
+  --signal-teal-subtle: rgba(22, 143, 131, 0.14);
+
+
+  /* ================================================================
+   * BACKGROUNDS — semantic daylight surfaces
+   * ================================================================ */
+
+  --bg:         var(--aether-200); /* main desert-sand page foundation */
+  --bg-dark:    var(--aether-400); /* darker sand / recessed foundation */
+
+  --bg-surface: var(--aether-50);  /* clean light card surface */
+  --bg-raised:  var(--cosmos-50);  /* subtly green raised surface */
+
+  --bg-tint: rgba(35, 84, 43, 0.10); /* restrained cactus-green tint */
+
+
+  /* ================================================================
+   * TEXT — semantic daylight typography
+   * ================================================================ */
+
+  --text:       #0B2412; /* primary dark cactus ink */
+  --text-muted: #3F4C3E; /* softer green-gray secondary copy */
+
+  --text-light: var(--cosmos-800); /* structural green emphasis */
+  --text-inv:   var(--aether-50);  /* cloud-white inverse text */
+
+  --text-on-dark:       var(--aether-50);
+  --text-on-dark-muted: #DCE9D4;
+
+
+  /* ================================================================
+   * FOOTER
+   *
+   * Same semantic roles consumed by about-base.css.
+   * Actual palette mapping changes with the active theme.
+   * ================================================================ */
+
+  --footer-brand: var(--cosmos-800); /* dark cactus green */
+  --footer-meta:  var(--pulsar-800); /* dark mesa rust */
+
+
+  /* ================================================================
+   * PRIMARY — main interactive/action family
+   *
+   * Structural cactus green replaces Cosmos-mode Aurora teal as the
+   * default daylight interaction color.
+   * ================================================================ */
+
+  --primary:        var(--cosmos-800);
+  --primary-hover:  var(--cosmos-900);
+  --primary-lt:     var(--cosmos-400);
+  --primary-subtle: var(--cosmos-50);
+
+
+  /* ================================================================
+   * ACCENTS — component-facing semantic roles
+   * ================================================================ */
+
+  /* Mesa / canyon accent */
+  --accent-pulsar:        var(--pulsar-800);
+  --accent-pulsar-subtle: var(--pulsar-50);
+
+  /* Cactus / agave accent */
+  --accent-cosmos:        var(--cosmos-800);
+  --accent-cosmos-subtle: var(--cosmos-50);
+
+  /*
+   * Generic interface accent.
+   *
+   * The semantic name "accent-aurora" is retained because Base
+   * components already consume that role. In the daylight system
+   * the role maps to structural green rather than literal sky blue.
+   */
+  --accent-aurora:        var(--cosmos-800);
+  --accent-aurora-subtle: var(--cosmos-50);
+
+  /* Solar-gold accent */
+  --accent-plasma:        var(--plasma-800);
+  --accent-plasma-subtle: var(--plasma-50);
+
+
+  /* ================================================================
+   * NEUTRALS / BORDERS / EFFECTS
+   * ================================================================ */
+
+  --aether: var(--aether-600);
+  --dune:   var(--aether-400);
+
+  --border:        rgba(27, 36, 28, 0.26);
+  --border-subtle: rgba(27, 36, 28, 0.13);
+
+  /*
+   * Compatibility effect tokens.
+   *
+   * Existing Base components reference the Aurora-named effects,
+   * but generic daylight UI should glow/tint with structural green,
+   * not literal sky blue.
+   */
+  --aurora-glass: rgba(35, 84, 43, 0.08);
+  --aurora-glow:  rgba(35, 84, 43, 0.18);
+  --aurora-inset: rgba(35, 84, 43, 0.07);
+}
