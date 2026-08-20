@@ -552,3 +552,151 @@
   background: var(--aurora-400);
 }
 
+/* =====================================================================
+ * COSMOS TRAJECTORY
+ * Dark-theme presentation for The Long Version timeline.
+ * Layout and scroll-progress mechanics remain in about-base.css.
+ * ===================================================================== */
+
+/* Timeline text */
+:root[data-theme="dark"] .story-when {
+  color: var(--aether-200);
+}
+
+:root[data-theme="dark"] .story-when span {
+  color: var(--text-muted);
+}
+
+:root[data-theme="dark"] .story-entry p {
+  color: var(--text-muted);
+}
+
+/* Entry heading accents */
+:root[data-theme="dark"] .story-entry:nth-child(1) h3 {
+  color: var(--accent-aurora);
+}
+
+:root[data-theme="dark"] .story-entry:nth-child(2) h3 {
+  color: var(--cosmos-300);
+}
+
+:root[data-theme="dark"] .story-entry:nth-child(3) h3 {
+  color: var(--accent-pulsar);
+}
+
+/* Vertical glowing timeline */
+:root[data-theme="dark"] .story-list::before {
+  background: linear-gradient(
+    to bottom,
+    var(--accent-aurora) 0%,
+    var(--accent-cosmos) 50%,
+    var(--accent-pulsar) 100%
+  );
+
+  box-shadow:
+    0 0 6px var(--accent-aurora),
+    0 0 18px rgba(10,195,154,0.25);
+}
+
+
+/* ---------------------------------------------------------------------
+ * Timeline nodes
+ * --------------------------------------------------------------------- */
+
+:root[data-theme="dark"] .story-entry::before {
+  border-color: var(--bg);
+
+  background: var(--accent-aurora);
+
+  box-shadow:
+    0 0 0 1.5px var(--accent-aurora),
+    0 0 8px var(--accent-aurora),
+    0 0 20px rgba(10,195,154,0.3);
+
+  animation: pulseAurora 3s ease-in-out infinite;
+}
+
+:root[data-theme="dark"] .story-entry:nth-child(2)::before {
+  background: var(--accent-cosmos);
+
+  box-shadow:
+    0 0 0 1.5px var(--accent-cosmos),
+    0 0 8px var(--accent-cosmos),
+    0 0 20px rgba(95,37,159,0.35);
+
+  animation: pulseCosmos 3s ease-in-out 1s infinite;
+}
+
+:root[data-theme="dark"] .story-entry:nth-child(3)::before {
+  background: var(--accent-pulsar);
+
+  box-shadow:
+    0 0 0 1.5px var(--accent-pulsar),
+    0 0 8px var(--accent-pulsar),
+    0 0 20px rgba(200,24,88,0.3);
+
+  animation: pulsePulsar 3s ease-in-out 2s infinite;
+}
+
+
+/* ---------------------------------------------------------------------
+ * Cosmos node pulse effects
+ * These contain dark-theme-specific glow intensities/colors.
+ * --------------------------------------------------------------------- */
+
+@keyframes pulseAurora {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 1.5px var(--accent-aurora),
+      0 0 8px var(--accent-aurora),
+      0 0 20px rgba(10,195,154,0.3);
+  }
+
+  50% {
+    transform: scale(1.4);
+    box-shadow:
+      0 0 0 3px var(--accent-aurora),
+      0 0 20px var(--accent-aurora),
+      0 0 50px rgba(10,195,154,0.8),
+      0 0 90px rgba(10,195,154,0.35);
+  }
+}
+
+@keyframes pulseCosmos {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 1.5px var(--accent-cosmos),
+      0 0 8px var(--accent-cosmos),
+      0 0 20px rgba(95,37,159,0.35);
+  }
+
+  50% {
+    transform: scale(1.4);
+    box-shadow:
+      0 0 0 3px var(--accent-cosmos),
+      0 0 20px var(--accent-cosmos),
+      0 0 50px rgba(95,37,159,0.85),
+      0 0 90px rgba(95,37,159,0.4);
+  }
+}
+
+@keyframes pulsePulsar {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 1.5px var(--accent-pulsar),
+      0 0 8px var(--accent-pulsar),
+      0 0 20px rgba(200,24,88,0.3);
+  }
+
+  50% {
+    transform: scale(1.4);
+    box-shadow:
+      0 0 0 3px var(--accent-pulsar),
+      0 0 20px var(--accent-pulsar),
+      0 0 50px rgba(200,24,88,0.8),
+      0 0 90px rgba(200,24,88,0.35);
+  }
+}
