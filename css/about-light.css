@@ -395,3 +395,19 @@
     );
 }
 
+
+/* =====================================================================
+ * LIGHT CURSOR VISUALS
+ * Matches Home's daylight cursor treatment.
+ * Cursor geometry and interaction remain in about-base.css.
+ * ===================================================================== */
+
+:root[data-theme="light"] .cur-dot {
+  background: var(--cosmos-800);
+
+  box-shadow:
+    0 0 0 1px rgba(255, 253, 247, 0.46),
+    0 0 8px rgba(35, 84, 43, 0.32),
+    0 0 18px rgba(58, 150, 45, 0.18);
+}
+
