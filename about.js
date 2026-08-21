@@ -1,6 +1,572 @@
 // about.js
 // Sonoran Cosmos — Kevin Fowler
 
+// ── Interactive body environment ─────────────────────────────────────
+//
+// Page-owned About implementation.
+//
+// Cosmos:
+//   Regular periwinkle dot grid pulled toward the cursor.
+//
+// Light:
+//   Warm Sonoran particle field matching Home's daylight environment.
+//
+// The canvas geometry/stacking lives in about-base.css.
+//
+function initAboutBodyEnvironment() {
+  const fieldCanvas = document.getElementById('body-environment');
+  if (!fieldCanvas) return;
+
+  const fieldCtx = fieldCanvas.getContext('2d', {
+    alpha: true
+  });
+
+  if (!fieldCtx) return;
+
+  const root = document.documentElement;
+
+  const isTouchDevice =
+    window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
+  const reducedMotion =
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const canInteract =
+    !isTouchDevice && !reducedMotion;
+
+
+  // ── Shared gravity-field settings ────────────────────────────────
+
+  const DOT_SPACING = 28;
+  const DOT_RADIUS = 1;
+  const DOT_FIELD_RADIUS = 180;
+  const DOT_PULL = 0.17;
+
+  const FRAME_INTERVAL = 1000 / 45;
+
+
+  // ── Runtime state ────────────────────────────────────────────────
+
+  let width = 0;
+  let height = 0;
+  let dpr = 1;
+
+  let currentTheme = 'dark';
+
+  let dirty = true;
+  let lastFrameTime = 0;
+  let resizeTimer = null;
+
+  let palette = {
+    gridDot: '#98A8D428'
+  };
+
+  const pointer = {
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2,
+
+    targetX: window.innerWidth / 2,
+    targetY: window.innerHeight / 2,
+
+    inside: false,
+    strength: 0
+  };
+
+
+  // ── Theme + palette ──────────────────────────────────────────────
+
+  function readThemeAndPalette() {
+    currentTheme =
+      root.getAttribute('data-theme') === 'light'
+        ? 'light'
+        : 'dark';
+
+    const styles = getComputedStyle(root);
+
+    palette = {
+      gridDot:
+        styles
+          .getPropertyValue('--body-grid-dot')
+          .trim() ||
+        '#98A8D428'
+    };
+  }
+
+
+  // ── Canvas sizing ────────────────────────────────────────────────
+
+  function resizeBodyEnvironment() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+
+    dpr = Math.min(
+      window.devicePixelRatio || 1,
+      1.75
+    );
+
+    fieldCanvas.width =
+      Math.round(width * dpr);
+
+    fieldCanvas.height =
+      Math.round(height * dpr);
+
+    fieldCanvas.style.width =
+      `${width}px`;
+
+    fieldCanvas.style.height =
+      `${height}px`;
+
+    fieldCtx.setTransform(
+      dpr,
+      0,
+      0,
+      dpr,
+      0,
+      0
+    );
+
+    dirty = true;
+  }
+
+
+  // ── Cosmos: gravity-well dot grid ────────────────────────────────
+
+  function drawDarkGrid() {
+    const originX =
+      (width * 0.5) % DOT_SPACING;
+
+    const originY =
+      (height * 0.5) % DOT_SPACING;
+
+    fieldCtx.fillStyle =
+      palette.gridDot;
+
+    for (
+      let y = originY - DOT_SPACING;
+      y < height + DOT_SPACING;
+      y += DOT_SPACING
+    ) {
+      for (
+        let x = originX - DOT_SPACING;
+        x < width + DOT_SPACING;
+        x += DOT_SPACING
+      ) {
+        let drawX = x;
+        let drawY = y;
+
+        let scale = 1;
+        let opacity = 1;
+
+        if (pointer.strength > 0.001) {
+          const differenceX =
+            pointer.x - x;
+
+          const differenceY =
+            pointer.y - y;
+
+          const distance =
+            Math.hypot(
+              differenceX,
+              differenceY
+            );
+
+          if (
+            distance < DOT_FIELD_RADIUS &&
+            distance > 0.001
+          ) {
+            const normalized =
+              1 -
+              distance / DOT_FIELD_RADIUS;
+
+            const influence = (
+              normalized *
+              normalized *
+              (3 - 2 * normalized) *
+              pointer.strength
+            );
+
+            drawX +=
+              differenceX *
+              DOT_PULL *
+              influence;
+
+            drawY +=
+              differenceY *
+              DOT_PULL *
+              influence;
+
+            scale +=
+              0.35 * influence;
+
+            opacity +=
+              0.45 * influence;
+          }
+        }
+
+        fieldCtx.globalAlpha =
+          Math.min(1, opacity);
+
+        fieldCtx.beginPath();
+
+        fieldCtx.arc(
+          drawX,
+          drawY,
+          DOT_RADIUS * scale,
+          0,
+          Math.PI * 2
+        );
+
+        fieldCtx.fill();
+      }
+    }
+
+    fieldCtx.globalAlpha = 1;
+  }
+
+
+  // ── Light: Home's warm Sonoran particle field ───────────────────
+
+  function drawLightParticles() {
+    const spacing = 34;
+
+    const originX =
+      (width * 0.5) % spacing;
+
+    const originY =
+      (height * 0.5) % spacing;
+
+    for (
+      let y = originY - spacing;
+      y < height + spacing;
+      y += spacing
+    ) {
+      for (
+        let x = originX - spacing;
+        x < width + spacing;
+        x += spacing
+      ) {
+        let drawX = x;
+        let drawY = y;
+
+        let scale = 1;
+        let opacity = 0.3;
+
+        if (pointer.strength > 0.001) {
+          const diffX =
+            pointer.x - x;
+
+          const diffY =
+            pointer.y - y;
+
+          const dist =
+            Math.hypot(diffX, diffY);
+
+          if (
+            dist < DOT_FIELD_RADIUS &&
+            dist > 0.001
+          ) {
+            const normalized =
+              1 -
+              dist / DOT_FIELD_RADIUS;
+
+            const influence = (
+              normalized *
+              normalized *
+              (3 - 2 * normalized) *
+              pointer.strength
+            );
+
+            drawX +=
+              diffX *
+              DOT_PULL *
+              influence;
+
+            drawY +=
+              diffY *
+              DOT_PULL *
+              influence;
+
+            scale +=
+              0.4 * influence;
+
+            opacity +=
+              0.5 * influence;
+          }
+        }
+
+        /*
+         * Deterministic color variation.
+         * Same spatial point always receives the same color.
+         *
+         * Majority: desert gold
+         * Secondary: mesa orange
+         * Accent: Sonoran teal
+         */
+        const hueHash =
+          Math.sin(
+            x * 0.1 +
+            y * 0.13
+          ) * 0.5 + 0.5;
+
+        let hue;
+        let sat;
+        let light;
+
+        if (hueHash < 0.55) {
+          hue =
+            38 +
+            hueHash * 22;
+
+          sat = 62;
+          light = 56;
+
+        } else if (hueHash < 0.88) {
+          hue =
+            24 +
+            (hueHash - 0.55) * 28;
+
+          sat = 58;
+          light = 52;
+
+        } else {
+          hue =
+            162 +
+            (hueHash - 0.88) * 18;
+
+          sat = 52;
+          light = 48;
+        }
+
+        fieldCtx.globalAlpha =
+          Math.min(0.85, opacity);
+
+        fieldCtx.fillStyle =
+          `hsla(${hue.toFixed(1)}, ${sat}%, ${light}%, 1)`;
+
+        fieldCtx.beginPath();
+
+        fieldCtx.arc(
+          drawX,
+          drawY,
+          2.0 * scale,
+          0,
+          Math.PI * 2
+        );
+
+        fieldCtx.fill();
+      }
+    }
+
+    fieldCtx.globalAlpha = 1;
+  }
+
+
+  // ── Theme renderer ───────────────────────────────────────────────
+
+  function drawBodyEnvironment() {
+    fieldCtx.clearRect(
+      0,
+      0,
+      width,
+      height
+    );
+
+    if (currentTheme === 'light') {
+      drawLightParticles();
+    } else {
+      drawDarkGrid();
+    }
+  }
+
+
+  // ── Animation loop ───────────────────────────────────────────────
+
+  function renderBodyEnvironment(now) {
+    requestAnimationFrame(
+      renderBodyEnvironment
+    );
+
+    if (document.hidden) return;
+
+    const targetStrength =
+      canInteract && pointer.inside
+        ? 1
+        : 0;
+
+    const previousX =
+      pointer.x;
+
+    const previousY =
+      pointer.y;
+
+    const previousStrength =
+      pointer.strength;
+
+
+    // Soft delayed field-following behavior.
+    pointer.x += (
+      pointer.targetX -
+      pointer.x
+    ) * 0.14;
+
+    pointer.y += (
+      pointer.targetY -
+      pointer.y
+    ) * 0.14;
+
+    pointer.strength += (
+      targetStrength -
+      pointer.strength
+    ) * 0.10;
+
+
+    const stillMoving = (
+      Math.abs(
+        pointer.x -
+        previousX
+      ) +
+
+      Math.abs(
+        pointer.y -
+        previousY
+      ) +
+
+      Math.abs(
+        pointer.strength -
+        previousStrength
+      )
+    ) > 0.03;
+
+
+    if (
+      !dirty &&
+      !stillMoving
+    ) {
+      return;
+    }
+
+
+    if (
+      now - lastFrameTime <
+      FRAME_INTERVAL
+    ) {
+      return;
+    }
+
+
+    lastFrameTime = now;
+
+    drawBodyEnvironment();
+
+    dirty = false;
+  }
+
+
+  // ── Pointer tracking ─────────────────────────────────────────────
+
+  if (canInteract) {
+    document.addEventListener(
+      'mousemove',
+      event => {
+        pointer.targetX =
+          event.clientX;
+
+        pointer.targetY =
+          event.clientY;
+
+        pointer.inside = true;
+        dirty = true;
+      },
+      {
+        passive: true
+      }
+    );
+
+
+    document.documentElement.addEventListener(
+      'mouseleave',
+      () => {
+        pointer.inside = false;
+        dirty = true;
+      }
+    );
+
+
+    window.addEventListener(
+      'blur',
+      () => {
+        pointer.inside = false;
+        dirty = true;
+      }
+    );
+  }
+
+
+  // ── Resize handling ──────────────────────────────────────────────
+
+  window.addEventListener(
+    'resize',
+    () => {
+      clearTimeout(resizeTimer);
+
+      resizeTimer =
+        setTimeout(
+          () => {
+            resizeBodyEnvironment();
+            drawBodyEnvironment();
+          },
+          120
+        );
+    }
+  );
+
+
+  // ── Live theme switching ─────────────────────────────────────────
+
+  const themeObserver =
+    new MutationObserver(
+      mutations => {
+        const themeChanged =
+          mutations.some(
+            mutation =>
+              mutation.attributeName ===
+              'data-theme'
+          );
+
+        if (!themeChanged) return;
+
+        readThemeAndPalette();
+
+        dirty = true;
+      }
+    );
+
+
+  themeObserver.observe(
+    root,
+    {
+      attributes: true,
+      attributeFilter: [
+        'data-theme'
+      ]
+    }
+  );
+
+
+  // ── Initial setup ────────────────────────────────────────────────
+
+  readThemeAndPalette();
+  resizeBodyEnvironment();
+  drawBodyEnvironment();
+
+  requestAnimationFrame(
+    renderBodyEnvironment
+  );
+}
+
+initAboutBodyEnvironment();
+
+
 // ── Nav scroll state ─────────────────────────────────────────────────
 const nav = document.querySelector('nav');
 if (nav) {
