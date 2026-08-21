@@ -349,6 +349,8 @@
  * ===================================================================== */
 
 :root[data-theme="light"] .sec-title {
+  width: fit-content;
+  
   background-image: linear-gradient(
     135deg,
     var(--text) 0%,
