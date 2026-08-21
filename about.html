@@ -449,6 +449,7 @@
     uniform float enterTime;
     uniform float leaveTime;
     uniform float u_t;
+    uniform float u_theme;
     uniform int   mode;
     uniform float width;
     #define W width
@@ -471,10 +472,46 @@
       if(uvc.x<0.||uvc.x>1.||uvc.y<0.||uvc.y>1.)return vec4(0);
       float alpha=smoothstep(.0,.1,texture2D(src,uvc,3.).a);
       float sel=fract(hash(pi+vec2(47.3,23.7)));
-      vec3 pal;
-      if(sel<.50)pal=vec3(.039,.765,.604);
-      else if(sel<.85)pal=vec3(.373,.145,.624);
-      else pal=vec3(.784,.094,.345);
+      
+      /*
+       * Cosmos scan palette
+       * Aurora teal → Cosmos purple → Pulsar crimson
+       */
+      vec3 darkPal;
+      
+      if(sel<.50)
+        darkPal=vec3(.039,.765,.604);
+      else if(sel<.85)
+        darkPal=vec3(.373,.145,.624);
+      else
+        darkPal=vec3(.784,.094,.345);
+      
+      
+      /*
+       * Daylight scan palette
+       * Cactus green → Mesa orange → Solar gold
+       *
+       * --cosmos-400  #3A962D
+       * --pulsar-400  #E98435
+       * --plasma-400  #FFD23C
+       */
+      vec3 lightPal;
+      
+      if(sel<.50)
+        lightPal=vec3(.227,.588,.176);
+      else if(sel<.85)
+        lightPal=vec3(.914,.518,.208);
+      else
+        lightPal=vec3(1.000,.824,.235);
+      
+      
+      /*
+       * u_theme:
+       * 0 = Cosmos
+       * 1 = Light
+       */
+      vec3 pal=mix(darkPal,lightPal,u_theme);
+      
       vec4 color=vec4(pal,1.);
       float x=toRangeT(pi,scale);float n=hash(pi);
       float anim=smoothstep(W*2.,.0,abs(x+n*W-t));
@@ -544,10 +581,28 @@
       ctx.font         = '400 ' + getComputedStyle(h1).fontSize + ' Audiowide';
       ctx.textBaseline = 'middle';
       const g = ctx.createLinearGradient(0, 0, W, H);
-      g.addColorStop(0,    '#F4F2FF');
-      g.addColorStop(0.35, '#ADFAEC');
-      g.addColorStop(0.55, '#7FF6E4');
-      g.addColorStop(0.9,  '#0AC39A');
+      
+      if (isLightTheme()) {
+        /*
+         * Daylight title
+         * Matches the green family used by Home's light section titles.
+         */
+        g.addColorStop(0,    cssVar('--text'));
+        g.addColorStop(0.30, cssVar('--cosmos-900'));
+        g.addColorStop(0.60, cssVar('--cosmos-600'));
+        g.addColorStop(0.90, cssVar('--cosmos-400'));
+      
+      } else {
+        /*
+         * Existing About Cosmos title.
+         * Same colors and stops as before — now read from theme CSS.
+         */
+        g.addColorStop(0,    cssVar('--text'));
+        g.addColorStop(0.35, cssVar('--aurora-100'));
+        g.addColorStop(0.55, cssVar('--aurora-200'));
+        g.addColorStop(0.90, cssVar('--aurora-400'));
+      }
+      
       ctx.fillStyle = g;
       ctx.fillText(word, 0, H / 2);
       document.body.appendChild(cv);
@@ -566,8 +621,14 @@
           overflow: 40,
           intersection: { threshold: 0.1 },
           uniforms: {
-            u_t:   () => u_t,  // function uniform — called every frame
-            mode:  0,
+            u_t: () => u_t,
+          
+            u_theme: () =>
+              isLightTheme()
+                ? 1
+                : 0,
+          
+            mode: 0,
             width: 0.22,
           },
         });
