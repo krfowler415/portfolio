@@ -223,6 +223,86 @@
 
 
 /* =====================================================================
+ * LIGHT BODY / PAGE ATMOSPHERE
+ *
+ * Matches Home's Sonoran daylight foundation.
+ * The interactive particle field is rendered separately by about.js.
+ * ===================================================================== */
+
+:root[data-theme="light"] body {
+  background:
+    /* Fine mineral atmosphere */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23grain)' opacity='0.09'/%3E%3C/svg%3E"),
+
+    /* Large cloud-light field */
+    radial-gradient(
+      ellipse 115% 72% at -8% 0%,
+      rgba(255, 253, 247, 0.54) 0%,
+      transparent 66%
+    ),
+
+    /* Solar atmosphere */
+    radial-gradient(
+      ellipse 82% 56% at 105% 14%,
+      rgba(255, 240, 120, 0.16) 0%,
+      transparent 68%
+    ),
+
+    /* Mesa warmth */
+    radial-gradient(
+      ellipse 105% 72% at -6% 92%,
+      rgba(233, 132, 53, 0.12) 0%,
+      transparent 72%
+    ),
+
+    /* Cactus-field depth */
+    radial-gradient(
+      ellipse 86% 66% at 104% 90%,
+      rgba(30, 66, 35, 0.10) 0%,
+      transparent 74%
+    ),
+
+    /* Subtle environmental falloff */
+    radial-gradient(
+      ellipse 110% 90% at 50% 42%,
+      transparent 42%,
+      rgba(78, 64, 48, 0.055) 100%
+    ),
+
+    /* Desert-sand foundation */
+    var(--bg);
+
+  background-attachment:
+    fixed,
+    fixed,
+    fixed,
+    fixed,
+    fixed,
+    fixed,
+    fixed;
+
+  background-size:
+    240px 240px,
+    cover,
+    cover,
+    cover,
+    cover,
+    cover,
+    cover;
+
+  background-repeat:
+    repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat;
+
+  color: var(--text);
+}
+
+/* =====================================================================
  * § 2  LIGHT NAVIGATION
  *
  * Daylight navigation mirrors Home's visual language:
