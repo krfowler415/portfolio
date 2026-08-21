@@ -424,6 +424,20 @@
 
     const SCAN_MS = 2000;
 
+    // Theme Swap
+
+    const root = document.documentElement;
+
+    function isLightTheme() {
+      return root.getAttribute('data-theme') === 'light';
+    }
+    
+    function cssVar(name) {
+      return getComputedStyle(root)
+        .getPropertyValue(name)
+        .trim();
+    }
+
     // u_t: the single animation value VFX reads every frame
     let u_t = 0;
 
