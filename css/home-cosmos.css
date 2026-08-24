@@ -18,54 +18,81 @@
    *  Use raw tokens only when a semantic token doesn't exist.
    *  ─────────────────────────────────────────────────────────────── */
 
-  /* Pulsar — warning signal, UFO lights, tension */
-  --pulsar-50:   #FFE8EE;
-  --pulsar-100:  #FFB0C8;
-  --pulsar-200:  #F87098;
-  --pulsar-400:  #C81858;   /* primary accent value */
-  --pulsar-600:  #900840;
-  --pulsar-800:  #580428;
-  --pulsar-900:  #2C0114;
+/* ================================================================
+* PULSAR — rose / crimson / magenta-red family
+* Used for warm accent energy, warnings, emphasis, timeline nodes,
+* card accents, and high-contrast secondary highlights.
+* ================================================================ */
 
-  /* Cosmos — deep space, structural, s */
-  --cosmos-50:   #F0EAF8;
-  --cosmos-100:  #D4BAF0;
-  --cosmos-200:  #B080E0;
-  --cosmos-300:  #8B45D4;
-  --cosmos-400:  #5F259F;   /* primary accent value */
-  --cosmos-600:  #431878;
-  --cosmos-800:  #2A0E50;
-  --cosmos-900:  #160828;
+  --pulsar-50:   #FFE8EE; /* very pale blush pink */
+  --pulsar-100:  #FFB0C8; /* soft light rose */
+  --pulsar-200:  #F87098; /* bright coral-rose */
+  --pulsar-400:  #C81858; /* vivid crimson-magenta */
+  --pulsar-600:  #900840; /* deep raspberry red */
+  --pulsar-800:  #580428; /* dark wine / burgundy */
+  --pulsar-900:  #2C0114; /* near-black burgundy */
 
-  /* Aurora — alien energy, interactive, emissive (source: alien image) */
-  --aurora-50:   #E3FDF8;
-  --aurora-100:  #ADFAEC;
-  --aurora-200:  #7FF6E4;   /* light variant — glow contexts */
-  --aurora-400:  #0AC39A;   /* primary interactive value */
-  --aurora-600:  #17A487;
-  --aurora-800:  #0F5042;
-  --aurora-900:  #0C1916;
+/* ================================================================
+* COSMOS — violet / purple family
+* Core dark-theme identity. Used for space-toned surfaces,
+* gradients, cards, raised UI, and purple accent energy.
+* ================================================================ */
 
-  /* Plasma — exotic accent, used in one place only */
-  --plasma-50:   #FFE8FA;
-  --plasma-100:  #FFB0F0;
-  --plasma-200:  #F870D8;
-  --plasma-400:  #C818A8;   /* primary accent value */
-  --plasma-600:  #900878;
-  --plasma-800:  #580448;
-  --plasma-900:  #2C0124;
+  --cosmos-50:   #F0EAF8; /* very pale lavender */
+  --cosmos-100:  #D4BAF0; /* soft lavender */
+  --cosmos-200:  #B080E0; /* medium lilac-purple */
+  --cosmos-300:  #8B45D4; /* vivid violet */
+  --cosmos-400:  #5F259F; /* primary cosmos purple */
+  --cosmos-600:  #431878; /* deep royal purple */
+  --cosmos-800:  #2A0E50; /* very dark violet */
+  --cosmos-900:  #160828; /* near-black purple */
 
-  /* Aether — moonlight, ambient, non-glowing UI chrome */
-  --aether-50:   #F0F2FA;
-  --aether-100:  #C8D0EC;   /* secondary text, nav default */
-  --aether-200:  #98A8D4;   /* borders, neutral chrome */
-  --aether-400:  #5868A8;
-  --aether-600:  #384880;
-  --aether-800:  #202858;
-  --aether-900:  #101430;
+/* ================================================================
+* AURORA — mint / teal / emerald family
+* Primary interactive color. Used for active states, focus,
+* highlights, glow, status indicators, and primary actions.
+* ================================================================ */
+
+  --aurora-50:   #E3FDF8; /* icy mint white */
+  --aurora-100:  #ADFAEC; /* pale mint */
+  --aurora-200:  #7FF6E4; /* bright aqua-mint */
+  --aurora-400:  #0AC39A; /* saturated emerald-teal */
+  --aurora-600:  #17A487; /* deeper teal */
+  --aurora-800:  #0F5042; /* dark forest teal */
+  --aurora-900:  #0C1916; /* near-black green-teal */
+
+/* ================================================================
+* PLASMA — pink / violet-magenta family
+* More electric than Pulsar. Useful for neon secondary accents,
+* decorative energy, and high-saturation visual effects.
+* ================================================================ */
+
+  --plasma-50:   #FFE8FA; /* very pale pink-lilac */
+  --plasma-100:  #FFB0F0; /* light candy pink */
+  --plasma-200:  #F870D8; /* bright orchid pink */
+  --plasma-400:  #C818A8; /* vivid magenta */
+  --plasma-600:  #900878; /* deep fuchsia-purple */
+  --plasma-800:  #580448; /* dark plum-magenta */
+  --plasma-900:  #2C0124; /* near-black plum */
+
+/* ================================================================
+* AETHER — cool blue / lavender-gray family
+* Neutral-support family used for muted text, borders,
+* secondary information, and cool UI structure.
+* ================================================================ */
+
+  --aether-50:   #F0F2FA; /* cool off-white / lavender-white */
+  --aether-100:  #C8D0EC; /* pale periwinkle-gray */
+  --aether-200:  #98A8D4; /* muted periwinkle blue */
+  --aether-400:  #5868A8; /* medium slate-indigo */
+  --aether-600:  #384880; /* deep slate blue */
+  --aether-800:  #202858; /* very dark indigo */
+  --aether-900:  #101430; /* near-black navy-indigo */
 
 
-  /* ── Semantic  Tokens ─────────────────────────────────── */
+/* ================================================================
+* BACKGROUNDS — semantic dark-theme surfaces
+* ================================================================ */
   --bg:          #100820;   /* LOCKED — must match terrain SVG gradient */
   --bg-dark:     #100820;   /* nav glass base */
   --bg-surface:  #1C1232;   /* card s */
@@ -73,66 +100,100 @@
   --bg-tint:     #5F259F47; /* tag / chip fill */
   --bg-marquee:  #17A487;   /* aurora-600 — marquee strip */
 
-  /* ── Semantic Text Tokens ────────────────────────────────────────── */
-  --text:        #F4F2FF;   /* primary — near-white with cool tint */
-  --text-muted:  #C8D0EC;   /* secondary — aether-100, moonlit ambient */
-  --text-light:  #7FF6E4;   /* tertiary — aurora-200, footer / meta */
-  --text-inv:    #1C1210;   /* dark text on light surfaces (light mode) */
+/* ================================================================
+* TEXT — semantic text colors
+* ================================================================ */
 
-  /* ── Footer ─────────────────────────────────────────────────────── */
-  --footer-brand: var(--aurora-200);
-  --footer-meta:  var(--pulsar-200);
+  --text:        #F4F2FF; /* primary text — soft lavender-white */
+  --text-muted:  #C8D0EC; /* secondary text — pale periwinkle */
+  --text-light:  #7FF6E4; /* bright highlighted text — aqua-mint */
+  --text-inv:    #1C1210; /* inverse text — near-black warm brown */
 
-  /* ── Primary Action — Aurora Teal ───────────────────────────────── */
-  --primary:        #0AC39A;
-  --primary-hover:  #17A487;
-  --primary-lt:     #7FF6E4;   /* light variant for gradients */
-  --primary-subtle: #0C1916;   /* very dark teal  tint */
+/* ================================================================
+* FOOTER
+* Theme-specific footer text colors.
+* Structure remains in about-base.css.
+* ================================================================ */
+  
+  --footer-brand: var(--aurora-200); /* bright aqua-mint */
+  --footer-meta:  var(--pulsar-200); /* bright coral-rose */
 
-  /* ── Named Accent Aliases (semantic, component-facing) ──────────── */
-  --accent-pulsar:           #C81858;
-  --accent-pulsar-subtle:    #2C0114;
-  --accent-cosmos:           #5F259F;
-  --accent-cosmos-subtle:    #160828;
-  --accent-aurora:           #0AC39A;
-  --accent-aurora-subtle:    #0C1916;
-  --accent-plasma:           #C818A8;   /* ONE USE: "More about me →" */
-  --accent-plasma-subtle:    #2C0124;
-  --accent-turquoise:        #0F5042;
-  --accent-turquoise-subtle: #0C1916;
+/* ================================================================
+* PRIMARY — main interactive/action family
+* Based on the Aurora teal palette.
+* ================================================================ */
 
-  /* ── Neutral Aliases ─────────────────────────────────────────────── */
-  --aether: #98A8D4;         /* general-purpose mid neutral */
+  --primary:        #0AC39A; /* primary emerald-teal */
+  --primary-hover:  #17A487; /* darker teal hover state */
+  --primary-lt:     #7FF6E4; /* bright mint highlight */
+  --primary-subtle: #0C1916; /* very dark teal background/subtle state */
+
+/* ================================================================
+* ACCENTS — semantic shortcuts into the major color families
+* ================================================================ */
+
+  --accent-pulsar:        #C81858; /* vivid crimson-magenta */
+  --accent-pulsar-subtle: #2C0114; /* near-black burgundy */
+
+  --accent-cosmos:        #5F259F; /* primary violet-purple */
+  --accent-cosmos-subtle: #160828; /* near-black violet */
+
+  --accent-aurora:        #0AC39A; /* primary emerald-teal */
+  --accent-aurora-subtle: #0C1916; /* near-black teal */
+
+  --accent-plasma:        #C818A8; /* vivid electric magenta */
+  --accent-plasma-subtle: #2C0124; /* near-black plum */
+
+/* ================================================================
+* NEUTRAL ALIASES - general purpose
+* ================================================================ */
+
+  --aether: #98A8D4;         /* muted periwinkle / cool blue-gray */
   --dune:   #D8B090;         /* warm sand — reserved for light mode */
 
-  /* ── Border Tokens — aether at controlled opacity ────────────────── */
-  --border:        #98A8D45A;   /* standard border */
-  --border-subtle: #98A8D42D;   /* ghost border, arrow fill */
+/* ================================================================
+* BORDERS — translucent Aether blue
+* 8-digit hex: final two digits control alpha/transparency.
+* ================================================================ */
 
-  /* ── Aurora Transparency Set — for glow and bloom effects only ───── */
-  --aurora-glass: #0AC39A14;   /* arrow hover fill */
-  --aurora-glow:  #0AC39A40;   /* arrow hover outer shadow */
-  --aurora-inset: #0AC39A0D;   /* arrow hover inner shadow */
+  --border:        #98A8D45A; /* periwinkle border ~35% opacity */
+  --border-subtle: #98A8D42D; /* periwinkle border ~18% opacity */
 
-  /* ── Shared Interactive Body Environment ─────────────────────────── */
-  --body-grid-dot: #98A8D428;
+/* ================================================================
+* AURORA EFFECTS — translucent teal for glass/glow/inset effects
+* ================================================================ */
 
-  /* ── Typography ──────────────────────────────────────────────────────
-   *  Token names map to role, not literal type classification.
-   *  --display  Audiowide  named for what it is: a display typeface
-   *  --Ox       Oxanium    the non-sans secondary slot
-   *  --Orb      Orbitron    copy and all UI chrome
-   *  ─────────────────────────────────────────────────────────────── */
-  --display:  'Audiowide', sans-serif;
-  --Ox:       'Oxanium', system-ui, sans-serif;
-  --Orb:      'Orbitron', sans-serif;
+  --aurora-glass: #0AC39A14; /* teal glass tint ~8% opacity */
+  --aurora-glow:  #0AC39A40; /* teal glow ~25% opacity */
+  --aurora-inset: #0AC39A0D; /* very subtle teal inset ~5% opacity */
 
-  /* ── Layout ──────────────────────────────────────────────────────── */
-  --max: 1100px;                         /* max content width */
-  --px:  clamp(1.25rem, 5vw, 3rem);      /* fluid horizontal padding */
+/* ================================================================
+* BODY ENVIRONMENT
+* ================================================================ */
+
+  --body-grid-dot: #98A8D428; /* muted periwinkle gravity-well dot ~16% opacity */
+
+/* ================================================================
+* TYPOGRAPHY
+* ================================================================ */
+
+  --display: 'Audiowide', sans-serif;
+  --Ox:      'Oxanium', system-ui, sans-serif;
+  --Orb:     'Orbitron', sans-serif;
+
+/* ================================================================
+* LAYOUT
+* ================================================================ */
+
+  --max:      1100px;
+  --max-text: 640px;
+  --px:       clamp(1.25rem, 5vw, 3rem);
 }
 
-  /* ── Card Holo Colors - Dark Theme ───────────────────────────────── */
+/* ================================================================
+* CARD HOLO COLORS - Dark Theme
+* ================================================================ */
+
   :root[data-theme="dark"] {
     --holo-c1: var(--pulsar-400);
     --holo-c2: var(--plasma-400);
