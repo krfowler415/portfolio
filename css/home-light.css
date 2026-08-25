@@ -670,33 +670,33 @@
   --project-vis-bg:
     linear-gradient(
       135deg,
-      #003438 0%,
-      #38241A 100%
+      var(--cosmos-900) 0%,
+      var(--aether-900) 100%
     );
 
-  --project-vis-color: rgba(227, 212, 173, 0.60);
+  --project-vis-color: rgba(220, 236, 207, 0.72);
 }
 
 :root[data-theme="light"] .project--vanguard {
   --project-vis-bg:
     linear-gradient(
       135deg,
-      #2A0E50 0%,
-      #003438 100%
+      var(--aether-900) 0%,
+      var(--aurora-900) 100%
     );
 
-  --project-vis-color: rgba(176, 128, 224, 0.70);
+  --project-vis-color: rgba(188, 232, 248, 0.78);
 }
 
 :root[data-theme="light"] .project--path-success {
   --project-vis-bg:
     linear-gradient(
       135deg,
-      #38241A 0%,
-      #280408 100%
+      var(--pulsar-900) 0%,
+      var(--plasma-900) 100%
     );
 
-  --project-vis-color: rgba(216, 176, 144, 0.70);
+  --project-vis-color: rgba(255, 240, 120, 0.72);
 }
 
 :root[data-theme="light"] .card-vis::before {
