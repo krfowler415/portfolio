@@ -1093,7 +1093,10 @@ a.card-feat,
     saturate(1.4);
 }
 
-.card-vis-tag,
+.card-vis-tag {
+  z-index: 4;
+}
+
 .card-body h3,
 .card-body p,
 .card-body .c-tags,
@@ -1101,7 +1104,6 @@ a.card-feat,
   position: relative;
   z-index: 4;
 }
-
 /* =====================================================================
  * § 8  HOME ABOUT STRUCTURE
  * ===================================================================== */
