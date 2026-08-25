@@ -662,11 +662,21 @@
 :root[data-theme="light"] .project--vanguard,
 :root[data-theme="light"] .project--path-success {
   --project-vis-bg:
+    radial-gradient(
+      120% 120% at 0% 100%,
+      rgba(74, 33, 10, 0.22) 0%,
+      rgba(74, 33, 10, 0) 42%
+    ),
+    radial-gradient(
+      100% 100% at 100% 0%,
+      rgba(58, 150, 45, 0.08) 0%,
+      rgba(58, 150, 45, 0) 36%
+    ),
     linear-gradient(
       135deg,
-      var(--aether-900) 0%,
-      var(--aether-900) 40%,
-      var(--pulsar-900) 100%
+      #1e1a15 0%,
+      #201a14 42%,
+      #241a14 100%
     );
 }
 
