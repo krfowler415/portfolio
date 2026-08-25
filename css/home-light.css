@@ -661,8 +661,8 @@
   --project-vis-bg:
     linear-gradient(
       135deg,
-      #160828 0%,
-      #280408 100%
+      var(--aether-900) 0%,
+      var(--pulsar-900) 100%
     );
 }
 
