@@ -680,12 +680,16 @@
 :root[data-theme="light"] .project--vanguard {
   --project-vis-bg:
     linear-gradient(
+      rgba(41, 33, 23, 0.18),
+      rgba(41, 33, 23, 0.18)
+    ),
+    linear-gradient(
       135deg,
       var(--aether-900) 0%,
       var(--aurora-900) 100%
     );
 
-  --project-vis-color: rgba(188, 232, 248, 0.78);
+  --project-vis-color: rgba(188, 232, 248, 0.72);
 }
 
 :root[data-theme="light"] .project--path-success {
