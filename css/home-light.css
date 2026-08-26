@@ -126,11 +126,14 @@
   --text-on-dark-muted: #DCE9D4;
   
 /* ================================================================
- * NAVIGATION
- * Warm mesa-rust hover shared by light-theme nav controls.
- * ================================================================ */
+* NAVIGATION
+* Surface-aware daylight interaction colors.
+* Solar is used over the transparent hero/sky.
+* Cactus green is used once the nav sits on sand.
+* ================================================================ */
 
---nav-hover: var(--pulsar-800); /* dark mesa rust — #7F390F */
+  --nav-hero-hover:     var(--plasma-200);
+  --nav-scrolled-hover: var(--cosmos-600);
 
 /* ================================================================
 * FOOTER
@@ -178,8 +181,7 @@
   --accent-plasma:        var(--plasma-800);
   --accent-plasma-subtle: var(--plasma-50);
   
-  /* Light-theme interaction */
-  --accent-cactus-active: #276A24;
+  /* Light-theme interaction - Prickly Pear */
   --accent-bloom: #A22E68;
 
 /* ================================================================
@@ -402,31 +404,38 @@
  * § 3  LIGHT NAVIGATION
  * ===================================================================== */
 
-/* Unified hover accent — mesa rust, readable on sky + sand */
-:root[data-theme="light"] {
-  --nav-hover: var(--accent-cactus-active);
-}
-
 /* ── Transparent nav over sky blue ─────────────────────────────── */
 
 :root[data-theme="light"] .nav-logo {
   color: #07100A;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.30), 0 0 10px rgba(255, 255, 255, 0.18);
+  text-shadow: 
+    0 1px 1px rgba(255, 255, 255, 0.30), 
+    0 0 10px rgba(255, 255, 255, 0.18);
   transition: color 0.2s ease;
 }
 
 :root[data-theme="light"] .nav-logo:hover {
-  color: var(--nav-hover);
+  color: var(--nav-hero-hover);
+  text-shadow:
+    0 1px 1px rgba(11, 36, 18, 0.55),
+    0 0 6px rgba(11, 36, 18, 0.30),
+    0 0 12px rgba(255, 210, 60, 0.20);
 }
 
 :root[data-theme="light"] .nav-links a {
   color: #07100A;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.25), 0 0 8px rgba(255, 255, 255, 0.14);
+  text-shadow: 
+    0 1px 1px rgba(255, 255, 255, 0.25), 
+    0 0 8px rgba(255, 255, 255, 0.14);
   transition: color 0.2s ease;
 }
 
 :root[data-theme="light"] .nav-links a:hover {
-  color: var(--nav-hover);
+  color: var(--nav-hero-hover);
+  text-shadow:
+    0 1px 1px rgba(11, 36, 18, 0.55),
+    0 0 6px rgba(11, 36, 18, 0.30),
+    0 0 12px rgba(255, 210, 60, 0.20);
 }
 
 /* Border animation lines follow the hover color */
@@ -442,7 +451,7 @@
 :root[data-theme="light"] .nav-links a:hover::after,
 :root[data-theme="light"] .nav-links a:hover span::before,
 :root[data-theme="light"] .nav-links a:hover span::after {
-  background: var(--nav-hover);
+  background: var(--nav-hero-hover);
 }
 
 :root[data-theme="light"] #nav-toggle span {
@@ -451,18 +460,24 @@
 }
 
 :root[data-theme="light"] #nav-toggle:hover span {
-  background: var(--nav-hover);
+  background: var(--nav-hero-hover);
 }
 
-/* Availability badge — dot stays green, text shifts to rust */
+/* Availability badge — dot stays green, text shifts to solar over hero */
 :root[data-theme="light"] .hero-us {
   color: var(--text);
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.30), 0 0 8px rgba(255, 255, 255, 0.16);
+  text-shadow: 
+    0 1px 1px rgba(255, 255, 255, 0.30), 
+    0 0 8px rgba(255, 255, 255, 0.16);
   transition: color 0.2s ease;
 }
 
 :root[data-theme="light"] .hero-us:hover {
-  color: var(--nav-hover);
+  color: var(--nav-hero-hover);
+  text-shadow:
+    0 1px 1px rgba(11, 36, 18, 0.55),
+    0 0 6px rgba(11, 36, 18, 0.30),
+    0 0 12px rgba(255, 210, 60, 0.20);
 }
 
 /* ── Scrolled nav over sand ───────────────────────────────────── */
@@ -481,7 +496,8 @@
 }
 
 :root[data-theme="light"] nav.scrolled .nav-logo:hover {
-  color: var(--nav-hover);
+  color: var(--nav-scrolled-hover);
+  text-shadow: none;
 }
 
 /* Scrolled links: lighter default so the hover jump is visible */
@@ -491,7 +507,8 @@
 }
 
 :root[data-theme="light"] nav.scrolled .nav-links a:hover {
-  color: var(--nav-hover);
+  color: var(--nav-scrolled-hover);
+  text-shadow: none;
 }
 
 :root[data-theme="light"] nav.scrolled .nav-links a::before,
@@ -505,7 +522,7 @@
 :root[data-theme="light"] nav.scrolled .nav-links a:hover::after,
 :root[data-theme="light"] nav.scrolled .nav-links a:hover span::before,
 :root[data-theme="light"] nav.scrolled .nav-links a:hover span::after {
-  background: var(--nav-hover);
+  background: var(--nav-scrolled-hover);
 }
 
 :root[data-theme="light"] nav.scrolled #nav-toggle span {
@@ -513,7 +530,7 @@
 }
 
 :root[data-theme="light"] nav.scrolled #nav-toggle:hover span {
-  background: var(--nav-hover);
+  background: var(--nav-scrolled-hover);
 }
 
 :root[data-theme="light"] nav.scrolled .hero-us {
@@ -522,9 +539,9 @@
 }
 
 :root[data-theme="light"] nav.scrolled .hero-us:hover {
-  color: var(--nav-hover);
+  color: var(--nav-scrolled-hover);
+  text-shadow: none;
 }
-
 
 /* =====================================================================
  * § 4  LIGHT SECTION ATMOSPHERES
