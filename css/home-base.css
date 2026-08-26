@@ -1418,7 +1418,11 @@ a.card-feat,
   text-decoration: none;
   position: relative;
   z-index: 1;
-  transition: opacity 0.2s ease;
+  transform: translateY(0);
+  transition:
+    transform 0.16s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.18s ease,
+    filter 0.18s ease;
 }
 
 .c-cta-btn::after {
@@ -1445,6 +1449,16 @@ a.card-feat,
 
 .c-cta-btn:hover .c-cta-arrow {
   transform: translateX(4px);
+}
+
+/* Subtle physical response for the primary contact CTA */
+.c-cta-btn:hover {
+  transform: translateY(-1px);
+}
+
+.c-cta-btn:active {
+  transform: translateY(3px);
+  transition-duration: 0.07s;
 }
 
 .c-secondary {
