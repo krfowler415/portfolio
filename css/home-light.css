@@ -937,8 +937,21 @@
     );
 
   color: var(--aether-50);
+
   box-shadow:
-    0 12px 28px rgba(74, 33, 10, 0.26),
+    /* upper face highlight */
+    inset 0 1px 0 rgba(255, 244, 220, 0.30),
+
+    /* darker bottom face */
+    inset 0 -3px 0 rgba(74, 33, 10, 0.28),
+
+    /* visible physical thickness */
+    0 4px 0 var(--pulsar-900),
+
+    /* cast shadow */
+    0 10px 22px rgba(74, 33, 10, 0.24),
+
+    /* existing subtle solar glow */
     0 0 22px rgba(255, 210, 60, 0.12);
 }
 
@@ -953,8 +966,29 @@
 
 :root[data-theme="light"] .c-cta-btn:hover {
   box-shadow:
-    0 15px 34px rgba(74, 33, 10, 0.32),
+    inset 0 1px 0 rgba(255, 244, 220, 0.34),
+    inset 0 -3px 0 rgba(74, 33, 10, 0.26),
+
+    0 4px 0 var(--pulsar-900),
+    0 10px 22px rgba(74, 33, 10, 0.24),
+
     0 0 28px rgba(255, 210, 60, 0.18);
+}
+
+:root[data-theme="light"] .c-cta-btn:active {
+  box-shadow:
+    /* compressed face */
+    inset 0 2px 3px rgba(74, 33, 10, 0.24),
+    inset 0 -1px 0 rgba(255, 244, 220, 0.12),
+
+    /* physical edge almost disappears */
+    0 1px 0 var(--pulsar-900),
+
+    /* tighter cast shadow */
+    0 4px 10px rgba(74, 33, 10, 0.18),
+
+    /* tighter solar glow */
+    0 0 16px rgba(255, 210, 60, 0.10);
 }
 
 :root[data-theme="light"] .c-secondary-link {
