@@ -199,6 +199,10 @@
   --aurora-glass: rgba(35, 84, 43, 0.08);
   --aurora-glow:  rgba(35, 84, 43, 0.18);
   --aurora-inset: rgba(35, 84, 43, 0.07);
+
+  /* Light-theme interaction */
+  --accent-cactus-active: #276A24;
+  --accent-bloom: #A22E68;
 }
 
 
