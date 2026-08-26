@@ -588,7 +588,7 @@
 }
 
 :root[data-theme="light"] .about-copy .c-link::after {
-  background: var(--aurora-900);
+  background: var(--accent-bloom);
 }
 
 :root[data-theme="light"] .about-copy .c-link:hover {
