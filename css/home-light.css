@@ -933,10 +933,9 @@
     linear-gradient(
       135deg,
       var(--aether-100) 0%,
-      var(--plasma-200) 58%,
       var(--plasma-400) 100%
     );
-
+  
   color: var(--cosmos-900);
 
   box-shadow:
@@ -951,9 +950,8 @@
   background:
     linear-gradient(
       135deg,
-      var(--plasma-200) 0%,
-      var(--plasma-400) 55%,
-      var(--plasma-600) 100%
+      var(--plasma-400) 0%,
+      var(--aether-100) 100%
     );
 }
 
