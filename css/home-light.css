@@ -177,7 +177,10 @@
   /* Solar-gold accent */
   --accent-plasma:        var(--plasma-800);
   --accent-plasma-subtle: var(--plasma-50);
-
+  
+  /* Light-theme interaction */
+  --accent-cactus-active: #276A24;
+  --accent-bloom: #A22E68;
 
 /* ================================================================
 * NEUTRALS / BORDERS / EFFECTS
@@ -199,10 +202,6 @@
   --aurora-glass: rgba(35, 84, 43, 0.08);
   --aurora-glow:  rgba(35, 84, 43, 0.18);
   --aurora-inset: rgba(35, 84, 43, 0.07);
-
-  /* Light-theme interaction */
-  --accent-cactus-active: #276A24;
-  --accent-bloom: #A22E68;
 }
 
 
@@ -405,7 +404,7 @@
 
 /* Unified hover accent — mesa rust, readable on sky + sand */
 :root[data-theme="light"] {
-  --nav-hover: var(--pulsar-800);   /* #7F390F */
+  --nav-hover: var(--accent-cactus-active);
 }
 
 /* ── Transparent nav over sky blue ─────────────────────────────── */
@@ -584,7 +583,7 @@
 
 /* Featured About link — deep sky blue */
 :root[data-theme="light"] .about-copy .c-link {
-  color: var(--aurora-900);
+  color: var(--accent-bloom);
   font-weight: 700;
 }
 
@@ -593,10 +592,9 @@
 }
 
 :root[data-theme="light"] .about-copy .c-link:hover {
-  color: var(--aurora-900);
-
+  color: var(--accent-bloom);
   text-shadow:
-    0 0 10px rgba(15, 87, 149, 0.24);
+    0 0 10px rgba(162, 46, 104, 0.24);
 }
 
 
