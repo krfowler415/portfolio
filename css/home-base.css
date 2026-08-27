@@ -349,7 +349,7 @@ nav {
   width: 10px;
   height: 10px;
   border-radius: 20px;
-  background: var(--accent-aurora);
+  background: var(--status-dot-color, var(--accent-aurora));
   border: 1.5px solid transparent;
   box-sizing: border-box;
   animation: sdpulse 1.5s infinite;
@@ -367,7 +367,7 @@ nav {
   height: 100%;
   left: 0;
   background: transparent;
-  border-color: var(--accent-aurora);
+  border-color: var(--status-ring-color, var(--accent-aurora));
   animation: none;
 }
 
@@ -586,15 +586,15 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   100% {
     opacity: 1;
     box-shadow:
-      0 0 8px var(--accent-aurora),
-      0 0 20px var(--accent-aurora);
+      0 0 8px var(--status-dot-color, var(--accent-aurora)),
+      0 0 20px var(--status-dot-color, var(--accent-aurora));
   }
 
   50% {
     opacity: 0.4;
     box-shadow:
-      0 0 3px var(--accent-aurora),
-      0 0 8px var(--accent-aurora);
+      0 0 3px var(--status-dot-color, var(--accent-aurora)),
+      0 0 8px var(--status-dot-color, var(--accent-aurora));
   }
 }
 
