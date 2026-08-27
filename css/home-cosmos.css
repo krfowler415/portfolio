@@ -907,49 +907,16 @@
 
   :root[data-theme="dark"] {
     --mobile-blob-fill: var(--cosmos-800);
-
-    --mobile-blob-outline:
-      var(--aurora-400);
-
-    --mobile-blob-shadow:
-      drop-shadow(
-        0 16px 28px rgba(0, 0, 0, 0.38)
-      )
-      drop-shadow(
-        0 0 10px rgba(10, 195, 154, 0.18)
-      );
+    --mobile-blob-outline: var(--aurora-400);
   }
 
-
-  :root[data-theme="dark"] .nav-links a {
+  :root[data-theme="dark"] nav.nav-open .nav-links a {
     color: var(--aether-50);
     text-shadow: none;
   }
 
-  :root[data-theme="dark"] .nav-links a:hover {
+  :root[data-theme="dark"] nav.nav-open .nav-links a:hover {
     color: var(--aurora-200);
-
-    text-shadow:
-      0 0 10px rgba(10, 195, 154, 0.28);
-  }
-
-  :root[data-theme="dark"] .nav-links a::before,
-  :root[data-theme="dark"] .nav-links a::after,
-  :root[data-theme="dark"] .nav-links a span::before,
-  :root[data-theme="dark"] .nav-links a span::after {
-    background: rgba(200, 208, 236, 0.34);
-  }
-
-  :root[data-theme="dark"] .nav-links a:hover::before,
-  :root[data-theme="dark"] .nav-links a:hover::after,
-  :root[data-theme="dark"] .nav-links a:hover span::before,
-  :root[data-theme="dark"] .nav-links a:hover span::after {
-    background: var(--aurora-200);
-  }
-
-
-  :root[data-theme="dark"] nav.nav-open #nav-toggle span {
-    background: var(--aurora-200);
   }
 }
 
