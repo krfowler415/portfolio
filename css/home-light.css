@@ -1520,62 +1520,37 @@
 
   :root[data-theme="light"] {
     --mobile-blob-fill: var(--aether-200);
-
-    --mobile-blob-outline:
-      var(--cosmos-600);
-
-    --mobile-blob-shadow:
-      drop-shadow(
-        0 14px 24px rgba(71, 46, 5, 0.18)
-      )
-      drop-shadow(
-        0 0 8px rgba(39, 106, 36, 0.12)
-      );
+    --mobile-blob-outline: var(--cosmos-600);
   }
 
-
   /*
-   * Links are now sitting on sand regardless of whether
-   * the hero behind the blob is blue.
+   * The open links are sitting on sand,
+   * so they use the sand-surface interaction system.
    */
-
-  :root[data-theme="light"] .nav-links a {
+  :root[data-theme="light"] nav.nav-open .nav-links a {
     color: var(--aether-900);
     text-shadow: none;
   }
 
-  :root[data-theme="light"] .nav-links a:hover {
+  :root[data-theme="light"] nav.nav-open .nav-links a:hover {
     color: var(--nav-scrolled-hover);
-
-    text-shadow:
-      0 0 10px rgba(39, 106, 36, 0.18);
+    text-shadow: none;
   }
 
-  :root[data-theme="light"] .nav-links a::before,
-  :root[data-theme="light"] .nav-links a::after,
-  :root[data-theme="light"] .nav-links a span::before,
-  :root[data-theme="light"] .nav-links a span::after {
-    background: rgba(78, 64, 48, 0.42);
+  :root[data-theme="light"] nav.nav-open .nav-links a::before,
+  :root[data-theme="light"] nav.nav-open .nav-links a::after,
+  :root[data-theme="light"] nav.nav-open .nav-links a span::before,
+  :root[data-theme="light"] nav.nav-open .nav-links a span::after {
+    background: var(--aether-800);
   }
 
-  :root[data-theme="light"] .nav-links a:hover::before,
-  :root[data-theme="light"] .nav-links a:hover::after,
-  :root[data-theme="light"] .nav-links a:hover span::before,
-  :root[data-theme="light"] .nav-links a:hover span::after {
+  :root[data-theme="light"] nav.nav-open .nav-links a:hover::before,
+  :root[data-theme="light"] nav.nav-open .nav-links a:hover::after,
+  :root[data-theme="light"] nav.nav-open .nav-links a:hover span::before,
+  :root[data-theme="light"] nav.nav-open .nav-links a:hover span::after {
     background: var(--nav-scrolled-hover);
   }
-
-
-  /*
-   * Once open, the X belongs to the sand/cactus menu,
-   * not to the blue hero behind it.
-   */
-
-  :root[data-theme="light"] nav.nav-open #nav-toggle span {
-    background: var(--cosmos-600);
-  }
 }
-
 
 /* =====================================================================
  * § 15  LIGHT BUTTON VISUALS
