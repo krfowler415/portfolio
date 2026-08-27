@@ -135,6 +135,10 @@
   --nav-hero-hover:     var(--plasma-200);
   --nav-scrolled-hover: var(--cosmos-600);
 
+  /* Availability indicator */
+  --status-dot-color: var(--cosmos-400);
+  --status-ring-color: var(--nav-hero-hover);
+
 /* ================================================================
 * FOOTER
 * Same semantic roles consumed by about-base.css.
@@ -605,6 +609,9 @@
 :root[data-theme="light"] nav.scrolled .hero-us {
   color: var(--text);
   text-shadow: none;
+
+  --status-ring-color:
+    var(--nav-scrolled-hover);
 }
 
 :root[data-theme="light"] nav.scrolled .hero-us:hover {
