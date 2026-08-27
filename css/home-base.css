@@ -437,49 +437,136 @@ nav.nav-open #nav-toggle span:nth-child(3) {
 
 /* ── Tablet / Narrow Desktop Nav Drawer ───────────────────────────── */
 
+/* ── Tablet / Mobile Orb Navigation ───────────────────────────────── */
+
 @media (max-width: 900px) {
   #nav-toggle {
     display: flex;
   }
 
+  /*
+   * Responsive navigation field.
+   *
+   * Instead of a full-width drawer, the existing nav list becomes
+   * a circular field that expands from the hamburger's position.
+   */
   .nav-links {
     position: fixed;
-    top: 54px;
-    left: 0;
-    right: 0;
-    background: var(--bg-dark);
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    top: 44px;
+    right: calc(var(--px) - 36px);
+    left: auto;
+    width: clamp(300px, 48vw, 380px);
+    aspect-ratio: 1 / 1;
     flex-direction: column;
     align-items: center;
-    gap: 0;
-    padding: 0.75rem 0;
+    justify-content: center;
+    gap: 0.25rem;
+    padding:
+      3.4rem
+      4.6rem
+      2.8rem
+      3.1rem;
+    border-radius: 50%;
+    background:
+      var(--mobile-menu-bg, var(--bg-dark));
+    border:
+      1px solid
+      var(--mobile-menu-border, var(--border));
+    box-shadow:
+      var(
+        --mobile-menu-shadow,
+        0 18px 48px rgba(0, 0, 0, 0.28)
+      );
+
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    overflow: hidden;
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
-    transform: translateY(-8px);
+
+    /*
+     * This point roughly tracks the hamburger center.
+     * The oversized easing makes the field feel like it grows
+     * out from the toggle rather than simply fading in.
+     */
+    transform: scale(0.06);
+    transform-origin:
+      calc(100% - 54px)
+      -17px;
     transition:
-      opacity 0.25s ease,
-      transform 0.25s ease;
+      transform 0.55s cubic-bezier(0.2, 1.28, 0.36, 1),
+      opacity 0.16s ease,
+      visibility 0s linear 0.55s;
     z-index: 99;
+  }
+
+  /* Faint inner orbital rim */
+  .nav-links::before {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border-radius: 50%;
+    border:
+      1px solid
+      var(--mobile-menu-inner, var(--border-subtle));
+    pointer-events: none;
+    opacity: 0.8;
   }
 
   nav.nav-open .nav-links {
     opacity: 1;
+    visibility: visible;
     pointer-events: auto;
-    transform: translateY(0);
+    transform: scale(1);
+    transition:
+      transform 0.55s cubic-bezier(0.2, 1.28, 0.36, 1),
+      opacity 0.16s ease,
+      visibility 0s linear 0s;
   }
 
+  /*
+   * Menu options remain invisible during the earliest part of
+   * the orb expansion, then arrive one after another.
+   */
   .nav-links li {
     width: 100%;
     text-align: center;
+    opacity: 0;
+    transform:
+      translateY(-10px)
+      scale(0.98);
+    transition:
+      opacity 0.28s ease,
+      transform 0.34s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  nav.nav-open .nav-links li {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+  nav.nav-open .nav-links li:nth-child(1) {
+    transition-delay: 0.18s;
+  }
+
+  nav.nav-open .nav-links li:nth-child(2) {
+    transition-delay: 0.25s;
+  }
+
+  nav.nav-open .nav-links li:nth-child(3) {
+    transition-delay: 0.32s;
   }
 
   .nav-links a {
     display: block;
-    padding: 0.85rem var(--px);
-    font-size: 0.82rem;
+    width: 100%;
+    min-height: 48px;
+    padding: 0.9rem 1rem;
+    font-size:
+      clamp(0.82rem, 1.8vw, 0.92rem);
   }
 }
 
