@@ -445,134 +445,207 @@ nav.nav-open #nav-toggle span:nth-child(3) {
 
 /* ── Tablet / Mobile Orb Navigation ───────────────────────────────── */
 
+/* ── Tablet / Mobile Blob Navigation ──────────────────────────────── */
+
 @media (max-width: 900px) {
+
   #nav-toggle {
     display: flex;
+    z-index: 104;
   }
 
-  /*
-   * Responsive navigation field.
-   *
-   * Instead of a full-width drawer, the existing nav list becomes
-   * a circular field that expands from the hamburger's position.
-   */
-  .nav-links {
+
+  /* ---------------------------------------------------------------
+   * SVG blob surface
+   * --------------------------------------------------------------- */
+
+  .mobile-nav-blob-wrap {
+    display: block;
+
     position: fixed;
-    top: 44px;
-    right: calc(var(--px) - 36px);
-    left: auto;
-    width: clamp(300px, 48vw, 380px);
-    aspect-ratio: 1 / 1;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.25rem;
-    padding:
-      3.4rem
-      4.6rem
-      2.8rem
-      3.1rem;
-    border-radius: 50%;
-    background:
-      var(--mobile-menu-bg, var(--bg-dark));
-    border:
-      1px solid
-      var(--mobile-menu-border, var(--border));
-    box-shadow:
+    top: 42px;
+    right: -52px;
+
+    width: clamp(315px, 76vw, 360px);
+    height: clamp(275px, 66vw, 320px);
+
+    z-index: 101;
+
+    pointer-events: none;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform:
+      translate(48%, -48%)
+      scale(0.14);
+
+    transform-origin: 88% 0%;
+
+    transition:
+      transform 0.55s cubic-bezier(0.2, 1.18, 0.34, 1),
+      opacity 0.18s ease,
+      visibility 0s linear 0.55s;
+
+    will-change: transform, opacity;
+  }
+
+  .mobile-nav-blob {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .mobile-nav-blob__shape {
+    fill: var(--mobile-blob-fill, var(--bg-dark));
+
+    stroke:
       var(
-        --mobile-menu-shadow,
-        0 18px 48px rgba(0, 0, 0, 0.28)
+        --mobile-blob-outline,
+        var(--border)
       );
 
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
-    overflow: hidden;
+    stroke-width: 2px;
+
+    filter:
+      var(
+        --mobile-blob-shadow,
+        drop-shadow(0 16px 28px rgba(0, 0, 0, 0.22))
+      );
+  }
+
+
+  /* ---------------------------------------------------------------
+   * Open blob state
+   * --------------------------------------------------------------- */
+
+  nav.nav-open .mobile-nav-blob-wrap {
+    opacity: 1;
+    visibility: visible;
+
+    transform:
+      translate(0, 0)
+      scale(1);
+
+    transition:
+      transform 0.55s cubic-bezier(0.2, 1.18, 0.34, 1),
+      opacity 0.18s ease,
+      visibility 0s linear 0s;
+  }
+
+
+  /* ---------------------------------------------------------------
+   * Navigation links
+   *
+   * These are intentionally independent of the SVG.
+   * The blob is decorative; the UL remains the real navigation.
+   * --------------------------------------------------------------- */
+
+  .nav-links {
+    position: fixed;
+
+    top: 88px;
+    right: 18px;
+    left: auto;
+
+    width: 205px;
+
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+
+    padding: 0;
+
+    background: none;
+    border: 0;
+    box-shadow: none;
+
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+
+    z-index: 103;
+
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
 
-    /*
-     * This point roughly tracks the hamburger center.
-     * The oversized easing makes the field feel like it grows
-     * out from the toggle rather than simply fading in.
-     */
-    transform: scale(0.06);
-    transform-origin:
-      calc(100% - 54px)
-      -17px;
-    transition:
-      transform 0.55s cubic-bezier(0.2, 1.28, 0.36, 1),
-      opacity 0.16s ease,
-      visibility 0s linear 0.55s;
-    z-index: 99;
-  }
+    transform: translateX(18px);
 
-  /* Faint inner orbital rim */
-  .nav-links::before {
-    content: '';
-    position: absolute;
-    inset: 12px;
-    border-radius: 50%;
-    border:
-      1px solid
-      var(--mobile-menu-inner, var(--border-subtle));
-    pointer-events: none;
-    opacity: 0.8;
+    transition:
+      opacity 0.18s ease,
+      visibility 0s linear 0.45s;
   }
 
   nav.nav-open .nav-links {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transform: scale(1);
+
+    transform: translateX(0);
+
     transition:
-      transform 0.55s cubic-bezier(0.2, 1.28, 0.36, 1),
-      opacity 0.16s ease,
+      opacity 0.18s ease 0.18s,
       visibility 0s linear 0s;
   }
 
-  /*
-   * Menu options remain invisible during the earliest part of
-   * the orb expansion, then arrive one after another.
-   */
+
+  /* ---------------------------------------------------------------
+   * Menu-item structure
+   * --------------------------------------------------------------- */
+
   .nav-links li {
     width: 100%;
-    text-align: center;
+    min-width: 0;
+
     opacity: 0;
-    transform:
-      translateY(-10px)
-      scale(0.98);
+    transform: translateX(14px);
+
     transition:
-      opacity 0.28s ease,
+      opacity 0.26s ease,
       transform 0.34s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
   nav.nav-open .nav-links li {
     opacity: 1;
-    transform:
-      translateY(0)
-      scale(1);
+    transform: translateX(0);
   }
 
   nav.nav-open .nav-links li:nth-child(1) {
-    transition-delay: 0.18s;
+    transition-delay: 0.22s;
   }
 
   nav.nav-open .nav-links li:nth-child(2) {
-    transition-delay: 0.25s;
+    transition-delay: 0.29s;
   }
 
   nav.nav-open .nav-links li:nth-child(3) {
-    transition-delay: 0.32s;
+    transition-delay: 0.36s;
   }
 
+
+  /* ---------------------------------------------------------------
+   * Typography / touch targets
+   *
+   * Desktop nav = 0.78rem.
+   * Responsive menu remains the same information hierarchy,
+   * with slightly more presence and substantially larger targets.
+   * --------------------------------------------------------------- */
+
   .nav-links a {
-    display: block;
+    display: flex;
+    align-items: center;
+
     width: 100%;
-    min-height: 48px;
-    padding: 0.9rem 1rem;
-    font-size:
-      clamp(0.82rem, 1.8vw, 0.92rem);
+    min-height: 52px;
+
+    padding: 0.8rem 1rem;
+
+    font-size: 0.86rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+
+    text-align: left;
   }
 }
 
