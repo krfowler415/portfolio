@@ -484,35 +484,80 @@
 
 :root[data-theme="light"] nav.scrolled {
   background:
-    /* soft cloud-light lift */
+    /* Same cloud-light field as the page */
     radial-gradient(
-      ellipse 70% 180% at 8% 0%,
-      rgba(255, 253, 247, 0.34) 0%,
-      transparent 70%
+      ellipse 115% 72% at -8% 0%,
+      rgba(255, 253, 247, 0.54) 0%,
+      transparent 66%
     ),
 
-    /* restrained solar warmth */
+    /* Same solar atmosphere */
     radial-gradient(
-      ellipse 55% 180% at 88% 0%,
-      rgba(255, 240, 120, 0.10) 0%,
+      ellipse 82% 56% at 105% 14%,
+      rgba(255, 240, 120, 0.16) 0%,
+      transparent 68%
+    ),
+
+    /* Same mesa warmth */
+    radial-gradient(
+      ellipse 105% 72% at -6% 92%,
+      rgba(233, 132, 53, 0.12) 0%,
       transparent 72%
     ),
 
-    /* subtle cactus/environment depth */
+    /* Same cactus-field depth */
     radial-gradient(
-      ellipse 45% 180% at 100% 100%,
-      rgba(30, 66, 35, 0.045) 0%,
-      transparent 76%
+      ellipse 86% 66% at 104% 90%,
+      rgba(30, 66, 35, 0.10) 0%,
+      transparent 74%
     ),
 
-    /* Sonoran sand foundation */
-    rgba(243, 211, 154, 0.96);
+    /* Same environmental falloff */
+    radial-gradient(
+      ellipse 110% 90% at 50% 42%,
+      transparent 42%,
+      rgba(78, 64, 48, 0.055) 100%
+    ),
 
+    /* Same Sonoran sand foundation */
+    var(--bg);
+
+  /*
+   * Critical:
+   * keeps the nav's atmospheric fields aligned to the same
+   * viewport coordinates as the fixed page background.
+   */
+  background-attachment:
+    fixed,
+    fixed,
+    fixed,
+    fixed,
+    fixed;
+
+  background-size:
+    cover,
+    cover,
+    cover,
+    cover,
+    cover;
+
+  background-repeat:
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat;
+
+  /*
+   * Keep only a small blur for anything crossing beneath the nav.
+   * The background itself is opaque, so this is mostly harmless,
+   * but leaving it preserves the existing material behavior.
+   */
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   border-bottom-color: var(--border);
   box-shadow:
-    0 1px 20px rgba(27, 36, 28, 0.12);
+    0 1px 14px rgba(27, 36, 28, 0.08);
 }
 
 :root[data-theme="light"] nav.scrolled .nav-logo {
