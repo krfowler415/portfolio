@@ -450,24 +450,58 @@ nav.nav-open #nav-toggle span:nth-child(3) {
     z-index: 104;
   }
 
+/* ---------------------------------------------------------------
+ * Mobile navigation blob
+ *
+ * Closed state:
+ * collapsed directly into the hamburger button.
+ *
+ * Open state:
+ * expands outward from that same point until it reaches
+ * the current approved open position.
+ * --------------------------------------------------------------- */
+
   #mobile-nav-blob {
-  display: block;
-  position: fixed;
-  width: 700px;
-  height: 700px;
-
-  /* Closed: mostly offscreen in the upper-right */
-  top: -600px;
-  right: -600px;
-  z-index: 98;
-  pointer-events: none;
-  overflow: visible;
-
-  transition:
-    top 0.5s ease,
-    right 0.5s ease;
+    display: block;
+    position: fixed;
+    width: 700px;
+    height: 700px;
+  
+    /*
+     * Hamburger is 36px tall inside a 54px nav:
+     * (54 - 36) / 2 = 9px top
+     * center = 9 + 18 = 27px
+     *
+     * Right edge of hamburger sits at var(--px).
+     * Its center is another 18px inward.
+     */
+    top: 27px;
+    right: calc(var(--px) + 18px);
+    z-index: 98;
+    pointer-events: none;
+    overflow: visible;
+  
+    /*
+     * Collapse around the SVG's upper-right corner,
+     * which is aligned to the hamburger center.
+     */
+    transform-origin: 100% 0%;
+  
+    /*
+     * 700px × .035 ≈ 24.5px.
+     * So when closed, the entire SVG is effectively
+     * condensed into the hamburger's footprint.
+     */
+    transform:
+      translate(0, 0)
+      scale(0.035);
+    opacity: 0;
+    transition:
+      transform 0.55s cubic-bezier(0.22, 0.8, 0.24, 1),
+      opacity 0.08s ease 0.45s;
+    will-change: transform, opacity;
   }
-
+  
   #mobile-nav-blob path {
     fill: var(--mobile-blob-fill, var(--bg-dark));
     stroke: var(--mobile-blob-outline, var(--border));
@@ -475,12 +509,32 @@ nav.nav-open #nav-toggle span:nth-child(3) {
     vector-effect: non-scaling-stroke;
   }
 
-  /* Open: slide the blob into view */
-  nav.nav-open #mobile-nav-blob {
-    top: -280px;
-    right: -250px;
-  }
 
+/*
+ * OPEN
+ *
+ * These translate values intentionally land the SVG
+ * in the SAME final position you currently have:
+ *
+ * top: -280px
+ * right: -250px
+ *
+ * We are changing HOW it gets there, not where it ends.
+ */
+  
+  nav.nav-open #mobile-nav-blob {
+    opacity: 1;
+    transform:
+      translate(
+        calc(var(--px) + 268px),
+        -307px
+      )
+      scale(1);
+    transition:
+      transform 0.55s cubic-bezier(0.22, 0.8, 0.24, 1),
+      opacity 0.06s ease;
+  }
+  
   .nav-logo,
   .hero-us {
     position: relative;
