@@ -393,9 +393,9 @@ nav {
   opacity: 1;
 }
 
-/* ── Responsive SVG Navigation Surface ───────────────────────────── */
+/* ── Mobile Blob Menu Surface ────────────────────────────────────── */
 
-.mobile-nav-blob-wrap {
+#mobile-nav-blob {
   display: none;
 }
 
@@ -441,10 +441,6 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   transform: translateY(-6.5px) rotate(-45deg);
 }
 
-/* ── Tablet / Narrow Desktop Nav Drawer ───────────────────────────── */
-
-/* ── Tablet / Mobile Orb Navigation ───────────────────────────────── */
-
 /* ── Tablet / Mobile Blob Navigation ──────────────────────────────── */
 
 @media (max-width: 900px) {
@@ -454,86 +450,42 @@ nav.nav-open #nav-toggle span:nth-child(3) {
     z-index: 104;
   }
 
+  #mobile-nav-blob {
+  display: block;
+  position: fixed;
+  width: 700px;
+  height: 700px;
 
-  /* ---------------------------------------------------------------
-   * SVG blob surface
-   * --------------------------------------------------------------- */
+  /* Closed: mostly offscreen in the upper-right */
+  top: -600px;
+  right: -600px;
+  z-index: 98;
+  pointer-events: none;
+  overflow: visible;
 
-  .mobile-nav-blob-wrap {
-    display: block;
-
-    position: fixed;
-    top: 42px;
-    right: -52px;
-
-    width: clamp(315px, 76vw, 360px);
-    height: clamp(275px, 66vw, 320px);
-
-    z-index: 101;
-
-    pointer-events: none;
-
-    opacity: 0;
-    visibility: hidden;
-
-    transform:
-      translate(48%, -48%)
-      scale(0.14);
-
-    transform-origin: 88% 0%;
-
-    transition:
-      transform 0.55s cubic-bezier(0.2, 1.18, 0.34, 1),
-      opacity 0.18s ease,
-      visibility 0s linear 0.55s;
-
-    will-change: transform, opacity;
+  transition:
+    top 0.5s ease,
+    right 0.5s ease;
   }
 
-  .mobile-nav-blob {
-    display: block;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-  }
-
-  .mobile-nav-blob__shape {
+  #mobile-nav-blob path {
     fill: var(--mobile-blob-fill, var(--bg-dark));
-
-    stroke:
-      var(
-        --mobile-blob-outline,
-        var(--border)
-      );
-
-    stroke-width: 2px;
-
-    filter:
-      var(
-        --mobile-blob-shadow,
-        drop-shadow(0 16px 28px rgba(0, 0, 0, 0.22))
-      );
+    stroke: var(--mobile-blob-outline, var(--border));
+    stroke-width: 0.75px;
+    vector-effect: non-scaling-stroke;
   }
 
-
-  /* ---------------------------------------------------------------
-   * Open blob state
-   * --------------------------------------------------------------- */
-
-  nav.nav-open .mobile-nav-blob-wrap {
-    opacity: 1;
-    visibility: visible;
-
-    transform:
-      translate(0, 0)
-      scale(1);
-
-    transition:
-      transform 0.55s cubic-bezier(0.2, 1.18, 0.34, 1),
-      opacity 0.18s ease,
-      visibility 0s linear 0s;
+  /* Open: slide the blob into view */
+  nav.nav-open #mobile-nav-blob {
+    top: -280px;
+    right: -250px;
   }
 
+  .nav-logo,
+  .hero-us {
+    position: relative;
+    z-index: 103;
+  }
 
   /* ---------------------------------------------------------------
    * Navigation links
@@ -544,34 +496,24 @@ nav.nav-open #nav-toggle span:nth-child(3) {
 
   .nav-links {
     position: fixed;
-
     top: 88px;
     right: 18px;
     left: auto;
-
     width: 205px;
-
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-
     padding: 0;
-
     background: none;
     border: 0;
     box-shadow: none;
-
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-
     z-index: 103;
-
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-
     transform: translateX(18px);
-
     transition:
       opacity 0.18s ease,
       visibility 0s linear 0.45s;
@@ -581,9 +523,7 @@ nav.nav-open #nav-toggle span:nth-child(3) {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-
     transform: translateX(0);
-
     transition:
       opacity 0.18s ease 0.18s,
       visibility 0s linear 0s;
@@ -597,10 +537,8 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   .nav-links li {
     width: 100%;
     min-width: 0;
-
     opacity: 0;
     transform: translateX(14px);
-
     transition:
       opacity 0.26s ease,
       transform 0.34s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -635,16 +573,12 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   .nav-links a {
     display: flex;
     align-items: center;
-
     width: 100%;
     min-height: 52px;
-
     padding: 0.8rem 1rem;
-
     font-size: 0.86rem;
     font-weight: 500;
     letter-spacing: 0.1em;
-
     text-align: left;
   }
 }
