@@ -1518,41 +1518,27 @@
 
 @media (max-width: 900px) {
 
-  :root[data-theme="light"] .nav-links {
-    --mobile-menu-bg:
-      radial-gradient(
-        circle at 24% 18%,
-        rgba(255, 253, 247, 0.78) 0%,
-        transparent 34%
-      ),
-      radial-gradient(
-        circle at 76% 80%,
-        rgba(255, 210, 60, 0.18) 0%,
-        transparent 46%
-      ),
-      linear-gradient(
-        145deg,
-        rgba(244, 242, 222, 0.98) 0%,
-        rgba(243, 211, 154, 0.98) 100%
+  :root[data-theme="light"] {
+    --mobile-blob-fill: var(--aether-200);
+
+    --mobile-blob-outline:
+      var(--cosmos-600);
+
+    --mobile-blob-shadow:
+      drop-shadow(
+        0 14px 24px rgba(71, 46, 5, 0.18)
+      )
+      drop-shadow(
+        0 0 8px rgba(39, 106, 36, 0.12)
       );
-
-    --mobile-menu-border:
-      rgba(35, 84, 43, 0.34);
-
-    --mobile-menu-inner:
-      rgba(35, 84, 43, 0.14);
-
-    --mobile-menu-shadow:
-      0 20px 48px rgba(71, 46, 5, 0.22),
-      0 0 32px rgba(255, 210, 60, 0.13),
-      inset 0 1px 0 rgba(255, 255, 255, 0.62);
   }
 
+
   /*
-   * Once the links are inside the Sonoran orb they are sitting
-   * on a sand surface, even if the hero sky is behind the orb.
-   * Therefore use the sand-surface interaction rules.
+   * Links are now sitting on sand regardless of whether
+   * the hero behind the blob is blue.
    */
+
   :root[data-theme="light"] .nav-links a {
     color: var(--aether-900);
     text-shadow: none;
@@ -1560,6 +1546,7 @@
 
   :root[data-theme="light"] .nav-links a:hover {
     color: var(--nav-scrolled-hover);
+
     text-shadow:
       0 0 10px rgba(39, 106, 36, 0.18);
   }
@@ -1568,7 +1555,7 @@
   :root[data-theme="light"] .nav-links a::after,
   :root[data-theme="light"] .nav-links a span::before,
   :root[data-theme="light"] .nav-links a span::after {
-    background: rgba(78, 64, 48, 0.44);
+    background: rgba(78, 64, 48, 0.42);
   }
 
   :root[data-theme="light"] .nav-links a:hover::before,
@@ -1576,6 +1563,16 @@
   :root[data-theme="light"] .nav-links a:hover span::before,
   :root[data-theme="light"] .nav-links a:hover span::after {
     background: var(--nav-scrolled-hover);
+  }
+
+
+  /*
+   * Once open, the X belongs to the sand/cactus menu,
+   * not to the blue hero behind it.
+   */
+
+  :root[data-theme="light"] nav.nav-open #nav-toggle span {
+    background: var(--cosmos-600);
   }
 }
 
