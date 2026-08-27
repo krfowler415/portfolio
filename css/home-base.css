@@ -393,6 +393,12 @@ nav {
   opacity: 1;
 }
 
+/* ── Responsive SVG Navigation Surface ───────────────────────────── */
+
+.mobile-nav-blob-wrap {
+  display: none;
+}
+
 /* ── Hamburger Toggle ─────────────────────────────────────────────── */
 
 #nav-toggle {
