@@ -396,9 +396,7 @@ nav {
 /* ── Mobile Blob Menu Surface ────────────────────────────────────── */
 
 .mobile-nav-blob-anchor {
-  top: -20px;
-  right: -8px;
-  width: clamp(390px, 96vw, 470px);
+  display: none;
 }
 
 /* ── Hamburger Toggle ─────────────────────────────────────────────── */
@@ -465,40 +463,34 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   .mobile-nav-blob-anchor {
     display: block;
     position: fixed;
-  
     /*
-     * Exact center of the 36px hamburger
-     * inside the 54px nav.
+     * The wrapper remains anchored at the hamburger.
+     * The SVG itself extends upward/right underneath it.
      */
     top: 27px;
     right: calc(var(--px) + 18px);
-  
+    
     /*
-     * Large enough to comfortably contain
-     * all three 52px nav targets.
+     * Now that the SVG viewBox is tightly cropped,
+     * these dimensions correspond to the ACTUAL visible blob.
      */
-    width: clamp(390px, 92vw, 470px);
-    aspect-ratio: 420 / 320;
-  
+    width: clamp(340px, 82vw, 430px);
+    aspect-ratio: 355 / 435;
     z-index: 98;
     pointer-events: none;
-  
     /*
      * THIS is the animation point.
      * Top-right of the wrapper = hamburger center.
      */
     transform-origin: 100% 0%;
-  
     /*
      * Fully collapsed while closed.
      */
     transform: scale(0.001);
     opacity: 0;
-  
     transition:
       transform 0.56s cubic-bezier(0.22, 0.82, 0.25, 1),
       opacity 0s linear 0.56s;
-  
     will-change: transform;
   }
 
@@ -514,10 +506,8 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   #mobile-nav-blob {
     display: block;
     position: absolute;
-  
     width: 100%;
     height: auto;
-  
     /*
      * Blob continues:
      *   54px PAST hamburger to the right
@@ -526,9 +516,8 @@ nav.nav-open #nav-toggle span:nth-child(3) {
      * Therefore the transform origin sits INSIDE
      * the blob rather than on its visible perimeter.
      */
-    right: -54px;
-    top: -34px;
-  
+    right: -38px;
+    top: -26px;
     overflow: visible;
   }
 
@@ -536,11 +525,9 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   #mobile-nav-blob path {
     fill: var(--mobile-blob-fill, var(--bg-dark));
     stroke: var(--mobile-blob-outline, var(--border));
-  
     stroke-width: 1.25;
     stroke-linecap: round;
     stroke-linejoin: round;
-  
     vector-effect: non-scaling-stroke;
   }
 
@@ -552,7 +539,6 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   nav.nav-open .mobile-nav-blob-anchor {
     transform: scale(1);
     opacity: 1;
-  
     transition:
       transform 0.56s cubic-bezier(0.22, 0.82, 0.25, 1),
       opacity 0s linear 0s;
