@@ -483,8 +483,8 @@ nav.nav-open #nav-toggle span:nth-child(3) {
     /*
      * Actual SVG-derived coordinates.
      */
-    --blob-anchor-x: 81.5385%;
-    --blob-anchor-y: 12.6316%;
+    --blob-anchor-x: 83.0769%;
+    --blob-anchor-y: 10.5263%;
 
     --menu-zone-x: 33.3333%;
     --menu-zone-y: 26.3158%;
@@ -510,13 +510,8 @@ nav.nav-open #nav-toggle span:nth-child(3) {
 
     /*
      * Responsive rather than minimum-clamped.
-     *
-     * 320px viewport → ~294px
-     * 393px viewport → ~362px
-     * 440px viewport → ~405px
-     * tablet          → caps at 470px
      */
-    width: min(91.5vw, 402px);
+    width: min(91vw, 400px);
 
     /*
      * Cropped SVG coordinate system:
@@ -526,16 +521,11 @@ nav.nav-open #nav-toggle span:nth-child(3) {
 
     /*
      * The shell is initially positioned by its top-right corner.
-     *
-     * Move it so the INTERNAL SVG point at
-     * 81.5385% / 12.6316% lands exactly on the hamburger center.
-     *
-     * X shift = 100% - 81.5385% = 18.4615%
      */
     transform:
       translate(
-        18.4615%,
-        -12.6316%
+        16.9231%,
+        -10.5263%
       );
 
     /*
