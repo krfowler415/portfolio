@@ -395,9 +395,20 @@ nav {
 
 /* ── Mobile Blob Menu Surface ────────────────────────────────────── */
 
-.mobile-nav-blob-anchor {
+/*
+ * Desktop:
+ * shell simply behaves as the wrapper around the normal nav links.
+ * The decorative blob layer does not exist visually.
+ */
+.mobile-nav-shell {
+  display: flex;
+  align-items: center;
+}
+
+.mobile-nav-blob-layer {
   display: none;
 }
+
 
 /* ── Hamburger Toggle ─────────────────────────────────────────────── */
 
@@ -422,6 +433,7 @@ nav {
   background: var(--text-muted);
   border-radius: 2px;
   transform-origin: center;
+
   transition:
     transform 0.3s ease,
     opacity 0.3s ease,
@@ -441,7 +453,8 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   transform: translateY(-6.5px) rotate(-45deg);
 }
 
-/* ── Tablet / Mobile Blob Navigation ──────────────────────────────── */
+
+/* ── Tablet / Mobile Blob Navigation ─────────────────────────────── */
 
 @media (max-width: 900px) {
 
@@ -450,167 +463,298 @@ nav.nav-open #nav-toggle span:nth-child(3) {
     z-index: 104;
   }
 
-/* ---------------------------------------------------------------
- * Mobile blob anchor
- *
- * IMPORTANT:
- * The anchor sits on the hamburger.
- * The SVG itself is OFFSET beyond the anchor.
- * Therefore the hamburger sits over the blob's shoulder,
- * NOT at the end of its contour.
- * --------------------------------------------------------------- */
 
-  .mobile-nav-blob-anchor {
+  /*
+   * ===============================================================
+   * RESPONSIVE MENU COORDINATE SYSTEM
+   * ===============================================================
+   *
+   * The shell itself NEVER scales during opening.
+   *
+   * It establishes one responsive coordinate system shared by:
+   *   1. the SVG blob
+   *   2. the navigation safe zone
+   *
+   * Only .mobile-nav-blob-layer scales.
+   */
+
+  .mobile-nav-shell {
+
+    /*
+     * Actual SVG-derived coordinates.
+     */
+    --blob-anchor-x: 81.5385%;
+    --blob-anchor-y: 12.6316%;
+
+    --menu-zone-x: 33.3333%;
+    --menu-zone-y: 26.3158%;
+    --menu-zone-w: 39.7436%;
+    --menu-zone-h: 42.1053%;
+
+
     display: block;
     position: fixed;
+
     /*
-     * The wrapper remains anchored at the hamburger.
-     * The SVG itself extends upward/right underneath it.
+     * Hamburger center:
+     *
+     * nav = 54px
+     * toggle = 36px
+     * center Y = 27px
+     *
+     * right edge = var(--px)
+     * center X = another 18px inward
      */
     top: 27px;
     right: calc(var(--px) + 18px);
-    
-    /*
-     * Now that the SVG viewBox is tightly cropped,
-     * these dimensions correspond to the ACTUAL visible blob.
-     */
-    width: clamp(340px, 82vw, 430px);
-    aspect-ratio: 355 / 435;
-    z-index: 98;
-    pointer-events: none;
-    /*
-     * THIS is the animation point.
-     * Top-right of the wrapper = hamburger center.
-     */
-    transform-origin: 100% 0%;
-    /*
-     * Fully collapsed while closed.
-     */
-    transform: scale(0.001);
-    opacity: 0;
-    transition:
-      transform 0.56s cubic-bezier(0.22, 0.82, 0.25, 1),
-      opacity 0s linear 0.56s;
-    will-change: transform;
-  }
 
-
-/* ---------------------------------------------------------------
- * Actual SVG
- *
- * The SVG is deliberately shifted PAST the hamburger anchor.
- *
- * This is what kills the speech-bubble tail.
- * --------------------------------------------------------------- */
-
-  #mobile-nav-blob {
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: auto;
     /*
-     * Blob continues:
-     *   54px PAST hamburger to the right
-     *   34px PAST hamburger upward
+     * Responsive rather than minimum-clamped.
      *
-     * Therefore the transform origin sits INSIDE
-     * the blob rather than on its visible perimeter.
+     * 320px viewport → ~294px
+     * 393px viewport → ~362px
+     * 440px viewport → ~405px
+     * tablet          → caps at 470px
      */
-    right: -38px;
-    top: -26px;
+    width: min(92vw, 470px);
+
+    /*
+     * Cropped SVG coordinate system:
+     * 390 wide × 475 tall.
+     */
+    aspect-ratio: 390 / 475;
+
+    /*
+     * The shell is initially positioned by its top-right corner.
+     *
+     * Move it so the INTERNAL SVG point at
+     * 81.5385% / 12.6316% lands exactly on the hamburger center.
+     *
+     * X shift = 100% - 81.5385% = 18.4615%
+     */
+    transform:
+      translate(
+        18.4615%,
+        -12.6316%
+      );
+
+    /*
+     * Allows cqw units for responsive menu typography.
+     */
+    container-type: inline-size;
+
+    z-index: 102;
+    pointer-events: none;
     overflow: visible;
   }
 
 
-  #mobile-nav-blob path {
-    fill: var(--mobile-blob-fill, var(--bg-dark));
-    stroke: var(--mobile-blob-outline, var(--border));
-    stroke-width: 1.25;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    vector-effect: non-scaling-stroke;
+  /*
+   * ===============================================================
+   * BLOB LAYER
+   * ===============================================================
+   */
+
+  .mobile-nav-blob-layer {
+    display: block;
+    position: absolute;
+    inset: 0;
+
+    z-index: 0;
+
+    pointer-events: none;
+    overflow: visible;
+
+    /*
+     * THIS is the important part:
+     *
+     * The animation origin is INSIDE your upper-right lobe.
+     * The visible shape does not terminate here.
+     */
+    transform-origin:
+      var(--blob-anchor-x)
+      var(--blob-anchor-y);
+
+    /*
+     * Closed.
+     */
+    transform: scale(0.001);
+    opacity: 0;
+
+    transition:
+      transform 0.56s cubic-bezier(0.22, 0.82, 0.25, 1),
+      opacity 0s linear 0.56s;
+
+    will-change: transform, opacity;
   }
 
 
-/* ---------------------------------------------------------------
- * Open
- * --------------------------------------------------------------- */
-
-  nav.nav-open .mobile-nav-blob-anchor {
+  nav.nav-open .mobile-nav-blob-layer {
     transform: scale(1);
     opacity: 1;
+
     transition:
       transform 0.56s cubic-bezier(0.22, 0.82, 0.25, 1),
       opacity 0s linear 0s;
   }
-  
+
+
+  /*
+   * ===============================================================
+   * SVG
+   * ===============================================================
+   */
+
+  #mobile-nav-blob {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: visible;
+  }
+
+
+  #mobile-nav-blob .mobile-nav-blob-shape {
+    fill: var(--mobile-blob-fill, var(--bg-dark));
+  }
+
+
+  /*
+   * Theme controls the two feFlood elements.
+   */
+
+  #mobile-nav-blob .mobile-nav-blob-shadow-color {
+    flood-color:
+      var(
+        --mobile-blob-glow,
+        var(--accent-aurora)
+      );
+
+    flood-opacity:
+      var(
+        --mobile-blob-glow-opacity,
+        0.35
+      );
+  }
+
+
+  #mobile-nav-blob .mobile-nav-blob-outline-color {
+    flood-color:
+      var(
+        --mobile-blob-outline,
+        var(--accent-aurora)
+      );
+  }
+
+
+  /*
+   * Keep header information above the blob.
+   */
+
   .nav-logo,
   .hero-us {
     position: relative;
     z-index: 103;
   }
 
-  /* ---------------------------------------------------------------
-   * Navigation links
+
+  /*
+   * ===============================================================
+   * NAVIGATION SAFE ZONE
+   * ===============================================================
    *
-   * These are intentionally independent of the SVG.
-   * The blob is decorative; the UL remains the real navigation.
-   * --------------------------------------------------------------- */
+   * This rectangle was tested against the actual SVG polygon.
+   *
+   * Original SVG coordinates:
+   *
+   * x: 250 → 405
+   * y: 245 → 445
+   *
+   * It remains entirely inside the visible blob.
+   */
 
   .nav-links {
-    position: fixed;
-    top: 88px;
-    right: 18px;
-    left: auto;
-    width: 205px;
-    flex-direction: column;
+    position: absolute;
+
+    left: var(--menu-zone-x);
+    top: var(--menu-zone-y);
+
+    width: var(--menu-zone-w);
+    height: var(--menu-zone-h);
+
+    display: grid;
+    grid-template-rows:
+      repeat(3, minmax(48px, 1fr));
+
     align-items: stretch;
     gap: 0;
+
     padding: 0;
+    margin: 0;
+
     background: none;
     border: 0;
     box-shadow: none;
+
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-    z-index: 103;
+
+    z-index: 1;
+
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transform: translateX(18px);
+
+    transform: translateY(-5px);
+
     transition:
       opacity 0.18s ease,
+      transform 0.24s ease,
       visibility 0s linear 0.45s;
   }
+
 
   nav.nav-open .nav-links {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transform: translateX(0);
+
+    transform: translateY(0);
+
     transition:
       opacity 0.18s ease 0.18s,
+      transform 0.24s ease 0.18s,
       visibility 0s linear 0s;
   }
 
 
-  /* ---------------------------------------------------------------
-   * Menu-item structure
-   * --------------------------------------------------------------- */
+  /*
+   * Individual menu rows.
+   */
 
   .nav-links li {
+    display: flex;
+
     width: 100%;
     min-width: 0;
+    min-height: 0;
+
     opacity: 0;
-    transform: translateX(14px);
+
+    transform: translateY(-4px);
+
     transition:
-      opacity 0.26s ease,
-      transform 0.34s cubic-bezier(0.2, 0.8, 0.2, 1);
+      opacity 0.24s ease,
+      transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
+
 
   nav.nav-open .nav-links li {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
+
 
   nav.nav-open .nav-links li:nth-child(1) {
     transition-delay: 0.22s;
@@ -625,24 +769,47 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   }
 
 
-  /* ---------------------------------------------------------------
-   * Typography / touch targets
+  /*
+   * ===============================================================
+   * RESPONSIVE NAV TYPOGRAPHY
+   * ===============================================================
    *
-   * Desktop nav = 0.78rem.
-   * Responsive menu remains the same information hierarchy,
-   * with slightly more presence and substantially larger targets.
-   * --------------------------------------------------------------- */
+   * Text does NOT scale with the blob animation.
+   *
+   * cqw makes its size respond to the menu shell rather
+   * than the entire browser viewport.
+   */
 
   .nav-links a {
     display: flex;
+
     align-items: center;
+    justify-content: center;
+
     width: 100%;
-    min-height: 52px;
-    padding: 0.8rem 1rem;
-    font-size: 0.86rem;
+    height: 100%;
+    min-height: 0;
+
+    padding: 0 0.35rem;
+
+    font-size:
+      clamp(
+        0.78rem,
+        3.1cqw,
+        0.90rem
+      );
+
     font-weight: 500;
     letter-spacing: 0.1em;
-    text-align: left;
+    line-height: 1;
+
+    text-align: center;
+
+    color:
+      var(
+        --mobile-menu-text,
+        var(--text)
+      );
   }
 }
 
