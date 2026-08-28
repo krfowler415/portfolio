@@ -395,7 +395,7 @@ nav {
 
 /* ── Mobile Blob Menu Surface ────────────────────────────────────── */
 
-#mobile-nav-blob {
+.mobile-nav-blob-anchor {
   display: none;
 }
 
@@ -451,62 +451,108 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   }
 
 /* ---------------------------------------------------------------
- * Mobile navigation blob
+ * Mobile blob anchor
  *
- * Same basic behavior as .sdot:
- * one permanent anchor, expand/retract from that anchor.
+ * IMPORTANT:
+ * The anchor sits on the hamburger.
+ * The SVG itself is OFFSET beyond the anchor.
+ * Therefore the hamburger sits over the blob's shoulder,
+ * NOT at the end of its contour.
  * --------------------------------------------------------------- */
 
-  #mobile-nav-blob {
+  .mobile-nav-blob-anchor {
     display: block;
     position: fixed;
   
     /*
-     * Anchor point = hamburger center
+     * Exact center of the 36px hamburger
+     * inside the 54px nav.
      */
     top: 27px;
     right: calc(var(--px) + 18px);
   
-    width: clamp(350px, 52vw, 430px);
-    height: auto;
-    aspect-ratio: 360 / 300;
+    /*
+     * Large enough to comfortably contain
+     * all three 52px nav targets.
+     */
+    width: clamp(390px, 92vw, 470px);
+    aspect-ratio: 420 / 320;
   
     z-index: 98;
     pointer-events: none;
-    overflow: visible;
   
-    transform-box: border-box;
+    /*
+     * THIS is the animation point.
+     * Top-right of the wrapper = hamburger center.
+     */
     transform-origin: 100% 0%;
   
     /*
-     * Closed state:
-     * nearly zero scale and fully hidden
-     * so it does not visibly sit inside the hamburger
+     * Fully collapsed while closed.
      */
     transform: scale(0.001);
     opacity: 0;
   
     transition:
-      transform 0.52s cubic-bezier(0.22, 0.82, 0.25, 1),
-      opacity 0s linear 0.52s;
+      transform 0.56s cubic-bezier(0.22, 0.82, 0.25, 1),
+      opacity 0s linear 0.56s;
   
-    will-change: transform, opacity;
+    will-change: transform;
   }
+
+
+/* ---------------------------------------------------------------
+ * Actual SVG
+ *
+ * The SVG is deliberately shifted PAST the hamburger anchor.
+ *
+ * This is what kills the speech-bubble tail.
+ * --------------------------------------------------------------- */
+
+  #mobile-nav-blob {
+    display: block;
+    position: absolute;
   
+    width: 100%;
+    height: auto;
+  
+    /*
+     * Blob continues:
+     *   54px PAST hamburger to the right
+     *   34px PAST hamburger upward
+     *
+     * Therefore the transform origin sits INSIDE
+     * the blob rather than on its visible perimeter.
+     */
+    right: -54px;
+    top: -34px;
+  
+    overflow: visible;
+  }
+
+
   #mobile-nav-blob path {
     fill: var(--mobile-blob-fill, var(--bg-dark));
     stroke: var(--mobile-blob-outline, var(--border));
-    stroke-width: 1.25;
-    stroke-linejoin: round;
-    stroke-linecap: round;
-  }
   
-  nav.nav-open #mobile-nav-blob {
+    stroke-width: 1.25;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  
+    vector-effect: non-scaling-stroke;
+  }
+
+
+/* ---------------------------------------------------------------
+ * Open
+ * --------------------------------------------------------------- */
+
+  nav.nav-open .mobile-nav-blob-anchor {
     transform: scale(1);
     opacity: 1;
   
     transition:
-      transform 0.52s cubic-bezier(0.22, 0.82, 0.25, 1),
+      transform 0.56s cubic-bezier(0.22, 0.82, 0.25, 1),
       opacity 0s linear 0s;
   }
   
