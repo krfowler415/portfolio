@@ -516,7 +516,7 @@ nav.nav-open #nav-toggle span:nth-child(3) {
      * 440px viewport → ~405px
      * tablet          → caps at 470px
      */
-    width: min(92vw, 470px);
+    width: min(91.5vw, 402px);
 
     /*
      * Cropped SVG coordinate system:
