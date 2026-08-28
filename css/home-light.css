@@ -1520,35 +1520,73 @@
 
   :root[data-theme="light"] {
     --mobile-blob-fill: var(--aether-200);
+
     --mobile-blob-outline: var(--cosmos-600);
+
+    --mobile-blob-glow: var(--cosmos-400);
+    --mobile-blob-glow-opacity: 0.22;
+
+    --mobile-menu-text: var(--text);
+    --mobile-menu-hover: var(--cosmos-600);
   }
+
 
   /*
-   * The open links are sitting on sand,
-   * so they use the sand-surface interaction system.
+   * Mobile menu is always sitting on its own sand surface,
+   * regardless of whether the nav is transparent or scrolled.
    */
-  :root[data-theme="light"] nav.nav-open .nav-links a {
-    color: var(--aether-900);
+
+  :root[data-theme="light"]
+  .mobile-nav-shell
+  .nav-links a {
+    color: var(--mobile-menu-text);
     text-shadow: none;
   }
 
-  :root[data-theme="light"] nav.nav-open .nav-links a:hover {
-    color: var(--nav-scrolled-hover);
+
+  :root[data-theme="light"]
+  .mobile-nav-shell
+  .nav-links a:hover {
+    color: var(--mobile-menu-hover);
     text-shadow: none;
   }
 
-  :root[data-theme="light"] nav.nav-open .nav-links a::before,
-  :root[data-theme="light"] nav.nav-open .nav-links a::after,
-  :root[data-theme="light"] nav.nav-open .nav-links a span::before,
-  :root[data-theme="light"] nav.nav-open .nav-links a span::after {
-    background: var(--aether-800);
+
+  :root[data-theme="light"]
+  .mobile-nav-shell
+  .nav-links a::before,
+
+  :root[data-theme="light"]
+  .mobile-nav-shell
+  .nav-links a::after,
+
+  :root[data-theme="light"]
+  .mobile-nav-shell
+  .nav-links a span::before,
+
+  :root[data-theme="light"]
+  .mobile-nav-shell
+  .nav-links a span::after {
+    background: var(--mobile-menu-text);
   }
 
-  :root[data-theme="light"] nav.nav-open .nav-links a:hover::before,
-  :root[data-theme="light"] nav.nav-open .nav-links a:hover::after,
-  :root[data-theme="light"] nav.nav-open .nav-links a:hover span::before,
-  :root[data-theme="light"] nav.nav-open .nav-links a:hover span::after {
-    background: var(--nav-scrolled-hover);
+
+  :root[data-theme="light"]
+  .mobile-nav-shell
+  .nav-links a:hover::before,
+
+  :root[data-theme="light"]
+  .mobile-nav-shell
+  .nav-links a:hover::after,
+
+  :root[data-theme="light"]
+  .mobile-nav-shell
+  .nav-links a:hover span::before,
+
+  :root[data-theme="light"]
+  .mobile-nav-shell
+  .nav-links a:hover span::after {
+    background: var(--mobile-menu-hover);
   }
 }
 
