@@ -396,7 +396,9 @@ nav {
 /* ── Mobile Blob Menu Surface ────────────────────────────────────── */
 
 .mobile-nav-blob-anchor {
-  display: none;
+  top: -20px;
+  right: -8px;
+  width: clamp(390px, 96vw, 470px);
 }
 
 /* ── Hamburger Toggle ─────────────────────────────────────────────── */
