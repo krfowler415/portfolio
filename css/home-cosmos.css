@@ -903,23 +903,73 @@
  * § 14  COSMOS RESPONSIVE OVERRIDES
  * ===================================================================== */
 
+/* =====================================================================
+ * § 14  COSMOS RESPONSIVE OVERRIDES
+ * ===================================================================== */
+
 @media (max-width: 900px) {
 
   :root[data-theme="dark"] {
     --mobile-blob-fill: var(--cosmos-800);
+
     --mobile-blob-outline: var(--aurora-400);
+
+    --mobile-blob-glow: var(--aurora-400);
+    --mobile-blob-glow-opacity: 0.38;
+
+    --mobile-menu-text: var(--text);
+    --mobile-menu-hover: var(--aurora-200);
   }
 
-  :root[data-theme="dark"] nav.nav-open .nav-links a {
-    color: var(--aether-50);
+  :root[data-theme="dark"]
+  .mobile-nav-shell
+  .nav-links a {
+    color: var(--mobile-menu-text);
     text-shadow: none;
   }
 
-  :root[data-theme="dark"] nav.nav-open .nav-links a:hover {
-    color: var(--aurora-200);
+  :root[data-theme="dark"]
+  .mobile-nav-shell
+  .nav-links a:hover {
+    color: var(--mobile-menu-hover);
+  }
+
+  :root[data-theme="dark"]
+  .mobile-nav-shell
+  .nav-links a::before,
+
+  :root[data-theme="dark"]
+  .mobile-nav-shell
+  .nav-links a::after,
+
+  :root[data-theme="dark"]
+  .mobile-nav-shell
+  .nav-links a span::before,
+
+  :root[data-theme="dark"]
+  .mobile-nav-shell
+  .nav-links a span::after {
+    background: var(--mobile-menu-text);
+  }
+
+  :root[data-theme="dark"]
+  .mobile-nav-shell
+  .nav-links a:hover::before,
+
+  :root[data-theme="dark"]
+  .mobile-nav-shell
+  .nav-links a:hover::after,
+
+  :root[data-theme="dark"]
+  .mobile-nav-shell
+  .nav-links a:hover span::before,
+
+  :root[data-theme="dark"]
+  .mobile-nav-shell
+  .nav-links a:hover span::after {
+    background: var(--mobile-menu-hover);
   }
 }
-
 
 /* =====================================================================
  * § 15  COSMOS BUTTON VISUALS
