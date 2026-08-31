@@ -445,7 +445,6 @@ nav {
   background: var(--text-muted);
   border-radius: 2px;
   transform-origin: center;
-
   transition:
     transform 0.3s ease,
     opacity 0.3s ease,
@@ -492,16 +491,14 @@ nav.nav-open #nav-toggle span:nth-child(3) {
 
   .mobile-nav-shell {
 
-    /*
-     * Actual SVG-derived coordinates.
-     */
+    /* Actual SVG-derived coordinates. */
     --blob-anchor-x: 83.0769%;
     --blob-anchor-y: 10.5263%;
 
     --menu-zone-x: 33.3333%;
     --menu-zone-y: 26.3158%;
     --menu-zone-w: 39.7436%;
-    --menu-zone-h: 42.1053%;
+    --menu-zone-h: 46%;
 
 
     display: block;
@@ -520,9 +517,7 @@ nav.nav-open #nav-toggle span:nth-child(3) {
     top: 27px;
     right: calc(var(--px) + 18px);
 
-    /*
-     * Responsive rather than minimum-clamped.
-     */
+    /* Responsive rather than minimum-clamped. */
     width: min(91vw, 400px);
 
     /*
@@ -531,20 +526,15 @@ nav.nav-open #nav-toggle span:nth-child(3) {
      */
     aspect-ratio: 390 / 475;
 
-    /*
-     * The shell is initially positioned by its top-right corner.
-     */
+    /* The shell is initially positioned by its top-right corner. */
     transform:
       translate(
         16.9231%,
         -10.5263%
       );
 
-    /*
-     * Allows cqw units for responsive menu typography.
-     */
+    /* Allows cqw units for responsive menu typography. */
     container-type: inline-size;
-
     z-index: 102;
     pointer-events: none;
     overflow: visible;
@@ -561,9 +551,7 @@ nav.nav-open #nav-toggle span:nth-child(3) {
     display: block;
     position: absolute;
     inset: 0;
-
     z-index: 0;
-
     pointer-events: none;
     overflow: visible;
 
@@ -577,24 +565,18 @@ nav.nav-open #nav-toggle span:nth-child(3) {
       var(--blob-anchor-x)
       var(--blob-anchor-y);
 
-    /*
-     * Closed.
-     */
+    /* Closed. */
     transform: scale(0.001);
     opacity: 0;
-
     transition:
       transform 0.56s cubic-bezier(0.22, 0.82, 0.25, 1),
       opacity 0s linear 0.56s;
-
     will-change: transform, opacity;
   }
-
 
   nav.nav-open .mobile-nav-blob-layer {
     transform: scale(1);
     opacity: 1;
-
     transition:
       transform 0.56s cubic-bezier(0.22, 0.82, 0.25, 1),
       opacity 0s linear 0s;
@@ -609,22 +591,16 @@ nav.nav-open #nav-toggle span:nth-child(3) {
 
   #mobile-nav-blob {
     display: block;
-
     width: 100%;
     height: 100%;
-
     overflow: visible;
   }
-
 
   #mobile-nav-blob .mobile-nav-blob-shape {
     fill: var(--mobile-blob-fill, var(--bg-dark));
   }
 
-
-  /*
-   * Theme controls the two feFlood elements.
-   */
+  /* Theme controls the two feFlood elements. */
 
   #mobile-nav-blob .mobile-nav-blob-shadow-color {
     flood-color:
@@ -640,7 +616,6 @@ nav.nav-open #nav-toggle span:nth-child(3) {
       );
   }
 
-
   #mobile-nav-blob .mobile-nav-blob-outline-color {
     flood-color:
       var(
@@ -649,10 +624,7 @@ nav.nav-open #nav-toggle span:nth-child(3) {
       );
   }
 
-
-  /*
-   * Keep header information above the blob.
-   */
+  /* Keep header information above the blob. */
 
   .nav-logo,
   .hero-us {
@@ -663,16 +635,88 @@ nav.nav-open #nav-toggle span:nth-child(3) {
 
   /*
    * ===============================================================
-   * Availability Badge - Mobile
+   * AVAILABILITY BADGE — BLOB NAV MODE
    * ===============================================================
-   *
    */
+  
   .hero-us .status-desktop {
     display: none;
   }
-
+  
   .hero-us .status-mobile {
     display: inline;
+  }
+  
+  /*
+   * At <=900px we don't want CSS :hover to perform
+   * the desktop text swap. JS controls the mobile state.
+   */
+  
+  .hero-us:hover {
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+  }
+  
+  .hero-us:hover .sdot {
+    width: 10px;
+    height: 10px;
+    left: 0.75rem;
+    background:
+      var(--status-dot-color, var(--accent-aurora));
+    border-color: transparent;
+    animation: sdpulse 1.5s infinite;
+  }
+  
+  .hero-us:hover .us-default {
+    position: relative;
+    opacity: 1;
+  }
+  
+  .hero-us:hover .us-hover {
+    position: absolute;
+    left: 2rem;
+    opacity: 0;
+  }
+  
+  /*
+   * First tap:
+   * AVAILABLE → AZ & REMOTE
+   */
+  
+  .hero-us.is-status-open {
+    width: max-content;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    background: transparent;
+  }
+  
+  .hero-us.is-status-open .sdot {
+    width: 100%;
+    height: 100%;
+    left: 0;
+    background: transparent;
+    border-color:
+      var(--status-ring-color, var(--accent-aurora));
+    animation: none;
+  }
+  
+  /*
+   * Make AZ & REMOTE participate in layout.
+   *
+   * This is what allows the badge itself — and therefore
+   * the expanding .sdot border — to become wide enough
+   * for the longer mobile label.
+   */
+  
+  .hero-us.is-status-open .us-default {
+    position: absolute;
+    opacity: 0;
+  }
+  
+  .hero-us.is-status-open .us-hover {
+    position: relative;
+    left: auto;
+    opacity: 1;
   }
 
 
@@ -693,85 +737,62 @@ nav.nav-open #nav-toggle span:nth-child(3) {
 
   .nav-links {
     position: absolute;
-
     left: var(--menu-zone-x);
     top: var(--menu-zone-y);
-
     width: var(--menu-zone-w);
     height: var(--menu-zone-h);
-
     display: grid;
     grid-template-rows:
       repeat(4, minmax(0, 1fr));
-
     align-items: stretch;
     gap: 0;
-
     padding: 0;
     margin: 0;
-
     background: none;
     border: 0;
     box-shadow: none;
-
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-
     z-index: 1;
-
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-
     transform: translateY(-5px);
-
     transition:
       opacity 0.18s ease,
       transform 0.24s ease,
       visibility 0s linear 0.45s;
   }
 
-
   nav.nav-open .nav-links {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-
     transform: translateY(0);
-
     transition:
       opacity 0.18s ease 0.18s,
       transform 0.24s ease 0.18s,
       visibility 0s linear 0s;
   }
 
-
-  /*
-   * Individual menu rows.
-   */
+  /* Individual menu rows. */
 
   .nav-links li {
     display: flex;
-
     width: 100%;
     min-width: 0;
     min-height: 0;
-
     opacity: 0;
-
     transform: translateY(-4px);
-
     transition:
       opacity 0.24s ease,
       transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
-
   nav.nav-open .nav-links li {
     opacity: 1;
     transform: translateY(0);
   }
-
 
   nav.nav-open .nav-links li:nth-child(1) {
     transition-delay: 0.22s;
@@ -803,34 +824,23 @@ nav.nav-open #nav-toggle span:nth-child(3) {
 
   .nav-links a {
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     width: 100%;
     height: 100%;
     min-height: 0;
-
     padding: 0 0.35rem;
-
     font-size:
       clamp(
         0.78rem,
         3.1cqw,
         0.90rem
       );
-
     font-weight: 500;
     letter-spacing: 0.1em;
     line-height: 1;
-
     text-align: center;
-
-    color:
-      var(
-        --mobile-menu-text,
-        var(--text)
-      );
+    color: var(--mobile-menu-text, var(--text));
   }
 }
 
@@ -841,89 +851,6 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   .nav-logo {
     font-size: 1.1rem;
     white-space: nowrap;
-  }
-
-  /* Compact mobile availability copy */
-  .status-desktop {
-    display: none;
-  }
-
-  .status-mobile {
-    display: inline;
-  }
-
-  /*
-   * Mobile uses an intentional tap state instead of :hover.
-   * Reset the desktop hover mechanics first.
-   */
-  .hero-us:hover {
-    padding-top: 0.35rem;
-    padding-bottom: 0.35rem;
-  }
-
-  .hero-us:hover .sdot {
-    width: 10px;
-    height: 10px;
-    left: 0.75rem;
-
-    background:
-      var(--status-dot-color, var(--accent-aurora));
-
-    border-color: transparent;
-    animation: sdpulse 1.5s infinite;
-  }
-
-  .hero-us:hover .us-default {
-    position: relative;
-    opacity: 1;
-  }
-
-  .hero-us:hover .us-hover {
-    position: absolute;
-    left: 2rem;
-    opacity: 0;
-  }
-
-  /*
-   * First tap:
-   * AVAILABLE → AZ & REMOTE
-   * and the status dot expands into its ring.
-   */
-  .hero-us.is-status-open {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    background: transparent;
-  }
-
-  .hero-us.is-status-open .sdot {
-    width: 100%;
-    height: 100%;
-    left: 0;
-
-    background: transparent;
-
-    border-color:
-      var(--status-ring-color, var(--accent-aurora));
-
-    animation: none;
-  }
-
-  /*
-   * Swap which label participates in layout.
-   *
-   * This is important:
-   * the badge can naturally widen from AVAILABLE
-   * to AZ & REMOTE without us guessing a fixed width.
-   */
-  .hero-us.is-status-open .us-default {
-    position: absolute;
-    opacity: 0;
-  }
-
-  .hero-us.is-status-open .us-hover {
-    position: relative;
-    left: auto;
-    opacity: 1;
   }
 }
 
