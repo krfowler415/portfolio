@@ -1521,10 +1521,10 @@
   :root[data-theme="light"] {
     --mobile-blob-fill: var(--aether-200);
 
-    --mobile-blob-outline: var(--cosmos-600);
-
-    --mobile-blob-glow: var(--cosmos-400);
-    --mobile-blob-glow-opacity: 0.22;
+    --mobile-blob-outline: var(--plasma-400);
+    
+    --mobile-blob-glow: var(--plasma-200);
+    --mobile-blob-glow-opacity: 0.30;
 
     --mobile-menu-text: var(--text);
     --mobile-menu-hover: var(--cosmos-600);
