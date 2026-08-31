@@ -2234,6 +2234,48 @@ if (navToggle && navEl) {
   });
 }
 
+/* ── Mobile Availability Status ─────────────────────────────────── */
+
+(() => {
+  const statusBadge = document.querySelector('.hero-us');
+  const mobileStatusMode = window.matchMedia('(max-width: 600px)');
+
+  if (!statusBadge) return;
+
+  statusBadge.addEventListener('click', (event) => {
+    if (!mobileStatusMode.matches) return;
+
+    /*
+     * First tap:
+     * reveal AZ & REMOTE instead of opening email.
+     */
+    if (!statusBadge.classList.contains('is-status-open')) {
+      event.preventDefault();
+      statusBadge.classList.add('is-status-open');
+      return;
+    }
+
+    /*
+     * Second tap:
+     * don't preventDefault, so the original mailto link works.
+     */
+  });
+
+  document.addEventListener('pointerdown', (event) => {
+    if (!mobileStatusMode.matches) return;
+
+    if (!statusBadge.contains(event.target)) {
+      statusBadge.classList.remove('is-status-open');
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (!mobileStatusMode.matches) {
+      statusBadge.classList.remove('is-status-open');
+    }
+  });
+})();
+
 /* =====================================================================
  * § 7A  THEME TOGGLE
  * ===================================================================== */
