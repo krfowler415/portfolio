@@ -2238,43 +2238,65 @@ if (navToggle && navEl) {
 
 (() => {
   const statusBadge = document.querySelector('.hero-us');
-  const mobileStatusMode = window.matchMedia('(max-width: 600px)');
+  const mobileNavMode = window.matchMedia('(max-width: 900px)');
 
   if (!statusBadge) return;
 
-  statusBadge.addEventListener('click', (event) => {
-    if (!mobileStatusMode.matches) return;
 
-    /*
-     * First tap:
-     * reveal AZ & REMOTE instead of opening email.
-     */
+  /*
+   * Blob-nav mode:
+   *
+   * First tap  → reveal AZ & REMOTE
+   * Second tap → allow the original mailto link
+   */
+  statusBadge.addEventListener('click', (event) => {
+
+    if (!mobileNavMode.matches) return;
+
     if (!statusBadge.classList.contains('is-status-open')) {
       event.preventDefault();
+
       statusBadge.classList.add('is-status-open');
+
       return;
     }
 
     /*
-     * Second tap:
-     * don't preventDefault, so the original mailto link works.
+     * Already open:
+     * intentionally do NOT preventDefault().
+     *
+     * The second tap therefore follows the existing
+     * mailto: link normally.
      */
   });
 
+
+  /*
+   * Tap anywhere outside the status badge:
+   * restore AVAILABLE.
+   */
   document.addEventListener('pointerdown', (event) => {
-    if (!mobileStatusMode.matches) return;
+
+    if (!mobileNavMode.matches) return;
 
     if (!statusBadge.contains(event.target)) {
       statusBadge.classList.remove('is-status-open');
     }
   });
 
+
+  /*
+   * If the viewport crosses back into desktop mode,
+   * remove any leftover mobile state.
+   */
   window.addEventListener('resize', () => {
-    if (!mobileStatusMode.matches) {
+
+    if (!mobileNavMode.matches) {
       statusBadge.classList.remove('is-status-open');
     }
   });
 })();
+
 
 /* =====================================================================
  * § 7A  THEME TOGGLE
