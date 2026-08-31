@@ -2209,27 +2209,84 @@ function initNav() {
 }
 
 // ── Hamburger nav toggle ─────────────────────────────────────────────
+
 const navToggle = document.getElementById('nav-toggle');
 const navEl     = document.querySelector('nav');
 
 if (navToggle && navEl) {
-  navToggle.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isOpen = navEl.classList.toggle('nav-open');
-    navToggle.setAttribute('aria-expanded', String(isOpen));
+
+  const closeMobileNav = ({ returnFocus = false } = {}) => {
+    navEl.classList.remove('nav-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+
+    if (returnFocus) {
+      navToggle.focus();
+    }
+  };
+
+
+  const openMobileNav = () => {
+    navEl.classList.add('nav-open');
+    navToggle.setAttribute('aria-expanded', 'true');
+  };
+
+
+  navToggle.addEventListener('click', (event) => {
+    event.stopPropagation();
+
+    const isOpen =
+      navEl.classList.contains('nav-open');
+
+    if (isOpen) {
+      closeMobileNav();
+    } else {
+      openMobileNav();
+    }
   });
 
+
+  /* Selecting a menu item closes the blob. */
   document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', () => {
-      navEl.classList.remove('nav-open');
-      navToggle.setAttribute('aria-expanded', 'false');
+      closeMobileNav();
     });
   });
 
-  document.addEventListener('click', (e) => {
-    if (!navEl.contains(e.target)) {
-      navEl.classList.remove('nav-open');
-      navToggle.setAttribute('aria-expanded', 'false');
+  /* Clicking/tapping outside the nav closes it. */
+  document.addEventListener('click', (event) => {
+    if (
+      navEl.classList.contains('nav-open') &&
+      !navEl.contains(event.target)
+    ) {
+      closeMobileNav();
+    }
+  });
+
+  /*
+   * Escape closes the menu and returns keyboard
+   * focus to the hamburger button.
+   */
+  document.addEventListener('keydown', (event) => {
+    if (
+      event.key === 'Escape' &&
+      navEl.classList.contains('nav-open')
+    ) {
+      closeMobileNav({
+        returnFocus: true
+      });
+    }
+  });
+
+  /*
+   * If the viewport crosses back into desktop mode,
+   * don't leave the mobile nav-open state hanging around.
+   */
+  const mobileNavMode =
+    window.matchMedia('(max-width: 900px)');
+
+  window.addEventListener('resize', () => {
+    if (!mobileNavMode.matches) {
+      closeMobileNav();
     }
   });
 }
