@@ -385,12 +385,24 @@ nav {
   pointer-events: none;
 }
 
+.status-mobile {
+  display: none;
+}
+
 .hero-us:hover .us-default {
   opacity: 0;
 }
 
 .hero-us:hover .us-hover {
   opacity: 1;
+}
+
+.hero-us .status-mobile {
+  display: none;
+}
+
+.hero-us .status-desktop {
+  display: inline;
 }
 
 /* ── Mobile Blob Menu Surface ────────────────────────────────────── */
@@ -651,6 +663,21 @@ nav.nav-open #nav-toggle span:nth-child(3) {
 
   /*
    * ===============================================================
+   * Availability Badge - Mobile
+   * ===============================================================
+   *
+   */
+  .hero-us .status-desktop {
+    display: none;
+  }
+
+  .hero-us .status-mobile {
+    display: inline;
+  }
+
+
+  /*
+   * ===============================================================
    * NAVIGATION SAFE ZONE
    * ===============================================================
    *
@@ -675,7 +702,7 @@ nav.nav-open #nav-toggle span:nth-child(3) {
 
     display: grid;
     grid-template-rows:
-      repeat(3, minmax(48px, 1fr));
+      repeat(4, minmax(0, 1fr));
 
     align-items: stretch;
     gap: 0;
@@ -758,6 +785,10 @@ nav.nav-open #nav-toggle span:nth-child(3) {
     transition-delay: 0.36s;
   }
 
+  nav.nav-open .nav-links li:nth-child(4) {
+  transition-delay: 0.43s;
+  }
+
 
   /*
    * ===============================================================
@@ -806,9 +837,93 @@ nav.nav-open #nav-toggle span:nth-child(3) {
 /* ── Small Mobile Nav Adjustments ─────────────────────────────────── */
 
 @media (max-width: 600px) {
+
   .nav-logo {
     font-size: 1.1rem;
     white-space: nowrap;
+  }
+
+  /* Compact mobile availability copy */
+  .status-desktop {
+    display: none;
+  }
+
+  .status-mobile {
+    display: inline;
+  }
+
+  /*
+   * Mobile uses an intentional tap state instead of :hover.
+   * Reset the desktop hover mechanics first.
+   */
+  .hero-us:hover {
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+  }
+
+  .hero-us:hover .sdot {
+    width: 10px;
+    height: 10px;
+    left: 0.75rem;
+
+    background:
+      var(--status-dot-color, var(--accent-aurora));
+
+    border-color: transparent;
+    animation: sdpulse 1.5s infinite;
+  }
+
+  .hero-us:hover .us-default {
+    position: relative;
+    opacity: 1;
+  }
+
+  .hero-us:hover .us-hover {
+    position: absolute;
+    left: 2rem;
+    opacity: 0;
+  }
+
+  /*
+   * First tap:
+   * AVAILABLE → AZ & REMOTE
+   * and the status dot expands into its ring.
+   */
+  .hero-us.is-status-open {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    background: transparent;
+  }
+
+  .hero-us.is-status-open .sdot {
+    width: 100%;
+    height: 100%;
+    left: 0;
+
+    background: transparent;
+
+    border-color:
+      var(--status-ring-color, var(--accent-aurora));
+
+    animation: none;
+  }
+
+  /*
+   * Swap which label participates in layout.
+   *
+   * This is important:
+   * the badge can naturally widen from AVAILABLE
+   * to AZ & REMOTE without us guessing a fixed width.
+   */
+  .hero-us.is-status-open .us-default {
+    position: absolute;
+    opacity: 0;
+  }
+
+  .hero-us.is-status-open .us-hover {
+    position: relative;
+    left: auto;
+    opacity: 1;
   }
 }
 
