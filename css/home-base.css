@@ -326,7 +326,10 @@ nav {
   animation: up 0.5s ease forwards 0.1s;
   white-space: nowrap;
   text-decoration: none;
-  position: relative;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
   overflow: hidden;
   cursor: none;
   transition:
@@ -626,9 +629,12 @@ nav.nav-open #nav-toggle span:nth-child(3) {
 
   /* Keep header information above the blob. */
 
-  .nav-logo,
-  .hero-us {
+  .nav-logo {
     position: relative;
+    z-index: 103;
+  }
+  
+  .hero-us {
     z-index: 103;
   }
 
@@ -685,8 +691,8 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   
   .hero-us.is-status-open {
     width: max-content;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding: 0.5rem 1rem;
+    justify-content: center;
     background: transparent;
   }
   
