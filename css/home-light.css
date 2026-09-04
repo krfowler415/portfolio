@@ -1590,6 +1590,12 @@
   }
 }
 
+/* Open blob menu: X sits on the sand surface, so use cactus green */
+:root[data-theme="light"] nav.nav-open #nav-toggle span,
+:root[data-theme="light"] nav.nav-open #nav-toggle:hover span {
+  background: var(--cosmos-600);
+}
+
 /* =====================================================================
  * § 15  LIGHT BUTTON VISUALS
  * ===================================================================== */
