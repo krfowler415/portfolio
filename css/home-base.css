@@ -2356,7 +2356,7 @@ body.galaxy-active #stars {
 
 #beamUp {
   position: fixed;
-  bottom: 2rem;
+  bottom: calc(clamp(1rem, 3vw, 2rem) + 3.5px);
   right: var(--px);
   z-index: 500;
   width: 144px;
