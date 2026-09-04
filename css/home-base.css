@@ -327,9 +327,6 @@ nav {
   white-space: nowrap;
   text-decoration: none;
   position: relative;
-  left: 50%;
-  top: 50%;
-  translate: -50% -50%;
   overflow: hidden;
   cursor: none;
   transition:
