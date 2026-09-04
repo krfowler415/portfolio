@@ -2581,9 +2581,6 @@ function initCursor() {
 function initClickRipple() {
   document.addEventListener('click', e => {
 
-    function initClickRipple() {
-  document.addEventListener('click', e => {
-
     /*
      * Touch haptic feedback.
      *
