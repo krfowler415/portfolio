@@ -2580,6 +2580,24 @@ function initCursor() {
 
 function initClickRipple() {
   document.addEventListener('click', e => {
+
+    function initClickRipple() {
+  document.addEventListener('click', e => {
+
+    /*
+     * Touch haptic feedback.
+     *
+     * Only vibrate for actual interactive controls.
+     * Unsupported devices simply ignore this.
+     */
+    if (
+      isTouchDevice &&
+      'vibrate' in navigator &&
+      e.target.closest('a, button, [role="button"], input, select')
+    ) {
+      navigator.vibrate(10);
+    }
+
     const ripple = document.createElement('div');
 
     ripple.style.cssText = [
