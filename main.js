@@ -1168,9 +1168,17 @@ function initBodyEnvironment() {
   });
 
   if (!fieldCtx) return;
-
+  
   const root = document.documentElement;
-  const canInteract = !isTouchDevice && !reducedMotion;
+  
+  const canAnimateInteraction = !reducedMotion;
+  const canMouseInteract =
+    !isTouchDevice &&
+    canAnimateInteraction;
+  
+  const canTouchInteract =
+    isTouchDevice &&
+    canAnimateInteraction;
 
 
   /* ── Dark grid settings ────────────────────────────────────────── */
@@ -1475,11 +1483,11 @@ function initBodyEnvironment() {
      * clipTop becomes zero.
      */
     const pointerCanAffectBody = (
-      canInteract &&
+      canAnimateInteraction &&
       pointer.inside &&
       pointer.targetY >= clipTop
     );
-
+    
     const targetStrength =
       pointerCanAffectBody
         ? 1
@@ -1559,18 +1567,21 @@ function initBodyEnvironment() {
   }
 
 
-  /* ── Pointer tracking ──────────────────────────────────────────── */
-
-  if (canInteract) {
+  /* ── Pointer / Touch tracking ───────────────────────────────────── */
+  
+  
+  /*
+   * Desktop / mouse:
+   * gravity field follows the cursor continuously.
+   */
+  if (canMouseInteract) {
+  
     document.addEventListener(
       'mousemove',
       event => {
-        pointer.targetX =
-          event.clientX;
-
-        pointer.targetY =
-          event.clientY;
-
+        pointer.targetX = event.clientX;
+        pointer.targetY = event.clientY;
+  
         pointer.inside = true;
         dirty = true;
       },
@@ -1578,7 +1589,8 @@ function initBodyEnvironment() {
         passive: true
       }
     );
-
+  
+  
     document.documentElement.addEventListener(
       'mouseleave',
       () => {
@@ -1586,12 +1598,86 @@ function initBodyEnvironment() {
         dirty = true;
       }
     );
-
+  
+  
     window.addEventListener(
       'blur',
       () => {
         pointer.inside = false;
         dirty = true;
+      }
+    );
+  }
+  
+  
+  /*
+   * Touch:
+   *
+   * The gravity field appears beneath the finger and
+   * follows it while the user taps, drags, or scrolls.
+   *
+   * All listeners are passive so this NEVER prevents
+   * the browser's native page scrolling.
+   */
+  if (canTouchInteract) {
+  
+    const updateTouchPosition = touch => {
+      if (!touch) return;
+  
+      pointer.targetX = touch.clientX;
+      pointer.targetY = touch.clientY;
+  
+      pointer.inside = true;
+      dirty = true;
+    };
+  
+  
+    document.addEventListener(
+      'touchstart',
+      event => {
+        updateTouchPosition(
+          event.touches[0]
+        );
+      },
+      {
+        passive: true
+      }
+    );
+  
+  
+    document.addEventListener(
+      'touchmove',
+      event => {
+        updateTouchPosition(
+          event.touches[0]
+        );
+      },
+      {
+        passive: true
+      }
+    );
+  
+  
+    const endTouchGravity = () => {
+      pointer.inside = false;
+      dirty = true;
+    };
+  
+  
+    document.addEventListener(
+      'touchend',
+      endTouchGravity,
+      {
+        passive: true
+      }
+    );
+  
+  
+    document.addEventListener(
+      'touchcancel',
+      endTouchGravity,
+      {
+        passive: true
       }
     );
   }
