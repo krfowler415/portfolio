@@ -326,7 +326,7 @@ nav {
   animation: up 0.5s ease forwards 0.1s;
   white-space: nowrap;
   text-decoration: none;
-  position: absolute;
+  position: relative;
   left: 50%;
   top: 50%;
   translate: -50% -50%;
