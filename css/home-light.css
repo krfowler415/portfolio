@@ -1136,6 +1136,8 @@
 
 /* Desert sky — late afternoon, sun upper-left, heat shimmer at horizon */
 :root[data-theme="light"] .hero-pin {
+  -webkit-clip-path: inset(0);
+  clip-path: inset(0);
   background:
     linear-gradient(
       to bottom,
