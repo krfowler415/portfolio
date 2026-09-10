@@ -1957,8 +1957,8 @@ a.card-feat,
   --hero-sky-room: clamp(120px, 18vh, 240px);
   --hero-scene-height: calc(var(--hero-sky-room) + (100vw * 941 / 1672));
 
-  --hero-scroll-extra: calc(var(--vh, 1vh) * 105);
-  --hero-exit-buffer: calc(var(--vh, 1vh) * 20);
+  --hero-scroll-extra: 105svh;
+  --hero-exit-buffer: 20svh;
 
   height: calc(
     var(--hero-scene-height) +
