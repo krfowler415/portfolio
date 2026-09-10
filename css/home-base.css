@@ -571,7 +571,6 @@ nav.nav-open #nav-toggle span:nth-child(3) {
     transition:
       transform 0.56s cubic-bezier(0.22, 0.82, 0.25, 1),
       opacity 0s linear 0.56s;
-    will-change: transform, opacity;
   }
 
   nav.nav-open .mobile-nav-blob-layer {
