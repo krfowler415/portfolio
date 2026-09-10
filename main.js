@@ -107,12 +107,13 @@ class UfoLightRays {
     this._intensity = 0;
 
     // Internal refs
-    this.renderer    = null;
-    this.uniforms    = null;
-    this.mesh        = null;
-    this.animationId = null;
-    this.isDestroyed = false;
-    this.isReady     = false;
+    this.renderer        = null;
+    this.uniforms        = null;
+    this.mesh            = null;
+    this.animationId     = null;
+    this.isDestroyed     = false;
+    this.isReady         = false;
+    this._resizeObserver = null;
 
     this._onResize = this._onResize.bind(this);
     this._init(Renderer, Program, Triangle, Mesh);
@@ -274,7 +275,27 @@ void main() {
     this.mesh = new Mesh(gl, { geometry, program });
 
     this._updatePlacement();
-    window.addEventListener('resize', this._onResize);
+    
+    /*
+     * React to the beam container actually changing size,
+     * not every browser viewport-height twitch.
+     */
+    if ('ResizeObserver' in window) {
+      this._resizeObserver =
+        new ResizeObserver(() => {
+          this._updatePlacement();
+        });
+    
+      this._resizeObserver.observe(
+        this.container
+      );
+    } else {
+      window.addEventListener(
+        'resize',
+        this._onResize
+      );
+    }
+    
     this._startLoop();
 
     this.isReady = true;
@@ -388,7 +409,15 @@ void main() {
     this.isDestroyed = true;
     this.pause();
 
-    window.removeEventListener('resize', this._onResize);
+    if (this._resizeObserver) {
+      this._resizeObserver.disconnect();
+      this._resizeObserver = null;
+    } else {
+      window.removeEventListener(
+        'resize',
+        this._onResize
+      );
+    }
 
     if (this.renderer) {
       try {
@@ -448,11 +477,13 @@ class GalaxyBackground {
     this.targetMouseActive = 0.0;
     this.smoothMouseActive = 0.0;
 
-    this.renderer = null;
-    this.program = null;
-    this.mesh = null;
-    this.animationId = null;
-    this.isDestroyed = false;
+    this.renderer        = null;
+    this.program         = null;
+    this.mesh            = null;
+    this.animationId     = null;
+    this.isDestroyed     = false;
+    this._resizeObserver = null;
+    this._resizeHandler  = null;
 
     this._onMouseMove = this._onMouseMove.bind(this);
     this._onMouseLeave = this._onMouseLeave.bind(this);
@@ -486,20 +517,53 @@ class GalaxyBackground {
     this.container.appendChild(gl.canvas);
 
     let program;
-
+    
     const resize = () => {
-      renderer.setSize(this.container.offsetWidth, this.container.offsetHeight);
+      const nextWidth =
+        this.container.offsetWidth;
+    
+      const nextHeight =
+        this.container.offsetHeight;
+    
+      if (!nextWidth || !nextHeight) return;
+    
+      renderer.setSize(
+        nextWidth,
+        nextHeight
+      );
+    
       if (program) {
-        program.uniforms.uResolution.value = new Color(
-          gl.canvas.width,
-          gl.canvas.height,
-          gl.canvas.width / gl.canvas.height
-        );
+        program.uniforms.uResolution.value =
+          new Color(
+            gl.canvas.width,
+            gl.canvas.height,
+            gl.canvas.width / gl.canvas.height
+          );
       }
     };
-    window.addEventListener('resize', resize, false);
+    
     this._resizeHandler = resize;
+    
     resize();
+    
+    /*
+     * Resize WebGL only when the actual hero container
+     * changes dimensions.
+     */
+    if ('ResizeObserver' in window) {
+      this._resizeObserver =
+        new ResizeObserver(resize);
+    
+      this._resizeObserver.observe(
+        this.container
+      );
+    } else {
+      window.addEventListener(
+        'resize',
+        resize,
+        false
+      );
+    }
 
     const vertexShader = `
 attribute vec2 uv;
@@ -758,6 +822,19 @@ void main() {
     document.removeEventListener('mousemove', this._onMouseMove);
     document.removeEventListener('mouseleave', this._onMouseLeave);
 
+    if (this._resizeObserver) {
+      this._resizeObserver.disconnect();
+      this._resizeObserver = null;
+    } else if (this._resizeHandler) {
+      window.removeEventListener(
+        'resize',
+        this._resizeHandler,
+        false
+      );
+    }
+
+    this._resizeHandler = null;
+
     if (this.renderer) {
       try {
         const gl = this.renderer.gl;
@@ -852,8 +929,41 @@ function destroyGalaxy() {
  * § 2  VIEWPORT HEIGHT
  * ===================================================================== */
 
-function setViewportHeight() {
-  document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+let stableViewportWidth  = window.innerWidth;
+let stableViewportHeight = window.innerHeight;
+
+function setViewportHeight({ force = false } = {}) {
+  const nextWidth  = window.innerWidth;
+  const nextHeight = window.innerHeight;
+
+  const widthChanged =
+    Math.abs(nextWidth - stableViewportWidth) > 2;
+
+  const heightChanged =
+    Math.abs(nextHeight - stableViewportHeight) > 2;
+
+  /*
+   * On a coarse touch device, a height-only resize is normally
+   * browser chrome appearing/disappearing.
+   *
+   * On a mouse/desktop viewport, height changes are legitimate
+   * window-resize changes and should still update layout.
+   */
+  const layoutChanged =
+    widthChanged ||
+    (!isTouchDevice && heightChanged);
+
+  if (force || layoutChanged) {
+    stableViewportWidth  = nextWidth;
+    stableViewportHeight = nextHeight;
+  }
+
+  document.documentElement.style.setProperty(
+    '--vh',
+    `${stableViewportHeight * 0.01}px`
+  );
+
+  return force || layoutChanged;
 }
 
 
@@ -1705,12 +1815,37 @@ function initBodyEnvironment() {
 
 
   /* ── Resize handling ───────────────────────────────────────────── */
-
+  
   window.addEventListener(
     'resize',
     () => {
+      const nextWidth =
+        window.innerWidth;
+  
+      const nextHeight =
+        window.innerHeight;
+  
+      const widthChanged =
+        Math.abs(nextWidth - width) > 2;
+  
+      const heightChanged =
+        Math.abs(nextHeight - height) > 2;
+  
+      /*
+       * Ignore height-only viewport changes on coarse-touch
+       * devices. Those are normally mobile browser chrome.
+       *
+       * Desktop window resizing still responds to both axes.
+       */
+      const canvasSizeChanged =
+        widthChanged ||
+        (!isTouchDevice && heightChanged);
+  
+      if (!canvasSizeChanged) return;
+  
+  
       clearTimeout(resizeTimer);
-
+  
       resizeTimer = setTimeout(
         () => {
           resizeBodyEnvironment();
@@ -2028,7 +2163,7 @@ function getCurrentUfoProgress() {
     window.scrollY + hero.getBoundingClientRect().top;
 
   const heroEnd =
-    heroTop + hero.offsetHeight - window.innerHeight;
+    heroTop + hero.offsetHeight - stableViewportHeight;
 
   const scrollRange = heroEnd - heroTop;
 
@@ -2060,8 +2195,11 @@ function renderUfoAtProgress(progress) {
   const xPx =
     (x / 100) * window.innerWidth;
 
+  const viewportHeight =
+    stableViewportHeight;
+  
   const aspectRatio =
-    window.innerWidth / window.innerHeight;
+    window.innerWidth / viewportHeight;
 
   const maxYpct =
     aspectRatio > 2
@@ -2071,8 +2209,8 @@ function renderUfoAtProgress(progress) {
         : 0.84;
 
   const yPx = Math.min(
-    (y / 100) * window.innerHeight,
-    maxYpct * window.innerHeight
+    (y / 100) * viewportHeight,
+    maxYpct * viewportHeight
   );
 
   /*
@@ -2370,11 +2508,14 @@ if (navToggle && navEl) {
   const mobileNavMode =
     window.matchMedia('(max-width: 900px)');
 
-  window.addEventListener('resize', () => {
-    if (!mobileNavMode.matches) {
-      closeMobileNav();
+  mobileNavMode.addEventListener(
+    'change',
+    event => {
+      if (!event.matches) {
+        closeMobileNav();
+      }
     }
-  });
+  );
 }
 
 /* ── Mobile Availability Status ─────────────────────────────────── */
@@ -2432,12 +2573,16 @@ if (navToggle && navEl) {
    * If the viewport crosses back into desktop mode,
    * remove any leftover mobile state.
    */
-  window.addEventListener('resize', () => {
-
-    if (!mobileNavMode.matches) {
-      statusBadge.classList.remove('is-status-open');
+  mobileNavMode.addEventListener(
+    'change',
+    event => {
+      if (!event.matches) {
+        statusBadge.classList.remove(
+          'is-status-open'
+        );
+      }
     }
-  });
+  );
 })();
 
 
@@ -2941,17 +3086,52 @@ function initStatTilt() {
  * ===================================================================== */
 
 function initResizeHandlers() {
-  window.addEventListener('resize', () => {
-    setViewportHeight();
-    ScrollTrigger.refresh();
-  });
+  let resizeTimer = null;
 
-  window.addEventListener('orientationchange', () => {
-    setTimeout(() => {
-      setViewportHeight();
-      ScrollTrigger.refresh();
-    }, 100);
-  });
+  window.addEventListener(
+    'resize',
+    () => {
+      /*
+       * setViewportHeight() returns false for a height-only
+       * mobile browser-chrome resize.
+       */
+      const layoutChanged =
+        setViewportHeight();
+
+      if (!layoutChanged) return;
+
+
+      clearTimeout(resizeTimer);
+
+      resizeTimer = setTimeout(
+        () => {
+          ScrollTrigger.refresh();
+        },
+        120
+      );
+    }
+  );
+
+
+  window.addEventListener(
+    'orientationchange',
+    () => {
+      /*
+       * Rotation is a genuine layout change.
+       * Let the browser settle first.
+       */
+      setTimeout(
+        () => {
+          setViewportHeight({
+            force: true
+          });
+
+          ScrollTrigger.refresh();
+        },
+        180
+      );
+    }
+  );
 }
 
 
@@ -3032,6 +3212,10 @@ function initBeamUp() {
  * ===================================================================== */
 
 gsap.registerPlugin(ScrollTrigger);
+
+ScrollTrigger.config({
+  ignoreMobileResize: true
+});
 
 /* Theme first */
 initThemeToggle();
