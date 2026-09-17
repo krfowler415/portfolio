@@ -194,7 +194,7 @@ main {
 }
 
 .c-link:hover::after,
-.card-tilt-wrap:hover .c-link::after, {
+.card-tilt-wrap:hover .c-link::after {
   width: 100%;
 }
 
