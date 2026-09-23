@@ -39,7 +39,7 @@
 const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const mobileCaseStudyMode = window.matchMedia('(max-width: 600px)');
+const mobileCaseStudyMode = window.matchMedia('(max-width: 900px)');
 
 const introX   = window.innerWidth / 2 - 100;
 const introY   = window.innerHeight * 0.12;
@@ -3019,12 +3019,17 @@ function initCardTilt() {
     }
     
     /*
-     * Touch devices still get the real sheen + holo layers,
-     * but mouse tracking does not attach.
+     * Only attach pointer-following tilt/holo when the
+     * current device actually supports hover + a fine pointer.
      *
-     * Phone orientation will drive these same layers instead.
+     * This preserves desktop/laptop behavior while leaving
+     * coarse touch phones for DeviceOrientation control.
      */
-    if (isTouchDevice) return;
+    const canPointerTilt = window.matchMedia(
+      '(hover: hover) and (pointer: fine)'
+    ).matches;
+    
+    if (!canPointerTilt) return;
 
     wrap.addEventListener('mousemove', e => {
       const rect = wrap.getBoundingClientRect();
