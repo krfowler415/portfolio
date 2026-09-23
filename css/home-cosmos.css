@@ -1112,31 +1112,37 @@
  * ===================================================================== */
 
 @media (max-width: 900px) {
-  :root[data-theme="dark"] .cs-scroll-wrap {
+
+  :root[data-theme="dark"]
+  .cs-scroll-wrap {
+
     --mobile-cs-bg:
       linear-gradient(
         135deg,
-        var(--bg-surface),
-        var(--bg-raised)
+        var(--cosmos-900),
+        var(--cosmos-800)
       );
 
     --mobile-cs-number-bg:
-      linear-gradient(
-        135deg,
-        var(--bg-raised),
-        var(--bg-surface)
-      );
+      var(--cosmos-900);
 
-    --mobile-cs-border: var(--border);
-    --mobile-cs-divider: var(--border-subtle);
+    --mobile-cs-border:
+      var(--border);
 
-    /* title text = cyan / teal */
-    --mobile-cs-text: var(--accent-aurora);
+    --mobile-cs-divider:
+      var(--border-subtle);
 
-    /* number + plus = accent color */
-    --mobile-cs-accent: var(--accent-bloom);
+    /* Cyan / teal project title */
+    --mobile-cs-text:
+      var(--accent-aurora);
+
+    /* Existing case-study accent role */
+    --mobile-cs-accent:
+      var(--accent-pulsar);
 
     --mobile-cs-shadow:
-      0 8px 22px var(--border-subtle);
+      0 8px 22px
+      var(--border-subtle);
   }
+
 }
