@@ -1522,7 +1522,7 @@ a.card-feat,
    */
   .cs-scroll-wrap {
     margin: 0;
-    padding: 1rem 0 2rem;
+    padding: 1rem 0 0.75rem;
   }
 
 
@@ -1535,7 +1535,7 @@ a.card-feat,
 
     padding: 0;
 
-    cursor: auto;
+    cursor: none;
 
     user-select: auto;
     -webkit-user-select: auto;
@@ -1549,7 +1549,7 @@ a.card-feat,
 
 
   .cs-strip:active {
-    cursor: auto;
+    cursor: none;
   }
 
 
@@ -1655,7 +1655,7 @@ a.card-feat,
 
     text-align: left;
 
-    cursor: pointer;
+    cursor: none;
 
     touch-action: manipulation;
 
