@@ -1789,27 +1789,49 @@
  * ===================================================================== */
 
 @media (max-width: 900px) {
-  :root[data-theme="light"] .cs-scroll-wrap {
-    --mobile-case-bg: linear-gradient(
-      180deg,
-      rgba(29, 92, 42, 0.98),
-      rgba(22, 74, 33, 0.98)
-    );
-    --mobile-case-number-bg: linear-gradient(
-      180deg,
-      rgba(25, 82, 36, 0.98),
-      rgba(19, 64, 29, 0.98)
-    );
-    --mobile-case-border: rgba(35, 84, 43, 0.55);
-    --mobile-case-divider: rgba(242, 205, 87, 0.26);
-    --mobile-case-text: var(--text-muted);
-    --mobile-case-muted: var(--text-muted);
-    --mobile-case-accent: var(--accent-aurora);
-    --mobile-case-shadow: 0 8px 18px rgba(11, 36, 18, 0.16);
+
+  :root[data-theme="light"]
+  .cs-scroll-wrap {
+
+    /*
+     * Saguaro / cactus surface.
+     *
+     * Keep this in the existing green family
+     */
+    --mobile-cs-bg:
+      linear-gradient(
+        105deg,
+        var(--cosmos-300),
+        var(--cosmos-400)
+      );
+
+    /*
+     * Deeper cactus structure behind the project number.
+     */
+    --mobile-cs-number-bg:
+      var(--cosmos-600);
+
+    --mobile-cs-border:
+      var(--cosmos-800);
+
+    --mobile-cs-divider:
+      var(--cosmos-800);
+
+    /*
+     * Title stays in normal body-text ink.
+     */
+    --mobile-cs-text:
+      var(--text);
+
+    /*
+     * Solar yellow for number and +.
+     */
+    --mobile-cs-accent:
+      var(--plasma-200);
+
+    --mobile-cs-shadow:
+      0 8px 22px
+      var(--border-subtle);
   }
 
-  :root[data-theme="light"] .cs-mobile-select:hover,
-  :root[data-theme="light"] .cs-mobile-select:focus-visible {
-    filter: brightness(1.03);
-  }
 }
