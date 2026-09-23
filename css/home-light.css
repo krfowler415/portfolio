@@ -1789,49 +1789,31 @@
  * ===================================================================== */
 
 @media (max-width: 900px) {
-
-  :root[data-theme="light"]
-  .cs-scroll-wrap {
-
-    /*
-     * Saguaro / cactus surface.
-     *
-     * Keep this in the existing green family
-     */
+  :root[data-theme="light"] .cs-scroll-wrap {
     --mobile-cs-bg:
       linear-gradient(
-        105deg,
-        var(--cosmos-300),
-        var(--cosmos-400)
+        135deg,
+        var(--bg-surface),
+        var(--bg-raised)
       );
 
-    /*
-     * Deeper cactus structure behind the project number.
-     */
     --mobile-cs-number-bg:
-      var(--cosmos-600);
+      linear-gradient(
+        135deg,
+        var(--bg-raised),
+        var(--bg-surface)
+      );
 
-    --mobile-cs-border:
-      var(--cosmos-800);
+    --mobile-cs-border: var(--border);
+    --mobile-cs-divider: var(--border-subtle);
 
-    --mobile-cs-divider:
-      var(--cosmos-800);
+    /* title text = normal light-theme text ink */
+    --mobile-cs-text: var(--text);
 
-    /*
-     * Title stays in normal body-text ink.
-     */
-    --mobile-cs-text:
-      var(--text);
-
-    /*
-     * Solar yellow for number and +.
-     */
-    --mobile-cs-accent:
-      var(--plasma-200);
+    /* number + plus = light-theme accent */
+    --mobile-cs-accent: var(--plasma-200);
 
     --mobile-cs-shadow:
-      0 8px 22px
-      var(--border-subtle);
+      0 8px 22px var(--border-subtle);
   }
-
 }
