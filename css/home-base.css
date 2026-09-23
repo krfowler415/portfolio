@@ -1502,6 +1502,434 @@ a.card-feat,
 
 
 /* =====================================================================
+ * 7E MOBILE CASE STUDY ACCORDION
+ * ===================================================================== */
+
+.cs-mobile-select {
+  display: none;
+}
+
+
+@media (max-width: 600px) {
+
+  /*
+   * Disable horizontal-carousel presentation only.
+   * The desktop rules remain intact above this breakpoint.
+   */
+  .cs-scroll-wrap {
+    margin: 0;
+    padding: 1rem 0 2rem;
+  }
+
+
+  .cs-strip {
+    display: grid;
+
+    gap: 0.6rem;
+
+    overflow: visible;
+
+    padding: 0;
+
+    cursor: auto;
+
+    user-select: auto;
+    -webkit-user-select: auto;
+
+    perspective: none;
+    transform-style: flat;
+
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+
+  .cs-strip:active {
+    cursor: auto;
+  }
+
+
+  /*
+   * Remember:
+   * .cs-card IS .card-tilt-wrap in your HTML.
+   */
+  .cs-card {
+    width: 100%;
+    max-width: none;
+
+    flex: none;
+
+    scroll-snap-align: none;
+  }
+
+
+  /*
+   * INACTIVE:
+   * show the compact selector,
+   * hide the original full-card anchor.
+   */
+  .cs-card:not(.is-mobile-active)
+  > .card-feat {
+    display: none;
+  }
+
+
+  .cs-card:not(.is-mobile-active)
+  > .cs-mobile-select {
+    display: grid;
+  }
+
+
+  /*
+   * ACTIVE:
+   * original card remains visible.
+   */
+  .cs-card.is-mobile-active
+  > .card-feat {
+    display: grid;
+  }
+
+
+  .cs-card.is-mobile-active
+  > .cs-mobile-select {
+    display: none;
+  }
+
+
+  /* ---------------------------------------------------------------
+   * MINI PROJECT
+   * --------------------------------------------------------------- */
+
+  .cs-mobile-select {
+    grid-template-columns:
+      58px
+      minmax(0, 1fr)
+      40px;
+
+    align-items: center;
+
+    width: 100%;
+    min-height: 64px;
+
+    padding: 0;
+
+    overflow: hidden;
+
+    border:
+      1px solid
+      var(
+        --mobile-cs-border,
+        currentColor
+      );
+
+    border-radius: 10px;
+
+    color:
+      var(
+        --mobile-cs-text,
+        currentColor
+      );
+
+    background:
+      var(
+        --mobile-cs-bg
+      );
+
+    box-shadow:
+      var(
+        --mobile-cs-shadow,
+        none
+      );
+
+    font: inherit;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    touch-action: manipulation;
+
+    -webkit-tap-highlight-color:
+      transparent;
+  }
+
+
+  .cs-mobile-number {
+    display: grid;
+
+    place-items: center;
+
+    align-self: stretch;
+
+    border-right:
+      1px solid
+      var(
+        --mobile-cs-divider,
+        currentColor
+      );
+
+    color:
+      var(
+        --mobile-cs-accent,
+        var(--accent-aurora)
+      );
+
+    background:
+      var(
+        --mobile-cs-number-bg
+      );
+
+    font-family: var(--Orb);
+
+    font-size: 0.7rem;
+    font-weight: 600;
+
+    letter-spacing: 0.07em;
+  }
+
+
+  .cs-mobile-title {
+    min-width: 0;
+
+    overflow: hidden;
+
+    padding:
+      0.55rem
+      0.8rem;
+
+    font-family: var(--Orb);
+
+    font-size: 0.72rem;
+    font-weight: 600;
+
+    line-height: 1.25;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+  }
+
+
+  .cs-mobile-open {
+    display: grid;
+
+    place-items: center;
+
+    align-self: stretch;
+
+    color:
+      var(
+        --mobile-cs-accent,
+        var(--accent-aurora)
+      );
+
+    font-size: 1rem;
+  }
+
+
+  .cs-mobile-select:active {
+    filter: brightness(1.08);
+  }
+
+
+  /* ---------------------------------------------------------------
+   * FULL MOBILE CARD
+   * --------------------------------------------------------------- */
+
+  .cs-card.is-mobile-active
+  > .card-feat {
+    grid-template-columns: 1fr;
+  }
+
+
+  /*
+   * Overrides the existing <=900px 260px visual.
+   */
+  .cs-card.is-mobile-active
+  .card-vis {
+    min-height:
+      clamp(
+        165px,
+        44vw,
+        190px
+      );
+
+    padding: 1rem;
+  }
+
+
+  .cs-card.is-mobile-active
+  .project-vis-image {
+    width: auto;
+
+    max-width: 100%;
+    max-height: 150px;
+
+    object-fit: contain;
+  }
+
+
+  .cs-card.is-mobile-active
+  .project-vis-title {
+    font-size: 1.55rem;
+  }
+
+
+  .cs-card.is-mobile-active
+  .card-body {
+    gap: 0.7rem;
+
+    padding:
+      1.1rem
+      1.1rem
+      1.2rem;
+  }
+
+
+  .cs-card.is-mobile-active
+  .c-title {
+    font-size: 1.05rem;
+
+    line-height: 1.25;
+  }
+
+
+  .cs-card.is-mobile-active
+  .c-desc {
+    display: -webkit-box;
+
+    overflow: hidden;
+
+    font-size: 0.72rem;
+
+    line-height: 1.5;
+
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+
+
+  .cs-card.is-mobile-active
+  .c-tags {
+    gap: 0.3rem;
+  }
+
+
+  .cs-card.is-mobile-active
+  .c-tag {
+    padding:
+      0.2rem
+      0.4rem;
+
+    font-size: 0.58rem;
+  }
+
+
+  /*
+   * First three tags only on phone.
+   */
+  .cs-card.is-mobile-active
+  .c-tag:nth-child(n + 4) {
+    display: none;
+  }
+
+
+  /*
+   * Your existing c-link is still visual copy
+   * inside the full-card <a>.
+   *
+   * Entire card continues to navigate exactly
+   * as it currently does.
+   */
+  .cs-card.is-mobile-active
+  .c-link {
+    width: 100%;
+    min-height: 44px;
+
+    justify-content: space-between;
+
+    align-self: stretch;
+
+    margin-top: 0.1rem;
+
+    padding:
+      0
+      0.75rem;
+
+    border:
+      1px solid
+      currentColor;
+
+    border-radius: 6px;
+
+    font-size: 0.65rem;
+  }
+
+
+  /*
+   * Every project is already visible/selectable,
+   * so mobile needs neither carousel control.
+   */
+  .cs-arrows,
+  .cs-progress-wrap {
+    display: none;
+  }
+}
+
+
+/* =====================================================================
+ * TRUE TOUCH PHONE OVERRIDES
+ * ===================================================================== */
+
+@media
+  (max-width: 600px)
+  and (hover: none)
+  and (pointer: coarse) {
+
+  /*
+   * Wrapper shadow is a desktop hover effect.
+   */
+  .cs-card:hover::after {
+    opacity: 0;
+  }
+
+
+  /*
+   * Prevent touch browsers from pinning the
+   * desktop :hover holo at 85%.
+   *
+   * JS writes inline opacity when actual phone
+   * tilt is active, so sensor control still wins.
+   */
+  .cs-card:hover
+  > .card-feat
+  .card-holo {
+    opacity: 0;
+  }
+
+
+  /*
+   * The old touch-scale transform would fight
+   * DeviceOrientation's transform.
+   */
+  .cs-card
+  > .card-feat:active {
+    transform: none;
+  }
+
+
+  /*
+   * Retain touch feedback without taking
+   * ownership of transform.
+   */
+  .cs-card
+  > .card-feat:active {
+    filter: brightness(0.98);
+  }
+}
+
+
+/* =====================================================================
  * § 8  HOME ABOUT STRUCTURE
  * ===================================================================== */
 
