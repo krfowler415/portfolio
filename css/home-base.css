@@ -1510,7 +1510,11 @@ a.card-feat,
 }
 
 
-@media (max-width: 600px) {
+/* =========================================
+   900px: COMPONENT CHANGES MODE
+   ========================================= */
+
+@media (max-width: 900px) {
 
   /*
    * Disable horizontal-carousel presentation only.
@@ -1595,6 +1599,11 @@ a.card-feat,
     display: none;
   }
 
+  .cs-arrows,
+  .cs-progress-wrap {
+    display: none;
+  }
+
 
   /* ---------------------------------------------------------------
    * MINI PROJECT
@@ -1632,7 +1641,8 @@ a.card-feat,
 
     background:
       var(
-        --mobile-cs-bg
+        --mobile-cs-bg,
+        var(--bg-surface)
       );
 
     box-shadow:
@@ -1676,7 +1686,8 @@ a.card-feat,
 
     background:
       var(
-        --mobile-cs-number-bg
+        --mobile-cs-number-bg,
+        var(--bg-raised)
       );
 
     font-family: var(--Orb);
@@ -1731,13 +1742,19 @@ a.card-feat,
     filter: brightness(1.08);
   }
 
+}
 
   /* ---------------------------------------------------------------
    * FULL MOBILE CARD
+   * 600px: ACTIVE CARD GETS MORE COMPACT
    * --------------------------------------------------------------- */
 
+  /* Extra compression for actual phone widths */
+  @media (max-width: 600px) {
+  
+    
   .cs-card.is-mobile-active
-  > .card-feat {
+    > .card-feat {
     grid-template-columns: 1fr;
   }
 
@@ -1865,24 +1882,16 @@ a.card-feat,
     font-size: 0.65rem;
   }
 
-
-  /*
-   * Every project is already visible/selectable,
-   * so mobile needs neither carousel control.
-   */
-  .cs-arrows,
-  .cs-progress-wrap {
-    display: none;
-  }
 }
 
 
 /* =====================================================================
  * TRUE TOUCH PHONE OVERRIDES
+ * 900px + TOUCH: INTERACTION OVERRIDES
  * ===================================================================== */
 
 @media
-  (max-width: 600px)
+  (max-width: 900px)
   and (hover: none)
   and (pointer: coarse) {
 
