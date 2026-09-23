@@ -1111,30 +1111,37 @@
  * 19 MOBILE CASE STUDY SELECTORS — COSMOS
  * ===================================================================== */
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
 
   :root[data-theme="dark"]
   .cs-scroll-wrap {
 
+    /*
+     * Uses the same dark-surface hierarchy
+     * as the rest of the Cosmos interface.
+     */
     --mobile-cs-bg:
       linear-gradient(
         105deg,
-        rgba(28, 18, 50, 0.98),
-        rgba(22, 8, 40, 0.98)
+        var(--bg-surface),
+        var(--cosmos-900)
       );
 
+    /*
+     * Slightly elevated/energized number well.
+     */
     --mobile-cs-number-bg:
       linear-gradient(
         145deg,
-        rgba(95, 37, 159, 0.22),
-        rgba(10, 195, 154, 0.06)
+        var(--cosmos-600),
+        var(--aurora-900)
       );
 
     --mobile-cs-border:
-      #98A8D43D;
+      var(--border);
 
     --mobile-cs-divider:
-      #98A8D426;
+      var(--border-subtle);
 
     --mobile-cs-text:
       var(--text);
@@ -1144,7 +1151,7 @@
 
     --mobile-cs-shadow:
       0 8px 22px
-      rgba(5, 2, 16, 0.26);
+      var(--border-subtle);
   }
 
 }
