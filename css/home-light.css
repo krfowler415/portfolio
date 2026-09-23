@@ -1788,40 +1788,28 @@
  * MOBILE CASE STUDY SELECTORS — Light
  * ===================================================================== */
 
-@media (max-width: 600px) {
-
-  :root[data-theme="light"]
-  .cs-scroll-wrap {
-
-    --mobile-cs-bg:
-      linear-gradient(
-        105deg,
-        rgba(255, 253, 247, 0.98),
-        rgba(240, 247, 234, 0.98)
-      );
-
-    --mobile-cs-number-bg:
-      linear-gradient(
-        145deg,
-        rgba(39, 106, 36, 0.12),
-        rgba(255, 210, 60, 0.10)
-      );
-
-    --mobile-cs-border:
-      rgba(35, 84, 43, 0.22);
-
-    --mobile-cs-divider:
-      rgba(35, 84, 43, 0.16);
-
-    --mobile-cs-text:
-      var(--text);
-
-    --mobile-cs-accent:
-      var(--cosmos-600);
-
-    --mobile-cs-shadow:
-      0 8px 22px
-      rgba(11, 36, 18, 0.10);
+@media (max-width: 900px) {
+  :root[data-theme="light"] .cs-scroll-wrap {
+    --mobile-case-bg: linear-gradient(
+      180deg,
+      rgba(29, 92, 42, 0.98),
+      rgba(22, 74, 33, 0.98)
+    );
+    --mobile-case-number-bg: linear-gradient(
+      180deg,
+      rgba(25, 82, 36, 0.98),
+      rgba(19, 64, 29, 0.98)
+    );
+    --mobile-case-border: rgba(35, 84, 43, 0.55);
+    --mobile-case-divider: rgba(242, 205, 87, 0.26);
+    --mobile-case-text: var(--text-muted);
+    --mobile-case-muted: var(--text-muted);
+    --mobile-case-accent: var(--accent-aurora);
+    --mobile-case-shadow: 0 8px 18px rgba(11, 36, 18, 0.16);
   }
 
+  :root[data-theme="light"] .cs-mobile-select:hover,
+  :root[data-theme="light"] .cs-mobile-select:focus-visible {
+    filter: brightness(1.03);
+  }
 }
