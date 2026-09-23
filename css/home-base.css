@@ -1419,7 +1419,6 @@ a.card-feat,
     0% var(--holo-posy),
     var(--holo-posx) var(--holo-posy),
     var(--holo-posx) var(--holo-posy);
-
   filter:
     brightness(calc((var(--holo-hyp) * 0.3) + 0.5))
     contrast(2)
@@ -1436,9 +1435,7 @@ a.card-feat,
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-
   mix-blend-mode: exclusion;
-
   background-image:
     url("/images/holo-texture.png"),
     repeating-linear-gradient(
@@ -1463,7 +1460,6 @@ a.card-feat,
     0% var(--holo-posy),
     calc(var(--holo-posx) * -1) calc(var(--holo-posy) * -1),
     var(--holo-posx) var(--holo-posy);
-
   filter:
     brightness(calc((var(--holo-hyp) * 0.5) + 0.8))
     contrast(1.6)
@@ -1525,33 +1521,23 @@ a.card-feat,
     padding: 1rem 0 0.75rem;
   }
 
-
   .cs-strip {
     display: grid;
-
     gap: 0.6rem;
-
     overflow: visible;
-
     padding: 0;
-
     cursor: none;
-
     user-select: auto;
     -webkit-user-select: auto;
-
     perspective: none;
     transform-style: flat;
-
     mask-image: none;
     -webkit-mask-image: none;
   }
 
-
   .cs-strip:active {
     cursor: none;
   }
-
 
   /*
    * Remember:
@@ -1560,12 +1546,9 @@ a.card-feat,
   .cs-card {
     width: 100%;
     max-width: none;
-
     flex: none;
-
     scroll-snap-align: none;
   }
-
 
   /*
    * INACTIVE:
@@ -1577,12 +1560,10 @@ a.card-feat,
     display: none;
   }
 
-
   .cs-card:not(.is-mobile-active)
   > .cs-mobile-select {
     display: grid;
   }
-
 
   /*
    * ACTIVE:
@@ -1592,7 +1573,6 @@ a.card-feat,
   > .card-feat {
     display: grid;
   }
-
 
   .cs-card.is-mobile-active
   > .cs-mobile-select {
@@ -1614,51 +1594,37 @@ a.card-feat,
       58px
       minmax(0, 1fr)
       40px;
-
     align-items: center;
-
     width: 100%;
     min-height: 64px;
-
     padding: 0;
-
     overflow: hidden;
-
     border:
       1px solid
       var(
         --mobile-cs-border,
         currentColor
       );
-
     border-radius: 10px;
-
     color:
       var(
         --mobile-cs-text,
         currentColor
       );
-
     background:
       var(
         --mobile-cs-bg,
         var(--bg-surface)
       );
-
     box-shadow:
       var(
         --mobile-cs-shadow,
         none
       );
-
     font: inherit;
-
     text-align: left;
-
     cursor: none;
-
     touch-action: manipulation;
-
     -webkit-tap-highlight-color:
       transparent;
   }
@@ -1666,77 +1632,57 @@ a.card-feat,
 
   .cs-mobile-number {
     display: grid;
-
     place-items: center;
-
     align-self: stretch;
-
     border-right:
       1px solid
       var(
         --mobile-cs-divider,
         currentColor
       );
-
     color:
       var(
         --mobile-cs-accent,
         var(--accent-aurora)
       );
-
     background:
       var(
         --mobile-cs-number-bg,
         var(--bg-raised)
       );
-
     font-family: var(--Orb);
-
     font-size: 0.7rem;
     font-weight: 600;
-
     letter-spacing: 0.07em;
   }
 
 
   .cs-mobile-title {
     min-width: 0;
-
     overflow: hidden;
-
     padding:
       0.55rem
       0.8rem;
-
     font-family: var(--Orb);
-
     font-size: 0.72rem;
     font-weight: 600;
-
     line-height: 1.25;
-
     text-overflow: ellipsis;
-
     white-space: nowrap;
   }
 
 
   .cs-mobile-open {
     display: grid;
-
     place-items: center;
-
     align-self: stretch;
-
     color:
       var(
         --mobile-cs-accent,
         var(--accent-aurora)
       );
-
     font-size: 1rem;
   }
-
 
   .cs-mobile-select:active {
     filter: brightness(1.08);
@@ -1778,10 +1724,8 @@ a.card-feat,
   .cs-card.is-mobile-active
   .project-vis-image {
     width: auto;
-
     max-width: 100%;
     max-height: 150px;
-
     object-fit: contain;
   }
 
@@ -1795,7 +1739,6 @@ a.card-feat,
   .cs-card.is-mobile-active
   .card-body {
     gap: 0.7rem;
-
     padding:
       1.1rem
       1.1rem
@@ -1806,7 +1749,6 @@ a.card-feat,
   .cs-card.is-mobile-active
   .c-title {
     font-size: 1.05rem;
-
     line-height: 1.25;
   }
 
@@ -1814,13 +1756,9 @@ a.card-feat,
   .cs-card.is-mobile-active
   .c-desc {
     display: -webkit-box;
-
     overflow: hidden;
-
     font-size: 0.72rem;
-
     line-height: 1.5;
-
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
   }
@@ -1837,7 +1775,6 @@ a.card-feat,
     padding:
       0.2rem
       0.4rem;
-
     font-size: 0.58rem;
   }
 
@@ -1862,23 +1799,16 @@ a.card-feat,
   .c-link {
     width: 100%;
     min-height: 44px;
-
     justify-content: space-between;
-
     align-self: stretch;
-
     margin-top: 0.1rem;
-
     padding:
       0
       0.75rem;
-
     border:
       1px solid
       currentColor;
-
     border-radius: 6px;
-
     font-size: 0.65rem;
   }
 
