@@ -1793,27 +1793,42 @@
   :root[data-theme="light"]
   .cs-scroll-wrap {
 
+    /*
+     * Same cactus body treatment as the full case-study cards.
+     */
     --mobile-cs-bg:
       linear-gradient(
         135deg,
-        var(--cosmos-50),
-        var(--cosmos-100)
+        var(--cosmos-900),
+        var(--cosmos-800)
       );
 
+    /*
+     * Contrasting mineral well, analogous to the dark visual
+     * panel on the expanded light-theme card.
+     */
     --mobile-cs-number-bg:
-      var(--cosmos-200);
+      var(--aether-900);
 
+    /*
+     * Use the established card border system.
+     */
     --mobile-cs-border:
       var(--border);
 
     --mobile-cs-divider:
-      var(--border-subtle);
+      var(--border);
 
-    /* Normal Sonoran body ink */
+    /*
+     * Readable content text on the dark cactus surface.
+     */
     --mobile-cs-text:
-      var(--text);
+      var(--text-on-dark);
 
-    /* Existing light case-study number/accent role */
+    /*
+     * Same Solar accent already used by the full card's
+     * project number and Dive Deeper link.
+     */
     --mobile-cs-accent:
       var(--plasma-200);
 
