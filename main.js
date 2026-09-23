@@ -39,6 +39,8 @@
 const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+const mobileCaseStudyMode = window.matchMedia('(max-width: 600px)');
+
 const introX   = window.innerWidth / 2 - 100;
 const introY   = window.innerHeight * 0.12;
 const introXvw = (introX / window.innerWidth) * 100;
@@ -2884,6 +2886,7 @@ function initCaseStudyStrip() {
   let isSnapping = false;
 
   strip.addEventListener('scroll', () => {
+    if (mobileCaseStudyMode.matches) return;
     const max = strip.scrollWidth - strip.clientWidth;
     if (progress) {
       progress.style.width = (max > 0 ? (strip.scrollLeft / max) * 100 : 0) + '%';
@@ -2907,6 +2910,7 @@ function initCaseStudyStrip() {
   let hasDragged = false;
 
   strip.addEventListener('mousedown', e => {
+    if (mobileCaseStudyMode.matches) return;
     e.preventDefault();
     isDown     = true;
     hasDragged = false;
@@ -2917,6 +2921,7 @@ function initCaseStudyStrip() {
   strip.addEventListener('mouseleave', () => { isDown = false; });
 
   strip.addEventListener('mouseup', () => {
+    if (mobileCaseStudyMode.matches) return;
     if (isDown && hasDragged) {
       const cardWidth = getCardWidth();
       const current   = Math.round(scrollLeft / cardWidth);
@@ -2931,13 +2936,14 @@ function initCaseStudyStrip() {
   });
 
   strip.addEventListener('mousemove', e => {
-    if (!isDown) return;
+    if (mobileCaseStudyMode.matches || !isDown) return;
     const walk = e.pageX - strip.offsetLeft - startX;
     if (Math.abs(walk) > 5) { hasDragged = true; e.preventDefault(); }
     strip.scrollLeft = scrollLeft - walk * 1.1;
   });
 
   strip.addEventListener('click', e => {
+    if (mobileCaseStudyMode.matches) return;
     if (hasDragged) { e.preventDefault(); e.stopPropagation(); }
   }, true);
 
@@ -2946,19 +2952,21 @@ function initCaseStudyStrip() {
     if (!link) return;
 
     card.addEventListener('click', e => {
-      if (hasDragged) return;
+      if (mobileCaseStudyMode.matches || hasDragged) return;
       if (e.target.closest('a')) return;
       link.click();
     });
   });
 
   prevBtn?.addEventListener('click', () => {
+    if (mobileCaseStudyMode.matches) return;
     animateArrow(prevBtn);
     const target = Math.max(0, (Math.round(strip.scrollLeft / getCardWidth()) - 1) * getCardWidth());
     smoothScrollTo(strip, target, 1000);
   });
 
   nextBtn?.addEventListener('click', () => {
+    if (mobileCaseStudyMode.matches) return;
     animateArrow(nextBtn);
     const target = (Math.round(strip.scrollLeft / getCardWidth()) + 1) * getCardWidth();
     smoothScrollTo(strip, target, 1000);
@@ -3009,6 +3017,14 @@ function initCardTilt() {
       holo.className = 'card-holo';
       inner.appendChild(holo);
     }
+    
+    /*
+     * Touch devices still get the real sheen + holo layers,
+     * but mouse tracking does not attach.
+     *
+     * Phone orientation will drive these same layers instead.
+     */
+    if (isTouchDevice) return;
 
     wrap.addEventListener('mousemove', e => {
       const rect = wrap.getBoundingClientRect();
@@ -3054,7 +3070,955 @@ function initCardTilt() {
 
 
 /* =====================================================================
- * § 12A  STAT TILT + HOLO
+ * § 12A  MOBILE CASE STUDY ACCORDION + PHONE HOLO
+ * ===================================================================== */
+
+function initMobileCaseStudyAccordion() {
+  const strip = document.getElementById('csStrip');
+  if (!strip) return;
+
+  const cards = [...strip.querySelectorAll('.cs-card')];
+  if (!cards.length) return;
+
+  let activeIndex = 0;
+
+  let sectionVisible = false;
+  let initialFlourishPlayed = false;
+
+  let motionPermission = 'unknown';
+  let motionListening = false;
+  let motionBaseline = null;
+  let motionHasSample = false;
+
+  let targetX = 0;
+  let targetY = 0;
+
+  let currentX = 0;
+  let currentY = 0;
+
+  let motionFrame = null;
+
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+
+  /* ---------------------------------------------------------------
+   * EFFECT ELEMENTS
+   * --------------------------------------------------------------- */
+
+  function getCardEffects(card) {
+    const inner = card?.querySelector('.card-feat');
+
+    return {
+      inner,
+      sheen: inner?.querySelector('.card-sheen'),
+      holo: inner?.querySelector('.card-holo')
+    };
+  }
+
+
+  function resetCardEffect(card) {
+    const {
+      inner,
+      sheen,
+      holo
+    } = getCardEffects(card);
+
+    if (!inner) return;
+
+    gsap.killTweensOf(
+      [inner, sheen, holo].filter(Boolean)
+    );
+
+    /*
+     * Clear GSAP transforms properly rather than
+     * leaving its internal transform cache stale.
+     */
+    gsap.set(inner, {
+      clearProps: 'transform'
+    });
+
+    inner.style.transition = '';
+
+    inner.style.setProperty('--ratio-x', 0);
+    inner.style.setProperty('--ratio-y', 0);
+
+    if (sheen) {
+      sheen.style.opacity = '0';
+      sheen.style.setProperty('--sheen-x', '50%');
+      sheen.style.setProperty('--sheen-y', '50%');
+    }
+
+    if (holo) {
+      holo.style.opacity = '0';
+      holo.style.transition = '';
+    }
+  }
+
+
+  function resetMotionBaseline() {
+    motionBaseline = null;
+    motionHasSample = false;
+
+    targetX = 0;
+    targetY = 0;
+
+    currentX = 0;
+    currentY = 0;
+  }
+
+
+  /* ---------------------------------------------------------------
+   * CREATE THE THREE MINI PROJECT SELECTORS
+   *
+   * Actual DOM after this becomes:
+   *
+   * .card-tilt-wrap.cs-card
+   *   button.cs-mobile-select
+   *   a.card-feat
+   *
+   * The button and full card are siblings.
+   * --------------------------------------------------------------- */
+
+  function buildMobileSelectors() {
+    cards.forEach((card, index) => {
+      if (card.querySelector('.cs-mobile-select')) return;
+
+      const fullCard = card.querySelector('.card-feat');
+      const title = card.querySelector('.c-title')?.textContent.trim();
+      const number = card.querySelector('.card-vis-tag')?.textContent.trim();
+
+      if (!fullCard || !title) return;
+
+      if (!fullCard.id) {
+        fullCard.id = `case-study-card-${index + 1}`;
+      }
+
+
+      const button = document.createElement('button');
+
+      button.type = 'button';
+      button.className = 'cs-mobile-select';
+
+      button.setAttribute(
+        'aria-controls',
+        fullCard.id
+      );
+
+      button.setAttribute(
+        'aria-label',
+        `Show ${title}`
+      );
+
+
+      const numberEl = document.createElement('span');
+      numberEl.className = 'cs-mobile-number';
+      numberEl.textContent =
+        number || String(index + 1).padStart(2, '0');
+
+
+      const titleEl = document.createElement('span');
+      titleEl.className = 'cs-mobile-title';
+      titleEl.textContent = title;
+
+
+      const icon = document.createElement('span');
+      icon.className = 'cs-mobile-open';
+      icon.setAttribute('aria-hidden', 'true');
+      icon.textContent = '+';
+
+
+      button.append(
+        numberEl,
+        titleEl,
+        icon
+      );
+
+
+      /*
+       * Direct child of .cs-card, directly before
+       * the existing full-card anchor.
+       */
+      card.insertBefore(
+        button,
+        fullCard
+      );
+    });
+  }
+
+
+  /* ---------------------------------------------------------------
+   * MOBILE ACTIVE PROJECT
+   * --------------------------------------------------------------- */
+
+  function setActiveProject(
+    index,
+    {
+      keepInView = true
+    } = {}
+  ) {
+    activeIndex = clamp(
+      index,
+      0,
+      cards.length - 1
+    );
+
+
+    cards.forEach((card, cardIndex) => {
+      const active =
+        cardIndex === activeIndex;
+
+      card.classList.toggle(
+        'is-mobile-active',
+        active
+      );
+
+      const button =
+        card.querySelector(
+          '.cs-mobile-select'
+        );
+
+      button?.setAttribute(
+        'aria-expanded',
+        String(active)
+      );
+
+      if (!active) {
+        resetCardEffect(card);
+      }
+    });
+
+
+    /*
+     * Whatever angle the person is currently
+     * holding the phone at becomes neutral for
+     * the newly selected card.
+     */
+    resetMotionBaseline();
+
+
+    const activeCard =
+      cards[activeIndex];
+
+
+    if (
+      keepInView &&
+      mobileCaseStudyMode.matches
+    ) {
+      requestAnimationFrame(() => {
+        activeCard.scrollIntoView({
+          behavior:
+            reducedMotion
+              ? 'auto'
+              : 'smooth',
+
+          block: 'nearest'
+        });
+      });
+    }
+
+
+    return activeCard;
+  }
+
+
+  /* ---------------------------------------------------------------
+   * FALLBACK HOLO FLOURISH
+   *
+   * Used before iOS grants motion permission
+   * or when orientation sensors are unavailable.
+   *
+   * Importantly, this is still YOUR .card-holo.
+   * --------------------------------------------------------------- */
+
+  function playHoloFlourish(card) {
+    if (
+      reducedMotion ||
+      !mobileCaseStudyMode.matches
+    ) {
+      return;
+    }
+
+
+    const {
+      inner,
+      sheen,
+      holo
+    } = getCardEffects(card);
+
+
+    if (
+      !inner ||
+      !sheen ||
+      !holo
+    ) {
+      return;
+    }
+
+
+    resetCardEffect(card);
+
+    inner.style.transition = 'none';
+    holo.style.transition = 'none';
+
+
+    const timeline =
+      gsap.timeline({
+        defaults: {
+          ease: 'power1.inOut'
+        },
+
+        onComplete: () => {
+          /*
+           * Real sensor input may have started while
+           * this little reveal was playing.
+           */
+          if (
+            motionPermission === 'granted' &&
+            motionHasSample
+          ) {
+            return;
+          }
+
+          resetCardEffect(card);
+        }
+      });
+
+
+    timeline
+      .set(inner, {
+        '--ratio-x': -0.6,
+        '--ratio-y': -0.15,
+        rotationX: 0,
+        rotationY: 0
+      })
+
+      .set(holo, {
+        opacity: 0
+      })
+
+      .set(sheen, {
+        opacity: 0
+      })
+
+      .to(
+        holo,
+        {
+          opacity: 0.78,
+          duration: 0.18
+        },
+        0
+      )
+
+      .to(
+        sheen,
+        {
+          opacity: 0.34,
+          duration: 0.18
+        },
+        0
+      )
+
+      .to(
+        inner,
+        {
+          '--ratio-x': 0.7,
+          '--ratio-y': 0.18,
+
+          rotationX: -0.7,
+          rotationY: 1.8,
+
+          duration: 0.55
+        },
+        0
+      )
+
+      .to(inner, {
+        '--ratio-x': -0.24,
+        '--ratio-y': 0.1,
+
+        rotationX: 0.3,
+        rotationY: -0.7,
+
+        duration: 0.3
+      })
+
+      .to(inner, {
+        '--ratio-x': 0,
+        '--ratio-y': 0,
+
+        rotationX: 0,
+        rotationY: 0,
+
+        duration: 0.28,
+        ease: 'power1.out'
+      })
+
+      .to(
+        [holo, sheen],
+        {
+          opacity: 0,
+          duration: 0.22
+        },
+        '-=0.18'
+      );
+  }
+
+
+  /* ---------------------------------------------------------------
+   * PHONE ORIENTATION
+   * --------------------------------------------------------------- */
+
+  function normalizeTilt(degrees) {
+    const deadZone = 1.25;
+    const maxTilt = 18;
+
+    const magnitude =
+      Math.abs(degrees);
+
+
+    if (
+      magnitude <= deadZone
+    ) {
+      return 0;
+    }
+
+
+    const normalized =
+      (
+        magnitude - deadZone
+      )
+      /
+      (
+        maxTilt - deadZone
+      );
+
+
+    return (
+      Math.sign(degrees) *
+      clamp(
+        normalized,
+        0,
+        1
+      )
+    );
+  }
+
+
+  function handleDeviceOrientation(event) {
+    if (
+      !mobileCaseStudyMode.matches ||
+      !sectionVisible ||
+      reducedMotion ||
+      typeof event.beta !== 'number' ||
+      typeof event.gamma !== 'number'
+    ) {
+      return;
+    }
+
+
+    /*
+     * First useful sensor reading becomes neutral.
+     * Users normally hold phones tilted toward
+     * themselves, not perfectly flat.
+     */
+    if (!motionBaseline) {
+      motionBaseline = {
+        beta: event.beta,
+        gamma: event.gamma
+      };
+
+      motionHasSample = true;
+
+      return;
+    }
+
+
+    targetX =
+      normalizeTilt(
+        event.gamma -
+        motionBaseline.gamma
+      );
+
+
+    targetY =
+      normalizeTilt(
+        event.beta -
+        motionBaseline.beta
+      );
+
+
+    motionHasSample = true;
+  }
+
+
+  function renderPhoneMotion() {
+    if (
+      mobileCaseStudyMode.matches &&
+      sectionVisible &&
+      motionPermission === 'granted' &&
+      motionHasSample
+    ) {
+      const activeCard =
+        cards[activeIndex];
+
+
+      const {
+        inner,
+        sheen,
+        holo
+      } = getCardEffects(activeCard);
+
+
+      if (
+        inner &&
+        sheen &&
+        holo
+      ) {
+        /*
+         * Smooth raw sensor data.
+         */
+        currentX +=
+          (
+            targetX -
+            currentX
+          ) * 0.085;
+
+
+        currentY +=
+          (
+            targetY -
+            currentY
+          ) * 0.085;
+
+
+        const intensity =
+          clamp(
+            Math.hypot(
+              currentX,
+              currentY
+            ),
+            0,
+            1
+          );
+
+
+        /*
+         * Small dead area around neutral.
+         */
+        const visibleIntensity =
+          intensity < 0.035
+            ? 0
+            : intensity;
+
+
+        /*
+         * CSS transitions would add unwanted latency
+         * to live sensor movement.
+         */
+        inner.style.transition = 'none';
+        holo.style.transition = 'none';
+        sheen.style.transition = 'none';
+
+
+        /*
+         * EXACT SAME VARIABLES THE DESKTOP
+         * POINTER SYSTEM FEEDS.
+         */
+        inner.style.setProperty(
+          '--ratio-x',
+          currentX
+        );
+
+
+        inner.style.setProperty(
+          '--ratio-y',
+          currentY
+        );
+
+
+        /*
+         * Much subtler physical card tilt than
+         * desktop mouse movement.
+         */
+        inner.style.transform =
+          `perspective(900px)
+           rotateX(${-currentY * 2.4}deg)
+           rotateY(${currentX * 2.8}deg)`;
+
+
+        sheen.style.setProperty(
+          '--sheen-x',
+          `${50 + currentX * 34}%`
+        );
+
+
+        sheen.style.setProperty(
+          '--sheen-y',
+          `${50 + currentY * 30}%`
+        );
+
+
+        /*
+         * Phone motion ACTIVATES the material.
+         */
+        holo.style.opacity =
+          String(
+            visibleIntensity *
+            0.85
+          );
+
+
+        sheen.style.opacity =
+          String(
+            visibleIntensity *
+            0.36
+          );
+      }
+    }
+
+
+    motionFrame =
+      requestAnimationFrame(
+        renderPhoneMotion
+      );
+  }
+
+
+  function startMotionListener() {
+    if (
+      motionListening ||
+      reducedMotion
+    ) {
+      return;
+    }
+
+
+    window.addEventListener(
+      'deviceorientation',
+      handleDeviceOrientation,
+      true
+    );
+
+
+    motionListening = true;
+
+
+    if (motionFrame === null) {
+      motionFrame =
+        requestAnimationFrame(
+          renderPhoneMotion
+        );
+    }
+  }
+
+
+  /*
+   * iPhone/iOS requires this to originate
+   * from an actual user gesture.
+   *
+   * The user's tap on a minimized project
+   * provides that gesture.
+   */
+  async function ensureMotionPermission() {
+    if (
+      reducedMotion ||
+      !isTouchDevice ||
+      typeof DeviceOrientationEvent ===
+        'undefined'
+    ) {
+      motionPermission =
+        'unsupported';
+
+      return false;
+    }
+
+
+    if (
+      motionPermission === 'granted'
+    ) {
+      return true;
+    }
+
+
+    if (
+      motionPermission === 'denied' ||
+      motionPermission === 'unsupported'
+    ) {
+      return false;
+    }
+
+
+    if (
+      typeof DeviceOrientationEvent
+        .requestPermission ===
+      'function'
+    ) {
+      try {
+        const result =
+          await DeviceOrientationEvent
+            .requestPermission();
+
+
+        if (
+          result !== 'granted'
+        ) {
+          motionPermission =
+            'denied';
+
+          return false;
+        }
+
+
+        motionPermission =
+          'granted';
+
+
+        resetMotionBaseline();
+        startMotionListener();
+
+        return true;
+
+      } catch (error) {
+        console.warn(
+          'Device orientation permission failed:',
+          error
+        );
+
+        motionPermission =
+          'denied';
+
+        return false;
+      }
+    }
+
+
+    /*
+     * Android / browsers that do not require
+     * Apple's explicit permission call.
+     */
+    motionPermission =
+      'granted';
+
+
+    resetMotionBaseline();
+    startMotionListener();
+
+    return true;
+  }
+
+
+  /* ---------------------------------------------------------------
+   * SETUP
+   * --------------------------------------------------------------- */
+
+  buildMobileSelectors();
+
+
+  setActiveProject(
+    0,
+    {
+      keepInView: false
+    }
+  );
+
+
+  cards.forEach((card, index) => {
+    const selector =
+      card.querySelector(
+        '.cs-mobile-select'
+      );
+
+    if (!selector) return;
+
+
+    selector.addEventListener(
+      'click',
+
+      async event => {
+        if (
+          !mobileCaseStudyMode.matches
+        ) {
+          return;
+        }
+
+
+        /*
+         * First swap the selected project.
+         */
+        const activeCard =
+          setActiveProject(index);
+
+
+        /*
+         * Then try to unlock real phone movement.
+         *
+         * This is still part of the user's tap,
+         * which is required by iOS.
+         */
+        const motionGranted =
+          await ensureMotionPermission();
+
+
+        /*
+         * Sensor unavailable / denied:
+         * retain a graceful material flourish.
+         */
+        if (!motionGranted) {
+          playHoloFlourish(
+            activeCard
+          );
+        }
+
+
+        /*
+         * Keyboard activation:
+         * move focus to the full project link
+         * that just appeared.
+         */
+        if (event.detail === 0) {
+          activeCard
+            .querySelector(
+              '.card-feat'
+            )
+            ?.focus({
+              preventScroll: true
+            });
+        }
+      }
+    );
+  });
+
+
+  /*
+   * Android-style browsers can usually begin
+   * sensor listening without a permission prompt.
+   */
+  if (
+    isTouchDevice &&
+    typeof DeviceOrientationEvent !==
+      'undefined' &&
+    typeof DeviceOrientationEvent
+      .requestPermission !==
+      'function'
+  ) {
+    ensureMotionPermission();
+  }
+
+
+  /*
+   * Stop visual sensor work when this section
+   * is not visible.
+   */
+  const visibilityObserver =
+    new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          sectionVisible =
+            entry.isIntersecting;
+
+
+          if (!entry.isIntersecting) {
+            resetMotionBaseline();
+            resetCardEffect(
+              cards[activeIndex]
+            );
+
+            return;
+          }
+
+
+          /*
+           * Initial project gets ONE short flourish.
+           *
+           * iPhone cannot request orientation
+           * permission automatically, but this
+           * establishes the holographic behavior.
+           */
+          if (
+            mobileCaseStudyMode.matches &&
+            isTouchDevice &&
+            !reducedMotion &&
+            !initialFlourishPlayed &&
+            motionPermission !== 'granted'
+          ) {
+            initialFlourishPlayed = true;
+
+            playHoloFlourish(
+              cards[activeIndex]
+            );
+          }
+        });
+      },
+
+      {
+        threshold: 0.15
+      }
+    );
+
+
+  visibilityObserver.observe(strip);
+
+
+  /*
+   * Breakpoint changes should never leave
+   * inline transforms or holo state behind.
+   */
+  mobileCaseStudyMode.addEventListener(
+    'change',
+
+    event => {
+      cards.forEach(
+        resetCardEffect
+      );
+
+      resetMotionBaseline();
+
+
+      if (event.matches) {
+        setActiveProject(
+          activeIndex,
+          {
+            keepInView: false
+          }
+        );
+      }
+    }
+  );
+
+
+  /*
+   * Rotating the physical phone establishes
+   * a fresh neutral orientation.
+   */
+  window.addEventListener(
+    'orientationchange',
+    resetMotionBaseline
+  );
+
+
+  /*
+   * Returning from a project via browser Back
+   * should never resurrect a frozen tilt.
+   */
+  window.addEventListener(
+    'pageshow',
+
+    () => {
+      cards.forEach(
+        resetCardEffect
+      );
+
+      resetMotionBaseline();
+    }
+  );
+}
+
+
+/* =====================================================================
+ * § 12B  STAT TILT + HOLO
  * ===================================================================== */
 
 function initStatTilt() {
@@ -3242,6 +4206,7 @@ initBodyEnvironment();
 initCaseStudyStrip();
 initScrollReveal();
 initCardTilt();
+initMobileCaseStudyAccordion();
 initStatTilt();
 initBeamUp();
 
