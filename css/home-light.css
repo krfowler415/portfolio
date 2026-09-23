@@ -1789,31 +1789,37 @@
  * ===================================================================== */
 
 @media (max-width: 900px) {
-  :root[data-theme="light"] .cs-scroll-wrap {
+
+  :root[data-theme="light"]
+  .cs-scroll-wrap {
+
     --mobile-cs-bg:
       linear-gradient(
         135deg,
-        var(--bg-surface),
-        var(--bg-raised)
+        var(--cosmos-50),
+        var(--cosmos-100)
       );
 
     --mobile-cs-number-bg:
-      linear-gradient(
-        135deg,
-        var(--bg-raised),
-        var(--bg-surface)
-      );
+      var(--cosmos-200);
 
-    --mobile-cs-border: var(--border);
-    --mobile-cs-divider: var(--border-subtle);
+    --mobile-cs-border:
+      var(--border);
 
-    /* title text = normal light-theme text ink */
-    --mobile-cs-text: var(--text);
+    --mobile-cs-divider:
+      var(--border-subtle);
 
-    /* number + plus = light-theme accent */
-    --mobile-cs-accent: var(--plasma-200);
+    /* Normal Sonoran body ink */
+    --mobile-cs-text:
+      var(--text);
+
+    /* Existing light case-study number/accent role */
+    --mobile-cs-accent:
+      var(--plasma-200);
 
     --mobile-cs-shadow:
-      0 8px 22px var(--border-subtle);
+      0 8px 22px
+      var(--border-subtle);
   }
+
 }
