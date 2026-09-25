@@ -4258,7 +4258,7 @@ function initMobileCaseStudyAccordion() {
   setActiveProject(
     0,
     {
-      keepInView: false
+      keepInView: false,
       animate: false
     }
   );
