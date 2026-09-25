@@ -467,7 +467,7 @@ nav.nav-open #nav-toggle span:nth-child(3) {
 
 /* ── Tablet / Mobile Blob Navigation ─────────────────────────────── */
 
-@media (max-width: 900px) {
+@media (max-width: 999px) {
 
   #nav-toggle {
     display: flex;
@@ -1510,7 +1510,7 @@ a.card-feat,
    900px: COMPONENT CHANGES MODE
    ========================================= */
 
-@media (max-width: 900px) {
+@media (max-width: 1099px) {
 
   /*
    * Disable horizontal-carousel presentation only.
@@ -1697,17 +1697,12 @@ a.card-feat,
 
   /* Extra compression for actual phone widths */
   @media (max-width: 600px) {
-  
     
   .cs-card.is-mobile-active
     > .card-feat {
     grid-template-columns: 1fr;
   }
 
-
-  /*
-   * Overrides the existing <=900px 260px visual.
-   */
   .cs-card.is-mobile-active
   .card-vis {
     min-height:
@@ -1720,7 +1715,6 @@ a.card-feat,
     padding: 1rem;
   }
 
-
   .cs-card.is-mobile-active
   .project-vis-image {
     width: auto;
@@ -1729,12 +1723,10 @@ a.card-feat,
     object-fit: contain;
   }
 
-
   .cs-card.is-mobile-active
   .project-vis-title {
     font-size: 1.55rem;
   }
-
 
   .cs-card.is-mobile-active
   .card-body {
@@ -1745,13 +1737,11 @@ a.card-feat,
       1.2rem;
   }
 
-
   .cs-card.is-mobile-active
   .c-title {
     font-size: 1.05rem;
     line-height: 1.25;
   }
-
 
   .cs-card.is-mobile-active
   .c-desc {
@@ -1763,12 +1753,10 @@ a.card-feat,
     -webkit-box-orient: vertical;
   }
 
-
   .cs-card.is-mobile-active
   .c-tags {
     gap: 0.3rem;
   }
-
 
   .cs-card.is-mobile-active
   .c-tag {
@@ -1777,7 +1765,6 @@ a.card-feat,
       0.4rem;
     font-size: 0.58rem;
   }
-
 
   /*
    * First three tags only on phone.
@@ -1811,7 +1798,6 @@ a.card-feat,
     border-radius: 6px;
     font-size: 0.65rem;
   }
-
 }
 
 
@@ -1821,7 +1807,7 @@ a.card-feat,
  * ===================================================================== */
 
 @media
-  (max-width: 900px)
+  (max-width: 1099px)
   and (hover: none)
   and (pointer: coarse) {
 
@@ -1831,7 +1817,6 @@ a.card-feat,
   .cs-card:hover::after {
     opacity: 0;
   }
-
 
   /*
    * Prevent touch browsers from pinning the
@@ -1846,7 +1831,6 @@ a.card-feat,
     opacity: 0;
   }
 
-
   /*
    * The old touch-scale transform would fight
    * DeviceOrientation's transform.
@@ -1855,7 +1839,6 @@ a.card-feat,
   > .card-feat:active {
     transform: none;
   }
-
 
   /*
    * Retain touch feedback without taking
@@ -2310,6 +2293,20 @@ a.card-feat,
 
   .card-vis {
     min-height: 260px;
+  }
+
+  /*
+   * Tablet / narrow-desktop case-study CTA.
+   *
+   * Between 601px and 900px the card is stacked,
+   * so center the compact DIVE DEEPER link beneath
+   * the card content.
+   *
+   * The <=600px rule below intentionally replaces
+   * this with the full-width phone CTA.
+   */
+  .card-body .c-link {
+    align-self: center;
   }
 
   .about-layout {
