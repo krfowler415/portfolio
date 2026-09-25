@@ -4759,85 +4759,61 @@ function setActiveProject(
 
     selector.addEventListener(
       'click',
-
-      async event => {
+    
+      event => {
+    
         if (
           !mobileCaseStudyMode.matches
         ) {
           return;
         }
-        
-        
-        if (accordionAnimating) {
+    
+    
+        if (
+          accordionAnimating
+        ) {
           return;
         }
-        
-        
+    
+    
         /*
-         * IMPORTANT:
+         * iOS still requires the DeviceOrientation
+         * permission request to originate from this
+         * real user gesture.
          *
-         * iOS requires DeviceOrientation permission
-         * to originate directly from the user's tap.
-         *
-         * Start that request NOW, before doing any
-         * asynchronous accordion work.
+         * We don't need to WAIT for the result before
+         * beginning the accordion animation.
          */
-        const motionPermissionRequest =
-          ensureMotionPermission();
-        
-        
+        void ensureMotionPermission();
+    
+    
         /*
-         * Start the accordion transition immediately.
+         * The accordion transition itself now contains
+         * the activation holo sweep.
          */
         const activeCard =
-          setActiveProject(index);
-        
-        
-        const motionGranted =
-          await motionPermissionRequest;
-        
-        
-        /*
-         * If sensors aren't available, don't let the
-         * fallback holo fight the accordion transition.
-         */
-        if (!motionGranted) {
-        
-          gsap.delayedCall(
-            reducedMotion
-              ? 0
-              : 0.62,
-        
-            () => {
-        
-              if (
-                cards[activeIndex] ===
-                activeCard
-              ) {
-                playHoloFlourish(
-                  activeCard
-                );
-              }
-        
-            }
+          setActiveProject(
+            index
           );
-        }
-        
-        
+    
+    
         /*
          * Keyboard users:
-         * wait until the expanded card is visually
-         * present before shifting focus to it.
+         *
+         * Wait until the activation sequence has
+         * essentially finished before moving focus
+         * into the expanded card.
          */
-        if (event.detail === 0) {
-        
+        if (
+          event.detail === 0
+        ) {
           gsap.delayedCall(
             reducedMotion
               ? 0
-              : 0.56,
-        
+              : 0.82,
+    
             () => {
-        
+    
               activeCard
                 .querySelector(
                   '.card-feat'
@@ -4845,7 +4821,7 @@ function setActiveProject(
                 ?.focus({
                   preventScroll: true
                 });
-        
+    
             }
           );
         }
