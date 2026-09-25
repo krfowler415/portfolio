@@ -654,14 +654,6 @@ nav.nav-open #nav-toggle span:nth-child(3) {
    * ===============================================================
    */
   
-  .hero-us .status-desktop {
-    display: none;
-  }
-  
-  .hero-us .status-mobile {
-    display: inline;
-  }
-  
   /*
    * At <=900px we don't want CSS :hover to perform
    * the desktop text swap. JS controls the mobile state.
@@ -866,6 +858,14 @@ nav.nav-open #nav-toggle span:nth-child(3) {
   .nav-logo {
     font-size: 1.1rem;
     white-space: nowrap;
+  }
+
+  .hero-us .status-desktop {
+    display: none;
+  }
+
+  .hero-us .status-mobile {
+    display: inline;
   }
 }
 
