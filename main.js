@@ -39,7 +39,7 @@
 const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const mobileCaseStudyMode = window.matchMedia('(max-width: 900px)');
+const mobileCaseStudyMode = window.matchMedia('(max-width: 1099px)');
 
 const introX   = window.innerWidth / 2 - 100;
 const introY   = window.innerHeight * 0.12;
@@ -2508,7 +2508,7 @@ if (navToggle && navEl) {
    * don't leave the mobile nav-open state hanging around.
    */
   const mobileNavMode =
-    window.matchMedia('(max-width: 900px)');
+    window.matchMedia('(max-width: 999px)');
 
   mobileNavMode.addEventListener(
     'change',
@@ -2524,7 +2524,7 @@ if (navToggle && navEl) {
 
 (() => {
   const statusBadge = document.querySelector('.hero-us');
-  const mobileNavMode = window.matchMedia('(max-width: 900px)');
+  const mobileNavMode = window.matchMedia('(max-width: 999px)');
 
   if (!statusBadge) return;
 
