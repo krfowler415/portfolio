@@ -2295,20 +2295,6 @@ a.card-feat,
     min-height: 260px;
   }
 
-  /*
-   * Tablet / narrow-desktop case-study CTA.
-   *
-   * Between 601px and 900px the card is stacked,
-   * so center the compact DIVE DEEPER link beneath
-   * the card content.
-   *
-   * The <=600px rule below intentionally replaces
-   * this with the full-width phone CTA.
-   */
-  .card-body .c-link {
-    align-self: center;
-  }
-
   .about-layout {
     grid-template-columns: 1fr;
     gap: 2.5rem;
@@ -2322,6 +2308,10 @@ a.card-feat,
 
   .c-cta-btn {
     align-self: center;
+  }
+
+  .c-secondary {
+    width: 100%;
   }
 }
 
