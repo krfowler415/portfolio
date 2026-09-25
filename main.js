@@ -3262,60 +3262,279 @@ function initMobileCaseStudyAccordion() {
    * MOBILE ACTIVE PROJECT
    * --------------------------------------------------------------- */
 
-    function setActiveProject(
-      index,
-      {
-        keepInView = true,
-        animate = true
-      } = {}
-    ) {
-      const nextIndex = clamp(
-        index,
-        0,
-        cards.length - 1
-      );
-    
-      const activeCard =
-        cards[nextIndex];
-    
-    
-      /*
-       * Initial setup, reduced-motion mode,
-       * breakpoint changes, or re-selecting the
-       * same project remain immediate.
-       */
-      if (
-        !mobileCaseStudyMode.matches ||
-        reducedMotion ||
-        !animate ||
-        nextIndex === activeIndex
-      ) {
-        if (accordionTween) {
-          accordionTween.kill();
-          accordionTween = null;
+function setActiveProject(
+  index,
+  {
+    keepInView = true,
+    animate = true
+  } = {}
+) {
+  const nextIndex = clamp(
+    index,
+    0,
+    cards.length - 1
+  );
+
+  const activeCard =
+    cards[nextIndex];
+
+
+  /*
+   * INITIAL / NON-ANIMATED STATE
+   *
+   * Used for:
+   * - initial page setup
+   * - reduced motion
+   * - breakpoint changes
+   * - re-selecting the already-active project
+   */
+  if (
+    !mobileCaseStudyMode.matches ||
+    reducedMotion ||
+    !animate ||
+    nextIndex === activeIndex
+  ) {
+    if (accordionTween) {
+      accordionTween.kill();
+      accordionTween = null;
+    }
+
+    accordionAnimating = false;
+    activeIndex = nextIndex;
+
+
+    cards.forEach(
+      (
+        card,
+        cardIndex
+      ) => {
+
+        const active =
+          cardIndex ===
+          activeIndex;
+
+
+        card.classList.toggle(
+          'is-mobile-active',
+          active
+        );
+
+
+        card
+          .querySelector(
+            '.cs-mobile-select'
+          )
+          ?.setAttribute(
+            'aria-expanded',
+            String(active)
+          );
+
+
+        if (!active) {
+          resetCardEffect(
+            card
+          );
         }
-    
-        accordionAnimating = false;
-        activeIndex = nextIndex;
-    
-    
+      }
+    );
+
+
+    resetMotionBaseline();
+
+
+    if (
+      keepInView &&
+      mobileCaseStudyMode.matches
+    ) {
+      requestAnimationFrame(
+        () => {
+
+          activeCard.scrollIntoView({
+            behavior: 'auto',
+            block: 'nearest'
+          });
+
+        }
+      );
+    }
+
+
+    return activeCard;
+  }
+
+
+  /*
+   * Don't allow another accordion selection
+   * to interrupt the current transition.
+   */
+  if (accordionAnimating) {
+    return cards[activeIndex];
+  }
+
+
+  const previousIndex =
+    activeIndex;
+
+
+  const previousCard =
+    cards[previousIndex];
+
+
+  const previousFull =
+    previousCard.querySelector(
+      '.card-feat'
+    );
+
+
+  const previousMini =
+    previousCard.querySelector(
+      '.cs-mobile-select'
+    );
+
+
+  const nextFull =
+    activeCard.querySelector(
+      '.card-feat'
+    );
+
+
+  const nextMini =
+    activeCard.querySelector(
+      '.cs-mobile-select'
+    );
+
+
+  /*
+   * Safety fallback.
+   */
+  if (
+    !previousFull ||
+    !previousMini ||
+    !nextFull ||
+    !nextMini
+  ) {
+    return setActiveProject(
+      nextIndex,
+      {
+        keepInView,
+        animate: false
+      }
+    );
+  }
+
+
+  accordionAnimating = true;
+
+
+  /*
+   * Give GSAP temporary control without
+   * leaving phone/Desktop holo transforms behind.
+   */
+  resetCardEffect(
+    previousCard
+  );
+
+  resetCardEffect(
+    activeCard
+  );
+
+  resetMotionBaseline();
+
+
+  /*
+   * Capture the current wrapper heights.
+   *
+   * previous = full card
+   * selected = compact selector
+   */
+  const previousStartHeight =
+    previousCard
+      .getBoundingClientRect()
+      .height;
+
+
+  const nextStartHeight =
+    activeCard
+      .getBoundingClientRect()
+      .height;
+
+
+  /*
+   * IMPORTANT:
+   *
+   * Animate only the CONTENT inside .card-vis
+   * and .card-body.
+   *
+   * Do NOT fade .card-vis or .card-body themselves.
+   * Those elements contain the actual themed card
+   * surfaces. Fading them caused the ugly blank /
+   * white flash during the transition.
+   */
+  const previousContent = [
+    ...previousFull.querySelectorAll(
+      '.card-vis > *, .card-body > *'
+    )
+  ];
+
+
+  const nextContent = [
+    ...nextFull.querySelectorAll(
+      '.card-vis > *, .card-body > *'
+    )
+  ];
+
+
+  const nextNumber =
+    nextMini.querySelector(
+      '.cs-mobile-number'
+    );
+
+
+  const nextOpen =
+    nextMini.querySelector(
+      '.cs-mobile-open'
+    );
+
+
+  /*
+   * ===============================================================
+   * PHASE 1 — HANDOFF
+   *
+   * Old project content begins releasing while
+   * the selected compact row gets a very small
+   * accent response.
+   * ===============================================================
+   */
+
+  accordionTween =
+    gsap.timeline({
+
+      onComplete: () => {
+
+        /*
+         * Switch which project owns the active state.
+         */
+        activeIndex =
+          nextIndex;
+
+
         cards.forEach(
           (
             card,
             cardIndex
           ) => {
-    
+
             const active =
               cardIndex ===
               activeIndex;
-    
-    
+
+
             card.classList.toggle(
               'is-mobile-active',
               active
             );
-    
-    
+
+
             card
               .querySelector(
                 '.cs-mobile-select'
@@ -3324,8 +3543,8 @@ function initMobileCaseStudyAccordion() {
                 'aria-expanded',
                 String(active)
               );
-    
-    
+
+
             if (!active) {
               resetCardEffect(
                 card
@@ -3333,551 +3552,361 @@ function initMobileCaseStudyAccordion() {
             }
           }
         );
-    
-    
-        resetMotionBaseline();
-    
-    
-        if (
-          keepInView &&
-          mobileCaseStudyMode.matches
-        ) {
-          requestAnimationFrame(
-            () => {
-    
-              activeCard.scrollIntoView({
-                behavior: 'auto',
-                block: 'nearest'
-              });
-    
-            }
-          );
-        }
-    
-    
-        return activeCard;
-      }
-    
-    
-      /*
-       * Ignore another selection during the very
-       * short transition instead of allowing two
-       * conflicting GSAP timelines.
-       */
-      if (accordionAnimating) {
-        return cards[activeIndex];
-      }
-    
-    
-      const previousIndex =
-        activeIndex;
-    
-    
-      const previousCard =
-        cards[previousIndex];
-    
-    
-      const previousFull =
-        previousCard.querySelector(
-          '.card-feat'
-        );
-    
-    
-      const previousMini =
-        previousCard.querySelector(
-          '.cs-mobile-select'
-        );
-    
-    
-      const nextFull =
-        activeCard.querySelector(
-          '.card-feat'
-        );
-    
-    
-      const nextMini =
-        activeCard.querySelector(
-          '.cs-mobile-select'
-        );
-    
-    
-      /*
-       * Safety fallback.
-       */
-      if (
-        !previousFull ||
-        !previousMini ||
-        !nextFull ||
-        !nextMini
-      ) {
-        return setActiveProject(
-          nextIndex,
+
+
+        /*
+         * The outgoing full card is now hidden by
+         * the accordion CSS, so remove temporary
+         * animation styles from its CONTENT.
+         */
+        gsap.set(
+          previousContent,
           {
-            keepInView,
-            animate: false
+            clearProps:
+              'opacity,transform'
           }
         );
-      }
-    
-    
-      accordionAnimating = true;
-    
-    
-      /*
-       * Stop phone tilt from owning transforms
-       * while GSAP handles the open/close motion.
-       */
-      resetCardEffect(
-        previousCard
-      );
-    
-      resetCardEffect(
-        activeCard
-      );
-    
-      resetMotionBaseline();
-    
-    
-/*
- * Capture the current wrapper heights.
- *
- * previous = full card
- * selected = compact row
- */
-const previousStartHeight =
-  previousCard
-    .getBoundingClientRect()
-    .height;
-
-const nextStartHeight =
-  activeCard
-    .getBoundingClientRect()
-    .height;
 
 
-/*
- * Animate CONTENT rather than .card-feat itself.
- *
- * .card-feat's transform belongs to the existing
- * desktop / phone holo tilt systems.
- */
-const previousContent = [
-  previousFull.querySelector('.card-vis'),
-  previousFull.querySelector('.card-body')
-].filter(Boolean);
-
-const nextContent = [
-  nextFull.querySelector('.card-vis'),
-  nextFull.querySelector('.card-body')
-].filter(Boolean);
-
-const nextNumber =
-  nextMini.querySelector(
-    '.cs-mobile-number'
-  );
-
-const nextOpen =
-  nextMini.querySelector(
-    '.cs-mobile-open'
-  );
-
-
-/*
- * ---------------------------------------------------------------
- * PHASE 1 — HANDOFF
- *
- * The outgoing card softens first.
- *
- * At the same time, the selected compact row gets
- * a very small "energy" response before opening.
- * ---------------------------------------------------------------
- */
-
-accordionTween =
-  gsap.timeline({
-
-    onComplete: () => {
-
-      /*
-       * Perform the actual accordion state swap.
-       */
-      activeIndex =
-        nextIndex;
-
-
-      cards.forEach(
-        (
-          card,
-          cardIndex
-        ) => {
-
-          const active =
-            cardIndex ===
-            activeIndex;
-
-
-          card.classList.toggle(
-            'is-mobile-active',
-            active
-          );
-
-
-          card
-            .querySelector(
-              '.cs-mobile-select'
-            )
-            ?.setAttribute(
-              'aria-expanded',
-              String(active)
-            );
-
-
-          if (!active) {
-            resetCardEffect(
-              card
-            );
+        /*
+         * The selected mini is now hidden.
+         */
+        gsap.set(
+          nextMini,
+          {
+            clearProps:
+              'opacity'
           }
-        }
-      );
+        );
 
 
-      /*
-       * Remove the temporary outgoing presentation
-       * styles now that those pieces are hidden.
-       */
-      gsap.set(
-        previousContent,
-        {
-          clearProps:
-            'opacity,transform'
-        }
-      );
+        /*
+         * Remove temporary pulse transforms.
+         */
+        gsap.set(
+          [
+            nextNumber,
+            nextOpen
+          ].filter(Boolean),
+          {
+            clearProps:
+              'transform'
+          }
+        );
 
 
-      gsap.set(
-        nextMini,
-        {
-          clearProps:
-            'opacity'
-        }
-      );
+        /*
+         * Temporarily allow both wrappers to
+         * calculate their NEW natural heights.
+         */
+        gsap.set(
+          [
+            previousCard,
+            activeCard
+          ],
+          {
+            height: 'auto',
+            overflow: 'hidden'
+          }
+        );
 
 
-      gsap.set(
-        [
-          nextNumber,
-          nextOpen
-        ].filter(Boolean),
-        {
-          clearProps:
-            'transform'
-        }
-      );
+        const previousTargetHeight =
+          previousCard
+            .getBoundingClientRect()
+            .height;
 
 
-      /*
-       * Allow both wrappers to reveal their new
-       * natural accordion heights.
-       */
-      gsap.set(
-        [
-          previousCard,
+        const nextTargetHeight =
           activeCard
-        ],
-        {
-          height: 'auto',
-          overflow: 'hidden'
-        }
-      );
+            .getBoundingClientRect()
+            .height;
 
 
-      const previousTargetHeight =
-        previousCard
-          .getBoundingClientRect()
-          .height;
-
-
-      const nextTargetHeight =
-        activeCard
-          .getBoundingClientRect()
-          .height;
-
-
-      /*
-       * Restore the sizes the user was looking at
-       * immediately before the state change.
-       */
-      gsap.set(
-        previousCard,
-        {
-          height:
-            previousStartHeight
-        }
-      );
-
-
-      gsap.set(
-        activeCard,
-        {
-          height:
-            nextStartHeight
-        }
-      );
-
-
-      /*
-       * Incoming full-card content starts slightly
-       * below its final resting position.
-       *
-       * We animate the card's CONTENT — not the
-       * tilt-enabled .card-feat wrapper.
-       */
-      gsap.set(
-        nextContent,
-        {
-          opacity: 0,
-          y: 10
-        }
-      );
-
-
-      /*
-       * The collapsed replacement row also comes
-       * in gently instead of simply appearing.
-       */
-      gsap.set(
-        previousMini,
-        {
-          opacity: 0,
-          y: -3
-        }
-      );
-
-
-      /*
-       * -----------------------------------------------------------
-       * PHASE 2 — MORPH
-       *
-       * Collapse gets out of the way first.
-       * Expansion follows just behind it and receives
-       * the softer, longer landing.
-       * -----------------------------------------------------------
-       */
-
-      accordionTween =
-        gsap.timeline({
-
-          onComplete: () => {
-
-            gsap.set(
-              [
-                previousCard,
-                activeCard
-              ],
-              {
-                clearProps:
-                  'height,overflow'
-              }
-            );
-
-
-            gsap.set(
-              previousMini,
-              {
-                clearProps:
-                  'opacity,transform'
-              }
-            );
-
-
-            gsap.set(
-              nextContent,
-              {
-                clearProps:
-                  'opacity,transform'
-              }
-            );
-
-
-            accordionTween = null;
-            accordionAnimating = false;
-
-            resetMotionBaseline();
-
-
-            if (
-              keepInView &&
-              mobileCaseStudyMode.matches
-            ) {
-              activeCard.scrollIntoView({
-                behavior:
-                  'smooth',
-
-                block:
-                  'nearest'
-              });
-            }
+        /*
+         * Return both wrappers to their OLD sizes
+         * before beginning the actual height morph.
+         */
+        gsap.set(
+          previousCard,
+          {
+            height:
+              previousStartHeight
           }
-        });
+        );
 
 
-      /*
-       * Old full card contracts first.
-       *
-       * Slightly quicker than the expansion so it
-       * feels like it's yielding space.
-       */
-      accordionTween.to(
-        previousCard,
-        {
-          height:
-            previousTargetHeight,
-
-          duration:
-            0.38,
-
-          ease:
-            'power2.inOut'
-        },
-        0
-      );
+        gsap.set(
+          activeCard,
+          {
+            height:
+              nextStartHeight
+          }
+        );
 
 
-      /*
-       * New card begins expanding shortly AFTER
-       * the collapse begins rather than moving in
-       * perfect mechanical synchronization.
-       */
-      accordionTween.to(
-        activeCard,
-        {
-          height:
-            nextTargetHeight,
-
-          duration:
-            0.52,
-
-          ease:
-            'power4.out'
-        },
-        0.055
-      );
+        /*
+         * The newly expanded card's SURFACES stay
+         * completely visible.
+         *
+         * Only its internal artwork/text starts
+         * slightly faded and shifted.
+         */
+        gsap.set(
+          nextContent,
+          {
+            opacity: 0,
+            y: 10
+          }
+        );
 
 
-      /*
-       * The outgoing card's new compact selector
-       * settles into the vacated space.
-       */
-      accordionTween.to(
-        previousMini,
-        {
-          opacity: 1,
-          y: 0,
-
-          duration:
-            0.26,
-
-          ease:
-            'power2.out'
-        },
-        0.11
-      );
+        /*
+         * The old card's compact replacement row
+         * enters softly.
+         */
+        gsap.set(
+          previousMini,
+          {
+            opacity: 0,
+            y: -3
+          }
+        );
 
 
-      /*
-       * Don't immediately reveal the entire incoming
-       * card. Let the container open first.
-       */
-      accordionTween.to(
-        nextContent,
-        {
-          opacity: 1,
-          y: 0,
+        /*
+         * ===========================================================
+         * PHASE 2 — MORPH
+         *
+         * Old card contracts slightly ahead of the
+         * selected card's expansion.
+         * ===========================================================
+         */
 
-          duration:
-            0.36,
+        accordionTween =
+          gsap.timeline({
 
-          ease:
-            'power3.out',
+            onComplete: () => {
 
-          stagger:
-            0.045
-        },
-        0.18
-      );
-    }
-  });
-
-
-/*
- * Outgoing visual/body soften independently.
- *
- * Very small movement — just enough to signal that
- * this card is releasing focus.
- */
-accordionTween.to(
-  previousContent,
-  {
-    opacity: 0,
-    y: -5,
-
-    duration:
-      0.15,
-
-    ease:
-      'power2.in'
-  },
-  0
-);
+              /*
+               * Restore normal CSS sizing.
+               */
+              gsap.set(
+                [
+                  previousCard,
+                  activeCard
+                ],
+                {
+                  clearProps:
+                    'height,overflow'
+                }
+              );
 
 
-/*
- * Tiny "charge" through the selected row's existing
- * accent pieces. No new colors or visual tokens.
- */
-accordionTween.to(
-  [
-    nextNumber,
-    nextOpen
-  ].filter(Boolean),
-  {
-    scale: 1.10,
-
-    duration:
-      0.11,
-
-    ease:
-      'sine.out',
-
-    yoyo: true,
-    repeat: 1
-  },
-  0
-);
+              /*
+               * Remove temporary animation styles.
+               */
+              gsap.set(
+                previousMini,
+                {
+                  clearProps:
+                    'opacity,transform'
+                }
+              );
 
 
-/*
- * Selected mini row fades only after the accent
- * response has begun.
- */
-accordionTween.to(
-  nextMini,
-  {
-    opacity: 0,
+              gsap.set(
+                nextContent,
+                {
+                  clearProps:
+                    'opacity,transform'
+                }
+              );
 
-    duration:
-      0.11,
 
-    ease:
-      'power1.in'
-  },
-  0.065
-);
-    
-    
-      return activeCard;
-    }
+              accordionTween = null;
+              accordionAnimating = false;
 
+
+              /*
+               * New phone position becomes neutral
+               * for the newly active project.
+               */
+              resetMotionBaseline();
+
+
+              if (
+                keepInView &&
+                mobileCaseStudyMode.matches
+              ) {
+                activeCard.scrollIntoView({
+                  behavior:
+                    'smooth',
+
+                  block:
+                    'nearest'
+                });
+              }
+            }
+          });
+
+
+        /*
+         * Old full card collapses first.
+         */
+        accordionTween.to(
+          previousCard,
+          {
+            height:
+              previousTargetHeight,
+
+            duration:
+              0.38,
+
+            ease:
+              'power2.inOut'
+          },
+          0
+        );
+
+
+        /*
+         * New card starts opening just behind it.
+         */
+        accordionTween.to(
+          activeCard,
+          {
+            height:
+              nextTargetHeight,
+
+            duration:
+              0.52,
+
+            ease:
+              'power4.out'
+          },
+          0.055
+        );
+
+
+        /*
+         * Old project becomes its compact row.
+         */
+        accordionTween.to(
+          previousMini,
+          {
+            opacity: 1,
+            y: 0,
+
+            duration:
+              0.26,
+
+            ease:
+              'power2.out'
+          },
+          0.11
+        );
+
+
+        /*
+         * Let the new card open partially before
+         * bringing its artwork/text into view.
+         *
+         * The actual colored surfaces remain visible
+         * throughout this entire transition.
+         */
+        accordionTween.to(
+          nextContent,
+          {
+            opacity: 1,
+            y: 0,
+
+            duration:
+              0.36,
+
+            ease:
+              'power3.out',
+
+            stagger:
+              0.045
+          },
+          0.18
+        );
+      }
+    });
+
+
+  /*
+   * Old card CONTENT gently releases.
+   *
+   * Again: we're NOT fading .card-vis or
+   * .card-body, so their backgrounds remain intact.
+   */
+  accordionTween.to(
+    previousContent,
+    {
+      opacity: 0,
+      y: -5,
+
+      duration:
+        0.15,
+
+      ease:
+        'power2.in'
+    },
+    0
+  );
+
+
+  /*
+   * Tiny accent pulse on the project being selected.
+   *
+   * Uses the existing number and + elements.
+   * No new colors or tokens.
+   */
+  accordionTween.to(
+    [
+      nextNumber,
+      nextOpen
+    ].filter(Boolean),
+    {
+      scale: 1.10,
+
+      duration:
+        0.11,
+
+      ease:
+        'sine.out',
+
+      yoyo: true,
+      repeat: 1
+    },
+    0
+  );
+
+
+  /*
+   * Selected compact selector disappears shortly
+   * before its full card takes over.
+   */
+  accordionTween.to(
+    nextMini,
+    {
+      opacity: 0,
+
+      duration:
+        0.11,
+
+      ease:
+        'power1.in'
+    },
+    0.065
+  );
+
+
+  return activeCard;
+}
+  
   /* ---------------------------------------------------------------
    * FALLBACK HOLO FLOURISH
    *
