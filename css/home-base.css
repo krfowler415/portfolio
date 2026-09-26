@@ -1510,7 +1510,7 @@ a.card-feat,
    900px: COMPONENT CHANGES MODE
    ========================================= */
 
-@media (max-width: 1099px) {
+@media (max-width: 1199px) {
 
   /*
    * Disable horizontal-carousel presentation only.
@@ -1803,11 +1803,11 @@ a.card-feat,
 
 /* =====================================================================
  * TRUE TOUCH PHONE OVERRIDES
- * 900px + TOUCH: INTERACTION OVERRIDES
+ * 1200px + TOUCH: INTERACTION OVERRIDES
  * ===================================================================== */
 
 @media
-  (max-width: 1099px)
+  (max-width: 1199px)
   and (hover: none)
   and (pointer: coarse) {
 
