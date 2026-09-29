@@ -3262,6 +3262,67 @@ function initMobileCaseStudyAccordion() {
    * MOBILE ACTIVE PROJECT
    * --------------------------------------------------------------- */
 
+/*
+ * Recreates the reference Pen's linear() curve
+ * without requiring GSAP CustomEase.
+ */
+const accordionBouncePoints = [
+  [0,      0],
+  [0.0661, 0.4214],
+  [0.0959, 0.5762],
+  [0.1255, 0.7047],
+  [0.1561, 0.8115],
+  [0.1878, 0.8964],
+  [0.2213, 0.9614],
+  [0.2574, 1.0078],
+  [0.2818, 1.0282],
+  [0.3082, 1.0422],
+  [0.3370, 1.0503],
+  [0.3695, 1.0527],
+  [0.4253, 1.0468],
+  [0.5845, 1.0150],
+  [0.6720, 1.0045],
+  [0.8044, 0.9987],
+  [1,      1]
+];
+
+
+function accordionBounceEase(progress) {
+  if (progress <= 0) return 0;
+  if (progress >= 1) return 1;
+
+  for (
+    let i = 1;
+    i < accordionBouncePoints.length;
+    i++
+  ) {
+    const [
+      x1,
+      y1
+    ] = accordionBouncePoints[i];
+
+    if (progress <= x1) {
+      const [
+        x0,
+        y0
+      ] = accordionBouncePoints[i - 1];
+
+      const localProgress =
+        (progress - x0) /
+        (x1 - x0);
+
+      return (
+        y0 +
+        (y1 - y0) *
+        localProgress
+      );
+    }
+  }
+
+  return 1;
+}
+
+  
 function setActiveProject(
   index,
   {
@@ -3279,40 +3340,39 @@ function setActiveProject(
     cards[nextIndex];
 
 
-  function setVisualState(stateIndex) {
-    cards.forEach((card, cardIndex) => {
-      card.classList.toggle(
-        'is-mobile-active',
-        cardIndex === stateIndex
-      );
-    });
-  }
+  function applyState(stateIndex) {
+    cards.forEach(
+      (
+        card,
+        cardIndex
+      ) => {
+
+        const active =
+          cardIndex ===
+          stateIndex;
 
 
-  function syncExpandedState(stateIndex) {
-    cards.forEach((card, cardIndex) => {
-      card
-        .querySelector(
-          '.cs-mobile-select'
-        )
-        ?.setAttribute(
-          'aria-expanded',
-          String(cardIndex === stateIndex)
+        card.classList.toggle(
+          'is-mobile-active',
+          active
         );
-    });
-  }
 
 
-  function applyActiveState(stateIndex) {
-    setVisualState(stateIndex);
-    syncExpandedState(stateIndex);
+        card
+          .querySelector(
+            '.cs-mobile-select'
+          )
+          ?.setAttribute(
+            'aria-expanded',
+            String(active)
+          );
+      }
+    );
   }
 
 
   /*
-   * Immediate states:
-   * initial setup, reduced motion,
-   * breakpoint changes, or same-card selection.
+   * Immediate state changes.
    */
   if (
     !mobileCaseStudyMode.matches ||
@@ -3325,16 +3385,29 @@ function setActiveProject(
       accordionTween = null;
     }
 
+
     accordionAnimating = false;
     activeIndex = nextIndex;
 
-    applyActiveState(activeIndex);
 
-    cards.forEach((card, cardIndex) => {
-      if (cardIndex !== activeIndex) {
-        resetCardEffect(card);
+    applyState(activeIndex);
+
+
+    cards.forEach(
+      (
+        card,
+        cardIndex
+      ) => {
+
+        if (
+          cardIndex !==
+          activeIndex
+        ) {
+          resetCardEffect(card);
+        }
       }
-    });
+    );
+
 
     resetMotionBaseline();
 
@@ -3343,12 +3416,16 @@ function setActiveProject(
       keepInView &&
       mobileCaseStudyMode.matches
     ) {
-      requestAnimationFrame(() => {
-        activeCard.scrollIntoView({
-          behavior: 'auto',
-          block: 'nearest'
-        });
-      });
+      requestAnimationFrame(
+        () => {
+
+          activeCard.scrollIntoView({
+            behavior: 'auto',
+            block: 'nearest'
+          });
+
+        }
+      );
     }
 
 
@@ -3357,8 +3434,7 @@ function setActiveProject(
 
 
   /*
-   * Don't allow two accordion timelines
-   * to compete with one another.
+   * Don't stack accordion animations.
    */
   if (accordionAnimating) {
     return cards[activeIndex];
@@ -3368,23 +3444,28 @@ function setActiveProject(
   const previousIndex =
     activeIndex;
 
+
   const previousCard =
     cards[previousIndex];
+
 
   const previousFull =
     previousCard.querySelector(
       '.card-feat'
     );
 
+
   const previousMini =
     previousCard.querySelector(
       '.cs-mobile-select'
     );
 
+
   const nextFull =
     activeCard.querySelector(
       '.card-feat'
     );
+
 
   const nextMini =
     activeCard.querySelector(
@@ -3410,21 +3491,33 @@ function setActiveProject(
 
   accordionAnimating = true;
 
-  resetCardEffect(previousCard);
-  resetCardEffect(activeCard);
+
+  /*
+   * Phone tilt / pointer effects should not own
+   * the cards during the accordion transition.
+   */
+  resetCardEffect(
+    previousCard
+  );
+
+  resetCardEffect(
+    activeCard
+  );
+
   resetMotionBaseline();
 
 
   /*
-   * CURRENT HEIGHTS
+   * CURRENT DIMENSIONS
    *
-   * previous = expanded card
-   * selected = mini row
+   * previous = full
+   * next     = mini
    */
   const previousStartHeight =
     previousCard
       .getBoundingClientRect()
       .height;
+
 
   const nextStartHeight =
     activeCard
@@ -3433,96 +3526,43 @@ function setActiveProject(
 
 
   /*
-   * Temporarily switch the visual state only
-   * so we can measure the destination heights.
+   * Temporarily change state so we can measure:
    *
-   * This happens synchronously before the browser
-   * gets a chance to paint it.
+   * previous = mini
+   * next     = full
+   *
+   * Then restore immediately before paint.
    */
-  setVisualState(nextIndex);
+  applyState(nextIndex);
+
 
   const previousTargetHeight =
     previousCard
       .getBoundingClientRect()
       .height;
 
+
   const nextTargetHeight =
     activeCard
       .getBoundingClientRect()
       .height;
 
-  setVisualState(previousIndex);
 
-
-  const openDistance =
-    Math.max(
-      0,
-      nextTargetHeight -
-      nextStartHeight
-    );
-
-  const closeDistance =
-    Math.max(
-      0,
-      previousStartHeight -
-      previousTargetHeight
-    );
+  applyState(previousIndex);
 
 
   /*
-   * Tiny overshoot / undershoot.
+   * Only animate CONTENT.
    *
-   * These values are deliberately restrained.
-   * We want physical give, not a bounce.
-   */
-  const openOvershoot =
-    openDistance > 0
-      ? Math.min(
-          10,
-          Math.max(
-            5,
-            openDistance * 0.022
-          )
-        )
-      : 0;
-
-  const closeUndershoot =
-    closeDistance > 0
-      ? Math.min(
-          6,
-          Math.max(
-            3,
-            closeDistance * 0.014
-          )
-        )
-      : 0;
-
-
-  const openPeakHeight =
-    nextTargetHeight +
-    openOvershoot;
-
-  const closePeakHeight =
-    Math.max(
-      1,
-      previousTargetHeight -
-      closeUndershoot
-    );
-
-
-  /*
-   * IMPORTANT:
-   *
-   * Animate CONTENT only.
-   *
-   * Do not fade .card-vis or .card-body themselves,
-   * because those elements carry the themed surfaces.
+   * Never opacity-fade .card-vis or .card-body.
+   * Those are the physical card surfaces.
    */
   const previousContent = [
     ...previousFull.querySelectorAll(
       '.card-vis > *, .card-body > *'
     )
   ];
+
 
   const nextContent = [
     ...nextFull.querySelectorAll(
@@ -3531,115 +3571,94 @@ function setActiveProject(
   ];
 
 
-  const {
-    sheen: nextSheen,
-    holo: nextHolo
-  } = getCardEffects(activeCard);
-
-
   /*
-   * Lock the wrapper dimensions.
+   * Lock wrapper dimensions at their current sizes.
    */
   gsap.set(
     previousCard,
     {
-      height: previousStartHeight,
-      overflow: 'hidden'
+      height:
+        previousStartHeight,
+
+      overflow:
+        'hidden'
     }
   );
+
 
   gsap.set(
     activeCard,
     {
-      height: nextStartHeight,
-      overflow: 'hidden'
+      height:
+        nextStartHeight,
+
+      overflow:
+        'hidden'
     }
   );
 
 
   /*
-   * Content starts almost fully present.
-   * This is intentionally subtle.
+   * Switch the actual accordion state now.
+   *
+   * The explicit wrapper heights prevent
+   * the document layout from jumping.
+   */
+  activeIndex =
+    nextIndex;
+
+  applyState(
+    activeIndex
+  );
+
+
+  /*
+   * Keep the OLD full card physically present
+   * while its wrapper contracts.
+   *
+   * This is important:
+   * otherwise it would instantly turn into the
+   * mini row and we'd just be shrinking empty space.
    */
   gsap.set(
-    previousContent,
+    previousFull,
     {
-      opacity: 1,
-      y: 0
+      display: 'grid'
     }
   );
 
-  gsap.set(
-    nextContent,
-    {
-      opacity: 0.66,
-      y: 4
-    }
-  );
 
   gsap.set(
     previousMini,
     {
-      opacity: 0.72,
-      y: -2
-    }
-  );
-
-  gsap.set(
-    nextMini,
-    {
-      opacity: 1,
-      y: 0
+      display: 'none'
     }
   );
 
 
   /*
-   * Transition owns the holo temporarily.
+   * Reference-style content behavior:
+   *
+   * outgoing content fades immediately;
+   * incoming content waits until late in expansion.
    */
-  if (nextHolo) {
-    nextHolo.style.transition =
-      'none';
-
-    gsap.set(
-      nextHolo,
-      {
-        opacity: 0
-      }
-    );
-  }
-
-
-  if (nextSheen) {
-    nextSheen.style.transition =
-      'none';
-
-    gsap.set(
-      nextSheen,
-      {
-        opacity: 0
-      }
-    );
-  }
-
-
-  nextFull.style.transition =
-    'none';
-
   gsap.set(
-    nextFull,
+    previousContent,
     {
-      '--ratio-x': -0.55,
-      '--ratio-y': -0.10
+      opacity: 1
     }
   );
 
 
-  /*
-   * Shared cleanup for both a normal finish
-   * and an interrupted animation.
-   */
-  const clearTransitionStyles = () => {
+  gsap.set(
+    nextContent,
+    {
+      opacity: 0
+    }
+  );
+
+
+  function cleanUpAccordion() {
 
     gsap.set(
       [
@@ -3655,14 +3674,24 @@ function setActiveProject(
 
     gsap.set(
       [
-        ...previousContent,
-        ...nextContent,
-        previousMini,
-        nextMini
+        previousFull,
+        previousMini
       ],
       {
         clearProps:
-          'opacity,transform'
+          'display'
+      }
+    );
+
+
+    gsap.set(
+      [
+        ...previousContent,
+        ...nextContent
+      ],
+      {
+        clearProps:
+          'opacity'
       }
     );
 
@@ -3676,11 +3705,12 @@ function setActiveProject(
     );
 
 
+    resetMotionBaseline();
+
+
     accordionTween = null;
     accordionAnimating = false;
-
-    resetMotionBaseline();
-  };
+  }
 
 
   accordionTween =
@@ -3688,7 +3718,7 @@ function setActiveProject(
 
       onComplete: () => {
 
-        clearTransitionStyles();
+        cleanUpAccordion();
 
 
         if (
@@ -3696,7 +3726,7 @@ function setActiveProject(
           mobileCaseStudyMode.matches
         ) {
           activeCard.scrollIntoView({
-            behavior: 'smooth',
+            behavior: 'auto',
             block: 'nearest'
           });
         }
@@ -3704,56 +3734,27 @@ function setActiveProject(
 
 
       onInterrupt: () => {
-        clearTransitionStyles();
+        cleanUpAccordion();
       }
     });
 
 
   /*
-   * -------------------------------------------------------------
-   * PHYSICAL SHELL MOTION
-   * -------------------------------------------------------------
+   * ===============================================================
+   * SIZE
+   * ===============================================================
    *
-   * Both cards move immediately.
+   * This is the interaction.
    *
-   * Open:
-   * mini → slightly past full → settle
+   * One tween.
+   * Same easing curve.
+   * Same duration.
    *
-   * Close:
-   * full → slightly past mini → settle
+   * Because the easing itself rises slightly above 1,
+   * opening naturally overshoots and closing naturally
+   * compresses slightly past its destination.
    */
-
   accordionTween
-
-    .to(
-      previousCard,
-      {
-        height:
-          closePeakHeight,
-
-        duration:
-          0.50,
-
-        ease:
-          'power3.inOut'
-      },
-      0
-    )
-
-    .to(
-      activeCard,
-      {
-        height:
-          openPeakHeight,
-
-        duration:
-          0.50,
-
-        ease:
-          'power3.out'
-      },
-      0
-    )
 
     .to(
       previousCard,
@@ -3762,12 +3763,12 @@ function setActiveProject(
           previousTargetHeight,
 
         duration:
-          0.16,
+          0.8,
 
         ease:
-          'sine.out'
+          accordionBounceEase
       },
-      0.50
+      0
     )
 
     .to(
@@ -3777,181 +3778,57 @@ function setActiveProject(
           nextTargetHeight,
 
         duration:
-          0.16,
+          0.8,
 
         ease:
-          'sine.out'
+          accordionBounceEase
       },
-      0.50
+      0
     );
 
 
   /*
-   * Swap the actual accordion state almost
-   * immediately after motion begins.
+   * ===============================================================
+   * CONTENT
+   * ===============================================================
    *
-   * The fixed wrapper heights prevent the
-   * DOM display swap from teleporting layout.
-   */
-  accordionTween.call(
-    () => {
-
-      activeIndex =
-        nextIndex;
-
-      applyActiveState(
-        activeIndex
-      );
-
-    },
-    [],
-    0.035
-  );
-
-
-  /*
-   * Outgoing content barely softens.
-   *
-   * This is only here to keep the state switch
-   * from reading as a hard visual cut.
+   * Close:
+   * fade away immediately over 0.25s.
    */
   accordionTween.to(
     previousContent,
     {
-      opacity: 0.78,
-      y: -2,
+      opacity: 0,
 
-      duration: 0.10,
-      ease: 'power1.out'
+      duration: 0.25,
+      ease: 'power1.inOut'
     },
     0
   );
 
 
   /*
-   * Closed row settles into place.
-   */
-  accordionTween.to(
-    previousMini,
-    {
-      opacity: 1,
-      y: 0,
-
-      duration: 0.18,
-      ease: 'power2.out'
-    },
-    0.08
-  );
-
-
-  /*
-   * New card content arrives during the
-   * physical expansion rather than afterward.
+   * Open:
+   * wait 0.5s, then fade in over 0.25s.
+   *
+   * This mirrors the timing principle in
+   * the CodePen instead of assembling the card.
    */
   accordionTween.to(
     nextContent,
     {
       opacity: 1,
-      y: 0,
 
-      duration: 0.28,
-      ease: 'power2.out'
+      duration: 0.25,
+      ease: 'power1.inOut'
     },
-    0.17
+    0.5
   );
-
-
-  /*
-   * -------------------------------------------------------------
-   * HOLO ENERGY
-   * -------------------------------------------------------------
-   *
-   * Starts after expansion begins,
-   * reaches strongest intensity close to the
-   * overshoot, then disappears during settle.
-   */
-
-  if (nextHolo) {
-
-    accordionTween.to(
-      nextHolo,
-      {
-        opacity: 0.78,
-
-        duration: 0.20,
-        ease: 'power2.out'
-      },
-      0.12
-    );
-  }
-
-
-  if (nextSheen) {
-
-    accordionTween.to(
-      nextSheen,
-      {
-        opacity: 0.30,
-
-        duration: 0.20,
-        ease: 'power2.out'
-      },
-      0.12
-    );
-  }
-
-
-  accordionTween
-
-    .to(
-      nextFull,
-      {
-        '--ratio-x': 0.72,
-        '--ratio-y': 0.16,
-
-        duration: 0.34,
-        ease: 'power2.inOut'
-      },
-      0.12
-    )
-
-    .to(
-      nextFull,
-      {
-        '--ratio-x': 0,
-        '--ratio-y': 0,
-
-        duration: 0.18,
-        ease: 'sine.out'
-      },
-      0.48
-    );
-
-
-  const holoFadeTargets = [
-    nextHolo,
-    nextSheen
-  ].filter(Boolean);
-
-
-  if (holoFadeTargets.length) {
-
-    accordionTween.to(
-      holoFadeTargets,
-      {
-        opacity: 0,
-
-        duration: 0.16,
-        ease: 'sine.out'
-      },
-      0.50
-    );
-  }
 
 
   return activeCard;
 }
-
+  
   
   /* ---------------------------------------------------------------
    * FALLBACK HOLO FLOURISH
