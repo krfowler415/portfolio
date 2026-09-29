@@ -3279,14 +3279,40 @@ function setActiveProject(
     cards[nextIndex];
 
 
+  function setVisualState(stateIndex) {
+    cards.forEach((card, cardIndex) => {
+      card.classList.toggle(
+        'is-mobile-active',
+        cardIndex === stateIndex
+      );
+    });
+  }
+
+
+  function syncExpandedState(stateIndex) {
+    cards.forEach((card, cardIndex) => {
+      card
+        .querySelector(
+          '.cs-mobile-select'
+        )
+        ?.setAttribute(
+          'aria-expanded',
+          String(cardIndex === stateIndex)
+        );
+    });
+  }
+
+
+  function applyActiveState(stateIndex) {
+    setVisualState(stateIndex);
+    syncExpandedState(stateIndex);
+  }
+
+
   /*
-   * INITIAL / NON-ANIMATED STATE
-   *
-   * Used for:
-   * - initial page setup
-   * - reduced motion
-   * - breakpoint changes
-   * - re-selecting the already-active project
+   * Immediate states:
+   * initial setup, reduced motion,
+   * breakpoint changes, or same-card selection.
    */
   if (
     !mobileCaseStudyMode.matches ||
@@ -3302,42 +3328,13 @@ function setActiveProject(
     accordionAnimating = false;
     activeIndex = nextIndex;
 
+    applyActiveState(activeIndex);
 
-    cards.forEach(
-      (
-        card,
-        cardIndex
-      ) => {
-
-        const active =
-          cardIndex ===
-          activeIndex;
-
-
-        card.classList.toggle(
-          'is-mobile-active',
-          active
-        );
-
-
-        card
-          .querySelector(
-            '.cs-mobile-select'
-          )
-          ?.setAttribute(
-            'aria-expanded',
-            String(active)
-          );
-
-
-        if (!active) {
-          resetCardEffect(
-            card
-          );
-        }
+    cards.forEach((card, cardIndex) => {
+      if (cardIndex !== activeIndex) {
+        resetCardEffect(card);
       }
-    );
-
+    });
 
     resetMotionBaseline();
 
@@ -3346,16 +3343,12 @@ function setActiveProject(
       keepInView &&
       mobileCaseStudyMode.matches
     ) {
-      requestAnimationFrame(
-        () => {
-
-          activeCard.scrollIntoView({
-            behavior: 'auto',
-            block: 'nearest'
-          });
-
-        }
-      );
+      requestAnimationFrame(() => {
+        activeCard.scrollIntoView({
+          behavior: 'auto',
+          block: 'nearest'
+        });
+      });
     }
 
 
@@ -3364,8 +3357,8 @@ function setActiveProject(
 
 
   /*
-   * Don't allow another project selection
-   * to interrupt the current activation.
+   * Don't allow two accordion timelines
+   * to compete with one another.
    */
   if (accordionAnimating) {
     return cards[activeIndex];
@@ -3375,28 +3368,23 @@ function setActiveProject(
   const previousIndex =
     activeIndex;
 
-
   const previousCard =
     cards[previousIndex];
-
 
   const previousFull =
     previousCard.querySelector(
       '.card-feat'
     );
 
-
   const previousMini =
     previousCard.querySelector(
       '.cs-mobile-select'
     );
 
-
   const nextFull =
     activeCard.querySelector(
       '.card-feat'
     );
-
 
   const nextMini =
     activeCard.querySelector(
@@ -3404,9 +3392,6 @@ function setActiveProject(
     );
 
 
-  /*
-   * Safety fallback.
-   */
   if (
     !previousFull ||
     !previousMini ||
@@ -3423,128 +3408,23 @@ function setActiveProject(
   }
 
 
-  /*
-   * Outgoing content.
-   *
-   * Animate CONTENT only — never .card-vis or
-   * .card-body themselves, because those own the
-   * actual themed card surfaces.
-   */
-  const previousContent = [
-    ...previousFull.querySelectorAll(
-      '.card-vis > *, .card-body > *'
-    )
-  ];
-
-
-  /*
-   * Split the incoming content into visual and body
-   * groups so they can follow the holo sweep rather
-   * than appearing simultaneously.
-   */
-  const nextVisualContent = [
-    ...nextFull.querySelectorAll(
-      '.card-vis > *'
-    )
-  ];
-
-
-  const nextBodyContent = [
-    ...nextFull.querySelectorAll(
-      '.card-body > *'
-    )
-  ];
-
-
-  const nextNumber =
-    nextMini.querySelector(
-      '.cs-mobile-number'
-    );
-
-
-  const nextOpen =
-    nextMini.querySelector(
-      '.cs-mobile-open'
-    );
-
-
-  const {
-    sheen: nextSheen,
-    holo: nextHolo
-  } = getCardEffects(
-    activeCard
-  );
-
-
-  /*
-   * Apply an accordion state without doing any
-   * animation work.
-   *
-   * We use this briefly below to measure the
-   * destination heights before anything paints.
-   */
-  const applyAccordionState =
-    stateIndex => {
-
-      cards.forEach(
-        (
-          card,
-          cardIndex
-        ) => {
-
-          const active =
-            cardIndex ===
-            stateIndex;
-
-
-          card.classList.toggle(
-            'is-mobile-active',
-            active
-          );
-
-
-          card
-            .querySelector(
-              '.cs-mobile-select'
-            )
-            ?.setAttribute(
-              'aria-expanded',
-              String(active)
-            );
-        }
-      );
-    };
-
-
   accordionAnimating = true;
 
-
-  /*
-   * Clear old desktop / phone holo state before
-   * this transition temporarily takes control.
-   */
-  resetCardEffect(
-    previousCard
-  );
-
-  resetCardEffect(
-    activeCard
-  );
-
+  resetCardEffect(previousCard);
+  resetCardEffect(activeCard);
   resetMotionBaseline();
 
 
   /*
    * CURRENT HEIGHTS
    *
-   * previous = full card
-   * selected = compact row
+   * previous = expanded card
+   * selected = mini row
    */
   const previousStartHeight =
     previousCard
       .getBoundingClientRect()
       .height;
-
 
   const nextStartHeight =
     activeCard
@@ -3553,262 +3433,262 @@ function setActiveProject(
 
 
   /*
-   * Temporarily switch the accordion state so we
-   * can measure its destination layout.
+   * Temporarily switch the visual state only
+   * so we can measure the destination heights.
    *
    * This happens synchronously before the browser
-   * paints, so the user never sees this measurement.
+   * gets a chance to paint it.
    */
-  applyAccordionState(
-    nextIndex
-  );
-
+  setVisualState(nextIndex);
 
   const previousTargetHeight =
     previousCard
       .getBoundingClientRect()
       .height;
 
-
   const nextTargetHeight =
     activeCard
       .getBoundingClientRect()
       .height;
 
+  setVisualState(previousIndex);
+
+
+  const openDistance =
+    Math.max(
+      0,
+      nextTargetHeight -
+      nextStartHeight
+    );
+
+  const closeDistance =
+    Math.max(
+      0,
+      previousStartHeight -
+      previousTargetHeight
+    );
+
 
   /*
-   * Restore the state the user is currently
-   * looking at before starting the animation.
-   */
-  applyAccordionState(
-    previousIndex
-  );
-
-
-  /*
-   * Lock both wrappers at their current dimensions.
+   * Tiny overshoot / undershoot.
    *
-   * After the class switch happens inside the
-   * timeline, these fixed heights let us smoothly
-   * animate between the two states.
+   * These values are deliberately restrained.
+   * We want physical give, not a bounce.
+   */
+  const openOvershoot =
+    openDistance > 0
+      ? Math.min(
+          10,
+          Math.max(
+            5,
+            openDistance * 0.022
+          )
+        )
+      : 0;
+
+  const closeUndershoot =
+    closeDistance > 0
+      ? Math.min(
+          6,
+          Math.max(
+            3,
+            closeDistance * 0.014
+          )
+        )
+      : 0;
+
+
+  const openPeakHeight =
+    nextTargetHeight +
+    openOvershoot;
+
+  const closePeakHeight =
+    Math.max(
+      1,
+      previousTargetHeight -
+      closeUndershoot
+    );
+
+
+  /*
+   * IMPORTANT:
+   *
+   * Animate CONTENT only.
+   *
+   * Do not fade .card-vis or .card-body themselves,
+   * because those elements carry the themed surfaces.
+   */
+  const previousContent = [
+    ...previousFull.querySelectorAll(
+      '.card-vis > *, .card-body > *'
+    )
+  ];
+
+  const nextContent = [
+    ...nextFull.querySelectorAll(
+      '.card-vis > *, .card-body > *'
+    )
+  ];
+
+
+  const {
+    sheen: nextSheen,
+    holo: nextHolo
+  } = getCardEffects(activeCard);
+
+
+  /*
+   * Lock the wrapper dimensions.
    */
   gsap.set(
     previousCard,
     {
-      height:
-        previousStartHeight,
-
-      overflow:
-        'hidden'
+      height: previousStartHeight,
+      overflow: 'hidden'
     }
   );
-
 
   gsap.set(
     activeCard,
     {
-      height:
-        nextStartHeight,
-
-      overflow:
-        'hidden'
+      height: nextStartHeight,
+      overflow: 'hidden'
     }
   );
 
 
   /*
-   * Prepare the replacement mini row.
+   * Content starts almost fully present.
+   * This is intentionally subtle.
    */
+  gsap.set(
+    previousContent,
+    {
+      opacity: 1,
+      y: 0
+    }
+  );
+
+  gsap.set(
+    nextContent,
+    {
+      opacity: 0.66,
+      y: 4
+    }
+  );
+
   gsap.set(
     previousMini,
     {
-      opacity: 0,
-      y: -3
+      opacity: 0.72,
+      y: -2
+    }
+  );
+
+  gsap.set(
+    nextMini,
+    {
+      opacity: 1,
+      y: 0
     }
   );
 
 
   /*
-   * Prepare incoming visual content.
+   * Transition owns the holo temporarily.
    */
-  gsap.set(
-    nextVisualContent,
-    {
-      opacity: 0,
-      y: 8
-    }
-  );
-
-
-  /*
-   * Body follows slightly farther behind.
-   */
-  gsap.set(
-    nextBodyContent,
-    {
-      opacity: 0,
-      y: 11
-    }
-  );
-
-
-  /*
-   * Start the holo sweep toward the upper-left
-   * side of the material.
-   *
-   * We do NOT animate .card-feat's transform.
-   * Its transform remains reserved for the
-   * existing desktop / phone tilt systems.
-   */
-  gsap.set(
-    nextFull,
-    {
-      '--ratio-x': -0.75,
-      '--ratio-y': -0.18
-    }
-  );
-
-
   if (nextHolo) {
+    nextHolo.style.transition =
+      'none';
+
     gsap.set(
       nextHolo,
       {
-        opacity: 0,
-        transition: 'none'
+        opacity: 0
       }
     );
   }
 
 
   if (nextSheen) {
+    nextSheen.style.transition =
+      'none';
+
     gsap.set(
       nextSheen,
       {
-        opacity: 0,
-        transition: 'none'
+        opacity: 0
       }
     );
   }
 
 
-  const pulseTargets = [
-    nextNumber,
-    nextOpen
-  ].filter(Boolean);
+  nextFull.style.transition =
+    'none';
+
+  gsap.set(
+    nextFull,
+    {
+      '--ratio-x': -0.55,
+      '--ratio-y': -0.10
+    }
+  );
 
 
   /*
-   * ===============================================================
-   * MASTER ACTIVATION TIMELINE
-   *
-   * Everything below belongs to ONE event:
-   *
-   * tap
-   * → old card releases
-   * → selected row energizes
-   * → state swaps
-   * → card expands
-   * → holo sweeps across it
-   * → content follows the sweep
-   * → material settles
-   * ===============================================================
+   * Shared cleanup for both a normal finish
+   * and an interrupted animation.
    */
+  const clearTransitionStyles = () => {
+
+    gsap.set(
+      [
+        previousCard,
+        activeCard
+      ],
+      {
+        clearProps:
+          'height,overflow'
+      }
+    );
+
+
+    gsap.set(
+      [
+        ...previousContent,
+        ...nextContent,
+        previousMini,
+        nextMini
+      ],
+      {
+        clearProps:
+          'opacity,transform'
+      }
+    );
+
+
+    resetCardEffect(
+      previousCard
+    );
+
+    resetCardEffect(
+      activeCard
+    );
+
+
+    accordionTween = null;
+    accordionAnimating = false;
+
+    resetMotionBaseline();
+  };
+
 
   accordionTween =
     gsap.timeline({
 
       onComplete: () => {
 
-        /*
-         * Give normal CSS sizing back.
-         */
-        gsap.set(
-          [
-            previousCard,
-            activeCard
-          ],
-          {
-            clearProps:
-              'height,overflow'
-          }
-        );
-
-
-        /*
-         * Clear temporary mini-row animation state.
-         */
-        gsap.set(
-          previousMini,
-          {
-            clearProps:
-              'opacity,transform'
-          }
-        );
-
-
-        /*
-         * Clear outgoing content state.
-         */
-        gsap.set(
-          previousContent,
-          {
-            clearProps:
-              'opacity,transform'
-          }
-        );
-
-
-        /*
-         * Clear incoming content state.
-         */
-        gsap.set(
-          nextVisualContent,
-          {
-            clearProps:
-              'opacity,transform'
-          }
-        );
-
-
-        gsap.set(
-          nextBodyContent,
-          {
-            clearProps:
-              'opacity,transform'
-          }
-        );
-
-
-        /*
-         * Remove any remaining selector pulse.
-         */
-        gsap.set(
-          pulseTargets,
-          {
-            clearProps:
-              'transform'
-          }
-        );
-
-
-        /*
-         * Release holo ownership back to the normal
-         * CSS / DeviceOrientation systems.
-         */
-        resetCardEffect(
-          activeCard
-        );
-
-
-        accordionTween = null;
-        accordionAnimating = false;
-
-
-        /*
-         * Whatever position the phone is currently
-         * held at becomes the new neutral point.
-         */
-        resetMotionBaseline();
+        clearTransitionStyles();
 
 
         if (
@@ -3816,201 +3696,140 @@ function setActiveProject(
           mobileCaseStudyMode.matches
         ) {
           activeCard.scrollIntoView({
-            behavior:
-              'smooth',
-
-            block:
-              'nearest'
+            behavior: 'smooth',
+            block: 'nearest'
           });
         }
+      },
+
+
+      onInterrupt: () => {
+        clearTransitionStyles();
       }
     });
 
 
   /*
-   * ---------------------------------------------------------------
-   * 0ms
+   * -------------------------------------------------------------
+   * PHYSICAL SHELL MOTION
+   * -------------------------------------------------------------
    *
-   * Existing project begins releasing focus.
-   * It doesn't fully disappear before the handoff;
-   * it simply softens.
-   * ---------------------------------------------------------------
+   * Both cards move immediately.
+   *
+   * Open:
+   * mini → slightly past full → settle
+   *
+   * Close:
+   * full → slightly past mini → settle
    */
 
+  accordionTween
+
+    .to(
+      previousCard,
+      {
+        height:
+          closePeakHeight,
+
+        duration:
+          0.50,
+
+        ease:
+          'power3.inOut'
+      },
+      0
+    )
+
+    .to(
+      activeCard,
+      {
+        height:
+          openPeakHeight,
+
+        duration:
+          0.50,
+
+        ease:
+          'power3.out'
+      },
+      0
+    )
+
+    .to(
+      previousCard,
+      {
+        height:
+          previousTargetHeight,
+
+        duration:
+          0.16,
+
+        ease:
+          'sine.out'
+      },
+      0.50
+    )
+
+    .to(
+      activeCard,
+      {
+        height:
+          nextTargetHeight,
+
+        duration:
+          0.16,
+
+        ease:
+          'sine.out'
+      },
+      0.50
+    );
+
+
+  /*
+   * Swap the actual accordion state almost
+   * immediately after motion begins.
+   *
+   * The fixed wrapper heights prevent the
+   * DOM display swap from teleporting layout.
+   */
+  accordionTween.call(
+    () => {
+
+      activeIndex =
+        nextIndex;
+
+      applyActiveState(
+        activeIndex
+      );
+
+    },
+    [],
+    0.035
+  );
+
+
+  /*
+   * Outgoing content barely softens.
+   *
+   * This is only here to keep the state switch
+   * from reading as a hard visual cut.
+   */
   accordionTween.to(
     previousContent,
     {
-      opacity: 0.28,
-      y: -4,
+      opacity: 0.78,
+      y: -2,
 
-      duration: 0.16,
-
-      ease:
-        'power2.inOut'
+      duration: 0.10,
+      ease: 'power1.out'
     },
     0
   );
 
 
   /*
-   * Selected number / + gets a tiny activation
-   * response.
-   */
-  if (
-    pulseTargets.length
-  ) {
-    accordionTween.to(
-      pulseTargets,
-      {
-        scale: 1.08,
-
-        duration: 0.10,
-
-        ease:
-          'sine.out',
-
-        yoyo: true,
-        repeat: 1
-      },
-      0
-    );
-  }
-
-
-  /*
-   * Selected compact row begins dissolving into
-   * the full card.
-   */
-  accordionTween.to(
-    nextMini,
-    {
-      opacity: 0,
-
-      duration: 0.13,
-
-      ease:
-        'power1.in'
-    },
-    0.055
-  );
-
-
-  /*
-   * ---------------------------------------------------------------
-   * 120ms — ACTUAL STATE HANDOFF
-   *
-   * From this moment onward:
-   *
-   * previous project = mini
-   * selected project = full card
-   * ---------------------------------------------------------------
-   */
-
-  accordionTween.add(
-    () => {
-
-      activeIndex =
-        nextIndex;
-
-
-      applyAccordionState(
-        nextIndex
-      );
-
-
-      /*
-       * Previous full card is hidden now, so its
-       * temporary content styles can be removed.
-       */
-      resetCardEffect(
-        previousCard
-      );
-
-
-      gsap.set(
-        previousContent,
-        {
-          clearProps:
-            'opacity,transform'
-        }
-      );
-
-
-      /*
-       * Selected mini row is hidden now.
-       */
-      gsap.set(
-        nextMini,
-        {
-          clearProps:
-            'opacity'
-        }
-      );
-
-
-      gsap.set(
-        pulseTargets,
-        {
-          clearProps:
-            'transform'
-        }
-      );
-
-    },
-    0.12
-  );
-
-
-  /*
-   * ---------------------------------------------------------------
-   * OLD CARD CONTRACTS
-   *
-   * Quiet, relatively quick motion.
-   * ---------------------------------------------------------------
-   */
-
-  accordionTween.to(
-    previousCard,
-    {
-      height:
-        previousTargetHeight,
-
-      duration: 0.34,
-
-      ease:
-        'power2.inOut'
-    },
-    0.12
-  );
-
-
-  /*
-   * ---------------------------------------------------------------
-   * NEW CARD EXPANDS
-   *
-   * Starts just behind the collapse and gets the
-   * longer, softer landing.
-   * ---------------------------------------------------------------
-   */
-
-  accordionTween.to(
-    activeCard,
-    {
-      height:
-        nextTargetHeight,
-
-      duration: 0.54,
-
-      ease:
-        'power4.out'
-    },
-    0.14
-  );
-
-
-  /*
-   * Previous project's compact row settles into
-   * the space being released.
+   * Closed row settles into place.
    */
   accordionTween.to(
     previousMini,
@@ -4018,232 +3837,121 @@ function setActiveProject(
       opacity: 1,
       y: 0,
 
-      duration: 0.24,
-
-      ease:
-        'power2.out'
+      duration: 0.18,
+      ease: 'power2.out'
     },
-    0.14
+    0.08
   );
 
 
   /*
-   * ===============================================================
-   * HOLO ACTIVATION
+   * New card content arrives during the
+   * physical expansion rather than afterward.
+   */
+  accordionTween.to(
+    nextContent,
+    {
+      opacity: 1,
+      y: 0,
+
+      duration: 0.28,
+      ease: 'power2.out'
+    },
+    0.17
+  );
+
+
+  /*
+   * -------------------------------------------------------------
+   * HOLO ENERGY
+   * -------------------------------------------------------------
    *
-   * This now starts WITH the expansion instead
-   * of being a separate flourish afterward.
-   * ===============================================================
+   * Starts after expansion begins,
+   * reaches strongest intensity close to the
+   * overshoot, then disappears during settle.
    */
 
   if (nextHolo) {
+
     accordionTween.to(
       nextHolo,
       {
         opacity: 0.78,
 
-        duration: 0.18,
-
-        ease:
-          'power2.out'
+        duration: 0.20,
+        ease: 'power2.out'
       },
-      0.15
+      0.12
     );
   }
 
 
   if (nextSheen) {
+
     accordionTween.to(
       nextSheen,
       {
         opacity: 0.30,
 
+        duration: 0.20,
+        ease: 'power2.out'
+      },
+      0.12
+    );
+  }
+
+
+  accordionTween
+
+    .to(
+      nextFull,
+      {
+        '--ratio-x': 0.72,
+        '--ratio-y': 0.16,
+
+        duration: 0.34,
+        ease: 'power2.inOut'
+      },
+      0.12
+    )
+
+    .to(
+      nextFull,
+      {
+        '--ratio-x': 0,
+        '--ratio-y': 0,
+
         duration: 0.18,
-
-        ease:
-          'power2.out'
+        ease: 'sine.out'
       },
-      0.15
+      0.48
     );
-  }
 
 
-  /*
-   * First sweep:
-   * upper-left toward center.
-   */
-  accordionTween.to(
-    nextFull,
-    {
-      '--ratio-x': 0.18,
-      '--ratio-y': 0.06,
-
-      duration: 0.28,
-
-      ease:
-        'power2.out'
-    },
-    0.15
-  );
+  const holoFadeTargets = [
+    nextHolo,
+    nextSheen
+  ].filter(Boolean);
 
 
-  /*
-   * ---------------------------------------------------------------
-   * CONTENT FOLLOWS THE HOLO
-   *
-   * Visual material appears first.
-   * ---------------------------------------------------------------
-   */
+  if (holoFadeTargets.length) {
 
-  accordionTween.to(
-    nextVisualContent,
-    {
-      opacity: 1,
-      y: 0,
-
-      duration: 0.34,
-
-      ease:
-        'power3.out',
-
-      stagger: 0.025
-    },
-    0.23
-  );
-
-
-  /*
-   * Body follows just behind the visual.
-   */
-  accordionTween.to(
-    nextBodyContent,
-    {
-      opacity: 1,
-      y: 0,
-
-      duration: 0.36,
-
-      ease:
-        'power3.out',
-
-      stagger: 0.025
-    },
-    0.29
-  );
-
-
-  /*
-   * Second part of holo travel.
-   *
-   * This gives the iridescent material an actual
-   * directional sweep instead of a simple fade.
-   */
-  accordionTween.to(
-    nextFull,
-    {
-      '--ratio-x': 0.62,
-      '--ratio-y': 0.16,
-
-      duration: 0.20,
-
-      ease:
-        'sine.inOut'
-    },
-    0.38
-  );
-
-
-  /*
-   * Holo begins softening as the card approaches
-   * its final size.
-   */
-  if (nextHolo) {
     accordionTween.to(
-      nextHolo,
-      {
-        opacity: 0.42,
-
-        duration: 0.16,
-
-        ease:
-          'sine.inOut'
-      },
-      0.42
-    );
-  }
-
-
-  if (nextSheen) {
-    accordionTween.to(
-      nextSheen,
-      {
-        opacity: 0.18,
-
-        duration: 0.16,
-
-        ease:
-          'sine.inOut'
-      },
-      0.42
-    );
-  }
-
-
-  /*
-   * Material settles back toward neutral.
-   */
-  accordionTween.to(
-    nextFull,
-    {
-      '--ratio-x': 0,
-      '--ratio-y': 0,
-
-      duration: 0.28,
-
-      ease:
-        'power2.out'
-    },
-    0.50
-  );
-
-
-  /*
-   * Final holo fade.
-   */
-  if (nextHolo) {
-    accordionTween.to(
-      nextHolo,
+      holoFadeTargets,
       {
         opacity: 0,
 
-        duration: 0.22,
-
-        ease:
-          'power2.out'
+        duration: 0.16,
+        ease: 'sine.out'
       },
-      0.56
-    );
-  }
-
-
-  if (nextSheen) {
-    accordionTween.to(
-      nextSheen,
-      {
-        opacity: 0,
-
-        duration: 0.22,
-
-        ease:
-          'power2.out'
-      },
-      0.56
+      0.50
     );
   }
 
 
   return activeCard;
 }
+
   
   /* ---------------------------------------------------------------
    * FALLBACK HOLO FLOURISH
