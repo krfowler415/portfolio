@@ -1429,13 +1429,6 @@ a.card-feat,
   opacity: 0.85;
 }
 
-@media (max-width: 1199px) {
-  .cs-card:not(.is-mobile-active):hover
-  .card-holo {
-    opacity: 0;
-  }
-}
-
 .card-holo::after {
   content: "";
   position: absolute;
