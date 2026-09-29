@@ -39,7 +39,7 @@
 const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const mobileCaseStudyMode = window.matchMedia('(max-width: 1099px)');
+const mobileCaseStudyMode = window.matchMedia('(max-width: 1199px)');
 
 const introX   = window.innerWidth / 2 - 100;
 const introY   = window.innerHeight * 0.12;
