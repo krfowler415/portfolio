@@ -1507,7 +1507,7 @@ a.card-feat,
 
 
 /* =========================================
-   900px: COMPONENT CHANGES MODE
+   1200px: COMPONENT CHANGES MODE
    ========================================= */
 
 @media (max-width: 1199px) {
@@ -1542,41 +1542,128 @@ a.card-feat,
   /*
    * Remember:
    * .cs-card IS .card-tilt-wrap in your HTML.
+   * summary          → .cs-mobile-select
+   * details content  → .card-feat
    */
   .cs-card {
     width: 100%;
     max-width: none;
     flex: none;
     scroll-snap-align: none;
+  
+    --cs-mini-height: 64px;
+  
+    --cs-accordion-bounce: linear(
+      0 0%,
+      0.4214 6.61%,
+      0.5762 9.59%,
+      0.7047 12.55%,
+      0.8115 15.61%,
+      0.8964 18.78%,
+      0.9614 22.13%,
+      1.0078 25.74%,
+      1.0282 28.18%,
+      1.0422 30.82%,
+      1.0503 33.7%,
+      1.0527 36.95%,
+      1.0468 42.53%,
+      1.015 58.45%,
+      1.0045 67.2%,
+      0.9987 80.44%,
+      1 100%
+    );
   }
 
-  /*
-   * INACTIVE:
-   * show the compact selector,
-   * hide the original full-card anchor.
-   */
-  .cs-card:not(.is-mobile-active)
-  > .card-feat {
-    display: none;
-  }
 
-  .cs-card:not(.is-mobile-active)
+/* MINI SELECTOR */
+  
+  .cs-card
   > .cs-mobile-select {
     display: grid;
+  
+    position: relative;
+    z-index: 5;
+  
+    height: var(--cs-mini-height);
+    min-height: var(--cs-mini-height);
+  
+    opacity: 1;
+    pointer-events: auto;
+  
+    transition:
+      opacity 0.25s cubic-bezier(0.42, 0, 0.58, 1);
+  
+    transition-delay: 0.525s;
   }
 
+
+/*
+ * OPEN:
+ * hide the mini selector visually,
+ * but do not remove it from layout.
+ */
+  .cs-card.is-mobile-active
+  > .cs-mobile-select {
+    opacity: 0;
+    pointer-events: none;
+    transition-delay: 0s;
+  }
+
+
+/*
+ * FULL CARD
+ *
+ * This is the element that physically opens
+ * and closes.
+ *
+ * Closed = 64px
+ * Open   = natural content height
+ */
+  .cs-card
+  > .card-feat {
+    display: grid;
+  
+    height: var(--cs-mini-height);
+    min-height: var(--cs-mini-height);
+  
+    margin-top:
+      calc(
+        var(--cs-mini-height) * -1
+      );
+  
+    overflow: hidden;
+  
+    interpolate-size: allow-keywords;
+  
+    pointer-events: none;
+  
+    transition:
+      height 0.8s var(--cs-accordion-bounce),
+      transform 0.4s cubic-bezier(0.03, 0.98, 0.52, 0.99),
+      box-shadow 0.3s;
+  }
+
+
   /*
-   * ACTIVE:
-   * original card remains visible.
+   * OPEN:
+   * transition from 64px to the full natural size.
    */
   .cs-card.is-mobile-active
   > .card-feat {
-    display: grid;
+    height: fit-content;
+    pointer-events: auto;
   }
 
-  .cs-card.is-mobile-active
+
+  /*
+   * JS uses this for initial setup / breakpoint
+   * changes where the state should update instantly.
+   */
+  .cs-card.cs-accordion-instant
+  > .card-feat,
+  .cs-card.cs-accordion-instant
   > .cs-mobile-select {
-    display: none;
+    transition: none !important;
   }
 
   .cs-arrows,
