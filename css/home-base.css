@@ -1429,6 +1429,13 @@ a.card-feat,
   opacity: 0.85;
 }
 
+@media (max-width: 1199px) {
+  .cs-card:not(.is-mobile-active):hover
+  .card-holo {
+    opacity: 0;
+  }
+}
+
 .card-holo::after {
   content: "";
   position: absolute;
@@ -1545,34 +1552,42 @@ a.card-feat,
    * summary          → .cs-mobile-select
    * details content  → .card-feat
    */
-  .cs-card {
-    width: 100%;
-    max-width: none;
-    flex: none;
-    scroll-snap-align: none;
-  
-    --cs-mini-height: 64px;
-  
-    --cs-accordion-bounce: linear(
-      0 0%,
-      0.4214 6.61%,
-      0.5762 9.59%,
-      0.7047 12.55%,
-      0.8115 15.61%,
-      0.8964 18.78%,
-      0.9614 22.13%,
-      1.0078 25.74%,
-      1.0282 28.18%,
-      1.0422 30.82%,
-      1.0503 33.7%,
-      1.0527 36.95%,
-      1.0468 42.53%,
-      1.015 58.45%,
-      1.0045 67.2%,
-      0.9987 80.44%,
-      1 100%
-    );
-  }
+ .cs-card {
+  width: 100%;
+  max-width: none;
+  flex: none;
+  scroll-snap-align: none;
+
+  /*
+   * Permanent accordion shell.
+   */
+  position: relative;
+  border-radius: 14px;
+  background:
+    var(--mobile-cs-bg, var(--bg-surface));
+
+  --cs-mini-height: 64px;
+
+  --cs-accordion-bounce: linear(
+    0 0%,
+    0.4214 6.61%,
+    0.5762 9.59%,
+    0.7047 12.55%,
+    0.8115 15.61%,
+    0.8964 18.78%,
+    0.9614 22.13%,
+    1.0078 25.74%,
+    1.0282 28.18%,
+    1.0422 30.82%,
+    1.0503 33.7%,
+    1.0527 36.95%,
+    1.0468 42.53%,
+    1.015 58.45%,
+    1.0045 67.2%,
+    0.9987 80.44%,
+    1 100%
+  );
+}
 
 
 /* MINI SELECTOR */
