@@ -3261,67 +3261,6 @@ function initMobileCaseStudyAccordion() {
   /* ---------------------------------------------------------------
    * MOBILE ACTIVE PROJECT
    * --------------------------------------------------------------- */
-
-/*
- * Recreates the reference Pen's linear() curve
- * without requiring GSAP CustomEase.
- */
-const accordionBouncePoints = [
-  [0,      0],
-  [0.0661, 0.4214],
-  [0.0959, 0.5762],
-  [0.1255, 0.7047],
-  [0.1561, 0.8115],
-  [0.1878, 0.8964],
-  [0.2213, 0.9614],
-  [0.2574, 1.0078],
-  [0.2818, 1.0282],
-  [0.3082, 1.0422],
-  [0.3370, 1.0503],
-  [0.3695, 1.0527],
-  [0.4253, 1.0468],
-  [0.5845, 1.0150],
-  [0.6720, 1.0045],
-  [0.8044, 0.9987],
-  [1,      1]
-];
-
-
-function accordionBounceEase(progress) {
-  if (progress <= 0) return 0;
-  if (progress >= 1) return 1;
-
-  for (
-    let i = 1;
-    i < accordionBouncePoints.length;
-    i++
-  ) {
-    const [
-      x1,
-      y1
-    ] = accordionBouncePoints[i];
-
-    if (progress <= x1) {
-      const [
-        x0,
-        y0
-      ] = accordionBouncePoints[i - 1];
-
-      const localProgress =
-        (progress - x0) /
-        (x1 - x0);
-
-      return (
-        y0 +
-        (y1 - y0) *
-        localProgress
-      );
-    }
-  }
-
-  return 1;
-}
-
   
 function setActiveProject(
   index,
@@ -3366,13 +3305,22 @@ function setActiveProject(
             'aria-expanded',
             String(active)
           );
+
+
+        if (!active) {
+          resetCardEffect(card);
+        }
       }
     );
   }
 
 
   /*
-   * Immediate state changes.
+   * Initial setup, reduced motion,
+   * breakpoint changes, or same-card selection.
+   *
+   * Change state immediately without letting
+   * the CSS accordion transition fire.
    */
   if (
     !mobileCaseStudyMode.matches ||
@@ -3390,23 +3338,30 @@ function setActiveProject(
     activeIndex = nextIndex;
 
 
-    applyState(activeIndex);
+    cards.forEach(card => {
+      card.classList.add(
+        'cs-accordion-instant'
+      );
+    });
 
 
-    cards.forEach(
-      (
-        card,
-        cardIndex
-      ) => {
-
-        if (
-          cardIndex !==
-          activeIndex
-        ) {
-          resetCardEffect(card);
-        }
-      }
+    applyState(
+      activeIndex
     );
+
+
+    /*
+     * Force the immediate state to resolve
+     * before transitions are restored.
+     */
+    void strip.offsetHeight;
+
+
+    cards.forEach(card => {
+      card.classList.remove(
+        'cs-accordion-instant'
+      );
+    });
 
 
     resetMotionBaseline();
@@ -3434,30 +3389,21 @@ function setActiveProject(
 
 
   /*
-   * Don't stack accordion animations.
+   * Keep the existing protection against
+   * overlapping accordion changes.
    */
   if (accordionAnimating) {
     return cards[activeIndex];
   }
 
 
-  const previousIndex =
-    activeIndex;
-
-
   const previousCard =
-    cards[previousIndex];
+    cards[activeIndex];
 
 
   const previousFull =
     previousCard.querySelector(
       '.card-feat'
-    );
-
-
-  const previousMini =
-    previousCard.querySelector(
-      '.cs-mobile-select'
     );
 
 
@@ -3467,17 +3413,9 @@ function setActiveProject(
     );
 
 
-  const nextMini =
-    activeCard.querySelector(
-      '.cs-mobile-select'
-    );
-
-
   if (
     !previousFull ||
-    !previousMini ||
-    !nextFull ||
-    !nextMini
+    !nextFull
   ) {
     return setActiveProject(
       nextIndex,
@@ -3489,73 +3427,11 @@ function setActiveProject(
   }
 
 
-  accordionAnimating = true;
-
-
   /*
-   * Phone tilt / pointer effects should not own
-   * the cards during the accordion transition.
-   */
-  resetCardEffect(
-    previousCard
-  );
-
-  resetCardEffect(
-    activeCard
-  );
-
-  resetMotionBaseline();
-
-
-  /*
-   * CURRENT DIMENSIONS
+   * Preserve your existing content fade.
    *
-   * previous = full
-   * next     = mini
-   */
-  const previousStartHeight =
-    previousCard
-      .getBoundingClientRect()
-      .height;
-
-
-  const nextStartHeight =
-    activeCard
-      .getBoundingClientRect()
-      .height;
-
-
-  /*
-   * Temporarily change state so we can measure:
-   *
-   * previous = mini
-   * next     = full
-   *
-   * Then restore immediately before paint.
-   */
-  applyState(nextIndex);
-
-
-  const previousTargetHeight =
-    previousCard
-      .getBoundingClientRect()
-      .height;
-
-
-  const nextTargetHeight =
-    activeCard
-      .getBoundingClientRect()
-      .height;
-
-
-  applyState(previousIndex);
-
-
-  /*
-   * Only animate CONTENT.
-   *
-   * Never opacity-fade .card-vis or .card-body.
-   * Those are the physical card surfaces.
+   * This does NOT control card size.
+   * CSS owns opening and closing now.
    */
   const previousContent = [
     ...previousFull.querySelectorAll(
@@ -3571,83 +3447,20 @@ function setActiveProject(
   ];
 
 
-  /*
-   * Lock wrapper dimensions at their current sizes.
-   */
-  gsap.set(
-    previousCard,
-    {
-      height:
-        previousStartHeight,
+  accordionAnimating = true;
 
-      overflow:
-        'hidden'
-    }
+
+  resetCardEffect(
+    previousCard
   );
 
-
-  gsap.set(
-    activeCard,
-    {
-      height:
-        nextStartHeight,
-
-      overflow:
-        'hidden'
-    }
+  resetCardEffect(
+    activeCard
   );
 
-previousCard.style.webkitMaskImage =
-  'linear-gradient(to bottom, #000 0%, #000 calc(100% - 18px), transparent 100%)';
-
-previousCard.style.maskImage =
-  'linear-gradient(to bottom, #000 0%, #000 calc(100% - 18px), transparent 100%)';
+  resetMotionBaseline();
 
 
-  /*
-   * Switch the actual accordion state now.
-   *
-   * The explicit wrapper heights prevent
-   * the document layout from jumping.
-   */
-  activeIndex =
-    nextIndex;
-
-  applyState(
-    activeIndex
-  );
-
-
-  /*
-   * Keep the OLD full card physically present
-   * while its wrapper contracts.
-   *
-   * This is important:
-   * otherwise it would instantly turn into the
-   * mini row and we'd just be shrinking empty space.
-   */
-  gsap.set(
-    previousFull,
-    {
-      display: 'grid'
-    }
-  );
-
-
-  gsap.set(
-    previousMini,
-    {
-      display: 'none'
-    }
-  );
-
-
-  /*
-   * Reference-style content behavior:
-   *
-   * outgoing content fades immediately;
-   * incoming content waits until late in expansion.
-   */
   gsap.set(
     previousContent,
     {
@@ -3664,39 +3477,25 @@ previousCard.style.maskImage =
   );
 
 
+  /*
+   * THIS is now the entire physical accordion action.
+   *
+   * Removing the old active class starts its
+   * CSS height transition toward 64px.
+   *
+   * Adding the new active class starts its
+   * CSS height transition toward auto.
+   */
+  activeIndex =
+    nextIndex;
+
+
+  applyState(
+    activeIndex
+  );
+
+
   function cleanUpAccordion() {
-
-    gsap.set(
-      [
-        previousCard,
-        activeCard
-      ],
-      {
-        clearProps:
-          'height,overflow'
-      }
-    );
-
-  previousCard.style.removeProperty(
-    '-webkit-mask-image'
-  );
-
-  previousCard.style.removeProperty(
-    'mask-image'
-  );
-
-
-    gsap.set(
-      [
-        previousFull,
-        previousMini
-      ],
-      {
-        clearProps:
-          'display'
-      }
-    );
-
 
     gsap.set(
       [
@@ -3727,6 +3526,12 @@ previousCard.style.maskImage =
   }
 
 
+  /*
+   * JS is now only preserving the content fade
+   * you already had.
+   *
+   * It does NOT animate any card dimensions.
+   */
   accordionTween =
     gsap.timeline({
 
@@ -3753,64 +3558,37 @@ previousCard.style.maskImage =
     });
 
 
-  /*
-   * ===============================================================
-   * SIZE
-   * ===============================================================
-   */
   accordionTween
 
     .to(
-      previousCard,
+      previousContent,
       {
-        height: previousTargetHeight,
-        duration: 0.8,
-        ease: accordionBounceEase
+        opacity: 0,
+        duration: 0.25,
+        ease: 'power1.inOut'
       },
       0
     )
 
     .to(
-      activeCard,
+      nextContent,
       {
-        height: nextTargetHeight,
-        duration: 0.8,
-        ease: accordionBounceEase
+        opacity: 1,
+        duration: 0.25,
+        ease: 'power1.inOut'
       },
-      0
+      0.5
+    )
+
+    /*
+     * Keep the timeline alive until the CSS
+     * height transition has finished.
+     */
+    .call(
+      () => {},
+      [],
+      0.8
     );
-
-  /*
-   * ===============================================================
-   * CONTENT
-   * ===============================================================
-   *
-   * Close:
-   * fade away immediately over 0.25s.
-   */
-  accordionTween.to(
-    previousContent,
-    {
-      opacity: 0,
-      duration: 0.25,
-      ease: 'power1.inOut'
-    },
-    0
-  );
-
-  /*
-   * Open:
-   * wait 0.5s, then fade in over 0.25s.
-   */
-  accordionTween.to(
-    nextContent,
-    {
-      opacity: 1,
-      duration: 0.25,
-      ease: 'power1.inOut'
-    },
-    0.5
-  );
 
 
   return activeCard;
