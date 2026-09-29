@@ -3597,6 +3597,12 @@ function setActiveProject(
     }
   );
 
+previousCard.style.webkitMaskImage =
+  'linear-gradient(to bottom, #000 0%, #000 calc(100% - 18px), transparent 100%)';
+
+previousCard.style.maskImage =
+  'linear-gradient(to bottom, #000 0%, #000 calc(100% - 18px), transparent 100%)';
+
 
   /*
    * Switch the actual accordion state now.
@@ -3671,6 +3677,14 @@ function setActiveProject(
       }
     );
 
+  previousCard.style.removeProperty(
+    '-webkit-mask-image'
+  );
+
+  previousCard.style.removeProperty(
+    'mask-image'
+  );
+
 
     gsap.set(
       [
@@ -3679,7 +3693,7 @@ function setActiveProject(
       ],
       {
         clearProps:
-          'display,opacity,scale,y,transformOrigin'
+          'display'
       }
     );
 
@@ -3745,6 +3759,7 @@ function setActiveProject(
    * ===============================================================
    */
   accordionTween
+
     .to(
       previousCard,
       {
@@ -3754,6 +3769,7 @@ function setActiveProject(
       },
       0
     )
+
     .to(
       activeCard,
       {
@@ -3766,35 +3782,31 @@ function setActiveProject(
 
   /*
    * ===============================================================
-   * OUTGOING FULL CARD
+   * CONTENT
    * ===============================================================
    *
-   * Make the old expanded card visually "settle away"
-   * before the wrapper gets small enough to visibly chop it.
+   * Close:
+   * fade away immediately over 0.25s.
    */
   accordionTween.to(
-    previousFull,
+    previousContent,
     {
       opacity: 0,
-      scale: 0.985,
-      y: -8,
-      duration: 0.24,
-      ease: 'power2.out',
-      transformOrigin: 'top center'
+      duration: 0.25,
+      ease: 'power1.inOut'
     },
     0
   );
 
   /*
-   * ===============================================================
-   * INCOMING FULL CARD CONTENT
-   * ===============================================================
+   * Open:
+   * wait 0.5s, then fade in over 0.25s.
    */
   accordionTween.to(
     nextContent,
     {
       opacity: 1,
-      duration: 0.24,
+      duration: 0.25,
       ease: 'power1.inOut'
     },
     0.5
