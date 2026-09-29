@@ -3679,7 +3679,7 @@ function setActiveProject(
       ],
       {
         clearProps:
-          'display'
+          'display,opacity,scale,y,transformOrigin'
       }
     );
 
@@ -3743,83 +3743,58 @@ function setActiveProject(
    * ===============================================================
    * SIZE
    * ===============================================================
-   *
-   * This is the interaction.
-   *
-   * One tween.
-   * Same easing curve.
-   * Same duration.
-   *
-   * Because the easing itself rises slightly above 1,
-   * opening naturally overshoots and closing naturally
-   * compresses slightly past its destination.
    */
   accordionTween
-
     .to(
       previousCard,
       {
-        height:
-          previousTargetHeight,
-
-        duration:
-          0.8,
-
-        ease:
-          accordionBounceEase
+        height: previousTargetHeight,
+        duration: 0.8,
+        ease: accordionBounceEase
       },
       0
     )
-
     .to(
       activeCard,
       {
-        height:
-          nextTargetHeight,
-
-        duration:
-          0.8,
-
-        ease:
-          accordionBounceEase
+        height: nextTargetHeight,
+        duration: 0.8,
+        ease: accordionBounceEase
       },
       0
     );
 
-
   /*
    * ===============================================================
-   * CONTENT
+   * OUTGOING FULL CARD
    * ===============================================================
    *
-   * Close:
-   * fade away immediately over 0.25s.
+   * Make the old expanded card visually "settle away"
+   * before the wrapper gets small enough to visibly chop it.
    */
   accordionTween.to(
-    previousContent,
+    previousFull,
     {
       opacity: 0,
-
-      duration: 0.25,
-      ease: 'power1.inOut'
+      scale: 0.985,
+      y: -8,
+      duration: 0.24,
+      ease: 'power2.out',
+      transformOrigin: 'top center'
     },
     0
   );
 
-
   /*
-   * Open:
-   * wait 0.5s, then fade in over 0.25s.
-   *
-   * This mirrors the timing principle in
-   * the CodePen instead of assembling the card.
+   * ===============================================================
+   * INCOMING FULL CARD CONTENT
+   * ===============================================================
    */
   accordionTween.to(
     nextContent,
     {
       opacity: 1,
-
-      duration: 0.25,
+      duration: 0.24,
       ease: 'power1.inOut'
     },
     0.5
