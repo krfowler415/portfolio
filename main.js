@@ -3032,23 +3032,6 @@ function initCardTilt() {
     if (!canPointerTilt) return;
 
     wrap.addEventListener('mousemove', e => {
-    
-      /*
-       * Accordion mode:
-       * only the OPEN card owns the full-card
-       * tilt / sheen / holo interaction.
-       *
-       * A closed .cs-card is equivalent to a
-       * closed <details> element in the reference.
-       */
-      if (
-        mobileCaseStudyMode.matches &&
-        !wrap.classList.contains(
-          'is-mobile-active'
-        )
-      ) {
-        return;
-      }
 
       const rect =
        wrap.getBoundingClientRect();
