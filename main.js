@@ -1,3 +1,6 @@
+Yes. Here is the full reformatted `main.js` pasted directly. This is formatting-only from the version you uploaded. Pasted text
+
+```js
 /**
  * =====================================================================
  *  SONORAN COSMOS — MAIN.JS
@@ -31,7 +34,6 @@
  * =====================================================================
  */
 
-
 /* =====================================================================
  * § 1  CONSTANTS & DOM REFERENCES
  * ===================================================================== */
@@ -46,30 +48,30 @@ const introY   = window.innerHeight * 0.12;
 const introXvw = (introX / window.innerWidth) * 100;
 const introYvh = 12;
 
-let ufoIntroComplete   = false;
-let minTimeDone        = false;
-let assetsDone         = false;
-let introFired         = false;
-let heroIsVisible      = false;
-let scanTween          = null;
-let ufoScrollTrigger   = null;
-let navScrollTrigger   = null;
-let ufoLightRays       = null;
+let ufoIntroComplete = false;
+let minTimeDone = false;
+let assetsDone = false;
+let introFired = false;
+let heroIsVisible = false;
+let scanTween = null;
+let ufoScrollTrigger = null;
+let navScrollTrigger = null;
+let ufoLightRays = null;
 
-const heroUfo          = document.getElementById('heroUfo');
-const ufoBeam          = document.getElementById('ufoBeam');
+const heroUfo = document.getElementById('heroUfo');
+const ufoBeam = document.getElementById('ufoBeam');
 const ufoBeamContainer = document.getElementById('ufoBeamContainer');
-const ufoBeamOuter     = document.getElementById('ufoBeamOuter');
-const ufoBeamCore      = document.getElementById('ufoBeamCore');
-const beamLanding      = document.getElementById('beamLanding');
-const heroPin          = document.querySelector('.hero-pin');
-const introEl          = document.getElementById('intro');
-const introWrap        = document.getElementById('intro-ufo-wrap');
-const iBeam            = document.getElementById('iBeam');
-const iScan            = document.getElementById('iScan');
-const introPts         = document.getElementById('intro-pts');
-const introGlow        = document.getElementById('intro-glow');
-const introScanlines   = document.getElementById('intro-scanlines');
+const ufoBeamOuter = document.getElementById('ufoBeamOuter');
+const ufoBeamCore = document.getElementById('ufoBeamCore');
+const beamLanding = document.getElementById('beamLanding');
+const heroPin = document.querySelector('.hero-pin');
+const introEl = document.getElementById('intro');
+const introWrap = document.getElementById('intro-ufo-wrap');
+const iBeam = document.getElementById('iBeam');
+const iScan = document.getElementById('iScan');
+const introPts = document.getElementById('intro-pts');
+const introGlow = document.getElementById('intro-glow');
+const introScanlines = document.getElementById('intro-scanlines');
 
 
 /* =====================================================================
@@ -86,35 +88,37 @@ const introScanlines   = document.getElementById('intro-scanlines');
 class UfoLightRays {
   constructor(options, ogl) {
     this.container = options.container;
+
     if (!this.container) {
       throw new Error('UfoLightRays: container element is required');
     }
 
     this.ogl = ogl;
+
     const { Renderer, Program, Triangle, Mesh } = ogl;
 
     // Config
-    this.raysColor    = options.raysColor    || '#ffffff';
-    this.raysSpeed    = options.raysSpeed    ?? 0.1;
-    this.lightSpread  = options.lightSpread  ?? 0.1;
-    this.rayLength    = options.rayLength    ?? 1.2;
-    this.pulsating    = options.pulsating    ?? false;
+    this.raysColor = options.raysColor || '#ffffff';
+    this.raysSpeed = options.raysSpeed ?? 0.1;
+    this.lightSpread = options.lightSpread ?? 0.1;
+    this.rayLength = options.rayLength ?? 1.2;
+    this.pulsating = options.pulsating ?? false;
     this.fadeDistance = options.fadeDistance ?? 2.0;
-    this.saturation   = options.saturation   ?? 2.0;
-    this.noiseAmount  = options.noiseAmount ?? 0.1;
-    this.distortion   = options.distortion  ?? 0.05;
+    this.saturation = options.saturation ?? 2.0;
+    this.noiseAmount = options.noiseAmount ?? 0.1;
+    this.distortion = options.distortion ?? 0.05;
 
     // Runtime state
-    this._opacity   = 0;
+    this._opacity = 0;
     this._intensity = 0;
 
     // Internal refs
-    this.renderer        = null;
-    this.uniforms        = null;
-    this.mesh            = null;
-    this.animationId     = null;
-    this.isDestroyed     = false;
-    this.isReady         = false;
+    this.renderer = null;
+    this.uniforms = null;
+    this.mesh = null;
+    this.animationId = null;
+    this.isDestroyed = false;
+    this.isReady = false;
     this._resizeObserver = null;
 
     this._onResize = this._onResize.bind(this);
@@ -123,6 +127,7 @@ class UfoLightRays {
 
   _hexToRgb(hex) {
     const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+
     return m
       ? [
           parseInt(m[1], 16) / 255,
@@ -137,16 +142,19 @@ class UfoLightRays {
       dpr: Math.min(window.devicePixelRatio, 2),
       alpha: true
     });
+
     this.renderer = renderer;
 
     const gl = renderer.gl;
-    gl.canvas.style.width   = '100%';
-    gl.canvas.style.height  = '100%';
+
+    gl.canvas.style.width = '100%';
+    gl.canvas.style.height = '100%';
     gl.canvas.style.display = 'block';
 
     while (this.container.firstChild) {
       this.container.removeChild(this.container.firstChild);
     }
+
     this.container.appendChild(gl.canvas);
 
     const vert = `
@@ -250,70 +258,70 @@ void main() {
 }`;
 
     this.uniforms = {
-      iTime:          { value: 0 },
-      iResolution:    { value: [1, 1] },
-      rayPos:         { value: [0, 0] },
-      rayDir:         { value: [0, 1] },
-      raysColor:      { value: this._hexToRgb(this.raysColor) },
-      raysSpeed:      { value: this.raysSpeed },
-      lightSpread:    { value: this.lightSpread },
-      rayLength:      { value: this.rayLength },
-      pulsating:      { value: this.pulsating ? 1.0 : 0.0 },
-      fadeDistance:   { value: this.fadeDistance },
-      saturation:     { value: this.saturation },
-      globalOpacity:  { value: 0 },
-      globalIntensity:{ value: 1.0 },
-      noiseAmount:    { value: this.noiseAmount },
-      distortion:     { value: this.distortion }
+      iTime: { value: 0 },
+      iResolution: { value: [1, 1] },
+      rayPos: { value: [0, 0] },
+      rayDir: { value: [0, 1] },
+      raysColor: { value: this._hexToRgb(this.raysColor) },
+      raysSpeed: { value: this.raysSpeed },
+      lightSpread: { value: this.lightSpread },
+      rayLength: { value: this.rayLength },
+      pulsating: { value: this.pulsating ? 1.0 : 0.0 },
+      fadeDistance: { value: this.fadeDistance },
+      saturation: { value: this.saturation },
+      globalOpacity: { value: 0 },
+      globalIntensity: { value: 1.0 },
+      noiseAmount: { value: this.noiseAmount },
+      distortion: { value: this.distortion }
     };
 
     const geometry = new Triangle(gl);
-    const program  = new Program(gl, {
+
+    const program = new Program(gl, {
       vertex: vert,
       fragment: frag,
       uniforms: this.uniforms,
       transparent: true
     });
+
     this.mesh = new Mesh(gl, { geometry, program });
 
     this._updatePlacement();
-    
+
     /*
      * React to the beam container actually changing size,
      * not every browser viewport-height twitch.
      */
     if ('ResizeObserver' in window) {
-      this._resizeObserver =
-        new ResizeObserver(() => {
-          this._updatePlacement();
-        });
-    
-      this._resizeObserver.observe(
-        this.container
-      );
+      this._resizeObserver = new ResizeObserver(() => {
+        this._updatePlacement();
+      });
+
+      this._resizeObserver.observe(this.container);
     } else {
-      window.addEventListener(
-        'resize',
-        this._onResize
-      );
+      window.addEventListener('resize', this._onResize);
     }
-    
+
     this._startLoop();
 
     this.isReady = true;
   }
-  
+
   _updatePlacement() {
     if (!this.renderer || !this.container) return;
 
     this.renderer.dpr = Math.min(window.devicePixelRatio, 2);
 
-    const { clientWidth: wCSS, clientHeight: hCSS } = this.container;
+    const {
+      clientWidth: wCSS,
+      clientHeight: hCSS
+    } = this.container;
+
     this.renderer.setSize(wCSS, hCSS);
 
     const dpr = this.renderer.dpr;
-    const w   = wCSS * dpr;
-    const h   = hCSS * dpr;
+    const w = wCSS * dpr;
+    const h = hCSS * dpr;
 
     this.uniforms.iResolution.value = [w, h];
 
@@ -324,7 +332,12 @@ void main() {
 
   _startLoop() {
     const loop = (t) => {
-      if (this.isDestroyed || !this.renderer || !this.uniforms || !this.mesh) {
+      if (
+        this.isDestroyed ||
+        !this.renderer ||
+        !this.uniforms ||
+        !this.mesh
+      ) {
         return;
       }
 
@@ -350,6 +363,7 @@ void main() {
   /** 0.0 to 1.0 — overall beam visibility */
   setOpacity(val) {
     this._opacity = Math.max(0, Math.min(1, val));
+
     if (this.uniforms) {
       this.uniforms.globalOpacity.value = this._opacity;
     }
@@ -358,6 +372,7 @@ void main() {
   /** 0.0 to 1.0+ — multiplies ray brightness */
   setIntensity(val) {
     this._intensity = Math.max(0, val);
+
     if (this.uniforms) {
       this.uniforms.globalIntensity.value = this._intensity;
     }
@@ -415,30 +430,30 @@ void main() {
       this._resizeObserver.disconnect();
       this._resizeObserver = null;
     } else {
-      window.removeEventListener(
-        'resize',
-        this._onResize
-      );
+      window.removeEventListener('resize', this._onResize);
     }
 
     if (this.renderer) {
       try {
         const gl = this.renderer.gl;
         const loseContextExt = gl.getExtension('WEBGL_lose_context');
+
         if (loseContextExt) loseContextExt.loseContext();
 
         const canvas = gl.canvas;
+
         if (canvas && canvas.parentNode) {
           canvas.parentNode.removeChild(canvas);
         }
       } catch (e) {
         console.warn('UfoLightRays cleanup error:', e);
       }
+
       this.renderer = null;
     }
 
     this.uniforms = null;
-    this.mesh     = null;
+    this.mesh = null;
   }
 }
 
@@ -452,10 +467,18 @@ void main() {
 class GalaxyBackground {
   constructor(options, ogl) {
     this.container = options.container;
+
     if (!this.container) return;
 
     this.ogl = ogl;
-    const { Renderer, Program, Triangle, Mesh, Color } = ogl;
+
+    const {
+      Renderer,
+      Program,
+      Triangle,
+      Mesh,
+      Color
+    } = ogl;
 
     this.focal = options.focal || [0.5, 0.5];
     this.rotation = options.rotation || [1.0, 0.0];
@@ -479,13 +502,13 @@ class GalaxyBackground {
     this.targetMouseActive = 0.0;
     this.smoothMouseActive = 0.0;
 
-    this.renderer        = null;
-    this.program         = null;
-    this.mesh            = null;
-    this.animationId     = null;
-    this.isDestroyed     = false;
+    this.renderer = null;
+    this.program = null;
+    this.mesh = null;
+    this.animationId = null;
+    this.isDestroyed = false;
     this._resizeObserver = null;
-    this._resizeHandler  = null;
+    this._resizeHandler = null;
 
     this._onMouseMove = this._onMouseMove.bind(this);
     this._onMouseLeave = this._onMouseLeave.bind(this);
@@ -499,7 +522,9 @@ class GalaxyBackground {
       premultipliedAlpha: false,
       dpr: Math.min(window.devicePixelRatio, 2)
     });
+
     this.renderer = renderer;
+
     const gl = renderer.gl;
 
     if (this.transparent) {
@@ -519,52 +544,37 @@ class GalaxyBackground {
     this.container.appendChild(gl.canvas);
 
     let program;
-    
+
     const resize = () => {
-      const nextWidth =
-        this.container.offsetWidth;
-    
-      const nextHeight =
-        this.container.offsetHeight;
-    
+      const nextWidth = this.container.offsetWidth;
+      const nextHeight = this.container.offsetHeight;
+
       if (!nextWidth || !nextHeight) return;
-    
-      renderer.setSize(
-        nextWidth,
-        nextHeight
-      );
-    
+
+      renderer.setSize(nextWidth, nextHeight);
+
       if (program) {
-        program.uniforms.uResolution.value =
-          new Color(
-            gl.canvas.width,
-            gl.canvas.height,
-            gl.canvas.width / gl.canvas.height
-          );
+        program.uniforms.uResolution.value = new Color(
+          gl.canvas.width,
+          gl.canvas.height,
+          gl.canvas.width / gl.canvas.height
+        );
       }
     };
-    
+
     this._resizeHandler = resize;
-    
+
     resize();
-    
+
     /*
      * Resize WebGL only when the actual hero container
      * changes dimensions.
      */
     if ('ResizeObserver' in window) {
-      this._resizeObserver =
-        new ResizeObserver(resize);
-    
-      this._resizeObserver.observe(
-        this.container
-      );
+      this._resizeObserver = new ResizeObserver(resize);
+      this._resizeObserver.observe(this.container);
     } else {
-      window.addEventListener(
-        'resize',
-        resize,
-        false
-      );
+      window.addEventListener('resize', resize, false);
     }
 
     const vertexShader = `
@@ -669,7 +679,10 @@ vec3 StarLayer(vec2 uv) {
       float val = max(max(base.r, base.g), base.b);
       base = hsv2rgb(vec3(hue, sat, val));
 
-      vec2 pad = vec2(tris(seed * 34.0 + uTime * uSpeed / 10.0), tris(seed * 38.0 + uTime * uSpeed / 30.0)) - 0.5;
+      vec2 pad = vec2(
+        tris(seed * 34.0 + uTime * uSpeed / 10.0),
+        tris(seed * 38.0 + uTime * uSpeed / 30.0)
+      ) - 0.5;
 
       float star = Star(gv - offset - pad, flareSize);
       vec3 color = base;
@@ -681,6 +694,7 @@ vec3 StarLayer(vec2 uv) {
       col += star * size * color;
     }
   }
+
   return col;
 }
 
@@ -706,10 +720,21 @@ void main() {
   }
 
   float autoRotAngle = uTime * uRotationSpeed;
-  mat2 autoRot = mat2(cos(autoRotAngle), -sin(autoRotAngle), sin(autoRotAngle), cos(autoRotAngle));
+  mat2 autoRot = mat2(
+    cos(autoRotAngle),
+    -sin(autoRotAngle),
+    sin(autoRotAngle),
+    cos(autoRotAngle)
+  );
+
   uv = autoRot * uv;
 
-  uv = mat2(uRotation.x, -uRotation.y, uRotation.y, uRotation.x) * uv;
+  uv = mat2(
+    uRotation.x,
+    -uRotation.y,
+    uRotation.y,
+    uRotation.x
+  ) * uv;
 
   vec3 col = vec3(0.0);
 
@@ -732,32 +757,72 @@ void main() {
 `;
 
     const geometry = new Triangle(gl);
+
     program = new Program(gl, {
       vertex: vertexShader,
       fragment: fragmentShader,
       uniforms: {
-        uTime: { value: 0 },
-        uResolution: {
-          value: new Color(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height)
+        uTime: {
+          value: 0
         },
-        uFocal: { value: new Float32Array(this.focal) },
-        uRotation: { value: new Float32Array(this.rotation) },
-        uStarSpeed: { value: this.starSpeed },
-        uDensity: { value: this.density },
-        uHueShift: { value: this.hueShift },
-        uSpeed: { value: this.speed },
-        uMouse: { value: new Float32Array([0.5, 0.5]) },
-        uGlowIntensity: { value: this.glowIntensity },
-        uSaturation: { value: this.saturation },
-        uMouseRepulsion: { value: this.mouseRepulsion },
-        uTwinkleIntensity: { value: this.twinkleIntensity },
-        uRotationSpeed: { value: this.rotationSpeed },
-        uRepulsionStrength: { value: this.repulsionStrength },
-        uMouseActiveFactor: { value: 0.0 },
-        uAutoCenterRepulsion: { value: this.autoCenterRepulsion },
-        uTransparent: { value: this.transparent }
+        uResolution: {
+          value: new Color(
+            gl.canvas.width,
+            gl.canvas.height,
+            gl.canvas.width / gl.canvas.height
+          )
+        },
+        uFocal: {
+          value: new Float32Array(this.focal)
+        },
+        uRotation: {
+          value: new Float32Array(this.rotation)
+        },
+        uStarSpeed: {
+          value: this.starSpeed
+        },
+        uDensity: {
+          value: this.density
+        },
+        uHueShift: {
+          value: this.hueShift
+        },
+        uSpeed: {
+          value: this.speed
+        },
+        uMouse: {
+          value: new Float32Array([0.5, 0.5])
+        },
+        uGlowIntensity: {
+          value: this.glowIntensity
+        },
+        uSaturation: {
+          value: this.saturation
+        },
+        uMouseRepulsion: {
+          value: this.mouseRepulsion
+        },
+        uTwinkleIntensity: {
+          value: this.twinkleIntensity
+        },
+        uRotationSpeed: {
+          value: this.rotationSpeed
+        },
+        uRepulsionStrength: {
+          value: this.repulsionStrength
+        },
+        uMouseActiveFactor: {
+          value: 0.0
+        },
+        uAutoCenterRepulsion: {
+          value: this.autoCenterRepulsion
+        },
+        uTransparent: {
+          value: this.transparent
+        }
       }
     });
+
     this.program = program;
 
     const mesh = new Mesh(gl, { geometry, program });
@@ -765,17 +830,25 @@ void main() {
 
     const update = (t) => {
       if (this.isDestroyed) return;
+
       this.animationId = requestAnimationFrame(update);
 
       if (!this.disableAnimation) {
         program.uniforms.uTime.value = t * 0.001;
-        program.uniforms.uStarSpeed.value = (t * 0.001 * this.starSpeed) / 10.0;
+        program.uniforms.uStarSpeed.value =
+          (t * 0.001 * this.starSpeed) / 10.0;
       }
 
       const lerpFactor = 0.2;
-      this.smoothMousePos.x += (this.targetMousePos.x - this.smoothMousePos.x) * lerpFactor;
-      this.smoothMousePos.y += (this.targetMousePos.y - this.smoothMousePos.y) * lerpFactor;
-      this.smoothMouseActive += (this.targetMouseActive - this.smoothMouseActive) * lerpFactor;
+
+      this.smoothMousePos.x +=
+        (this.targetMousePos.x - this.smoothMousePos.x) * lerpFactor;
+
+      this.smoothMousePos.y +=
+        (this.targetMousePos.y - this.smoothMousePos.y) * lerpFactor;
+
+      this.smoothMouseActive +=
+        (this.targetMouseActive - this.smoothMouseActive) * lerpFactor;
 
       program.uniforms.uMouse.value[0] = this.smoothMousePos.x;
       program.uniforms.uMouse.value[1] = this.smoothMousePos.y;
@@ -783,6 +856,7 @@ void main() {
 
       renderer.render({ scene: mesh });
     };
+
     this._update = update;
     this.animationId = requestAnimationFrame(update);
 
@@ -794,8 +868,13 @@ void main() {
 
   _onMouseMove(e) {
     const rect = this.container.getBoundingClientRect();
-    this.targetMousePos.x = (e.clientX - rect.left) / rect.width;
-    this.targetMousePos.y = 1.0 - ((e.clientY - rect.top) / rect.height);
+
+    this.targetMousePos.x =
+      (e.clientX - rect.left) / rect.width;
+
+    this.targetMousePos.y =
+      1.0 - ((e.clientY - rect.top) / rect.height);
+
     this.targetMouseActive = 1.0;
   }
 
@@ -811,16 +890,25 @@ void main() {
   }
 
   resume() {
-    if (this.isDestroyed || this.animationId || !this._update) return;
+    if (
+      this.isDestroyed ||
+      this.animationId ||
+      !this._update
+    ) {
+      return;
+    }
+
     this.animationId = requestAnimationFrame(this._update);
   }
 
   destroy() {
     this.isDestroyed = true;
+
     if (this.animationId) {
       cancelAnimationFrame(this.animationId);
       this.animationId = null;
     }
+
     document.removeEventListener('mousemove', this._onMouseMove);
     document.removeEventListener('mouseleave', this._onMouseLeave);
 
@@ -841,17 +929,21 @@ void main() {
       try {
         const gl = this.renderer.gl;
         const loseContextExt = gl.getExtension('WEBGL_lose_context');
+
         if (loseContextExt) loseContextExt.loseContext();
 
         const canvas = gl.canvas;
+
         if (canvas && canvas.parentNode) {
           canvas.parentNode.removeChild(canvas);
         }
       } catch (e) {
         console.warn('Galaxy cleanup error:', e);
       }
+
       this.renderer = null;
     }
+
     this.program = null;
     this.mesh = null;
   }
@@ -861,15 +953,20 @@ let galaxyInstance = null;
 
 function initGalaxy() {
   const container = document.getElementById('galaxy-stars');
+
   if (!container) return;
   if (galaxyInstance) return;
 
   import('https://esm.sh/ogl@1.0.8')
     .then((ogl) => {
-      if (document.documentElement.getAttribute('data-theme') !== 'dark') return;
+      if (
+        document.documentElement.getAttribute('data-theme') !== 'dark'
+      ) {
+        return;
+      }
 
       galaxyInstance = new GalaxyBackground({
-        container: container,
+        container,
         transparent: true,
         mouseInteraction: true,
         mouseRepulsion: true,
@@ -902,40 +999,54 @@ function destroyGalaxy() {
 // regardless of visibility.
 (function setupGalaxyVisibilityObserver() {
   const heroEl = document.getElementById('hero');
-  if (!heroEl || typeof IntersectionObserver === 'undefined') return;
+
+  if (
+    !heroEl ||
+    typeof IntersectionObserver === 'undefined'
+  ) {
+    return;
+  }
+
   const galaxyObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           heroIsVisible = true;
+
           if (galaxyInstance) {
             galaxyInstance.resume();
           }
         } else {
-          heroIsVisible = false;    
+          heroIsVisible = false;
+
           if (galaxyInstance) {
             galaxyInstance.pause();
-          }   
+          }
+
           if (ufoLightRays) {
             ufoLightRays.pause();
           }
         }
       });
     },
-    { threshold: 0 }
+    {
+      threshold: 0
+    }
   );
+
   galaxyObserver.observe(heroEl);
 })();
+
 
 /* =====================================================================
  * § 2  VIEWPORT HEIGHT
  * ===================================================================== */
 
-let stableViewportWidth  = window.innerWidth;
+let stableViewportWidth = window.innerWidth;
 let stableViewportHeight = window.innerHeight;
 
 function setViewportHeight({ force = false } = {}) {
-  const nextWidth  = window.innerWidth;
+  const nextWidth = window.innerWidth;
   const nextHeight = window.innerHeight;
 
   const widthChanged =
@@ -956,7 +1067,7 @@ function setViewportHeight({ force = false } = {}) {
     (!isTouchDevice && heightChanged);
 
   if (force || layoutChanged) {
-    stableViewportWidth  = nextWidth;
+    stableViewportWidth = nextWidth;
     stableViewportHeight = nextHeight;
   }
 
@@ -975,16 +1086,16 @@ function setViewportHeight({ force = false } = {}) {
 
 function spawnParticles(count, speedMult) {
   for (let i = 0; i < count; i++) {
-    const pt    = document.createElement('div');
+    const pt = document.createElement('div');
     pt.className = 'ipt';
 
-    const size  = 1.5 + Math.random() * 4;
-    const left  = 5   + Math.random() * 90;
-    const btm   = 2   + Math.random() * 85;
-    const dur   = (1.4 + Math.random() * 2.2) / speedMult;
+    const size = 1.5 + Math.random() * 4;
+    const left = 5 + Math.random() * 90;
+    const btm = 2 + Math.random() * 85;
+    const dur = (1.4 + Math.random() * 2.2) / speedMult;
     const delay = (Math.random() * 2.5) / speedMult;
     const drift = (Math.random() - 0.5) * 60;
-    const rise  = 70  + Math.random() * 30;
+    const rise = 70 + Math.random() * 30;
 
     pt.style.cssText = [
       `width:${size}px`,
@@ -1003,16 +1114,16 @@ function spawnParticles(count, speedMult) {
 
 function spawnLightParticles(count, speedMult) {
   for (let i = 0; i < count; i++) {
-    const pt    = document.createElement('div');
+    const pt = document.createElement('div');
     pt.className = 'ipt';
 
-    const size  = 2 + Math.random() * 5;
-    const left  = 5 + Math.random() * 90;
-    const btm   = 5 + Math.random() * 80;
-    const dur   = (2.2 + Math.random() * 2.8) / speedMult;
+    const size = 2 + Math.random() * 5;
+    const left = 5 + Math.random() * 90;
+    const btm = 5 + Math.random() * 80;
+    const dur = (2.2 + Math.random() * 2.8) / speedMult;
     const delay = (Math.random() * 3) / speedMult;
     const drift = (Math.random() - 0.5) * 80;
-    const rise  = 35 + Math.random() * 45;
+    const rise = 35 + Math.random() * 45;
 
     pt.style.cssText = [
       `width:${size}px`,
@@ -1032,15 +1143,32 @@ function spawnLightParticles(count, speedMult) {
 function runScan() {
   scanTween = gsap.fromTo(
     iScan,
-    {attr: {y1: 123, y2: 123},
-      opacity: 0.9},
-    {attr: {y1: 560, y2: 560},
-      opacity: 0, duration: 1.8, ease: 'power1.in', onComplete: runScan}
+    {
+      attr: {
+        y1: 123,
+        y2: 123
+      },
+      opacity: 0.9
+    },
+    {
+      attr: {
+        y1: 560,
+        y2: 560
+      },
+      opacity: 0,
+      duration: 1.8,
+      ease: 'power1.in',
+      onComplete: runScan
+    }
   );
 }
 
 function tryStartOutro() {
-  if (minTimeDone && assetsDone && !introFired) {
+  if (
+    minTimeDone &&
+    assetsDone &&
+    !introFired
+  ) {
     introFired = true;
     playIntroOutro();
   }
@@ -1048,17 +1176,20 @@ function tryStartOutro() {
 
 function playIntroOutro() {
   if (scanTween) scanTween.kill();
+
   gsap.killTweensOf(introWrap);
   gsap.set(introWrap, { transformOrigin: '50% 48%' });
   gsap.set(iScan, { opacity: 0 });
 
   const isLight = introEl.classList.contains('intro-light');
+
   if (isLight) {
     playLightOutro();
   } else {
     playDarkOutro();
   }
 }
+
 
 /* ── Dark outro (your existing sequence, extracted unchanged) ───── */
 
@@ -1075,51 +1206,141 @@ function playDarkOutro() {
   });
 
   tl
-    .to(iBeam, { opacity: 1, duration: 0.2, ease: 'power2.in' })
+    .to(iBeam, {
+      opacity: 1,
+      duration: 0.2,
+      ease: 'power2.in'
+    })
+    .to(
+      introEl,
+      {
+        keyframes: [
+          { x: -5, y: -2, duration: 0.06 },
+          { x: 4, y: 3, duration: 0.06 },
+          { x: -6, y: -1, duration: 0.06 },
+          { x: 5, y: 2, duration: 0.06 },
+          { x: -3, y: -3, duration: 0.06 },
+          { x: 0, y: 0, duration: 0.06 },
+        ]
+      },
+      '+=0.05'
+    )
+    .to(introWrap, {
+      scale: 4.2,
+      duration: 0.75,
+      ease: 'power3.in'
+    })
+    .to(
+      introGlow,
+      {
+        opacity: 0.95,
+        duration: 0.3
+      },
+      '<'
+    )
     .to(introEl, {
       keyframes: [
-        { x: -5, y: -2, duration: 0.06 },
-        { x:  4, y:  3, duration: 0.06 },
-        { x: -6, y: -1, duration: 0.06 },
-        { x:  5, y:  2, duration: 0.06 },
-        { x: -3, y: -3, duration: 0.06 },
-        { x:  0, y:  0, duration: 0.06 },
-      ]
-    }, '+=0.05')
-    .to(introWrap, { scale: 4.2, duration: 0.75, ease: 'power3.in' })
-    .to(introGlow, { opacity: 0.95, duration: 0.3 }, '<')
-    .to(introEl, {
-      keyframes: [
-        { x: -7,  skewX:  2, filter: 'hue-rotate(90deg) saturate(4) brightness(1.7)',  duration: 0.07 },
-        { x:  10, skewX: -3, filter: 'hue-rotate(210deg) saturate(3) brightness(0.6)', duration: 0.07 },
-        { x: -5,  skewX:  1, filter: 'hue-rotate(320deg) saturate(5) brightness(2.1)', duration: 0.06 },
-        { x:  12, skewX: -2, filter: 'hue-rotate(50deg) saturate(4) brightness(1.4)',  duration: 0.06 },
-        { x: -9,  skewX:  3, filter: 'hue-rotate(175deg) saturate(3) brightness(0.5)', duration: 0.07 },
-        { x:  7,  skewX: -1, filter: 'hue-rotate(270deg) saturate(6) brightness(2.3)', duration: 0.06 },
-        { x: -4,  skewX:  1, filter: 'hue-rotate(90deg) saturate(3) brightness(1.6)',  duration: 0.06 },
-        { x:  0,  skewX:  0, filter: 'none',                                           duration: 0.06 },
+        {
+          x: -7,
+          skewX: 2,
+          filter: 'hue-rotate(90deg) saturate(4) brightness(1.7)',
+          duration: 0.07
+        },
+        {
+          x: 10,
+          skewX: -3,
+          filter: 'hue-rotate(210deg) saturate(3) brightness(0.6)',
+          duration: 0.07
+        },
+        {
+          x: -5,
+          skewX: 1,
+          filter: 'hue-rotate(320deg) saturate(5) brightness(2.1)',
+          duration: 0.06
+        },
+        {
+          x: 12,
+          skewX: -2,
+          filter: 'hue-rotate(50deg) saturate(4) brightness(1.4)',
+          duration: 0.06
+        },
+        {
+          x: -9,
+          skewX: 3,
+          filter: 'hue-rotate(175deg) saturate(3) brightness(0.5)',
+          duration: 0.07
+        },
+        {
+          x: 7,
+          skewX: -1,
+          filter: 'hue-rotate(270deg) saturate(6) brightness(2.3)',
+          duration: 0.06
+        },
+        {
+          x: -4,
+          skewX: 1,
+          filter: 'hue-rotate(90deg) saturate(3) brightness(1.6)',
+          duration: 0.06
+        },
+        {
+          x: 0,
+          skewX: 0,
+          filter: 'none',
+          duration: 0.06
+        },
       ]
     })
-    .to(introScanlines, { opacity: 1, duration: 0.04 }, '<')
-    .to(introScanlines, { opacity: 0, duration: 0.18 }, '>')
-    .to(flash, { opacity: 1, duration: 0.1 })
+    .to(
+      introScanlines,
+      {
+        opacity: 1,
+        duration: 0.04
+      },
+      '<'
+    )
+    .to(
+      introScanlines,
+      {
+        opacity: 0,
+        duration: 0.18
+      },
+      '>'
+    )
+    .to(flash, {
+      opacity: 1,
+      duration: 0.1
+    })
     .add(() => {
       introEl.style.visibility = 'hidden';
       introEl.style.pointerEvents = 'none';
-      gsap.set(heroUfo, { x: introX, y: introY, opacity: 1, force3D: false });
-      setTimeout(() => { introEl.style.display = 'none'; }, 100);
+
+      gsap.set(heroUfo, {
+        x: introX,
+        y: introY,
+        opacity: 1,
+        force3D: false
+      });
+
+      setTimeout(() => {
+        introEl.style.display = 'none';
+      }, 100);
     })
-    .to(flash, {
-      opacity: 0,
-      duration: 1.1,
-      ease: 'power2.out',
-      onComplete: () => {
-        ufoIntroComplete = true;
-        sessionStorage.setItem('introPlayed', 'true');
-        syncUfoToScroll();
-      }
-    }, '+=0.05');
+    .to(
+      flash,
+      {
+        opacity: 0,
+        duration: 1.1,
+        ease: 'power2.out',
+        onComplete: () => {
+          ufoIntroComplete = true;
+          sessionStorage.setItem('introPlayed', 'true');
+          syncUfoToScroll();
+        }
+      },
+      '+=0.05'
+    );
 }
+
 
 /* ── Light outro (golden sunbeam + lens flare) ──────────────────── */
 
@@ -1136,49 +1357,114 @@ function playLightOutro() {
   });
 
   tl
-    .to(iBeam, { opacity: 1, duration: 0.2, ease: 'power2.in' })
+    .to(iBeam, {
+      opacity: 1,
+      duration: 0.2,
+      ease: 'power2.in'
+    })
+    .to(
+      introEl,
+      {
+        keyframes: [
+          { x: -3, y: -1, duration: 0.07 },
+          { x: 2, y: 2, duration: 0.07 },
+          { x: -2, y: 1, duration: 0.07 },
+          { x: 0, y: 0, duration: 0.07 }
+        ]
+      },
+      '+=0.05'
+    )
+    .to(introWrap, {
+      scale: 4.5,
+      duration: 0.8,
+      ease: 'power3.in'
+    })
+    .to(
+      introGlow,
+      {
+        opacity: 0.95,
+        duration: 0.3
+      },
+      '<'
+    )
     .to(introEl, {
       keyframes: [
-        { x: -3, y: -1, duration: 0.07 },
-        { x:  2, y:  2, duration: 0.07 },
-        { x: -2, y:  1, duration: 0.07 },
-        { x:  0, y:  0, duration: 0.07 }
-      ]
-    }, '+=0.05')
-    .to(introWrap, { scale: 4.5, duration: 0.8, ease: 'power3.in' })
-    .to(introGlow, { opacity: 0.95, duration: 0.3 }, '<')
-    .to(introEl, {
-      keyframes: [
-        { filter: 'brightness(1.3) sepia(0.15) saturate(1.3)', duration: 0.08 },
-        { filter: 'brightness(1.7) sepia(0.35) saturate(1.6)', duration: 0.10 },
-        { filter: 'brightness(2.2) sepia(0.15) saturate(2.0)', duration: 0.08 },
-        { filter: 'brightness(2.6) sepia(0)    saturate(2.4)', duration: 0.08 },
-        { filter: 'none',                                      duration: 0.06 }
+        {
+          filter: 'brightness(1.3) sepia(0.15) saturate(1.3)',
+          duration: 0.08
+        },
+        {
+          filter: 'brightness(1.7) sepia(0.35) saturate(1.6)',
+          duration: 0.10
+        },
+        {
+          filter: 'brightness(2.2) sepia(0.15) saturate(2.0)',
+          duration: 0.08
+        },
+        {
+          filter: 'brightness(2.6) sepia(0)    saturate(2.4)',
+          duration: 0.08
+        },
+        {
+          filter: 'none',
+          duration: 0.06
+        }
       ]
     })
-    .to(introScanlines, { opacity: 0.55, duration: 0.06 }, '<')
-    .to(introScanlines, { opacity: 0, duration: 0.30 }, '>')
-    .to(flash, { opacity: 1, duration: 0.14 })
+    .to(
+      introScanlines,
+      {
+        opacity: 0.55,
+        duration: 0.06
+      },
+      '<'
+    )
+    .to(
+      introScanlines,
+      {
+        opacity: 0,
+        duration: 0.30
+      },
+      '>'
+    )
+    .to(flash, {
+      opacity: 1,
+      duration: 0.14
+    })
     .add(() => {
       introEl.style.visibility = 'hidden';
       introEl.style.pointerEvents = 'none';
-      gsap.set(heroUfo, { x: introX, y: introY, opacity: 1, force3D: false });
-      setTimeout(() => { introEl.style.display = 'none'; }, 100);
+
+      gsap.set(heroUfo, {
+        x: introX,
+        y: introY,
+        opacity: 1,
+        force3D: false
+      });
+
+      setTimeout(() => {
+        introEl.style.display = 'none';
+      }, 100);
     })
-    .to(flash, {
-      opacity: 0,
-      duration: 1.2,
-      ease: 'power2.out',
-      onComplete: () => {
-        ufoIntroComplete = true;
-        sessionStorage.setItem('introPlayed', 'true');
-        syncUfoToScroll();
-      }
-    }, '+=0.05');
+    .to(
+      flash,
+      {
+        opacity: 0,
+        duration: 1.2,
+        ease: 'power2.out',
+        onComplete: () => {
+          ufoIntroComplete = true;
+          sessionStorage.setItem('introPlayed', 'true');
+          syncUfoToScroll();
+        }
+      },
+      '+=0.05'
+    );
 }
 
 function initIntro() {
-  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  const isLight =
+    document.documentElement.getAttribute('data-theme') === 'light';
 
   if (introEl) {
     introEl.classList.toggle('intro-light', isLight);
@@ -1186,28 +1472,74 @@ function initIntro() {
 
   if (sessionStorage.getItem('introPlayed')) {
     introEl.style.display = 'none';
-    gsap.set(heroUfo, { x: introX, y: introY, opacity: 1, force3D: false });
+
+    gsap.set(heroUfo, {
+      x: introX,
+      y: introY,
+      opacity: 1,
+      force3D: false
+    });
+
     ufoIntroComplete = true;
     return;
   }
 
   if (reducedMotion) {
     introEl.style.display = 'none';
-    gsap.set(heroUfo, { x: introX, y: introY, opacity: 1, force3D: false });
+
+    gsap.set(heroUfo, {
+      x: introX,
+      y: introY,
+      opacity: 1,
+      force3D: false
+    });
+
     ufoIntroComplete = true;
     return;
   }
 
   document.body.style.overflow = 'hidden';
 
-  gsap.set(heroUfo, { x: introX, y: -200, opacity: 0, force3D: false });
+  gsap.set(heroUfo, {
+    x: introX,
+    y: -200,
+    opacity: 0,
+    force3D: false
+  });
 
-  gsap.set(introWrap, { opacity: 1 });
-  gsap.to(introWrap, { y: -10, duration: 2.2, ease: 'sine.inOut', repeat: -1, yoyo: true });
+  gsap.set(introWrap, {
+    opacity: 1
+  });
 
-  gsap.to(iBeam,     { opacity: 1, duration: 0.65, ease: 'power2.out', delay: 0.4 });
-  gsap.to(introGlow, { opacity: 1, duration: 0.9, delay: 0.4 });
-  gsap.to(iBeam,     { opacity: 0.65, duration: 1.4, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: 1.1 });
+  gsap.to(introWrap, {
+    y: -10,
+    duration: 2.2,
+    ease: 'sine.inOut',
+    repeat: -1,
+    yoyo: true
+  });
+
+  gsap.to(iBeam, {
+    opacity: 1,
+    duration: 0.65,
+    ease: 'power2.out',
+    delay: 0.4
+  });
+
+  gsap.to(introGlow, {
+    opacity: 1,
+    duration: 0.9,
+    delay: 0.4
+  });
+
+  gsap.to(iBeam, {
+    opacity: 0.65,
+    duration: 1.4,
+    ease: 'sine.inOut',
+    repeat: -1,
+    yoyo: true,
+    delay: 1.1
+  });
 
   if (!isLight) {
     setTimeout(() => runScan(), 400);
@@ -1221,16 +1553,25 @@ function initIntro() {
 
   setTimeout(() => {
     if (introFired) return;
+
     if (isLight) {
       spawnLightParticles(55, 2.5);
     } else {
       spawnParticles(55, 2.5);
     }
-    gsap.to(introGlow, { opacity: 0.8, duration: 1.2 });
+
+    gsap.to(introGlow, {
+      opacity: 0.8,
+      duration: 1.2
+    });
   }, 1200);
 
-  setTimeout(() => { minTimeDone = true; tryStartOutro(); }, 1800);
+  setTimeout(() => {
+    minTimeDone = true;
+    tryStartOutro();
+  }, 1800);
 }
+
 
 /* =====================================================================
  * § 4  STAR FIELD CANVAS
@@ -1280,14 +1621,15 @@ function initBodyEnvironment() {
   });
 
   if (!fieldCtx) return;
-  
+
   const root = document.documentElement;
-  
+
   const canAnimateInteraction = !reducedMotion;
+
   const canMouseInteract =
     !isTouchDevice &&
     canAnimateInteraction;
-  
+
   const canTouchInteract =
     isTouchDevice &&
     canAnimateInteraction;
@@ -1352,6 +1694,7 @@ function initBodyEnvironment() {
         '#98A8D428'
     };
   }
+
 
   /* ── Canvas sizing and hero clipping ───────────────────────────── */
 
@@ -1503,6 +1846,7 @@ function initBodyEnvironment() {
     fieldCtx.globalAlpha = 1;
   }
 
+
   /* ── Light theme: warm particle field ──────────────────────────── */
 
   function drawLightParticles() {
@@ -1510,8 +1854,16 @@ function initBodyEnvironment() {
     const originX = (width * 0.5) % spacing;
     const originY = (height * 0.5) % spacing;
 
-    for (let y = originY - spacing; y < height + spacing; y += spacing) {
-      for (let x = originX - spacing; x < width + spacing; x += spacing) {
+    for (
+      let y = originY - spacing;
+      y < height + spacing;
+      y += spacing
+    ) {
+      for (
+        let x = originX - spacing;
+        x < width + spacing;
+        x += spacing
+      ) {
         let drawX = x;
         let drawY = y;
         let scale = 1;
@@ -1522,9 +1874,20 @@ function initBodyEnvironment() {
           const diffY = pointer.y - y;
           const dist = Math.hypot(diffX, diffY);
 
-          if (dist < DOT_FIELD_RADIUS && dist > 0.001) {
-            const normalized = 1 - dist / DOT_FIELD_RADIUS;
-            const influence = (normalized * normalized * (3 - 2 * normalized) * pointer.strength);
+          if (
+            dist < DOT_FIELD_RADIUS &&
+            dist > 0.001
+          ) {
+            const normalized =
+              1 - dist / DOT_FIELD_RADIUS;
+
+            const influence = (
+              normalized *
+              normalized *
+              (3 - 2 * normalized) *
+              pointer.strength
+            );
+
             drawX += diffX * DOT_PULL * influence;
             drawY += diffY * DOT_PULL * influence;
             scale += 0.4 * influence;
@@ -1532,8 +1895,12 @@ function initBodyEnvironment() {
           }
         }
 
-        const hueHash = Math.sin(x * 0.1 + y * 0.13) * 0.5 + 0.5;
-        let hue, sat, light;
+        const hueHash =
+          Math.sin(x * 0.1 + y * 0.13) * 0.5 + 0.5;
+
+        let hue;
+        let sat;
+        let light;
 
         if (hueHash < 0.55) {
           hue = 38 + hueHash * 22;
@@ -1549,11 +1916,22 @@ function initBodyEnvironment() {
           light = 48;
         }
 
-        fieldCtx.globalAlpha = Math.min(0.85, opacity);
-        fieldCtx.fillStyle = `hsla(${hue.toFixed(1)}, ${sat}%, ${light}%, 1)`;
+        fieldCtx.globalAlpha =
+          Math.min(0.85, opacity);
+
+        fieldCtx.fillStyle =
+          `hsla(${hue.toFixed(1)}, ${sat}%, ${light}%, 1)`;
 
         fieldCtx.beginPath();
-        fieldCtx.arc(drawX, drawY, 2.0 * scale, 0, Math.PI * 2);
+
+        fieldCtx.arc(
+          drawX,
+          drawY,
+          2.0 * scale,
+          0,
+          Math.PI * 2
+        );
+
         fieldCtx.fill();
       }
     }
@@ -1599,7 +1977,7 @@ function initBodyEnvironment() {
       pointer.inside &&
       pointer.targetY >= clipTop
     );
-    
+
     const targetStrength =
       pointerCanAffectBody
         ? 1
@@ -1648,14 +2026,14 @@ function initBodyEnvironment() {
         previousStrength
       )
     ) > 0.03;
-    
+
     if (
       !dirty &&
       !stillMoving
     ) {
       return;
     }
-    
+
     /*
      * The body environment is completely covered by the hero.
      * Skip drawing until some portion of it is actually visible.
@@ -1664,7 +2042,7 @@ function initBodyEnvironment() {
       dirty = false;
       return;
     }
-    
+
     if (
       now - lastFrameTime <
       FRAME_INTERVAL
@@ -1680,20 +2058,18 @@ function initBodyEnvironment() {
 
 
   /* ── Pointer / Touch tracking ───────────────────────────────────── */
-  
-  
+
   /*
    * Desktop / mouse:
    * gravity field follows the cursor continuously.
    */
   if (canMouseInteract) {
-  
     document.addEventListener(
       'mousemove',
       event => {
         pointer.targetX = event.clientX;
         pointer.targetY = event.clientY;
-  
+
         pointer.inside = true;
         dirty = true;
       },
@@ -1701,8 +2077,7 @@ function initBodyEnvironment() {
         passive: true
       }
     );
-  
-  
+
     document.documentElement.addEventListener(
       'mouseleave',
       () => {
@@ -1710,8 +2085,7 @@ function initBodyEnvironment() {
         dirty = true;
       }
     );
-  
-  
+
     window.addEventListener(
       'blur',
       () => {
@@ -1720,8 +2094,7 @@ function initBodyEnvironment() {
       }
     );
   }
-  
-  
+
   /*
    * Touch:
    *
@@ -1732,18 +2105,16 @@ function initBodyEnvironment() {
    * the browser's native page scrolling.
    */
   if (canTouchInteract) {
-  
     const updateTouchPosition = touch => {
       if (!touch) return;
-  
+
       pointer.targetX = touch.clientX;
       pointer.targetY = touch.clientY;
-  
+
       pointer.inside = true;
       dirty = true;
     };
-  
-  
+
     document.addEventListener(
       'touchstart',
       event => {
@@ -1755,8 +2126,7 @@ function initBodyEnvironment() {
         passive: true
       }
     );
-  
-  
+
     document.addEventListener(
       'touchmove',
       event => {
@@ -1768,14 +2138,12 @@ function initBodyEnvironment() {
         passive: true
       }
     );
-  
-  
+
     const endTouchGravity = () => {
       pointer.inside = false;
       dirty = true;
     };
-  
-  
+
     document.addEventListener(
       'touchend',
       endTouchGravity,
@@ -1783,8 +2151,7 @@ function initBodyEnvironment() {
         passive: true
       }
     );
-  
-  
+
     document.addEventListener(
       'touchcancel',
       endTouchGravity,
@@ -1817,22 +2184,22 @@ function initBodyEnvironment() {
 
 
   /* ── Resize handling ───────────────────────────────────────────── */
-  
+
   window.addEventListener(
     'resize',
     () => {
       const nextWidth =
         window.innerWidth;
-  
+
       const nextHeight =
         window.innerHeight;
-  
+
       const widthChanged =
         Math.abs(nextWidth - width) > 2;
-  
+
       const heightChanged =
         Math.abs(nextHeight - height) > 2;
-  
+
       /*
        * Ignore height-only viewport changes on coarse-touch
        * devices. Those are normally mobile browser chrome.
@@ -1842,12 +2209,11 @@ function initBodyEnvironment() {
       const canvasSizeChanged =
         widthChanged ||
         (!isTouchDevice && heightChanged);
-  
+
       if (!canvasSizeChanged) return;
-  
-  
+
       clearTimeout(resizeTimer);
-  
+
       resizeTimer = setTimeout(
         () => {
           resizeBodyEnvironment();
@@ -1900,12 +2266,16 @@ function initBodyEnvironment() {
   );
 }
 
+
 /* =====================================================================
  * § 5  TERRAIN IMAGE LOADING
  * ===================================================================== */
 
 function fetchTerrain() {
-  const terrainImages = Array.from(document.querySelectorAll('.terrain-img, #intro-ufo'));
+  const terrainImages =
+    Array.from(
+      document.querySelectorAll('.terrain-img, #intro-ufo')
+    );
 
   if (!terrainImages.length) {
     assetsDone = true;
@@ -1918,9 +2288,10 @@ function fetchTerrain() {
 
   function finishTerrainLoad() {
     if (finished) return;
-    finished = true;
 
+    finished = true;
     assetsDone = true;
+
     tryStartOutro();
     ScrollTrigger.refresh();
   }
@@ -1939,12 +2310,28 @@ function fetchTerrain() {
       return;
     }
 
-    img.addEventListener('load', markSettled, { once: true });
-    img.addEventListener('error', markSettled, { once: true });
+    img.addEventListener(
+      'load',
+      markSettled,
+      {
+        once: true
+      }
+    );
+
+    img.addEventListener(
+      'error',
+      markSettled,
+      {
+        once: true
+      }
+    );
   });
 
   /* Safety fallback: do not let the intro hang forever if an image is slow. */
-  setTimeout(finishTerrainLoad, 1600);
+  setTimeout(
+    finishTerrainLoad,
+    1600
+  );
 }
 
 
@@ -1993,52 +2380,80 @@ function swapTerrain() {
         });
 
         if (ufoBeam) {
-          ufoBeam.setAttribute('opacity', '0');
+          ufoBeam.setAttribute(
+            'opacity',
+            '0'
+          );
         }
 
         heroUfo.classList.remove('hovering');
         return;
       }
 
-      if (typeof syncUfoToScroll === 'function') {
+      if (
+        typeof syncUfoToScroll === 'function'
+      ) {
         syncUfoToScroll();
       }
     });
   });
 }
 
-function swapFavicon(theme) {
-  const href = theme === 'light'
-    ? 'favicon-cactus.svg'
-    : 'favicon-ufo.svg';
 
-  const existingIcon = document.getElementById('favicon');
+function swapFavicon(theme) {
+  const href =
+    theme === 'light'
+      ? 'favicon-cactus.svg'
+      : 'favicon-ufo.svg';
+
+  const existingIcon =
+    document.getElementById('favicon');
 
   if (existingIcon) {
     existingIcon.remove();
   }
 
-  const favicon = document.createElement('link');
+  const favicon =
+    document.createElement('link');
+
   favicon.id = 'favicon';
   favicon.rel = 'icon';
   favicon.type = 'image/svg+xml';
-  favicon.href = href + '?v=' + Date.now();
+  favicon.href =
+    href + '?v=' + Date.now();
 
   document.head.appendChild(favicon);
 }
 
 
 function initTerrainParallax() {
-  const hero = document.getElementById('hero');
-  const heroTerrain = document.getElementById('heroTerrain');
-  const terrainStage = document.querySelector('#heroTerrain .terrain-stage');
+  const hero =
+    document.getElementById('hero');
 
-  if (!hero || !heroTerrain || !terrainStage || reducedMotion) return;
+  const heroTerrain =
+    document.getElementById('heroTerrain');
+
+  const terrainStage =
+    document.querySelector(
+      '#heroTerrain .terrain-stage'
+    );
+
+  if (
+    !hero ||
+    !heroTerrain ||
+    !terrainStage ||
+    reducedMotion
+  ) {
+    return;
+  }
 
   const getOverscan = () => {
-    const value = getComputedStyle(heroTerrain)
-      .getPropertyValue('--terrain-parallax-overscan')
-      .trim();
+    const value =
+      getComputedStyle(heroTerrain)
+        .getPropertyValue(
+          '--terrain-parallax-overscan'
+        )
+        .trim();
 
     return parseFloat(value) || 120;
   };
@@ -2046,13 +2461,15 @@ function initTerrainParallax() {
   // Terrain rises as the user scrolls through the hero
   gsap.fromTo(
     terrainStage,
-    { y: 0 },
+    {
+      y: 0
+    },
     {
       /*
-      * Move only part of the hidden overscan.
-      * This keeps the PNG's bottom edge below the hero,
-      * so the hard cut line does not appear.
-      */
+       * Move only part of the hidden overscan.
+       * This keeps the PNG's bottom edge below the hero,
+       * so the hard cut line does not appear.
+       */
       y: () => -getOverscan() * 0.75,
       ease: 'none',
       scrollTrigger: {
@@ -2066,25 +2483,50 @@ function initTerrainParallax() {
   );
 }
 
+
 function initHeroScrollCue() {
-  const cue = document.getElementById('heroScrollCue');
-  const hero = document.getElementById('hero');
+  const cue =
+    document.getElementById('heroScrollCue');
+
+  const hero =
+    document.getElementById('hero');
 
   if (!cue || !hero) return;
 
   const updateCue = () => {
-    cue.classList.toggle('is-hidden', window.scrollY > 8);
+    cue.classList.toggle(
+      'is-hidden',
+      window.scrollY > 8
+    );
   };
 
-  cue.addEventListener('click', () => {
-    window.scrollTo({
-      top: Math.min(window.innerHeight * 0.85, hero.offsetHeight),
-      behavior: reducedMotion ? 'auto' : 'smooth'
-    });
-  });
+  cue.addEventListener(
+    'click',
+    () => {
+      window.scrollTo({
+        top:
+          Math.min(
+            window.innerHeight * 0.85,
+            hero.offsetHeight
+          ),
+
+        behavior:
+          reducedMotion
+            ? 'auto'
+            : 'smooth'
+      });
+    }
+  );
 
   updateCue();
-  window.addEventListener('scroll', updateCue, { passive: true });
+
+  window.addEventListener(
+    'scroll',
+    updateCue,
+    {
+      passive: true
+    }
+  );
 }
 
 
@@ -2094,8 +2536,8 @@ function initHeroScrollCue() {
 
 const ufoWaypoints = [
   // Intro handoff
-  [0.00, introXvw,       introYvh    ],
-  [0.05, introXvw - 4,   introYvh + 2],
+  [0.00, introXvw, introYvh],
+  [0.05, introXvw - 4, introYvh + 2],
   [0.10, 42, 16],
 
   // Small left-to-right hover path, about 10% screen width total
@@ -2128,12 +2570,24 @@ function lerp(a, b, t) {
 }
 
 function getUfoPos(progress) {
-  for (let i = 0; i < ufoWaypoints.length - 1; i++) {
-    const [p0, x0, y0] = ufoWaypoints[i];
-    const [p1, x1, y1] = ufoWaypoints[i + 1];
+  for (
+    let i = 0;
+    i < ufoWaypoints.length - 1;
+    i++
+  ) {
+    const [p0, x0, y0] =
+      ufoWaypoints[i];
 
-    if (progress >= p0 && progress <= p1) {
-      const t = (progress - p0) / (p1 - p0);
+    const [p1, x1, y1] =
+      ufoWaypoints[i + 1];
+
+    if (
+      progress >= p0 &&
+      progress <= p1
+    ) {
+      const t =
+        (progress - p0) /
+        (p1 - p0);
 
       return {
         x: lerp(x0, x1, t),
@@ -2142,12 +2596,20 @@ function getUfoPos(progress) {
     }
   }
 
-  const last = ufoWaypoints[ufoWaypoints.length - 1];
-  return { x: last[1], y: last[2] };
+  const last =
+    ufoWaypoints[
+      ufoWaypoints.length - 1
+    ];
+
+  return {
+    x: last[1],
+    y: last[2]
+  };
 }
 
 function getCurrentUfoProgress() {
-  const hero = document.getElementById('hero');
+  const hero =
+    document.getElementById('hero');
 
   if (!hero) return 0;
 
@@ -2162,19 +2624,24 @@ function getCurrentUfoProgress() {
    * stuck at a cached progress value of 1.
    */
   const heroTop =
-    window.scrollY + hero.getBoundingClientRect().top;
+    window.scrollY +
+    hero.getBoundingClientRect().top;
 
   const heroEnd =
-    heroTop + hero.offsetHeight - stableViewportHeight;
+    heroTop +
+    hero.offsetHeight -
+    stableViewportHeight;
 
-  const scrollRange = heroEnd - heroTop;
+  const scrollRange =
+    heroEnd - heroTop;
 
   if (scrollRange <= 0) return 0;
 
   return gsap.utils.clamp(
     0,
     1,
-    (window.scrollY - heroTop) / scrollRange
+    (window.scrollY - heroTop) /
+      scrollRange
   );
 }
 
@@ -2189,19 +2656,25 @@ function renderUfoAtProgress(progress) {
   }
 
   const clampedProgress =
-    gsap.utils.clamp(0, 1, progress);
+    gsap.utils.clamp(
+      0,
+      1,
+      progress
+    );
 
   const { x, y } =
     getUfoPos(clampedProgress);
 
   const xPx =
-    (x / 100) * window.innerWidth;
+    (x / 100) *
+    window.innerWidth;
 
   const viewportHeight =
     stableViewportHeight;
-  
+
   const aspectRatio =
-    window.innerWidth / viewportHeight;
+    window.innerWidth /
+    viewportHeight;
 
   const maxYpct =
     aspectRatio > 2
@@ -2210,10 +2683,11 @@ function renderUfoAtProgress(progress) {
         ? 0.80
         : 0.84;
 
-  const yPx = Math.min(
-    (y / 100) * viewportHeight,
-    maxYpct * viewportHeight
-  );
+  const yPx =
+    Math.min(
+      (y / 100) * viewportHeight,
+      maxYpct * viewportHeight
+    );
 
   /*
    * The UFO remains visible within the hero.
@@ -2226,33 +2700,53 @@ function renderUfoAtProgress(progress) {
     force3D: true
   });
 
+
   /* ── Light Rays volumetric beam (ReactBits adaptation) ───────── */
-  
-  if (ufoLightRays && ufoLightRays.isReady) {
+
+  if (
+    ufoLightRays &&
+    ufoLightRays.isReady
+  ) {
     const beamStart = 0.48;
-    const beamPeak  = 0.55;
-  
-    let opacity   = 0;
+    const beamPeak = 0.55;
+
+    let opacity = 0;
     let intensity = 0;
-  
-    if (clampedProgress >= beamStart && clampedProgress < beamPeak) {
-      const t = (clampedProgress - beamStart) / (beamPeak - beamStart);
-  
-      opacity   = t;
+
+    if (
+      clampedProgress >= beamStart &&
+      clampedProgress < beamPeak
+    ) {
+      const t =
+        (clampedProgress - beamStart) /
+        (beamPeak - beamStart);
+
+      opacity = t;
       intensity = t;
-    } else if (clampedProgress >= beamPeak) {
-      opacity   = 1;
+
+    } else if (
+      clampedProgress >= beamPeak
+    ) {
+      opacity = 1;
       intensity = 1;
     }
-  
+
     ufoLightRays.setOpacity(opacity);
     ufoLightRays.setIntensity(intensity);
-  
+
     // Dynamic spread/length for cinematic feel
-    ufoLightRays.setSpread(0.12 + intensity * 0.06);
-    ufoLightRays.setLength(0.3 + intensity * 0.15);
-    ufoLightRays.setAnimationSpeed(0.08 + intensity * 0.10);
-  
+    ufoLightRays.setSpread(
+      0.12 + intensity * 0.06
+    );
+
+    ufoLightRays.setLength(
+      0.3 + intensity * 0.15
+    );
+
+    ufoLightRays.setAnimationSpeed(
+      0.08 + intensity * 0.10
+    );
+
     /*
      * Don't run the WebGL beam while it is outside
      * the visible portion of the hero animation.
@@ -2260,11 +2754,17 @@ function renderUfoAtProgress(progress) {
     const beamShouldRender =
       clampedProgress >= beamStart &&
       heroIsVisible;
+
     if (beamShouldRender) {
-      ufoBeamContainer.style.visibility = 'visible';
+      ufoBeamContainer.style.visibility =
+        'visible';
+
       ufoLightRays.play();
+
     } else {
-      ufoBeamContainer.style.visibility = 'hidden';
+      ufoBeamContainer.style.visibility =
+        'hidden';
+
       ufoLightRays.pause();
     }
   }
@@ -2277,7 +2777,12 @@ function renderUfoAtProgress(progress) {
 
 
 function syncUfoToScroll() {
-  if (!ufoScrollTrigger || !ufoIntroComplete) return;
+  if (
+    !ufoScrollTrigger ||
+    !ufoIntroComplete
+  ) {
+    return;
+  }
 
   renderUfoAtProgress(
     getCurrentUfoProgress()
@@ -2292,19 +2797,20 @@ function initUfoScroll() {
     syncUfoToScroll();
   };
 
-  ufoScrollTrigger = ScrollTrigger.create({
-    trigger: '#hero',
-    start: 'top top',
-    end: 'bottom bottom',
-    invalidateOnRefresh: true,
+  ufoScrollTrigger =
+    ScrollTrigger.create({
+      trigger: '#hero',
+      start: 'top top',
+      end: 'bottom bottom',
+      invalidateOnRefresh: true,
 
-    onUpdate: updateUfo,
-    onRefresh: updateUfo,
-    onEnter: updateUfo,
-    onEnterBack: updateUfo,
-    onLeave: updateUfo,
-    onLeaveBack: updateUfo
-  });
+      onUpdate: updateUfo,
+      onRefresh: updateUfo,
+      onEnter: updateUfo,
+      onEnterBack: updateUfo,
+      onLeave: updateUfo,
+      onLeaveBack: updateUfo
+    });
 
   /*
    * ScrollTrigger should normally handle every scroll update.
@@ -2316,14 +2822,23 @@ function initUfoScroll() {
   window.addEventListener(
     'scroll',
     () => {
-      if (ufoScrollFrame !== null) return;
+      if (
+        ufoScrollFrame !== null
+      ) {
+        return;
+      }
 
-      ufoScrollFrame = requestAnimationFrame(() => {
-        ufoScrollFrame = null;
-        syncUfoToScroll();
-      });
+      ufoScrollFrame =
+        requestAnimationFrame(
+          () => {
+            ufoScrollFrame = null;
+            syncUfoToScroll();
+          }
+        );
     },
-    { passive: true }
+    {
+      passive: true
+    }
   );
 
   const resyncUfo = () => {
@@ -2340,7 +2855,9 @@ function initUfoScroll() {
   window.addEventListener(
     'load',
     resyncUfo,
-    { once: true }
+    {
+      once: true
+    }
   );
 
   window.addEventListener(
@@ -2355,31 +2872,55 @@ function initUfoScroll() {
  * ===================================================================== */
 
 function initUfoLightRays() {
-  if (!ufoBeamContainer || reducedMotion) return;
+  if (
+    !ufoBeamContainer ||
+    reducedMotion
+  ) {
+    return;
+  }
 
   // Dynamic import of ogl — ES module from unpkg/skypack
   import('https://esm.sh/ogl@1.0.8')
     .then((ogl) => {
-      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      const isLight =
+        document.documentElement
+          .getAttribute('data-theme') ===
+        'light';
 
-      ufoLightRays = new UfoLightRays({
-        container: ufoBeamContainer,
-        raysColor: isLight ? '#FFD23C' : '#0AC39A',
-        raysSpeed: 0.25,
-        lightSpread: 0.18,
-        rayLength: 0.5,
-        fadeDistance: 1.2,   // unused now, but harmless
-        saturation: 1.6,
-        noiseAmount: 0.08,
-        distortion: 0.06,
-        pulsating: false     // flow replaces pulse
-      }, ogl);
+      ufoLightRays =
+        new UfoLightRays(
+          {
+            container:
+              ufoBeamContainer,
+
+            raysColor:
+              isLight
+                ? '#FFD23C'
+                : '#0AC39A',
+
+            raysSpeed: 0.25,
+            lightSpread: 0.18,
+            rayLength: 0.5,
+
+            fadeDistance: 1.2,   // unused now, but harmless
+
+            saturation: 1.6,
+            noiseAmount: 0.08,
+            distortion: 0.06,
+
+            pulsating: false     // flow replaces pulse
+          },
+          ogl
+        );
 
       // After creation, sync to current scroll position immediately
       syncUfoToScroll();
     })
     .catch((err) => {
-      console.warn('UfoLightRays: failed to load ogl', err);
+      console.warn(
+        'UfoLightRays: failed to load ogl',
+        err
+      );
     });
 }
 
@@ -2389,7 +2930,8 @@ function initUfoLightRays() {
  * ===================================================================== */
 
 function syncNavState() {
-  const nav = document.querySelector('nav');
+  const nav =
+    document.querySelector('nav');
 
   if (!nav) return;
 
@@ -2405,45 +2947,68 @@ function syncNavState() {
 
   nav.classList.toggle(
     'scrolled',
-    Boolean(navScrollTrigger && navScrollTrigger.progress >= 0.50)
+    Boolean(
+      navScrollTrigger &&
+      navScrollTrigger.progress >= 0.50
+    )
   );
 }
 
 function initNav() {
-  const nav  = document.querySelector('nav');
-  const hero = document.getElementById('hero');
+  const nav =
+    document.querySelector('nav');
+
+  const hero =
+    document.getElementById('hero');
 
   if (!nav || !hero) return;
 
-  navScrollTrigger = ScrollTrigger.create({
-    trigger: hero,
-    start: 'top top',
-    end: 'bottom bottom',
-    onUpdate: syncNavState,
-    onRefresh: syncNavState
-  });
+  navScrollTrigger =
+    ScrollTrigger.create({
+      trigger: hero,
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: syncNavState,
+      onRefresh: syncNavState
+    });
 
   /*
    * This provides an independent top-of-page check instead of
    * relying exclusively on ScrollTrigger's cached progress.
    */
-  window.addEventListener('scroll', syncNavState, {
-    passive: true
-  });
+  window.addEventListener(
+    'scroll',
+    syncNavState,
+    {
+      passive: true
+    }
+  );
 
   syncNavState();
 }
 
+
 // ── Hamburger nav toggle ─────────────────────────────────────────────
 
-const navToggle = document.getElementById('nav-toggle');
-const navEl     = document.querySelector('nav');
+const navToggle =
+  document.getElementById('nav-toggle');
+
+const navEl =
+  document.querySelector('nav');
 
 if (navToggle && navEl) {
 
-  const closeMobileNav = ({ returnFocus = false } = {}) => {
-    navEl.classList.remove('nav-open');
-    navToggle.setAttribute('aria-expanded', 'false');
+  const closeMobileNav = ({
+    returnFocus = false
+  } = {}) => {
+    navEl.classList.remove(
+      'nav-open'
+    );
+
+    navToggle.setAttribute(
+      'aria-expanded',
+      'false'
+    );
 
     if (returnFocus) {
       navToggle.focus();
@@ -2452,63 +3017,92 @@ if (navToggle && navEl) {
 
 
   const openMobileNav = () => {
-    navEl.classList.add('nav-open');
-    navToggle.setAttribute('aria-expanded', 'true');
+    navEl.classList.add(
+      'nav-open'
+    );
+
+    navToggle.setAttribute(
+      'aria-expanded',
+      'true'
+    );
   };
 
 
-  navToggle.addEventListener('click', (event) => {
-    event.stopPropagation();
+  navToggle.addEventListener(
+    'click',
+    event => {
+      event.stopPropagation();
 
-    const isOpen =
-      navEl.classList.contains('nav-open');
+      const isOpen =
+        navEl.classList.contains(
+          'nav-open'
+        );
 
-    if (isOpen) {
-      closeMobileNav();
-    } else {
-      openMobileNav();
+      if (isOpen) {
+        closeMobileNav();
+      } else {
+        openMobileNav();
+      }
     }
-  });
+  );
 
 
   /* Selecting a menu item closes the blob. */
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-      closeMobileNav();
+  document
+    .querySelectorAll('.nav-links a')
+    .forEach(link => {
+      link.addEventListener(
+        'click',
+        () => {
+          closeMobileNav();
+        }
+      );
     });
-  });
+
 
   /* Clicking/tapping outside the nav closes it. */
-  document.addEventListener('click', (event) => {
-    if (
-      navEl.classList.contains('nav-open') &&
-      !navEl.contains(event.target)
-    ) {
-      closeMobileNav();
+  document.addEventListener(
+    'click',
+    event => {
+      if (
+        navEl.classList.contains('nav-open') &&
+        !navEl.contains(event.target)
+      ) {
+        closeMobileNav();
+      }
     }
-  });
+  );
+
 
   /*
    * Escape closes the menu and returns keyboard
    * focus to the hamburger button.
    */
-  document.addEventListener('keydown', (event) => {
-    if (
-      event.key === 'Escape' &&
-      navEl.classList.contains('nav-open')
-    ) {
-      closeMobileNav({
-        returnFocus: true
-      });
+  document.addEventListener(
+    'keydown',
+    event => {
+      if (
+        event.key === 'Escape' &&
+        navEl.classList.contains(
+          'nav-open'
+        )
+      ) {
+        closeMobileNav({
+          returnFocus: true
+        });
+      }
     }
-  });
+  );
+
 
   /*
    * If the viewport crosses back into desktop mode,
    * don't leave the mobile nav-open state hanging around.
    */
   const mobileNavMode =
-    window.matchMedia('(max-width: 999px)');
+    window.matchMedia(
+      '(max-width: 999px)'
+    );
 
   mobileNavMode.addEventListener(
     'change',
@@ -2520,11 +3114,17 @@ if (navToggle && navEl) {
   );
 }
 
+
 /* ── Mobile Availability Status ─────────────────────────────────── */
 
 (() => {
-  const statusBadge = document.querySelector('.hero-us');
-  const mobileNavMode = window.matchMedia('(max-width: 999px)');
+  const statusBadge =
+    document.querySelector('.hero-us');
+
+  const mobileNavMode =
+    window.matchMedia(
+      '(max-width: 999px)'
+    );
 
   if (!statusBadge) return;
 
@@ -2535,40 +3135,58 @@ if (navToggle && navEl) {
    * First tap  → reveal AZ & REMOTE
    * Second tap → allow the original mailto link
    */
-  statusBadge.addEventListener('click', (event) => {
+  statusBadge.addEventListener(
+    'click',
+    event => {
 
-    if (!mobileNavMode.matches) return;
+      if (!mobileNavMode.matches) return;
 
-    if (!statusBadge.classList.contains('is-status-open')) {
-      event.preventDefault();
+      if (
+        !statusBadge.classList.contains(
+          'is-status-open'
+        )
+      ) {
+        event.preventDefault();
 
-      statusBadge.classList.add('is-status-open');
+        statusBadge.classList.add(
+          'is-status-open'
+        );
 
-      return;
+        return;
+      }
+
+      /*
+       * Already open:
+       * intentionally do NOT preventDefault().
+       *
+       * The second tap therefore follows the existing
+       * mailto: link normally.
+       */
     }
-
-    /*
-     * Already open:
-     * intentionally do NOT preventDefault().
-     *
-     * The second tap therefore follows the existing
-     * mailto: link normally.
-     */
-  });
+  );
 
 
   /*
    * Tap anywhere outside the status badge:
    * restore AVAILABLE.
    */
-  document.addEventListener('pointerdown', (event) => {
+  document.addEventListener(
+    'pointerdown',
+    event => {
 
-    if (!mobileNavMode.matches) return;
+      if (!mobileNavMode.matches) return;
 
-    if (!statusBadge.contains(event.target)) {
-      statusBadge.classList.remove('is-status-open');
+      if (
+        !statusBadge.contains(
+          event.target
+        )
+      ) {
+        statusBadge.classList.remove(
+          'is-status-open'
+        );
+      }
     }
-  });
+  );
 
 
   /*
@@ -2593,85 +3211,163 @@ if (navToggle && navEl) {
  * ===================================================================== */
 
 function initThemeToggle() {
-  const themeToggle = document.getElementById('theme-toggle');
+  const themeToggle =
+    document.getElementById('theme-toggle');
 
   if (!themeToggle) return;
 
-  const systemTheme = window.matchMedia('(prefers-color-scheme: light)');
+  const systemTheme =
+    window.matchMedia(
+      '(prefers-color-scheme: light)'
+    );
 
   function getSystemTheme() {
-    return systemTheme.matches ? 'light' : 'dark';
+    return systemTheme.matches
+      ? 'light'
+      : 'dark';
   }
 
   function getCurrentTheme() {
-    return document.documentElement.getAttribute('data-theme') || getSystemTheme();
-  }
-
-  function applyTheme(theme, shouldSave = true) {
-    document.documentElement.setAttribute('data-theme', theme);
-
-    refreshStarsForTheme(theme);
-
-    const alienImg = document.querySelector('.about-alien');
-    if (alienImg) {
-      alienImg.src = theme === 'light'
-        ? 'images/Alien-Image-light.webp'
-        : 'images/Alien-Image-dark.webp';
-    }
-
-    // Update UFO beam color on theme change
-    if (ufoLightRays && ufoLightRays.isReady) {
-      ufoLightRays.setColor(theme === 'light' ? '#FFD23C' : '#0AC39A');
-    }
-
-    if (shouldSave) {
-      localStorage.setItem('kf-theme', theme);
-    }
-
-    const isLight = theme === 'light';
-
-    themeToggle.setAttribute('aria-pressed', String(!isLight));
-    themeToggle.setAttribute(
-      'aria-label',
-      isLight ? 'Switch to dark theme' : 'Switch to light theme'
+    return (
+      document.documentElement
+        .getAttribute('data-theme') ||
+      getSystemTheme()
     );
   }
 
-  applyTheme(getCurrentTheme(), false);
+  function applyTheme(
+    theme,
+    shouldSave = true
+  ) {
+    document.documentElement
+      .setAttribute(
+        'data-theme',
+        theme
+      );
 
-themeToggle.addEventListener('click', () => {
-  const currentTheme = getCurrentTheme();
-  const nextTheme    = currentTheme === 'dark' ? 'light' : 'dark';
+    refreshStarsForTheme(theme);
 
-  // Move toggle immediately
-  const isLight = nextTheme === 'light';
+    const alienImg =
+      document.querySelector(
+        '.about-alien'
+      );
 
-  themeToggle.setAttribute('aria-pressed', String(!isLight));
-  themeToggle.setAttribute(
-    'aria-label',
-    isLight ? 'Switch to dark theme' : 'Switch to light theme'
+    if (alienImg) {
+      alienImg.src =
+        theme === 'light'
+          ? 'images/Alien-Image-light.webp'
+          : 'images/Alien-Image-dark.webp';
+    }
+
+    // Update UFO beam color on theme change
+    if (
+      ufoLightRays &&
+      ufoLightRays.isReady
+    ) {
+      ufoLightRays.setColor(
+        theme === 'light'
+          ? '#FFD23C'
+          : '#0AC39A'
+      );
+    }
+
+    if (shouldSave) {
+      localStorage.setItem(
+        'kf-theme',
+        theme
+      );
+    }
+
+    const isLight =
+      theme === 'light';
+
+    themeToggle.setAttribute(
+      'aria-pressed',
+      String(!isLight)
+    );
+
+    themeToggle.setAttribute(
+      'aria-label',
+      isLight
+        ? 'Switch to dark theme'
+        : 'Switch to light theme'
+    );
+  }
+
+  applyTheme(
+    getCurrentTheme(),
+    false
   );
 
-setTimeout(() => {
-  playThemeWipe(nextTheme, () => {
-    applyTheme(nextTheme);
-    swapTerrain();
-    swapFavicon(nextTheme);
-  });
-}, 600);
-});
-  
-  systemTheme.addEventListener('change', event => {
-    const savedTheme = localStorage.getItem('kf-theme');
+  themeToggle.addEventListener(
+    'click',
+    () => {
+      const currentTheme =
+        getCurrentTheme();
 
-    if (!savedTheme) {
-      const newTheme = event.matches ? 'light' : 'dark';
-      applyTheme(newTheme, false);
-      swapTerrain();
-      swapFavicon(newTheme);
+      const nextTheme =
+        currentTheme === 'dark'
+          ? 'light'
+          : 'dark';
+
+      // Move toggle immediately
+      const isLight =
+        nextTheme === 'light';
+
+      themeToggle.setAttribute(
+        'aria-pressed',
+        String(!isLight)
+      );
+
+      themeToggle.setAttribute(
+        'aria-label',
+        isLight
+          ? 'Switch to dark theme'
+          : 'Switch to light theme'
+      );
+
+      setTimeout(
+        () => {
+          playThemeWipe(
+            nextTheme,
+            () => {
+              applyTheme(nextTheme);
+              swapTerrain();
+              swapFavicon(nextTheme);
+            }
+          );
+        },
+        600
+      );
     }
-  });
+  );
+
+  systemTheme.addEventListener(
+    'change',
+    event => {
+      const savedTheme =
+        localStorage.getItem(
+          'kf-theme'
+        );
+
+      if (!savedTheme) {
+        const newTheme =
+          event.matches
+            ? 'light'
+            : 'dark';
+
+        applyTheme(
+          newTheme,
+          false
+        );
+
+        swapTerrain();
+        swapFavicon(newTheme);
+      }
+    }
+  );
 }
+
 
 /* =====================================================================
  * § 7B  THEME WIPE
@@ -2684,83 +3380,225 @@ setTimeout(() => {
 
 let wipeIsActive = false;
 
-function playThemeWipe(nextTheme, onMidpoint) {
+function playThemeWipe(
+  nextTheme,
+  onMidpoint
+) {
   if (wipeIsActive) return;
+
   wipeIsActive = true;
 
-  const svgEl = document.querySelector('.shape-overlays');
-  const paths = document.querySelectorAll('.shape-overlays__path');
+  const svgEl =
+    document.querySelector(
+      '.shape-overlays'
+    );
 
-  if (!svgEl || paths.length === 0) {
+  const paths =
+    document.querySelectorAll(
+      '.shape-overlays__path'
+    );
+
+  if (
+    !svgEl ||
+    paths.length === 0
+  ) {
     onMidpoint();
     wipeIsActive = false;
     return;
   }
 
   const stops = {
-    stop1a: document.querySelector('.wipe-stop1a'),
-    stop1b: document.querySelector('.wipe-stop1b'),
-    stop2a: document.querySelector('.wipe-stop2a'),
-    stop2b: document.querySelector('.wipe-stop2b'),
+    stop1a:
+      document.querySelector(
+        '.wipe-stop1a'
+      ),
+
+    stop1b:
+      document.querySelector(
+        '.wipe-stop1b'
+      ),
+
+    stop2a:
+      document.querySelector(
+        '.wipe-stop2a'
+      ),
+
+    stop2b:
+      document.querySelector(
+        '.wipe-stop2b'
+      ),
   };
 
   if (nextTheme === 'light') {
-    stops.stop1a.setAttribute('stop-color', '#E7B75F');
-    stops.stop1b.setAttribute('stop-color', '#DDB783');
-    stops.stop2a.setAttribute('stop-color', '#B54832');
-    stops.stop2b.setAttribute('stop-color', '#FFF4E6');
+    stops.stop1a.setAttribute(
+      'stop-color',
+      '#E7B75F'
+    );
+
+    stops.stop1b.setAttribute(
+      'stop-color',
+      '#DDB783'
+    );
+
+    stops.stop2a.setAttribute(
+      'stop-color',
+      '#B54832'
+    );
+
+    stops.stop2b.setAttribute(
+      'stop-color',
+      '#FFF4E6'
+    );
+
   } else {
-    stops.stop1a.setAttribute('stop-color', '#0AC39A');
-    stops.stop1b.setAttribute('stop-color', '#100820');
-    stops.stop2a.setAttribute('stop-color', '#5F259F');
-    stops.stop2b.setAttribute('stop-color', '#100820');
+    stops.stop1a.setAttribute(
+      'stop-color',
+      '#0AC39A'
+    );
+
+    stops.stop1b.setAttribute(
+      'stop-color',
+      '#100820'
+    );
+
+    stops.stop2a.setAttribute(
+      'stop-color',
+      '#5F259F'
+    );
+
+    stops.stop2b.setAttribute(
+      'stop-color',
+      '#100820'
+    );
   }
 
-  const numPoints      = 10;
-  const numPaths       = paths.length;
+  const numPoints = 10;
+  const numPaths = paths.length;
   const delayPointsMax = 0.3;
-  const delayPerPath   = 0.2;
-  const pointsDelay    = [];
+  const delayPerPath = 0.2;
+  const pointsDelay = [];
 
-  const allPoints = Array.from({ length: numPaths }, () =>
-    Array.from({ length: numPoints }, () => 100)
-  );
+  const allPoints =
+    Array.from(
+      {
+        length: numPaths
+      },
+      () =>
+        Array.from(
+          {
+            length: numPoints
+          },
+          () => 100
+        )
+    );
 
   function render(opened) {
-    for (let i = 0; i < numPaths; i++) {
+    for (
+      let i = 0;
+      i < numPaths;
+      i++
+    ) {
       const pts = allPoints[i];
-      let d = opened ? `M 0 0 V ${pts[0]} C` : `M 0 ${pts[0]} C`;
 
-      for (let j = 0; j < numPoints - 1; j++) {
-        const p  = (j + 1) / (numPoints - 1) * 100;
-        const cp = p - (1 / (numPoints - 1) * 100) / 2;
-        d += ` ${cp} ${pts[j]} ${cp} ${pts[j + 1]} ${p} ${pts[j + 1]}`;
+      let d =
+        opened
+          ? `M 0 0 V ${pts[0]} C`
+          : `M 0 ${pts[0]} C`;
+
+      for (
+        let j = 0;
+        j < numPoints - 1;
+        j++
+      ) {
+        const p =
+          (j + 1) /
+          (numPoints - 1) *
+          100;
+
+        const cp =
+          p -
+          (
+            1 /
+            (numPoints - 1) *
+            100
+          ) / 2;
+
+        d +=
+          ` ${cp} ${pts[j]}` +
+          ` ${cp} ${pts[j + 1]}` +
+          ` ${p} ${pts[j + 1]}`;
       }
 
-      d += opened ? ` V 100 H 0` : ` V 0 H 0`;
-      paths[i].setAttribute('d', d);
+      d += opened
+        ? ` V 100 H 0`
+        : ` V 0 H 0`;
+
+      paths[i].setAttribute(
+        'd',
+        d
+      );
     }
   }
 
   function randomiseDelays() {
-    for (let i = 0; i < numPoints; i++) {
-      pointsDelay[i] = Math.random() * delayPointsMax;
+    for (
+      let i = 0;
+      i < numPoints;
+      i++
+    ) {
+      pointsDelay[i] =
+        Math.random() *
+        delayPointsMax;
     }
   }
 
-  function buildTimeline(opened, onDone) {
-    const tl = gsap.timeline({
-      onUpdate: () => render(opened),
-      defaults: { ease: 'power2.inOut', duration: 0.85 },
-      onComplete: onDone,
-    });
+  function buildTimeline(
+    opened,
+    onDone
+  ) {
+    const tl =
+      gsap.timeline({
+        onUpdate:
+          () => render(opened),
 
-    for (let i = 0; i < numPaths; i++) {
-      const pts       = allPoints[i];
-      const pathDelay = delayPerPath * (opened ? i : numPaths - i - 1);
+        defaults: {
+          ease: 'power2.inOut',
+          duration: 0.85
+        },
 
-      for (let j = 0; j < numPoints; j++) {
-        tl.to(pts, { [j]: 0 }, pointsDelay[j] + pathDelay);
+        onComplete:
+          onDone,
+      });
+
+    for (
+      let i = 0;
+      i < numPaths;
+      i++
+    ) {
+      const pts =
+        allPoints[i];
+
+      const pathDelay =
+        delayPerPath *
+        (
+          opened
+            ? i
+            : numPaths - i - 1
+        );
+
+      for (
+        let j = 0;
+        j < numPoints;
+        j++
+      ) {
+        tl.to(
+          pts,
+          {
+            [j]: 0
+          },
+          pointsDelay[j] +
+          pathDelay
+        );
       }
     }
 
@@ -2769,24 +3607,39 @@ function playThemeWipe(nextTheme, onMidpoint) {
 
   randomiseDelays();
 
-  buildTimeline(true, () => {
-    onMidpoint();
+  buildTimeline(
+    true,
+    () => {
+      onMidpoint();
 
-    for (let i = 0; i < numPaths; i++) {
-      for (let j = 0; j < numPoints; j++) {
-        allPoints[i][j] = 100;
+      for (
+        let i = 0;
+        i < numPaths;
+        i++
+      ) {
+        for (
+          let j = 0;
+          j < numPoints;
+          j++
+        ) {
+          allPoints[i][j] = 100;
+        }
       }
+
+      render(false);
+
+      randomiseDelays();
+
+      buildTimeline(
+        false,
+        () => {
+          wipeIsActive = false;
+        }
+      );
     }
-
-    render(false);
-
-    randomiseDelays();
-
-    buildTimeline(false, () => {
-      wipeIsActive = false;
-    });
-  });
+  );
 }
+
 
 /* =====================================================================
  * § 8  CUSTOM CURSOR
@@ -2795,15 +3648,33 @@ function playThemeWipe(nextTheme, onMidpoint) {
 function initCursor() {
   if (isTouchDevice) return;
 
-  const cur = document.getElementById('cur');
+  const cur =
+    document.getElementById('cur');
 
-  document.addEventListener('mousemove', e => {
-    cur.style.left = `${e.clientX}px`;
-    cur.style.top  = `${e.clientY}px`;
-  });
+  document.addEventListener(
+    'mousemove',
+    e => {
+      cur.style.left =
+        `${e.clientX}px`;
 
-  document.addEventListener('mousedown', () => document.body.classList.add('clicking'));
-  document.addEventListener('mouseup',   () => document.body.classList.remove('clicking'));
+      cur.style.top =
+        `${e.clientY}px`;
+    }
+  );
+
+  document.addEventListener(
+    'mousedown',
+    () =>
+      document.body
+        .classList.add('clicking')
+  );
+
+  document.addEventListener(
+    'mouseup',
+    () =>
+      document.body
+        .classList.remove('clicking')
+  );
 }
 
 
@@ -2812,41 +3683,52 @@ function initCursor() {
  * ===================================================================== */
 
 function initClickRipple() {
-  document.addEventListener('click', e => {
+  document.addEventListener(
+    'click',
+    e => {
 
-    /*
-     * Touch haptic feedback.
-     *
-     * Only vibrate for actual interactive controls.
-     * Unsupported devices simply ignore this.
-     */
-    if (
-      isTouchDevice &&
-      'vibrate' in navigator &&
-      e.target.closest('a, button, [role="button"], input, select')
-    ) {
-      navigator.vibrate(10);
+      /*
+       * Touch haptic feedback.
+       *
+       * Only vibrate for actual interactive controls.
+       * Unsupported devices simply ignore this.
+       */
+      if (
+        isTouchDevice &&
+        'vibrate' in navigator &&
+        e.target.closest(
+          'a, button, [role="button"], input, select'
+        )
+      ) {
+        navigator.vibrate(10);
+      }
+
+      const ripple =
+        document.createElement('div');
+
+      ripple.style.cssText = [
+        'position:fixed',
+        'width:10px',
+        'height:10px',
+        'border-radius:50%',
+        'border:1.5px solid var(--accent-aurora)',
+        'transform:translate(-50%,-50%) scale(0)',
+        'pointer-events:none',
+        'z-index:9997',
+        `left:${e.clientX}px`,
+        `top:${e.clientY}px`,
+        'animation:rippleOut 0.6s ease-out forwards'
+      ].join(';');
+
+      document.body
+        .appendChild(ripple);
+
+      setTimeout(
+        () => ripple.remove(),
+        600
+      );
     }
-
-    const ripple = document.createElement('div');
-
-    ripple.style.cssText = [
-      'position:fixed',
-      'width:10px',
-      'height:10px',
-      'border-radius:50%',
-      'border:1.5px solid var(--accent-aurora)',
-      'transform:translate(-50%,-50%) scale(0)',
-      'pointer-events:none',
-      'z-index:9997',
-      `left:${e.clientX}px`,
-      `top:${e.clientY}px`,
-      'animation:rippleOut 0.6s ease-out forwards'
-    ].join(';');
-
-    document.body.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 600);
-  });
+  );
 }
 
 
@@ -2856,121 +3738,391 @@ function initClickRipple() {
 
 function animateArrow(btn) {
   btn.classList.add('animate');
-  setTimeout(() => btn.classList.remove('animate'), 1600);
+
+  setTimeout(
+    () =>
+      btn.classList.remove(
+        'animate'
+      ),
+    1600
+  );
 }
 
-function smoothScrollTo(strip, target, duration) {
+function smoothScrollTo(
+  strip,
+  target,
+  duration
+) {
   const start = strip.scrollLeft;
-  const dist  = target - start;
-  const t0    = performance.now();
+  const dist = target - start;
+  const t0 = performance.now();
 
   (function step(now) {
-    const p = Math.min((now - t0) / duration, 1);
-    const e = p < 0.5 ? 2 * p * p : -1 + (4 - 2 * p) * p;
-    strip.scrollLeft = start + dist * e;
-    if (p < 1) requestAnimationFrame(step);
+    const p =
+      Math.min(
+        (now - t0) / duration,
+        1
+      );
+
+    const e =
+      p < 0.5
+        ? 2 * p * p
+        : -1 +
+          (4 - 2 * p) * p;
+
+    strip.scrollLeft =
+      start + dist * e;
+
+    if (p < 1) {
+      requestAnimationFrame(step);
+    }
   })(performance.now());
 }
 
 function initCaseStudyStrip() {
-  const strip    = document.getElementById('csStrip');
-  const progress = document.getElementById('csProgress');
-  const prevBtn  = document.getElementById('csPrev');
-  const nextBtn  = document.getElementById('csNext');
+  const strip =
+    document.getElementById(
+      'csStrip'
+    );
+
+  const progress =
+    document.getElementById(
+      'csProgress'
+    );
+
+  const prevBtn =
+    document.getElementById(
+      'csPrev'
+    );
+
+  const nextBtn =
+    document.getElementById(
+      'csNext'
+    );
 
   if (!strip) return;
 
-  const getCardWidth = () => (strip.querySelector('.cs-card')?.offsetWidth || 0) + 24;
+  const getCardWidth = () =>
+    (
+      strip
+        .querySelector('.cs-card')
+        ?.offsetWidth ||
+      0
+    ) + 24;
 
   let snapTimeout;
   let isSnapping = false;
 
-  strip.addEventListener('scroll', () => {
-    if (mobileCaseStudyMode.matches) return;
-    const max = strip.scrollWidth - strip.clientWidth;
-    if (progress) {
-      progress.style.width = (max > 0 ? (strip.scrollLeft / max) * 100 : 0) + '%';
-    }
+  strip.addEventListener(
+    'scroll',
+    () => {
+      if (
+        mobileCaseStudyMode.matches
+      ) {
+        return;
+      }
 
-    if (!isSnapping) {
-      clearTimeout(snapTimeout);
-      snapTimeout = setTimeout(() => {
-        const cardWidth = getCardWidth();
-        if (!cardWidth) return;
-        isSnapping = true;
-        strip.scrollTo({ left: Math.round(strip.scrollLeft / cardWidth) * cardWidth, behavior: 'smooth' });
-        setTimeout(() => { isSnapping = false; }, 500);
-      }, 150);
-    }
-  }, { passive: true });
+      const max =
+        strip.scrollWidth -
+        strip.clientWidth;
 
-  let isDown     = false;
-  let startX     = 0;
+      if (progress) {
+        progress.style.width =
+          (
+            max > 0
+              ? (
+                  strip.scrollLeft /
+                  max
+                ) * 100
+              : 0
+          ) + '%';
+      }
+
+      if (!isSnapping) {
+        clearTimeout(snapTimeout);
+
+        snapTimeout =
+          setTimeout(
+            () => {
+              const cardWidth =
+                getCardWidth();
+
+              if (!cardWidth) return;
+
+              isSnapping = true;
+
+              strip.scrollTo({
+                left:
+                  Math.round(
+                    strip.scrollLeft /
+                    cardWidth
+                  ) * cardWidth,
+
+                behavior:
+                  'smooth'
+              });
+
+              setTimeout(
+                () => {
+                  isSnapping = false;
+                },
+                500
+              );
+            },
+            150
+          );
+      }
+    },
+    {
+      passive: true
+    }
+  );
+
+  let isDown = false;
+  let startX = 0;
   let scrollLeft = 0;
   let hasDragged = false;
 
-  strip.addEventListener('mousedown', e => {
-    if (mobileCaseStudyMode.matches) return;
-    e.preventDefault();
-    isDown     = true;
-    hasDragged = false;
-    startX     = e.pageX - strip.offsetLeft;
-    scrollLeft = strip.scrollLeft;
-  });
+  strip.addEventListener(
+    'mousedown',
+    e => {
+      if (
+        mobileCaseStudyMode.matches
+      ) {
+        return;
+      }
 
-  strip.addEventListener('mouseleave', () => { isDown = false; });
+      e.preventDefault();
 
-  strip.addEventListener('mouseup', () => {
-    if (mobileCaseStudyMode.matches) return;
-    if (isDown && hasDragged) {
-      const cardWidth = getCardWidth();
-      const current   = Math.round(scrollLeft / cardWidth);
-      const drag      = scrollLeft - strip.scrollLeft;
-      let target      = current + (drag > cardWidth * 0.25 ? -1 : drag < -cardWidth * 0.25 ? 1 : 0);
-      target          = Math.max(0, Math.min(target, strip.querySelectorAll('.cs-card').length - 1));
-      isSnapping = true;
-      strip.scrollTo({ left: target * cardWidth, behavior: 'smooth' });
-      setTimeout(() => { isSnapping = false; }, 700);
+      isDown = true;
+      hasDragged = false;
+
+      startX =
+        e.pageX -
+        strip.offsetLeft;
+
+      scrollLeft =
+        strip.scrollLeft;
     }
-    isDown = false;
-  });
+  );
 
-  strip.addEventListener('mousemove', e => {
-    if (mobileCaseStudyMode.matches || !isDown) return;
-    const walk = e.pageX - strip.offsetLeft - startX;
-    if (Math.abs(walk) > 5) { hasDragged = true; e.preventDefault(); }
-    strip.scrollLeft = scrollLeft - walk * 1.1;
-  });
+  strip.addEventListener(
+    'mouseleave',
+    () => {
+      isDown = false;
+    }
+  );
 
-  strip.addEventListener('click', e => {
-    if (mobileCaseStudyMode.matches) return;
-    if (hasDragged) { e.preventDefault(); e.stopPropagation(); }
-  }, true);
+  strip.addEventListener(
+    'mouseup',
+    () => {
+      if (
+        mobileCaseStudyMode.matches
+      ) {
+        return;
+      }
 
-  strip.querySelectorAll('.cs-card').forEach(card => {
-    const link = card.querySelector('a.card-feat');
-    if (!link) return;
+      if (
+        isDown &&
+        hasDragged
+      ) {
+        const cardWidth =
+          getCardWidth();
 
-    card.addEventListener('click', e => {
-      if (mobileCaseStudyMode.matches || hasDragged) return;
-      if (e.target.closest('a')) return;
-      link.click();
+        const current =
+          Math.round(
+            scrollLeft /
+            cardWidth
+          );
+
+        const drag =
+          scrollLeft -
+          strip.scrollLeft;
+
+        let target =
+          current +
+          (
+            drag >
+            cardWidth * 0.25
+              ? -1
+              : drag <
+                -cardWidth * 0.25
+                ? 1
+                : 0
+          );
+
+        target =
+          Math.max(
+            0,
+            Math.min(
+              target,
+              strip
+                .querySelectorAll(
+                  '.cs-card'
+                )
+                .length - 1
+            )
+          );
+
+        isSnapping = true;
+
+        strip.scrollTo({
+          left:
+            target *
+            cardWidth,
+
+          behavior:
+            'smooth'
+        });
+
+        setTimeout(
+          () => {
+            isSnapping = false;
+          },
+          700
+        );
+      }
+
+      isDown = false;
+    }
+  );
+
+  strip.addEventListener(
+    'mousemove',
+    e => {
+      if (
+        mobileCaseStudyMode.matches ||
+        !isDown
+      ) {
+        return;
+      }
+
+      const walk =
+        e.pageX -
+        strip.offsetLeft -
+        startX;
+
+      if (
+        Math.abs(walk) > 5
+      ) {
+        hasDragged = true;
+        e.preventDefault();
+      }
+
+      strip.scrollLeft =
+        scrollLeft -
+        walk * 1.1;
+    }
+  );
+
+  strip.addEventListener(
+    'click',
+    e => {
+      if (
+        mobileCaseStudyMode.matches
+      ) {
+        return;
+      }
+
+      if (hasDragged) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    },
+    true
+  );
+
+  strip
+    .querySelectorAll(
+      '.cs-card'
+    )
+    .forEach(card => {
+      const link =
+        card.querySelector(
+          'a.card-feat'
+        );
+
+      if (!link) return;
+
+      card.addEventListener(
+        'click',
+        e => {
+          if (
+            mobileCaseStudyMode.matches ||
+            hasDragged
+          ) {
+            return;
+          }
+
+          if (
+            e.target.closest('a')
+          ) {
+            return;
+          }
+
+          link.click();
+        }
+      );
     });
-  });
 
-  prevBtn?.addEventListener('click', () => {
-    if (mobileCaseStudyMode.matches) return;
-    animateArrow(prevBtn);
-    const target = Math.max(0, (Math.round(strip.scrollLeft / getCardWidth()) - 1) * getCardWidth());
-    smoothScrollTo(strip, target, 1000);
-  });
+  prevBtn?.addEventListener(
+    'click',
+    () => {
+      if (
+        mobileCaseStudyMode.matches
+      ) {
+        return;
+      }
 
-  nextBtn?.addEventListener('click', () => {
-    if (mobileCaseStudyMode.matches) return;
-    animateArrow(nextBtn);
-    const target = (Math.round(strip.scrollLeft / getCardWidth()) + 1) * getCardWidth();
-    smoothScrollTo(strip, target, 1000);
-  });
+      animateArrow(prevBtn);
+
+      const target =
+        Math.max(
+          0,
+          (
+            Math.round(
+              strip.scrollLeft /
+              getCardWidth()
+            ) - 1
+          ) *
+          getCardWidth()
+        );
+
+      smoothScrollTo(
+        strip,
+        target,
+        1000
+      );
+    }
+  );
+
+  nextBtn?.addEventListener(
+    'click',
+    () => {
+      if (
+        mobileCaseStudyMode.matches
+      ) {
+        return;
+      }
+
+      animateArrow(nextBtn);
+
+      const target =
+        (
+          Math.round(
+            strip.scrollLeft /
+            getCardWidth()
+          ) + 1
+        ) *
+        getCardWidth();
+
+      smoothScrollTo(
+        strip,
+        target,
+        1000
+      );
+    }
+  );
 }
 
 
@@ -2979,17 +4131,43 @@ function initCaseStudyStrip() {
  * ===================================================================== */
 
 function initScrollReveal() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('in'), i * 75);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.07 });
+  const observer =
+    new IntersectionObserver(
+      entries => {
+        entries.forEach(
+          (entry, i) => {
+            if (
+              entry.isIntersecting
+            ) {
+              setTimeout(
+                () =>
+                  entry.target
+                    .classList.add(
+                      'in'
+                    ),
+                i * 75
+              );
 
-  document.querySelectorAll('.reveal, .reveal-left, .reveal-right')
-    .forEach(el => observer.observe(el));
+              observer.unobserve(
+                entry.target
+              );
+            }
+          }
+        );
+      },
+      {
+        threshold: 0.07
+      }
+    );
+
+  document
+    .querySelectorAll(
+      '.reveal, .reveal-left, .reveal-right'
+    )
+    .forEach(
+      el =>
+        observer.observe(el)
+    );
 }
 
 
@@ -3000,79 +4178,179 @@ function initScrollReveal() {
 function initCardTilt() {
   if (reducedMotion) return;
 
-  document.querySelectorAll('.card-tilt-wrap').forEach(wrap => {
-    const inner = wrap.querySelector('.card-feat');
-    if (!inner) return;
+  document
+    .querySelectorAll(
+      '.card-tilt-wrap'
+    )
+    .forEach(wrap => {
+      const inner =
+        wrap.querySelector(
+          '.card-feat'
+        );
 
-    let sheen = inner.querySelector('.card-sheen');
-    if (!sheen) {
-      sheen = document.createElement('div');
-      sheen.className = 'card-sheen';
-      inner.appendChild(sheen);
-    }
+      if (!inner) return;
 
-    let holo = inner.querySelector('.card-holo');
-    if (!holo) {
-      holo = document.createElement('div');
-      holo.className = 'card-holo';
-      inner.appendChild(holo);
-    }
-    
-    /*
-     * Only attach pointer-following tilt/holo when the
-     * current device actually supports hover + a fine pointer.
-     *
-     * This preserves desktop/laptop behavior while leaving
-     * coarse touch phones for DeviceOrientation control.
-     */
-    const canPointerTilt = window.matchMedia(
-      '(any-hover: hover) and (any-pointer: fine)'
-    ).matches;
-    
-    if (!canPointerTilt) return;
+      let sheen =
+        inner.querySelector(
+          '.card-sheen'
+        );
 
-    wrap.addEventListener('mousemove', e => {
+      if (!sheen) {
+        sheen =
+          document.createElement(
+            'div'
+          );
 
-      const rect =
-       wrap.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
+        sheen.className =
+          'card-sheen';
 
-      const rx = (y - 0.5) * -12;
-      const ry = (x - 0.5) *  12;
+        inner.appendChild(sheen);
+      }
 
-      inner.style.transition = 'transform 0.1s ease-out';
-      inner.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+      let holo =
+        inner.querySelector(
+          '.card-holo'
+        );
 
-      const shadowX = (x - 0.5) * -40;
-      const shadowY = (y - 0.5) * -40 + 20;
-      wrap.style.setProperty('--shadow-x', `${shadowX}px`);
-      wrap.style.setProperty('--shadow-y', `${shadowY}px`);
+      if (!holo) {
+        holo =
+          document.createElement(
+            'div'
+          );
 
-      sheen.style.opacity = '1';
-      sheen.style.setProperty('--sheen-x', `${x * 100}%`);
-      sheen.style.setProperty('--sheen-y', `${y * 100}%`);
+        holo.className =
+          'card-holo';
 
-      // Holo tracking (-1..1)
-      const ratioX = (x - 0.5) * 2;
-      const ratioY = (y - 0.5) * 2;
-      inner.style.setProperty('--ratio-x', ratioX);
-      inner.style.setProperty('--ratio-y', ratioY);
+        inner.appendChild(holo);
+      }
+
+      /*
+       * Only attach pointer-following tilt/holo when the
+       * current device actually supports hover + a fine pointer.
+       *
+       * This preserves desktop/laptop behavior while leaving
+       * coarse touch phones for DeviceOrientation control.
+       */
+      const canPointerTilt =
+        window.matchMedia(
+          '(any-hover: hover) and (any-pointer: fine)'
+        ).matches;
+
+      if (!canPointerTilt) return;
+
+      wrap.addEventListener(
+        'mousemove',
+        e => {
+          const rect =
+            wrap.getBoundingClientRect();
+
+          const x =
+            (
+              e.clientX -
+              rect.left
+            ) /
+            rect.width;
+
+          const y =
+            (
+              e.clientY -
+              rect.top
+            ) /
+            rect.height;
+
+          const rx =
+            (y - 0.5) * -12;
+
+          const ry =
+            (x - 0.5) * 12;
+
+          inner.style.transition =
+            'transform 0.1s ease-out';
+
+          inner.style.transform =
+            `rotateX(${rx}deg) rotateY(${ry}deg)`;
+
+          const shadowX =
+            (x - 0.5) * -40;
+
+          const shadowY =
+            (y - 0.5) * -40 +
+            20;
+
+          wrap.style.setProperty(
+            '--shadow-x',
+            `${shadowX}px`
+          );
+
+          wrap.style.setProperty(
+            '--shadow-y',
+            `${shadowY}px`
+          );
+
+          sheen.style.opacity = '1';
+
+          sheen.style.setProperty(
+            '--sheen-x',
+            `${x * 100}%`
+          );
+
+          sheen.style.setProperty(
+            '--sheen-y',
+            `${y * 100}%`
+          );
+
+          // Holo tracking (-1..1)
+          const ratioX =
+            (x - 0.5) * 2;
+
+          const ratioY =
+            (y - 0.5) * 2;
+
+          inner.style.setProperty(
+            '--ratio-x',
+            ratioX
+          );
+
+          inner.style.setProperty(
+            '--ratio-y',
+            ratioY
+          );
+        }
+      );
+
+      wrap.addEventListener(
+        'mouseleave',
+        () => {
+          inner.style.transition =
+            'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+
+          inner.style.transform =
+            '';
+
+          wrap.style.setProperty(
+            '--shadow-x',
+            '0px'
+          );
+
+          wrap.style.setProperty(
+            '--shadow-y',
+            '20px'
+          );
+
+          sheen.style.opacity = '0';
+
+          inner.style.setProperty(
+            '--ratio-x',
+            0
+          );
+
+          inner.style.setProperty(
+            '--ratio-y',
+            0
+          );
+        }
+      );
     });
-
-    wrap.addEventListener('mouseleave', () => {
-      inner.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
-      inner.style.transform = '';
-
-      wrap.style.setProperty('--shadow-x', '0px');
-      wrap.style.setProperty('--shadow-y', '20px');
-
-      sheen.style.opacity = '0';
-
-      inner.style.setProperty('--ratio-x', 0);
-      inner.style.setProperty('--ratio-y', 0);
-    });
-  });
 }
 
 
@@ -3081,10 +4359,19 @@ function initCardTilt() {
  * ===================================================================== */
 
 function initMobileCaseStudyAccordion() {
-  const strip = document.getElementById('csStrip');
+  const strip =
+    document.getElementById(
+      'csStrip'
+    );
+
   if (!strip) return;
 
-  const cards = [...strip.querySelectorAll('.cs-card')];
+  const cards = [
+    ...strip.querySelectorAll(
+      '.cs-card'
+    )
+  ];
+
   if (!cards.length) return;
 
   let activeIndex = 0;
@@ -3108,8 +4395,18 @@ function initMobileCaseStudyAccordion() {
   let accordionAnimating = false;
   let accordionTween = null;
 
-  function clamp(value, min, max) {
-    return Math.min(max, Math.max(min, value));
+  function clamp(
+    value,
+    min,
+    max
+  ) {
+    return Math.min(
+      max,
+      Math.max(
+        min,
+        value
+      )
+    );
   }
 
 
@@ -3118,12 +4415,23 @@ function initMobileCaseStudyAccordion() {
    * --------------------------------------------------------------- */
 
   function getCardEffects(card) {
-    const inner = card?.querySelector('.card-feat');
+    const inner =
+      card?.querySelector(
+        '.card-feat'
+      );
 
     return {
       inner,
-      sheen: inner?.querySelector('.card-sheen'),
-      holo: inner?.querySelector('.card-holo')
+
+      sheen:
+        inner?.querySelector(
+          '.card-sheen'
+        ),
+
+      holo:
+        inner?.querySelector(
+          '.card-holo'
+        )
     };
   }
 
@@ -3138,33 +4446,64 @@ function initMobileCaseStudyAccordion() {
     if (!inner) return;
 
     gsap.killTweensOf(
-      [inner, sheen, holo].filter(Boolean)
+      [
+        inner,
+        sheen,
+        holo
+      ].filter(Boolean)
     );
 
     /*
      * Clear GSAP transforms properly rather than
      * leaving its internal transform cache stale.
      */
-    gsap.set(inner, {
-      clearProps: 'transform'
-    });
+    gsap.set(
+      inner,
+      {
+        clearProps: 'transform'
+      }
+    );
 
     inner.style.transition = '';
 
-    inner.style.setProperty('--ratio-x', 0);
-    inner.style.setProperty('--ratio-y', 0);
+    inner.style.setProperty(
+      '--ratio-x',
+      0
+    );
+
+    inner.style.setProperty(
+      '--ratio-y',
+      0
+    );
 
     if (sheen) {
-      sheen.style.removeProperty('opacity');
-      sheen.style.removeProperty('transition');
-    
-      sheen.style.setProperty('--sheen-x', '50%');
-      sheen.style.setProperty('--sheen-y', '50%');
+      sheen.style.removeProperty(
+        'opacity'
+      );
+
+      sheen.style.removeProperty(
+        'transition'
+      );
+
+      sheen.style.setProperty(
+        '--sheen-x',
+        '50%'
+      );
+
+      sheen.style.setProperty(
+        '--sheen-y',
+        '50%'
+      );
     }
-    
+
     if (holo) {
-      holo.style.removeProperty('opacity');
-      holo.style.removeProperty('transition');
+      holo.style.removeProperty(
+        'opacity'
+      );
+
+      holo.style.removeProperty(
+        'transition'
+      );
     }
   }
 
@@ -3194,576 +4533,582 @@ function initMobileCaseStudyAccordion() {
    * --------------------------------------------------------------- */
 
   function buildMobileSelectors() {
-    cards.forEach((card, index) => {
-      if (card.querySelector('.cs-mobile-select')) return;
+    cards.forEach(
+      (card, index) => {
+        if (
+          card.querySelector(
+            '.cs-mobile-select'
+          )
+        ) {
+          return;
+        }
 
-      const fullCard = card.querySelector('.card-feat');
-      const title = card.querySelector('.c-title')?.textContent.trim();
-      const number = card.querySelector('.card-vis-tag')?.textContent.trim();
+        const fullCard =
+          card.querySelector(
+            '.card-feat'
+          );
 
-      if (!fullCard || !title) return;
+        const title =
+          card
+            .querySelector(
+              '.c-title'
+            )
+            ?.textContent
+            .trim();
 
-      if (!fullCard.id) {
-        fullCard.id = `case-study-card-${index + 1}`;
+        const number =
+          card
+            .querySelector(
+              '.card-vis-tag'
+            )
+            ?.textContent
+            .trim();
+
+        if (
+          !fullCard ||
+          !title
+        ) {
+          return;
+        }
+
+        if (!fullCard.id) {
+          fullCard.id =
+            `case-study-card-${index + 1}`;
+        }
+
+        const button =
+          document.createElement(
+            'button'
+          );
+
+        button.type = 'button';
+
+        button.className =
+          'cs-mobile-select';
+
+        button.setAttribute(
+          'aria-controls',
+          fullCard.id
+        );
+
+        button.setAttribute(
+          'aria-label',
+          `Show ${title}`
+        );
+
+        const numberEl =
+          document.createElement(
+            'span'
+          );
+
+        numberEl.className =
+          'cs-mobile-number';
+
+        numberEl.textContent =
+          number ||
+          String(index + 1)
+            .padStart(
+              2,
+              '0'
+            );
+
+        const titleEl =
+          document.createElement(
+            'span'
+          );
+
+        titleEl.className =
+          'cs-mobile-title';
+
+        titleEl.textContent =
+          title;
+
+        const icon =
+          document.createElement(
+            'span'
+          );
+
+        icon.className =
+          'cs-mobile-open';
+
+        icon.setAttribute(
+          'aria-hidden',
+          'true'
+        );
+
+        icon.textContent = '+';
+
+        button.append(
+          numberEl,
+          titleEl,
+          icon
+        );
+
+        /*
+         * Direct child of .cs-card, directly before
+         * the existing full-card anchor.
+         */
+        card.insertBefore(
+          button,
+          fullCard
+        );
       }
-
-
-      const button = document.createElement('button');
-
-      button.type = 'button';
-      button.className = 'cs-mobile-select';
-
-      button.setAttribute(
-        'aria-controls',
-        fullCard.id
-      );
-
-      button.setAttribute(
-        'aria-label',
-        `Show ${title}`
-      );
-
-
-      const numberEl = document.createElement('span');
-      numberEl.className = 'cs-mobile-number';
-      numberEl.textContent =
-        number || String(index + 1).padStart(2, '0');
-
-
-      const titleEl = document.createElement('span');
-      titleEl.className = 'cs-mobile-title';
-      titleEl.textContent = title;
-
-
-      const icon = document.createElement('span');
-      icon.className = 'cs-mobile-open';
-      icon.setAttribute('aria-hidden', 'true');
-      icon.textContent = '+';
-
-
-      button.append(
-        numberEl,
-        titleEl,
-        icon
-      );
-
-
-      /*
-       * Direct child of .cs-card, directly before
-       * the existing full-card anchor.
-       */
-      card.insertBefore(
-        button,
-        fullCard
-      );
-    });
+    );
   }
 
 
   /* ---------------------------------------------------------------
    * MOBILE ACTIVE PROJECT
    * --------------------------------------------------------------- */
-  
-function setActiveProject(
-  index,
-  {
-    keepInView = true,
-    animate = true
-  } = {}
-) {
-  const nextIndex = clamp(
+
+  function setActiveProject(
     index,
-    0,
-    cards.length - 1
-  );
-
-  const activeCard =
-    cards[nextIndex];
-
-
-  /*
-   * Initial setup, reduced-motion mode,
-   * breakpoint changes, or re-selecting the
-   * same project remain immediate.
-   */
-  if (
-    !mobileCaseStudyMode.matches ||
-    reducedMotion ||
-    !animate ||
-    nextIndex === activeIndex
+    {
+      keepInView = true,
+      animate = true
+    } = {}
   ) {
-    if (accordionTween) {
-      accordionTween.kill();
-      accordionTween = null;
+    const nextIndex =
+      clamp(
+        index,
+        0,
+        cards.length - 1
+      );
+
+    const activeCard =
+      cards[nextIndex];
+
+    /*
+     * Initial setup, reduced-motion mode,
+     * breakpoint changes, or re-selecting the
+     * same project remain immediate.
+     */
+    if (
+      !mobileCaseStudyMode.matches ||
+      reducedMotion ||
+      !animate ||
+      nextIndex === activeIndex
+    ) {
+      if (accordionTween) {
+        accordionTween.kill();
+        accordionTween = null;
+      }
+
+      accordionAnimating = false;
+      activeIndex = nextIndex;
+
+      cards.forEach(
+        (
+          card,
+          cardIndex
+        ) => {
+          const active =
+            cardIndex ===
+            activeIndex;
+
+          card.classList.toggle(
+            'is-mobile-active',
+            active
+          );
+
+          card
+            .querySelector(
+              '.cs-mobile-select'
+            )
+            ?.setAttribute(
+              'aria-expanded',
+              String(active)
+            );
+
+          if (!active) {
+            resetCardEffect(card);
+          }
+        }
+      );
+
+      resetMotionBaseline();
+
+      if (
+        keepInView &&
+        mobileCaseStudyMode.matches
+      ) {
+        requestAnimationFrame(
+          () => {
+            activeCard.scrollIntoView({
+              behavior: 'auto',
+              block: 'nearest'
+            });
+          }
+        );
+      }
+
+      return activeCard;
     }
 
-    accordionAnimating = false;
-    activeIndex = nextIndex;
+    /*
+     * Ignore another selection during the very
+     * short transition instead of allowing two
+     * conflicting GSAP timelines.
+     */
+    if (accordionAnimating) {
+      return cards[activeIndex];
+    }
 
+    const previousIndex =
+      activeIndex;
 
-    cards.forEach(
-      (
-        card,
-        cardIndex
-      ) => {
+    const previousCard =
+      cards[previousIndex];
 
-        const active =
-          cardIndex ===
-          activeIndex;
+    const previousFull =
+      previousCard.querySelector(
+        '.card-feat'
+      );
 
+    const previousMini =
+      previousCard.querySelector(
+        '.cs-mobile-select'
+      );
 
-        card.classList.toggle(
-          'is-mobile-active',
-          active
-        );
+    const nextFull =
+      activeCard.querySelector(
+        '.card-feat'
+      );
 
+    const nextMini =
+      activeCard.querySelector(
+        '.cs-mobile-select'
+      );
 
-        card
-          .querySelector(
-            '.cs-mobile-select'
-          )
-          ?.setAttribute(
-            'aria-expanded',
-            String(active)
-          );
-
-
-        if (!active) {
-          resetCardEffect(
-            card
-          );
-        }
-      }
-    );
-
-
-    resetMotionBaseline();
-
-
+    /*
+     * Safety fallback.
+     */
     if (
-      keepInView &&
-      mobileCaseStudyMode.matches
+      !previousFull ||
+      !previousMini ||
+      !nextFull ||
+      !nextMini
     ) {
-      requestAnimationFrame(
-        () => {
-
-          activeCard.scrollIntoView({
-            behavior: 'auto',
-            block: 'nearest'
-          });
-
+      return setActiveProject(
+        nextIndex,
+        {
+          keepInView,
+          animate: false
         }
       );
     }
 
+    accordionAnimating = true;
+
+    /*
+     * Stop phone tilt from owning transforms
+     * while GSAP handles the open/close motion.
+     */
+    resetCardEffect(
+      previousCard
+    );
+
+    resetCardEffect(
+      activeCard
+    );
+
+    resetMotionBaseline();
+
+    /*
+     * Capture the two current heights:
+     *
+     * previous = full
+     * selected = mini
+     */
+    const previousStartHeight =
+      previousCard
+        .getBoundingClientRect()
+        .height;
+
+    const nextStartHeight =
+      activeCard
+        .getBoundingClientRect()
+        .height;
+
+    /*
+     * PHASE 1
+     *
+     * Briefly soften the two pieces that are
+     * about to switch states. This hides the
+     * otherwise abrupt display:none/grid flip.
+     */
+    accordionTween =
+      gsap.to(
+        [
+          previousFull,
+          nextMini
+        ],
+        {
+          opacity: 0,
+          y: -4,
+
+          duration: 0.12,
+          ease: 'power1.out',
+
+          onComplete: () => {
+            /*
+             * Now perform the actual state switch.
+             */
+            activeIndex =
+              nextIndex;
+
+            cards.forEach(
+              (
+                card,
+                cardIndex
+              ) => {
+                const active =
+                  cardIndex ===
+                  activeIndex;
+
+                card.classList.toggle(
+                  'is-mobile-active',
+                  active
+                );
+
+                card
+                  .querySelector(
+                    '.cs-mobile-select'
+                  )
+                  ?.setAttribute(
+                    'aria-expanded',
+                    String(active)
+                  );
+
+                if (!active) {
+                  resetCardEffect(
+                    card
+                  );
+                }
+              }
+            );
+
+            /*
+             * The two outgoing elements are hidden
+             * now, so remove their temporary GSAP
+             * presentation styles.
+             */
+            gsap.set(
+              [
+                previousFull,
+                nextMini
+              ],
+              {
+                clearProps:
+                  'opacity,transform'
+              }
+            );
+
+            /*
+             * Let both wrappers briefly calculate
+             * their NEW natural heights.
+             *
+             * This all happens within the same JS
+             * task, before the browser paints.
+             */
+            gsap.set(
+              [
+                previousCard,
+                activeCard
+              ],
+              {
+                height: 'auto',
+                overflow: 'hidden'
+              }
+            );
+
+            const previousTargetHeight =
+              previousCard
+                .getBoundingClientRect()
+                .height;
+
+            const nextTargetHeight =
+              activeCard
+                .getBoundingClientRect()
+                .height;
+
+            /*
+             * Put the wrappers back at the sizes
+             * the user was just looking at.
+             */
+            gsap.set(
+              previousCard,
+              {
+                height:
+                  previousStartHeight
+              }
+            );
+
+            gsap.set(
+              activeCard,
+              {
+                height:
+                  nextStartHeight
+              }
+            );
+
+            /*
+             * Incoming mini row and full card begin
+             * slightly softened.
+             */
+            gsap.set(
+              previousMini,
+              {
+                opacity: 0,
+                y: -4
+              }
+            );
+
+            gsap.set(
+              nextFull,
+              {
+                opacity: 0,
+                y: 8,
+                scale: 0.995,
+                transformOrigin:
+                  '50% 0%'
+              }
+            );
+
+            /*
+             * PHASE 2
+             *
+             * Both wrappers change height together:
+             *
+             * old full → mini
+             * selected mini → full
+             *
+             * Because height itself is tweened,
+             * surrounding cards move naturally
+             * instead of teleporting.
+             */
+            accordionTween =
+              gsap.timeline({
+                defaults: {
+                  ease:
+                    'power3.inOut'
+                },
+
+                onComplete: () => {
+                  /*
+                   * Give normal CSS sizing back.
+                   */
+                  gsap.set(
+                    [
+                      previousCard,
+                      activeCard
+                    ],
+                    {
+                      clearProps:
+                        'height,overflow'
+                    }
+                  );
+
+                  /*
+                   * Remove GSAP's temporary entrance
+                   * transform/opacity so the card is
+                   * clean for phone tilt afterwards.
+                   */
+                  gsap.set(
+                    [
+                      previousMini,
+                      nextFull
+                    ],
+                    {
+                      clearProps:
+                        'opacity,transform,transformOrigin'
+                    }
+                  );
+
+                  accordionTween = null;
+                  accordionAnimating = false;
+
+                  /*
+                   * Current phone position becomes
+                   * neutral for the newly opened card.
+                   */
+                  resetMotionBaseline();
+
+                  if (
+                    keepInView &&
+                    mobileCaseStudyMode.matches
+                  ) {
+                    activeCard.scrollIntoView({
+                      behavior:
+                        'smooth',
+
+                      block:
+                        'nearest'
+                    });
+                  }
+                }
+              });
+
+            accordionTween
+              .to(
+                previousCard,
+                {
+                  height:
+                    previousTargetHeight,
+
+                  duration:
+                    0.46
+                },
+                0
+              )
+              .to(
+                activeCard,
+                {
+                  height:
+                    nextTargetHeight,
+
+                  duration:
+                    0.46
+                },
+                0
+              )
+              .to(
+                previousMini,
+                {
+                  opacity: 1,
+                  y: 0,
+
+                  duration:
+                    0.28,
+
+                  ease:
+                    'power2.out'
+                },
+                0.08
+              )
+              .to(
+                nextFull,
+                {
+                  opacity: 1,
+                  y: 0,
+                  scale: 1,
+
+                  duration:
+                    0.34,
+
+                  ease:
+                    'power2.out'
+                },
+                0.08
+              );
+          }
+        }
+      );
 
     return activeCard;
   }
 
 
-  /*
-   * Ignore another selection during the very
-   * short transition instead of allowing two
-   * conflicting GSAP timelines.
-   */
-  if (accordionAnimating) {
-    return cards[activeIndex];
-  }
-
-
-  const previousIndex =
-    activeIndex;
-
-
-  const previousCard =
-    cards[previousIndex];
-
-
-  const previousFull =
-    previousCard.querySelector(
-      '.card-feat'
-    );
-
-
-  const previousMini =
-    previousCard.querySelector(
-      '.cs-mobile-select'
-    );
-
-
-  const nextFull =
-    activeCard.querySelector(
-      '.card-feat'
-    );
-
-
-  const nextMini =
-    activeCard.querySelector(
-      '.cs-mobile-select'
-    );
-
-
-  /*
-   * Safety fallback.
-   */
-  if (
-    !previousFull ||
-    !previousMini ||
-    !nextFull ||
-    !nextMini
-  ) {
-    return setActiveProject(
-      nextIndex,
-      {
-        keepInView,
-        animate: false
-      }
-    );
-  }
-
-
-  accordionAnimating = true;
-
-
-  /*
-   * Stop phone tilt from owning transforms
-   * while GSAP handles the open/close motion.
-   */
-  resetCardEffect(
-    previousCard
-  );
-
-  resetCardEffect(
-    activeCard
-  );
-
-  resetMotionBaseline();
-
-
-  /*
-   * Capture the two current heights:
-   *
-   * previous = full
-   * selected = mini
-   */
-  const previousStartHeight =
-    previousCard
-      .getBoundingClientRect()
-      .height;
-
-
-  const nextStartHeight =
-    activeCard
-      .getBoundingClientRect()
-      .height;
-
-
-  /*
-   * PHASE 1
-   *
-   * Briefly soften the two pieces that are
-   * about to switch states. This hides the
-   * otherwise abrupt display:none/grid flip.
-   */
-  accordionTween =
-    gsap.to(
-      [
-        previousFull,
-        nextMini
-      ],
-      {
-        opacity: 0,
-        y: -4,
-
-        duration: 0.12,
-        ease: 'power1.out',
-
-        onComplete: () => {
-
-          /*
-           * Now perform the actual state switch.
-           */
-          activeIndex =
-            nextIndex;
-
-
-          cards.forEach(
-            (
-              card,
-              cardIndex
-            ) => {
-
-              const active =
-                cardIndex ===
-                activeIndex;
-
-
-              card.classList.toggle(
-                'is-mobile-active',
-                active
-              );
-
-
-              card
-                .querySelector(
-                  '.cs-mobile-select'
-                )
-                ?.setAttribute(
-                  'aria-expanded',
-                  String(active)
-                );
-
-
-              if (!active) {
-                resetCardEffect(
-                  card
-                );
-              }
-            }
-          );
-
-
-          /*
-           * The two outgoing elements are hidden
-           * now, so remove their temporary GSAP
-           * presentation styles.
-           */
-          gsap.set(
-            [
-              previousFull,
-              nextMini
-            ],
-            {
-              clearProps:
-                'opacity,transform'
-            }
-          );
-
-
-          /*
-           * Let both wrappers briefly calculate
-           * their NEW natural heights.
-           *
-           * This all happens within the same JS
-           * task, before the browser paints.
-           */
-          gsap.set(
-            [
-              previousCard,
-              activeCard
-            ],
-            {
-              height: 'auto',
-              overflow: 'hidden'
-            }
-          );
-
-
-          const previousTargetHeight =
-            previousCard
-              .getBoundingClientRect()
-              .height;
-
-
-          const nextTargetHeight =
-            activeCard
-              .getBoundingClientRect()
-              .height;
-
-
-          /*
-           * Put the wrappers back at the sizes
-           * the user was just looking at.
-           */
-          gsap.set(
-            previousCard,
-            {
-              height:
-                previousStartHeight
-            }
-          );
-
-
-          gsap.set(
-            activeCard,
-            {
-              height:
-                nextStartHeight
-            }
-          );
-
-
-          /*
-           * Incoming mini row and full card begin
-           * slightly softened.
-           */
-          gsap.set(
-            previousMini,
-            {
-              opacity: 0,
-              y: -4
-            }
-          );
-
-
-          gsap.set(
-            nextFull,
-            {
-              opacity: 0,
-              y: 8,
-              scale: 0.995,
-              transformOrigin:
-                '50% 0%'
-            }
-          );
-
-
-          /*
-           * PHASE 2
-           *
-           * Both wrappers change height together:
-           *
-           * old full → mini
-           * selected mini → full
-           *
-           * Because height itself is tweened,
-           * surrounding cards move naturally
-           * instead of teleporting.
-           */
-          accordionTween =
-            gsap.timeline({
-
-              defaults: {
-                ease:
-                  'power3.inOut'
-              },
-
-              onComplete: () => {
-
-                /*
-                 * Give normal CSS sizing back.
-                 */
-                gsap.set(
-                  [
-                    previousCard,
-                    activeCard
-                  ],
-                  {
-                    clearProps:
-                      'height,overflow'
-                  }
-                );
-
-
-                /*
-                 * Remove GSAP's temporary entrance
-                 * transform/opacity so the card is
-                 * clean for phone tilt afterwards.
-                 */
-                gsap.set(
-                  [
-                    previousMini,
-                    nextFull
-                  ],
-                  {
-                    clearProps:
-                      'opacity,transform,transformOrigin'
-                  }
-                );
-
-
-                accordionTween = null;
-                accordionAnimating = false;
-
-
-                /*
-                 * Current phone position becomes
-                 * neutral for the newly opened card.
-                 */
-                resetMotionBaseline();
-
-
-                if (
-                  keepInView &&
-                  mobileCaseStudyMode.matches
-                ) {
-                  activeCard.scrollIntoView({
-                    behavior:
-                      'smooth',
-
-                    block:
-                      'nearest'
-                  });
-                }
-              }
-            });
-
-
-          accordionTween
-
-            .to(
-              previousCard,
-              {
-                height:
-                  previousTargetHeight,
-
-                duration:
-                  0.46
-              },
-              0
-            )
-
-            .to(
-              activeCard,
-              {
-                height:
-                  nextTargetHeight,
-
-                duration:
-                  0.46
-              },
-              0
-            )
-
-            .to(
-              previousMini,
-              {
-                opacity: 1,
-                y: 0,
-
-                duration:
-                  0.28,
-
-                ease:
-                  'power2.out'
-              },
-              0.08
-            )
-
-            .to(
-              nextFull,
-              {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-
-                duration:
-                  0.34,
-
-                ease:
-                  'power2.out'
-              },
-              0.08
-            );
-        }
-      }
-    );
-
-
-  return activeCard;
-}
-  
-  
   /* ---------------------------------------------------------------
    * FALLBACK HOLO FLOURISH
    *
@@ -3781,13 +5126,11 @@ function setActiveProject(
       return;
     }
 
-
     const {
       inner,
       sheen,
       holo
     } = getCardEffects(card);
-
 
     if (
       !inner ||
@@ -3797,12 +5140,10 @@ function setActiveProject(
       return;
     }
 
-
     resetCardEffect(card);
 
     inner.style.transition = 'none';
     holo.style.transition = 'none';
-
 
     const timeline =
       gsap.timeline({
@@ -3825,7 +5166,6 @@ function setActiveProject(
           resetCardEffect(card);
         }
       });
-
 
     timeline
       .set(inner, {
@@ -3897,7 +5237,10 @@ function setActiveProject(
       })
 
       .to(
-        [holo, sheen],
+        [
+          holo,
+          sheen
+        ],
         {
           opacity: 0,
           duration: 0.22
@@ -3918,23 +5261,19 @@ function setActiveProject(
     const magnitude =
       Math.abs(degrees);
 
-
     if (
       magnitude <= deadZone
     ) {
       return 0;
     }
 
-
-    const normalized =
-      (
-        magnitude - deadZone
-      )
-      /
-      (
-        maxTilt - deadZone
-      );
-
+    const normalized = (
+      magnitude -
+      deadZone
+    ) / (
+      maxTilt -
+      deadZone
+    );
 
     return (
       Math.sign(degrees) *
@@ -3958,7 +5297,6 @@ function setActiveProject(
       return;
     }
 
-
     /*
      * First useful sensor reading becomes neutral.
      * Users normally hold phones tilted toward
@@ -3975,20 +5313,17 @@ function setActiveProject(
       return;
     }
 
-
     targetX =
       normalizeTilt(
         event.gamma -
         motionBaseline.gamma
       );
 
-
     targetY =
       normalizeTilt(
         event.beta -
         motionBaseline.beta
       );
-
 
     motionHasSample = true;
   }
@@ -4005,13 +5340,11 @@ function setActiveProject(
       const activeCard =
         cards[activeIndex];
 
-
       const {
         inner,
         sheen,
         holo
       } = getCardEffects(activeCard);
-
 
       if (
         inner &&
@@ -4021,19 +5354,15 @@ function setActiveProject(
         /*
          * Smooth raw sensor data.
          */
-        currentX +=
-          (
-            targetX -
-            currentX
-          ) * 0.085;
+        currentX += (
+          targetX -
+          currentX
+        ) * 0.085;
 
-
-        currentY +=
-          (
-            targetY -
-            currentY
-          ) * 0.085;
-
+        currentY += (
+          targetY -
+          currentY
+        ) * 0.085;
 
         const intensity =
           clamp(
@@ -4045,7 +5374,6 @@ function setActiveProject(
             1
           );
 
-
         /*
          * Small dead area around neutral.
          */
@@ -4054,7 +5382,6 @@ function setActiveProject(
             ? 0
             : intensity;
 
-
         /*
          * CSS transitions would add unwanted latency
          * to live sensor movement.
@@ -4062,7 +5389,6 @@ function setActiveProject(
         inner.style.transition = 'none';
         holo.style.transition = 'none';
         sheen.style.transition = 'none';
-
 
         /*
          * EXACT SAME VARIABLES THE DESKTOP
@@ -4073,12 +5399,10 @@ function setActiveProject(
           currentX
         );
 
-
         inner.style.setProperty(
           '--ratio-y',
           currentY
         );
-
 
         /*
          * Much subtler physical card tilt than
@@ -4089,18 +5413,15 @@ function setActiveProject(
            rotateX(${-currentY * 2.4}deg)
            rotateY(${currentX * 2.8}deg)`;
 
-
         sheen.style.setProperty(
           '--sheen-x',
           `${50 + currentX * 34}%`
         );
 
-
         sheen.style.setProperty(
           '--sheen-y',
           `${50 + currentY * 30}%`
         );
-
 
         /*
          * Phone motion ACTIVATES the material.
@@ -4111,7 +5432,6 @@ function setActiveProject(
             0.85
           );
 
-
         sheen.style.opacity =
           String(
             visibleIntensity *
@@ -4119,7 +5439,6 @@ function setActiveProject(
           );
       }
     }
-
 
     motionFrame =
       requestAnimationFrame(
@@ -4136,16 +5455,13 @@ function setActiveProject(
       return;
     }
 
-
     window.addEventListener(
       'deviceorientation',
       handleDeviceOrientation,
       true
     );
 
-
     motionListening = true;
-
 
     if (motionFrame === null) {
       motionFrame =
@@ -4176,13 +5492,11 @@ function setActiveProject(
       return false;
     }
 
-
     if (
       motionPermission === 'granted'
     ) {
       return true;
     }
-
 
     if (
       motionPermission === 'denied' ||
@@ -4190,7 +5504,6 @@ function setActiveProject(
     ) {
       return false;
     }
-
 
     if (
       typeof DeviceOrientationEvent
@@ -4202,7 +5515,6 @@ function setActiveProject(
           await DeviceOrientationEvent
             .requestPermission();
 
-
         if (
           result !== 'granted'
         ) {
@@ -4212,10 +5524,8 @@ function setActiveProject(
           return false;
         }
 
-
         motionPermission =
           'granted';
-
 
         resetMotionBaseline();
         startMotionListener();
@@ -4235,14 +5545,12 @@ function setActiveProject(
       }
     }
 
-
     /*
      * Android / browsers that do not require
      * Apple's explicit permission call.
      */
     motionPermission =
       'granted';
-
 
     resetMotionBaseline();
     startMotionListener();
@@ -4257,7 +5565,6 @@ function setActiveProject(
 
   buildMobileSelectors();
 
-
   setActiveProject(
     0,
     {
@@ -4266,87 +5573,83 @@ function setActiveProject(
     }
   );
 
+  cards.forEach(
+    (card, index) => {
+      const selector =
+        card.querySelector(
+          '.cs-mobile-select'
+        );
 
-  cards.forEach((card, index) => {
-    const selector =
-      card.querySelector(
-        '.cs-mobile-select'
+      if (!selector) return;
+
+      selector.addEventListener(
+        'click',
+
+        event => {
+
+          if (
+            !mobileCaseStudyMode.matches
+          ) {
+            return;
+          }
+
+          if (
+            accordionAnimating
+          ) {
+            return;
+          }
+
+          /*
+           * iOS still requires the DeviceOrientation
+           * permission request to originate from this
+           * real user gesture.
+           *
+           * We don't need to WAIT for the result before
+           * beginning the accordion animation.
+           */
+          void ensureMotionPermission();
+
+          /*
+           * The accordion transition itself now contains
+           * the activation holo sweep.
+           */
+          const activeCard =
+            setActiveProject(
+              index
+            );
+
+          /*
+           * Keyboard users:
+           *
+           * Wait until the activation sequence has
+           * essentially finished before moving focus
+           * into the expanded card.
+           */
+          if (
+            event.detail === 0
+          ) {
+            gsap.delayedCall(
+              reducedMotion
+                ? 0
+                : 0.82,
+
+              () => {
+
+                activeCard
+                  .querySelector(
+                    '.card-feat'
+                  )
+                  ?.focus({
+                    preventScroll: true
+                  });
+
+              }
+            );
+          }
+        }
       );
-
-    if (!selector) return;
-
-
-    selector.addEventListener(
-      'click',
-    
-      event => {
-    
-        if (
-          !mobileCaseStudyMode.matches
-        ) {
-          return;
-        }
-    
-    
-        if (
-          accordionAnimating
-        ) {
-          return;
-        }
-    
-    
-        /*
-         * iOS still requires the DeviceOrientation
-         * permission request to originate from this
-         * real user gesture.
-         *
-         * We don't need to WAIT for the result before
-         * beginning the accordion animation.
-         */
-        void ensureMotionPermission();
-    
-    
-        /*
-         * The accordion transition itself now contains
-         * the activation holo sweep.
-         */
-        const activeCard =
-          setActiveProject(
-            index
-          );
-    
-    
-        /*
-         * Keyboard users:
-         *
-         * Wait until the activation sequence has
-         * essentially finished before moving focus
-         * into the expanded card.
-         */
-        if (
-          event.detail === 0
-        ) {
-          gsap.delayedCall(
-            reducedMotion
-              ? 0
-              : 0.82,
-    
-            () => {
-    
-              activeCard
-                .querySelector(
-                  '.card-feat'
-                )
-                ?.focus({
-                  preventScroll: true
-                });
-    
-            }
-          );
-        }
-      }
-    );
-  });
+    }
+  );
 
 
   /*
@@ -4376,16 +5679,15 @@ function setActiveProject(
           sectionVisible =
             entry.isIntersecting;
 
-
           if (!entry.isIntersecting) {
             resetMotionBaseline();
+
             resetCardEffect(
               cards[activeIndex]
             );
 
             return;
           }
-
 
           /*
            * Initial project gets ONE short flourish.
@@ -4415,7 +5717,6 @@ function setActiveProject(
       }
     );
 
-
   visibilityObserver.observe(strip);
 
 
@@ -4432,7 +5733,6 @@ function setActiveProject(
       );
 
       resetMotionBaseline();
-
 
       if (event.matches) {
         setActiveProject(
@@ -4482,24 +5782,66 @@ function setActiveProject(
 function initStatTilt() {
   if (reducedMotion) return;
 
-  document.querySelectorAll('.stat').forEach(stat => {
-    stat.addEventListener('mousemove', e => {
-      const rect = stat.getBoundingClientRect();
-      const hw = rect.width / 2;
-      const hh = rect.height / 2;
+  document
+    .querySelectorAll('.stat')
+    .forEach(stat => {
+      stat.addEventListener(
+        'mousemove',
+        e => {
+          const rect =
+            stat.getBoundingClientRect();
 
-      const ratioX = (e.clientX - (rect.left + hw)) / hw;
-      const ratioY = (e.clientY - (rect.top + hh)) / hh;
+          const hw =
+            rect.width / 2;
 
-      stat.style.setProperty('--ratio-x', ratioX);
-      stat.style.setProperty('--ratio-y', ratioY);
+          const hh =
+            rect.height / 2;
+
+          const ratioX =
+            (
+              e.clientX -
+              (
+                rect.left +
+                hw
+              )
+            ) / hw;
+
+          const ratioY =
+            (
+              e.clientY -
+              (
+                rect.top +
+                hh
+              )
+            ) / hh;
+
+          stat.style.setProperty(
+            '--ratio-x',
+            ratioX
+          );
+
+          stat.style.setProperty(
+            '--ratio-y',
+            ratioY
+          );
+        }
+      );
+
+      stat.addEventListener(
+        'mouseleave',
+        () => {
+          stat.style.setProperty(
+            '--ratio-x',
+            0
+          );
+
+          stat.style.setProperty(
+            '--ratio-y',
+            0
+          );
+        }
+      );
     });
-
-    stat.addEventListener('mouseleave', () => {
-      stat.style.setProperty('--ratio-x', 0);
-      stat.style.setProperty('--ratio-y', 0);
-    });
-  });
 }
 
 
@@ -4522,18 +5864,19 @@ function initResizeHandlers() {
 
       if (!layoutChanged) return;
 
-
-      clearTimeout(resizeTimer);
-
-      resizeTimer = setTimeout(
-        () => {
-          ScrollTrigger.refresh();
-        },
-        120
+      clearTimeout(
+        resizeTimer
       );
+
+      resizeTimer =
+        setTimeout(
+          () => {
+            ScrollTrigger.refresh();
+          },
+          120
+        );
     }
   );
-
 
   window.addEventListener(
     'orientationchange',
@@ -4569,29 +5912,63 @@ function initResizeHandlers() {
  * ===================================================================== */
 
 function initBeamUp() {
-  const beamUp     = document.getElementById('beamUp');
-  const beamStreak = document.getElementById('beam-streak');
-  const beamFlash  = document.getElementById('beam-flash');
+  const beamUp =
+    document.getElementById(
+      'beamUp'
+    );
+
+  const beamStreak =
+    document.getElementById(
+      'beam-streak'
+    );
+
+  const beamFlash =
+    document.getElementById(
+      'beam-flash'
+    );
 
   if (!beamUp) return;
 
   ScrollTrigger.create({
     trigger: '#hero',
     start: 'top+=69% top',
-    onEnter:     () => beamUp.classList.add('visible'),
-    onLeaveBack: () => beamUp.classList.remove('visible'),
+
+    onEnter:
+      () =>
+        beamUp.classList.add(
+          'visible'
+        ),
+
+    onLeaveBack:
+      () =>
+        beamUp.classList.remove(
+          'visible'
+        ),
   });
 
-  beamUp.addEventListener('click', () => {
-    if (!beamStreak || !beamFlash) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
+  beamUp.addEventListener(
+    'click',
+    () => {
+      if (
+        !beamStreak ||
+        !beamFlash
+      ) {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
 
-    const rect    = beamUp.getBoundingClientRect();
-    const centreX = rect.left + rect.width / 2;
+        return;
+      }
 
-    beamStreak.style.cssText = `
+      const rect =
+        beamUp.getBoundingClientRect();
+
+      const centreX =
+        rect.left +
+        rect.width / 2;
+
+      beamStreak.style.cssText = `
       left: ${centreX}px;
       bottom: ${window.innerHeight - rect.top}px;
       top: auto;
@@ -4601,39 +5978,75 @@ function initBeamUp() {
       transition: none;
     `;
 
-    requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        beamStreak.style.transition = 'height 0.32s ease-out, opacity 0.18s ease 0.26s';
-        beamStreak.style.height  = `${rect.top}px`;
-        beamStreak.style.opacity = '0';
+        requestAnimationFrame(() => {
+          beamStreak.style.transition =
+            'height 0.32s ease-out, opacity 0.18s ease 0.26s';
+
+          beamStreak.style.height =
+            `${rect.top}px`;
+
+          beamStreak.style.opacity =
+            '0';
+        });
       });
-    });
 
-    setTimeout(() => {
-      beamFlash.style.transition = 'opacity 0.08s ease';
-      beamFlash.style.opacity    = '0.3';
-    }, 300);
+      setTimeout(
+        () => {
+          beamFlash.style.transition =
+            'opacity 0.08s ease';
 
-    setTimeout(() => window.scrollTo(0, 0), 370);
+          beamFlash.style.opacity =
+            '0.3';
+        },
+        300
+      );
 
-    setTimeout(() => {
-      beamFlash.style.transition = 'opacity 0.45s ease';
-      beamFlash.style.opacity    = '0';
-    }, 430);
+      setTimeout(
+        () =>
+          window.scrollTo(
+            0,
+            0
+          ),
+        370
+      );
 
-    setTimeout(() => {
-      beamStreak.style.transition = 'none';
-      beamStreak.style.height     = '0';
-      beamStreak.style.opacity    = '0';
-    }, 750);
-  });
+      setTimeout(
+        () => {
+          beamFlash.style.transition =
+            'opacity 0.45s ease';
+
+          beamFlash.style.opacity =
+            '0';
+        },
+        430
+      );
+
+      setTimeout(
+        () => {
+          beamStreak.style.transition =
+            'none';
+
+          beamStreak.style.height =
+            '0';
+
+          beamStreak.style.opacity =
+            '0';
+        },
+        750
+      );
+    }
+  );
 }
+
 
 /* =====================================================================
  * § 15  BOOT SEQUENCE
  * ===================================================================== */
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(
+  ScrollTrigger
+);
 
 ScrollTrigger.config({
   ignoreMobileResize: true
@@ -4647,7 +6060,12 @@ initIntro();
 
 /* Everything else can happen while the intro is playing */
 setViewportHeight();
-swapFavicon(document.documentElement.getAttribute("data-theme") || "dark");
+
+swapFavicon(
+  document.documentElement
+    .getAttribute("data-theme") ||
+  "dark"
+);
 
 fetchTerrain();
 
@@ -4669,3 +6087,4 @@ initStatTilt();
 initBeamUp();
 
 initResizeHandlers();
+```
