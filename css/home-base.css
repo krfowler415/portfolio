@@ -1333,38 +1333,71 @@ a.card-feat, .card-feat {
    * summary          → .cs-mobile-select
    * details content  → .card-feat
    */
-  /*
-   * Remember:
-   * .cs-card IS .card-tilt-wrap in your HTML.
-   */
+
   .cs-card {
     width: 100%;
     max-width: none;
     flex: none;
     scroll-snap-align: none;
+  
+    --cs-mini-height: 64px;
+  
+    --cs-accordion-bounce: linear(
+      0 0%,
+      0.4214 6.61%,
+      0.5762 9.59%,
+      0.7047 12.55%,
+      0.8115 15.61%,
+      0.8964 18.78%,
+      0.9614 22.13%,
+      1.0078 25.74%,
+      1.0282 28.18%,
+      1.0422 30.82%,
+      1.0503 33.7%,
+      1.0527 36.95%,
+      1.0468 42.53%,
+      1.015 58.45%,
+      1.0045 67.2%,
+      0.9987 80.44%,
+      1 100%
+    );
   }
-
+  
   /*
-   * INACTIVE:
-   * show the compact selector,
-   * hide the original full-card anchor.
+   * Mini and full card occupy the same vertical slot.
+   *
+   * The full card itself changes height instead of a
+   * parent wrapper clipping a full-size child.
    */
-  .cs-card:not(.is-mobile-active) > .card-feat {
-    display: none;
-  }
-  .cs-card:not(.is-mobile-active) > .cs-mobile-select {
+  .cs-card > .cs-mobile-select {
     display: grid;
+    position: relative;
+    z-index: 5;
+    height: var(--cs-mini-height);
+    min-height: var(--cs-mini-height);
+    opacity: 1;
+    pointer-events: auto;
   }
-
-  /*
-   * ACTIVE:
-   * original card remains visible.
-   */
-  .cs-card.is-mobile-active > .card-feat {
+  
+  .cs-card > .card-feat {
     display: grid;
+    height: var(--cs-mini-height);
+    min-height: var(--cs-mini-height);
+    margin-top: calc(var(--cs-mini-height) * -1);
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
   }
+  
   .cs-card.is-mobile-active > .cs-mobile-select {
-    display: none;
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .cs-card.is-mobile-active > .card-feat {
+    height: auto;
+    opacity: 1;
+    pointer-events: auto;
   }
   .cs-arrows, .cs-progress-wrap {
     display: none;
