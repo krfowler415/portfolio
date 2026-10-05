@@ -1,7 +1,4 @@
-Yes. Here is the full reformatted `main.js` pasted directly. This is formatting-only from the version you uploaded. Pasted text
-
-```js
-/**
+/*
  * =====================================================================
  *  SONORAN COSMOS — MAIN.JS
  *  Kevin Fowler | UX Portfolio | krfowler415.github.io/portfolio
@@ -4661,452 +4658,233 @@ function initMobileCaseStudyAccordion() {
    * MOBILE ACTIVE PROJECT
    * --------------------------------------------------------------- */
 
-  function setActiveProject(
-    index,
-    {
-      keepInView = true,
-      animate = true
-    } = {}
+function setActiveProject(
+  index,
+  {
+    keepInView = true,
+    animate = true
+  } = {}
+) {
+  const nextIndex = clamp(index, 0, cards.length - 1);
+  const activeCard = cards[nextIndex];
+
+  if (
+    !mobileCaseStudyMode.matches ||
+    reducedMotion ||
+    !animate ||
+    nextIndex === activeIndex
   ) {
-    const nextIndex =
-      clamp(
-        index,
-        0,
-        cards.length - 1
-      );
-
-    const activeCard =
-      cards[nextIndex];
-
-    /*
-     * Initial setup, reduced-motion mode,
-     * breakpoint changes, or re-selecting the
-     * same project remain immediate.
-     */
-    if (
-      !mobileCaseStudyMode.matches ||
-      reducedMotion ||
-      !animate ||
-      nextIndex === activeIndex
-    ) {
-      if (accordionTween) {
-        accordionTween.kill();
-        accordionTween = null;
-      }
-
-      accordionAnimating = false;
-      activeIndex = nextIndex;
-
-      cards.forEach(
-        (
-          card,
-          cardIndex
-        ) => {
-          const active =
-            cardIndex ===
-            activeIndex;
-
-          card.classList.toggle(
-            'is-mobile-active',
-            active
-          );
-
-          card
-            .querySelector(
-              '.cs-mobile-select'
-            )
-            ?.setAttribute(
-              'aria-expanded',
-              String(active)
-            );
-
-          if (!active) {
-            resetCardEffect(card);
-          }
-        }
-      );
-
-      resetMotionBaseline();
-
-      if (
-        keepInView &&
-        mobileCaseStudyMode.matches
-      ) {
-        requestAnimationFrame(
-          () => {
-            activeCard.scrollIntoView({
-              behavior: 'auto',
-              block: 'nearest'
-            });
-          }
-        );
-      }
-
-      return activeCard;
+    if (accordionTween) {
+      accordionTween.kill();
+      accordionTween = null;
     }
 
-    /*
-     * Ignore another selection during the very
-     * short transition instead of allowing two
-     * conflicting GSAP timelines.
-     */
-    if (accordionAnimating) {
-      return cards[activeIndex];
-    }
+    accordionAnimating = false;
+    activeIndex = nextIndex;
 
-    const previousIndex =
-      activeIndex;
+    cards.forEach((card, cardIndex) => {
+      const active = cardIndex === activeIndex;
 
-    const previousCard =
-      cards[previousIndex];
+      card.classList.toggle('is-mobile-active', active);
+      card
+        .querySelector('.cs-mobile-select')
+        ?.setAttribute('aria-expanded', String(active));
 
-    const previousFull =
-      previousCard.querySelector(
-        '.card-feat'
-      );
-
-    const previousMini =
-      previousCard.querySelector(
-        '.cs-mobile-select'
-      );
-
-    const nextFull =
-      activeCard.querySelector(
-        '.card-feat'
-      );
-
-    const nextMini =
-      activeCard.querySelector(
-        '.cs-mobile-select'
-      );
-
-    /*
-     * Safety fallback.
-     */
-    if (
-      !previousFull ||
-      !previousMini ||
-      !nextFull ||
-      !nextMini
-    ) {
-      return setActiveProject(
-        nextIndex,
-        {
-          keepInView,
-          animate: false
-        }
-      );
-    }
-
-    accordionAnimating = true;
-
-    /*
-     * Stop phone tilt from owning transforms
-     * while GSAP handles the open/close motion.
-     */
-    resetCardEffect(
-      previousCard
-    );
-
-    resetCardEffect(
-      activeCard
-    );
+      if (!active) resetCardEffect(card);
+    });
 
     resetMotionBaseline();
 
-    /*
-     * Capture the two current heights:
-     *
-     * previous = full
-     * selected = mini
-     */
-    const previousStartHeight =
-      previousCard
-        .getBoundingClientRect()
-        .height;
-
-    const nextStartHeight =
-      activeCard
-        .getBoundingClientRect()
-        .height;
-
-    /*
-     * PHASE 1
-     *
-     * Briefly soften the two pieces that are
-     * about to switch states. This hides the
-     * otherwise abrupt display:none/grid flip.
-     */
-    accordionTween =
-      gsap.to(
-        [
-          previousFull,
-          nextMini
-        ],
-        {
-          opacity: 0,
-          y: -4,
-
-          duration: 0.12,
-          ease: 'power1.out',
-
-          onComplete: () => {
-            /*
-             * Now perform the actual state switch.
-             */
-            activeIndex =
-              nextIndex;
-
-            cards.forEach(
-              (
-                card,
-                cardIndex
-              ) => {
-                const active =
-                  cardIndex ===
-                  activeIndex;
-
-                card.classList.toggle(
-                  'is-mobile-active',
-                  active
-                );
-
-                card
-                  .querySelector(
-                    '.cs-mobile-select'
-                  )
-                  ?.setAttribute(
-                    'aria-expanded',
-                    String(active)
-                  );
-
-                if (!active) {
-                  resetCardEffect(
-                    card
-                  );
-                }
-              }
-            );
-
-            /*
-             * The two outgoing elements are hidden
-             * now, so remove their temporary GSAP
-             * presentation styles.
-             */
-            gsap.set(
-              [
-                previousFull,
-                nextMini
-              ],
-              {
-                clearProps:
-                  'opacity,transform'
-              }
-            );
-
-            /*
-             * Let both wrappers briefly calculate
-             * their NEW natural heights.
-             *
-             * This all happens within the same JS
-             * task, before the browser paints.
-             */
-            gsap.set(
-              [
-                previousCard,
-                activeCard
-              ],
-              {
-                height: 'auto',
-                overflow: 'hidden'
-              }
-            );
-
-            const previousTargetHeight =
-              previousCard
-                .getBoundingClientRect()
-                .height;
-
-            const nextTargetHeight =
-              activeCard
-                .getBoundingClientRect()
-                .height;
-
-            /*
-             * Put the wrappers back at the sizes
-             * the user was just looking at.
-             */
-            gsap.set(
-              previousCard,
-              {
-                height:
-                  previousStartHeight
-              }
-            );
-
-            gsap.set(
-              activeCard,
-              {
-                height:
-                  nextStartHeight
-              }
-            );
-
-            /*
-             * Incoming mini row and full card begin
-             * slightly softened.
-             */
-            gsap.set(
-              previousMini,
-              {
-                opacity: 0,
-                y: -4
-              }
-            );
-
-            gsap.set(
-              nextFull,
-              {
-                opacity: 0,
-                y: 8,
-                scale: 0.995,
-                transformOrigin:
-                  '50% 0%'
-              }
-            );
-
-            /*
-             * PHASE 2
-             *
-             * Both wrappers change height together:
-             *
-             * old full → mini
-             * selected mini → full
-             *
-             * Because height itself is tweened,
-             * surrounding cards move naturally
-             * instead of teleporting.
-             */
-            accordionTween =
-              gsap.timeline({
-                defaults: {
-                  ease:
-                    'power3.inOut'
-                },
-
-                onComplete: () => {
-                  /*
-                   * Give normal CSS sizing back.
-                   */
-                  gsap.set(
-                    [
-                      previousCard,
-                      activeCard
-                    ],
-                    {
-                      clearProps:
-                        'height,overflow'
-                    }
-                  );
-
-                  /*
-                   * Remove GSAP's temporary entrance
-                   * transform/opacity so the card is
-                   * clean for phone tilt afterwards.
-                   */
-                  gsap.set(
-                    [
-                      previousMini,
-                      nextFull
-                    ],
-                    {
-                      clearProps:
-                        'opacity,transform,transformOrigin'
-                    }
-                  );
-
-                  accordionTween = null;
-                  accordionAnimating = false;
-
-                  /*
-                   * Current phone position becomes
-                   * neutral for the newly opened card.
-                   */
-                  resetMotionBaseline();
-
-                  if (
-                    keepInView &&
-                    mobileCaseStudyMode.matches
-                  ) {
-                    activeCard.scrollIntoView({
-                      behavior:
-                        'smooth',
-
-                      block:
-                        'nearest'
-                    });
-                  }
-                }
-              });
-
-            accordionTween
-              .to(
-                previousCard,
-                {
-                  height:
-                    previousTargetHeight,
-
-                  duration:
-                    0.46
-                },
-                0
-              )
-              .to(
-                activeCard,
-                {
-                  height:
-                    nextTargetHeight,
-
-                  duration:
-                    0.46
-                },
-                0
-              )
-              .to(
-                previousMini,
-                {
-                  opacity: 1,
-                  y: 0,
-
-                  duration:
-                    0.28,
-
-                  ease:
-                    'power2.out'
-                },
-                0.08
-              )
-              .to(
-                nextFull,
-                {
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-
-                  duration:
-                    0.34,
-
-                  ease:
-                    'power2.out'
-                },
-                0.08
-              );
-          }
-        }
-      );
+    if (keepInView && mobileCaseStudyMode.matches) {
+      requestAnimationFrame(() => {
+        activeCard.scrollIntoView({
+          behavior: 'auto',
+          block: 'nearest'
+        });
+      });
+    }
 
     return activeCard;
   }
+
+  if (accordionAnimating) {
+    return cards[activeIndex];
+  }
+
+  const previousCard = cards[activeIndex];
+  const previousFull = previousCard.querySelector('.card-feat');
+  const previousMini = previousCard.querySelector('.cs-mobile-select');
+  const nextFull = activeCard.querySelector('.card-feat');
+  const nextMini = activeCard.querySelector('.cs-mobile-select');
+
+  if (!previousFull || !previousMini || !nextFull || !nextMini) {
+    return setActiveProject(nextIndex, {
+      keepInView,
+      animate: false
+    });
+  }
+
+  accordionAnimating = true;
+
+  resetCardEffect(previousCard);
+  resetCardEffect(activeCard);
+  resetMotionBaseline();
+
+  const previousStartHeight = previousFull.getBoundingClientRect().height;
+  const previousMiniHeight = previousMini.getBoundingClientRect().height;
+  const nextMiniHeight = nextMini.getBoundingClientRect().height;
+
+  const transitionElements = [
+    previousFull,
+    previousMini,
+    nextFull,
+    nextMini
+  ];
+
+  transitionElements.forEach((element) => {
+    element.style.transition = 'none';
+    element.style.pointerEvents = 'none';
+  });
+
+  /*
+   * Freeze the exact state currently on screen.
+   */
+  previousFull.style.height = `${previousStartHeight}px`;
+  previousFull.style.opacity = '1';
+  previousMini.style.opacity = '0';
+
+  nextFull.style.height = `${nextMiniHeight}px`;
+  nextFull.style.opacity = '0';
+  nextMini.style.opacity = '1';
+
+  /*
+   * Keep the previous card temporarily active as well.
+   *
+   * This is important at <=600px because the closing card
+   * must retain its existing phone-compression rules while
+   * it physically collapses.
+   */
+  activeIndex = nextIndex;
+  activeCard.classList.add('is-mobile-active');
+
+  previousMini.setAttribute('aria-expanded', 'false');
+  nextMini.setAttribute('aria-expanded', 'true');
+
+  /*
+   * Because the selected card now has its active mobile
+   * layout, scrollHeight gives us its real final height.
+   */
+  const nextTargetHeight = nextFull.scrollHeight;
+
+  /*
+   * Commit the start state before enabling transitions.
+   */
+  void activeCard.offsetHeight;
+
+  /*
+   * Same slight overshoot curve used by the CodePen reference.
+   *
+   * The card surfaces themselves own the height transition.
+   */
+  previousFull.style.transition =
+    'height 0.8s var(--cs-accordion-bounce), opacity 0.22s ease 0.28s';
+
+  nextFull.style.transition =
+    'height 0.8s var(--cs-accordion-bounce), opacity 0.22s ease-out';
+
+  /*
+   * Crossfade the compact rows over the physical size change.
+   *
+   * The overlap prevents a blank background flash between
+   * compact and full states.
+   */
+  previousMini.style.transition =
+    'opacity 0.22s ease-out 0.08s';
+
+  nextMini.style.transition =
+    'opacity 0.18s ease 0.10s';
+
+  previousFull.style.height = `${previousMiniHeight}px`;
+  previousFull.style.opacity = '0';
+  previousMini.style.opacity = '1';
+
+  nextFull.style.height = `${nextTargetHeight}px`;
+  nextFull.style.opacity = '1';
+  nextMini.style.opacity = '0';
+
+  let finished = false;
+  let finishTimer = null;
+
+  const clearTransitionStyles = () => {
+    transitionElements.forEach((element) => {
+      element.style.removeProperty('height');
+      element.style.removeProperty('opacity');
+      element.style.removeProperty('pointer-events');
+      element.style.removeProperty('transition');
+    });
+  };
+
+  const finishTransition = () => {
+    if (finished) return;
+    finished = true;
+
+    if (finishTimer !== null) {
+      window.clearTimeout(finishTimer);
+      finishTimer = null;
+    }
+
+    /*
+     * Return to one real active card after both physical
+     * size transitions have settled.
+     */
+    cards.forEach((card, cardIndex) => {
+      const active = cardIndex === activeIndex;
+
+      card.classList.toggle('is-mobile-active', active);
+      card
+        .querySelector('.cs-mobile-select')
+        ?.setAttribute('aria-expanded', String(active));
+
+      if (!active) resetCardEffect(card);
+    });
+
+    clearTransitionStyles();
+
+    accordionTween = null;
+    accordionAnimating = false;
+
+    resetMotionBaseline();
+
+    if (keepInView && mobileCaseStudyMode.matches) {
+      activeCard.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest'
+      });
+    }
+  };
+
+  /*
+   * Preserve the existing kill() contract used by the
+   * immediate/reduced-motion/breakpoint path above.
+   */
+  accordionTween = {
+    kill() {
+      if (finished) return;
+      finished = true;
+
+      if (finishTimer !== null) {
+        window.clearTimeout(finishTimer);
+        finishTimer = null;
+      }
+
+      clearTransitionStyles();
+    }
+  };
+
+  finishTimer = window.setTimeout(finishTransition, 820);
+
+  return activeCard;
+}
 
 
   /* ---------------------------------------------------------------
@@ -6087,4 +5865,3 @@ initStatTilt();
 initBeamUp();
 
 initResizeHandlers();
-```
