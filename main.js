@@ -3213,24 +3213,11 @@ function initThemeToggle() {
 
   if (!themeToggle) return;
 
-  const systemTheme =
-    window.matchMedia(
-      '(prefers-color-scheme: light)'
-    );
-
-  function getSystemTheme() {
-    return systemTheme.matches
-      ? 'light'
-      : 'dark';
-  }
-
-  function getCurrentTheme() {
-    return (
-      document.documentElement
-        .getAttribute('data-theme') ||
-      getSystemTheme()
-    );
-  }
+function getCurrentTheme() {
+  return document.documentElement.getAttribute('data-theme') === 'light'
+    ? 'light'
+    : 'dark';
+}
 
   function applyTheme(
     theme,
